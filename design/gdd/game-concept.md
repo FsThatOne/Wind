@@ -81,7 +81,7 @@
 
 ### Core Mechanics (Systems we build)
 
-1. **回合制武学战斗（Burst + Read）** —— 短回合数（5-15 回合）、信息透明、克制三系（刚/柔/巧）、一击决胜的爆发节点
+1. **回合制武学战斗（Burst + Read）** —— 短回合数（5-15 回合）、信息透明（敌方 intent 公开 / 己方隐藏，机械化"高手过招"的信息不对称）、克制三系（刚/柔/巧）、一击决胜的爆发节点。**协同 burst（多角色同回合反制）作为涌现机制**自然形成于多人战斗，无需额外组合技规则。详见 [`prototypes/burst-read-combat-concept/REPORT.md`](../../prototypes/burst-read-combat-concept/REPORT.md)
 2. **武学组合系统** —— 6-7 套武学（残片/拓本/完本三种获取形态）、5-6 套心法（自由搭配），玩家自由组合 build
 3. **心境双轴系统** —— 隐式 2D 心境图（执念↔释怀 × 入世↔出世），决定 5 结局走向 + NPC 反应 + 武学获取倾向
 4. **彗星模型感情系统** —— 三女主（白苓 / 沈夜雪 / 柳惊鸿）轮流陪伴 + 暗号 / 书信 / 传闻 / 撞见的"活江湖"层 + 单点承诺机制
@@ -277,7 +277,7 @@
 
 - **D1**：心境双轴的"隐式 UI"如果玩家不能感知，5 结局机制就失去意义 → 缓解：早期通过明确剧情反馈让玩家学会"看心境图位移"
 - **D2**：朦胧化 UI 可能让部分玩家感到信息不足、不知所措 → 缓解：MVP 阶段邀请多种玩家盲测，确认"模糊 vs 清晰"的平衡
-- **D3**：Burst + Read 战斗如果平衡不当，会成为"必胜公式"或"无解之困" → 缓解：MVP 把一场完整战斗调到极致，再批量复用
+- **D3**：~~Burst + Read 战斗如果平衡不当，会成为"必胜公式"或"无解之困"~~ → **(2026-06-02 已 paper prototype 验证) 哲学成立无"必胜公式"**，但暴露 6 项 build/balance 缺陷，已捕获于下方 "Combat Prototype Findings" 段，留待 `/design-system 战斗` 解决
 - **D4**：误会系统可能让玩家觉得"被剧情坑" → 缓解：每个误会必须有合理性根据，且至少有一次"补救机会"
 
 ### Technical Risks
@@ -299,11 +299,62 @@
 
 ### Open Questions
 
-- **Q1**：Burst + Read 战斗的具体节拍如何？（每场战斗多少回合？每回合多少决策？）→ 由 `/prototype` 验证
+- ~~**Q1**：Burst + Read 战斗的具体节拍如何？~~ → **(2026-06-02 已解决)** 1v1: 5-10 回合 / 1v2: 8-12 / 2v2: 4-10（协同太强会缩短）/ 3v3: 12-15 估计；每回合决策时长 30s-2min（真实策略思考）。详见 prototype REPORT
 - **Q2**：心境双轴的"位移可感性"如何？玩家是否能在不显示数字的情况下感知到自己心境在变？→ 由 MVP 玩家测试验证
 - **Q3**：误会系统的"难以释怀"感是否会让玩家觉得"游戏惩罚我"？→ 由 MVP 玩家盲测验证
 - **Q4**：朦胧化 UI 是否会让部分玩家流失？→ 由 MVP 玩家测试 + 设计师可选的"经典 UI 模式"（v1.1 考虑）
 - **Q5**：引擎选择（Godot / Unity） → 由 `/setup-engine` 决策
+
+---
+
+## Combat Prototype Findings (2026-06-02)
+
+> **Status**: Paper prototype 完成 · Verdict = **PROCEED with refinements**
+> **完整报告**: [`prototypes/burst-read-combat-concept/REPORT.md`](../../prototypes/burst-read-combat-concept/REPORT.md)
+
+本段封存 paper prototype 学到的 **concept-level 学习**，供 `/design-system 战斗` 编写
+GDD 时直接引用。granular 数值（具体伤害值 / 内息成本）不写在此 —— 由战斗 GDD 的
+Tuning Knobs 与 Formulas 段承载。
+
+### ✅ Validated Design Decisions（可直接进 GDD）
+
+- **信息不对称模型**：敌方下回合 intent 公开 type（刚/柔/巧）+ target，**不公开具体招式名** —— 玩家知道"会被刚系打"但不知威力。这是"高手过招"机械化身
+- **三资源系统**：HP + 内息（招式成本 + 一击决胜 cost）+ 破绽（stagger）—— 三者共同制造"何时全力一击"的紧张
+- **一击决胜作为偶发 burst**：每场每角色 1 次，触发条件 = 敌破绽 cap / 敌 HP <30% / 心法满血+反制成功（任一）
+- **同时结算（simultaneous resolution）**：没有"谁先动"的争议，反制方向决定 clash 结果
+- **协同 burst 涌现**：多角色同回合反制同一敌人 = 一回合击杀 —— 不需要"组合技"机制
+- **角色分工自然形成**：剑客（输出）/ 拳师（控场+防御充能）—— 通过资源 cost 差异和招式组合涌现，不需要"职业"标签
+
+### ⚠️ Required Refinements（战斗 GDD 必须解决）
+
+| # | Concept-level 学习 | 战斗 GDD 须明确 |
+|---|---|---|
+| 1 | **每个 build 必须可应对所有 3 系敌方** | 玩家初始 build 必须包含至少 1 个反巧方案（招式或心法被动）。不允许 ship 只能"反刚"的 build |
+| 2 | **反制不应是 dominant strategy** | 反制成本须高于初始 sim（≥ 招式基础成本 +50%）OR 引入"连续反制冷却"OR 让敌方 AI 主动避免连续刚系 attack |
+| 3 | **破绽必须有衰减机制** | 每回合 end，如本回合无新增 stagger 则 -1（避免 1v2+ 死亡螺旋）|
+| 4 | **一击决胜成本 = 3 内息 total**（含招式 cost，不是 3 + 招式 cost）| 战斗 GDD 明确写在 Formulas 段 |
+| 5 | **特殊招式的 status effect 须有"hit success"门槛** | 例如"破绽 +1"应在攻击命中时触发，不是无条件附带 |
+| 6 | **boss "优先攻击"机制需明确边界** | 优先攻击招式（如"避影身"trigger 的下回合 first strike）替代 normal action，clash 规则不适用于该次攻击 |
+
+### 💡 Emergent Mechanics Worth Formalizing
+
+- **柔系防御 + 内息回充**：用柔系防御招卸力后获得 +1 内息 —— 这是"老侠剑客的从容"角色感来源，**应保留并形式化**
+- **情报招式在被动回合的价值**：当敌方全部防御 phase 时，"听风辨形"类情报招式让玩家仍有有意义决策（不浪费回合）
+- **避影身 + 优先攻击 combo**：boss 阶段"timing 装备"的设计语言 —— 让"无脑反制赢"不成立，应作为 **boss 设计模式**沿用
+- **心法满血加成**：作为"健康状态奖励"鼓励玩家不被消耗，与一击决胜触发条件耦合
+
+### ~~🔮 Pending Engine-Spike Validations~~ → ✅ Engine Spike 完成 (2026-06-02)
+
+| Feel 问题 | 结果 |
+|---|---|
+| 一招分胜负的视觉爆发感 | ✅ 窗口时机成立（满血+反制条件可接受） |
+| intent tell 的 UI 呈现 | ✅ 系颜色编码（刚红/柔蓝/巧绿）清晰 |
+| 回合切换 pacing | ✅ 短而重 |
+| simultaneous resolution | ✅ 清晰（双方同时飘字） |
+
+**新增发现**：克制方向 1.5×/0.5× 差距过大（3:1 比率），GDD 调为 **1.3×/0.7×**（~1.9:1）。
+
+详见 [`prototypes/burst-read-combat-concept/REPORT.md`](../../prototypes/burst-read-combat-concept/REPORT.md) Engine Spike Findings 段。
 
 ---
 
@@ -344,12 +395,14 @@
 ## Next Steps
 
 - [x] Game concept approved（与开发者共同设计完成）
-- [ ] **Run `/setup-engine`** to configure the engine (Godot 4 vs Unity decision)
+- [x] **Run `/setup-engine`** —— **(2026-06-02 完成)** 选定 Godot 4.6.3 + C# (.NET 8+)
+- [x] **Run `/prototype` for the core combat loop** —— **(2026-06-02 完成 Paper path)** Verdict: PROCEED with refinements；6 项 build/balance 调整已捕获于上方 Combat Prototype Findings 段
+- [x] (完成) Round 2 Paper prototype —— **(2026-06-02)** 3 项修正方向都奏效
+- [x] (完成) Engine spike —— **(2026-06-02)** 4/4 feel 问题通过；新增发现克制倍率需调整
 - [ ] **Run `/art-bible`** to formalize visual identity from the Visual Identity Anchor above
 - [ ] **Run `/design-review design/gdd/game-concept.md`** to validate concept completeness
 - [ ] **Discuss vision with `creative-director`** for pillar refinement (lean mode 默认推迟，需要时再触发)
-- [ ] **Run `/prototype` for the core combat loop** — 优先验证 Burst+Read 战斗手感（1-3 天）
-- [ ] If prototype PROCEEDS: Run `/map-systems` to decompose this concept into individual systems
+- [ ] If prototype refinements 落地: Run `/map-systems` to decompose this concept into individual systems
 - [ ] Author per-system GDDs with `/design-system` (按依赖顺序：战斗 → 武学 → 心境 → 感情 → 活江湖 → 探索/呼吸期 → 时间/体力)
 - [ ] Plan technical architecture with `/create-architecture`
 - [ ] Record key architectural decisions with `/architecture-decision (×N)`
