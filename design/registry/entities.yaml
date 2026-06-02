@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: ""
+last_updated: "2026-06-02"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -106,7 +106,83 @@ items: []
 #   output_range[min, max], added
 # Optional: expression (the actual formula), notes
 
-formulas: []
+formulas:
+  - name: attack_for_type
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    variables:
+      - base_attack
+      - primary_attr
+      - scaling_factor
+      - modifier_sum
+    output_range: [10, 80]
+    expression: "base_attack + primary_attr × scaling_factor + modifier_sum"
+    notes: "primary_attr maps to strength (刚), agility (巧), or inner_power (柔)"
+    added: 2026-06-02
+    revised: ""
+
+  - name: defense_formula
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    variables:
+      - constitution
+      - strength
+      - modifier_sum
+    output_range: [5, 55]
+    expression: "constitution × 0.6 + strength × 0.2 + modifier_sum"
+    added: 2026-06-02
+    revised: ""
+
+  - name: combat_damage_formula
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/character-attributes.md
+    variables:
+      - attack_for_type
+      - defense
+      - counter_multiplier
+      - crit_multiplier
+      - damage_variance
+    output_range: [1, 999]
+    expression: "max(1, attack_for_type - defense) × random(0.95,1.05) × counter_mult × crit_mult"
+    notes: "counter_mult: 1.3 counter / 0.7 countered / 1.0 same. crit_mult: 1.5 or 1.0"
+    added: 2026-06-02
+    revised: ""
+
+  - name: intent_insight_formula
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/character-attributes.md
+    variables:
+      - power_ratio
+      - insight
+    output_range: [0, 100]
+    expression: "base_chance(power_ratio) + insight × 1%"
+    notes: "Per-round per-enemy roll. base_chance: >1.5=100%+move_name, 1.0-1.5=100%, 0.7-1.0=80%, 0.5-0.7=50%, <0.5=30%"
+    added: 2026-06-02
+    revised: ""
+
+  - name: power_comparison
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    variables:
+      - self_total_power
+      - target_total_power
+    output_range: [0, 999]
+    expression: "self.total_power / target.total_power → 5-level scale"
+    notes: "<0.5=远弱, 0.5-0.8=弱, 0.8-1.2=相当, 1.2-2.0=强, >2.0=远强"
+    added: 2026-06-02
+    revised: ""
 
 # Example:
 #
@@ -139,7 +215,97 @@ formulas: []
 #
 # Required fields: name, status, source, referenced_by, value, unit, added
 
-constants: []
+constants:
+  - name: base_hp
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    value: 100
+    unit: hp
+    added: 2026-06-02
+    revised: ""
+
+  - name: base_neixi
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    value: 20
+    unit: neixi
+    added: 2026-06-02
+    revised: ""
+
+  - name: counter_advantage_multiplier
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+    value: 1.3
+    unit: multiplier
+    added: 2026-06-02
+    revised: ""
+
+  - name: counter_disadvantage_multiplier
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+    value: 0.7
+    unit: multiplier
+    added: 2026-06-02
+    revised: ""
+
+  - name: decisive_strike_multiplier
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+    value: 2.0
+    unit: multiplier
+    added: 2026-06-02
+    revised: ""
+
+  - name: max_combat_rounds
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+    value: 15
+    unit: rounds
+    added: 2026-06-02
+    revised: ""
+
+  - name: base_stagger_threshold
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    value: 5
+    unit: stagger_points
+    added: 2026-06-02
+    revised: ""
+
+  - name: attr_cap_per_stat
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    value: 50
+    unit: attribute_points
+    added: 2026-06-02
+    revised: ""
+
+  - name: realm_thresholds
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+    value: "[25, 35, 50, 70, 90, 115, 140, 170, 200]"
+    unit: total_power
+    notes: "9 realms: 初学乍练/初窥门径/登堂入室/融会贯通/驾轻就熟/炉火纯青/出神入化/登峰造极/返璞归真"
+    added: 2026-06-02
+    revised: ""
 
 # Example:
 #

@@ -4,31 +4,18 @@
 
 ## Current Activity
 
-**Status**: 🟢 **Idle** —— Burst+Read prototype 已完成，等待下一步指令
+**Status**: 🟢 **Idle** —— 回合制战斗设计文档已完成
 
-## Just Completed: `/prototype Burst-Read-Combat`
+## Just Completed: `/design-system 回合制战斗`
 
-- **Path**: Paper
-- **Verdict**: **PROCEED with refinements**
-- **Files produced**:
-  - `prototypes/burst-read-combat-concept/rules.md`
-  - `prototypes/burst-read-combat-concept/play-log.md`
-  - `prototypes/burst-read-combat-concept/REPORT.md`
-  - `prototypes/index.md`
-- **CD-PLAYTEST**: skipped（lean mode）
+- **本次产出**:
+  - `design/gdd/combat-system.md`（全部 sections 已填写）
+  - `design/gdd/character-attributes.md`（全部 sections 已填写）
+  - `design/gdd/systems-index.md`（24 systems，MVP 2/8 designed）
+  - `design/registry/entities.yaml`（5 formulas + 9 constants 注册）
 
 ## Suggested Next Steps
 
-全部 prototype 阶段（Paper R1 + R2 + Engine spike）已完成。推荐路径：
-
-1. `/design-review design/gdd/game-concept.md`
-2. `/gate-check`
-3. `/art-bible`
-4. `/map-systems`
-5. `/design-system 战斗`
-
-## Uncommitted Changes (Reminder)
-
-以下变更尚未 commit（自上次 commit 后累积）：
-- `/setup-engine` 阶段：`CLAUDE.md`, `.claude/docs/technical-preferences.md`, `docs/engine-reference/godot/*.md`
-- 本次 prototype：`prototypes/burst-read-combat-concept/*`, `prototypes/index.md`, `production/session-state/active.md`
+1. `/design-system 武学组合` — MVP 优先级 #3，Core 层
+2. 在新窗口运行 `/design-review` 验证前两份设计文档质量
+3. 先 commit 当前进度
