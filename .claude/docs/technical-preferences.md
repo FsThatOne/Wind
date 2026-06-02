@@ -5,31 +5,31 @@
 
 ## Engine & Language
 
-- **Engine**: [TO BE CONFIGURED — run /setup-engine]
-- **Language**: [TO BE CONFIGURED]
-- **Rendering**: [TO BE CONFIGURED]
-- **Physics**: [TO BE CONFIGURED]
+- **Engine**: Godot 4.6.3
+- **Language**: C# (.NET 8+, primary); C++ via GDExtension (native plugins only)
+- **Rendering**: Compatibility renderer (GL ES 3.0) — 2D 像素项目，无 3D 需求，最快启动 + 最广 GPU 兼容（含 Steam Deck）
+- **Physics**: Godot 内置 2D 物理（CharacterBody2D / Area2D 为主）
 
 ## Input & Platform
 
 <!-- Written by /setup-engine. Read by /ux-design, /ux-review, /test-setup, /team-ui, and /dev-story -->
 <!-- to scope interaction specs, test helpers, and implementation to the correct input methods. -->
 
-- **Target Platforms**: [TO BE CONFIGURED — e.g., PC, Console, Mobile, Web]
-- **Input Methods**: [TO BE CONFIGURED — e.g., Keyboard/Mouse, Gamepad, Touch, Mixed]
-- **Primary Input**: [TO BE CONFIGURED — the dominant input for this game]
-- **Gamepad Support**: [TO BE CONFIGURED — Full / Partial / None]
-- **Touch Support**: [TO BE CONFIGURED — Full / Partial / None]
-- **Platform Notes**: [TO BE CONFIGURED — any platform-specific UX constraints]
+- **Target Platforms**: PC (Steam, v1.0)
+- **Input Methods**: Keyboard/Mouse, Gamepad
+- **Primary Input**: Keyboard/Mouse
+- **Gamepad Support**: Full (Steam Deck 友好)
+- **Touch Support**: None
+- **Platform Notes**: 所有 UI 必须支持手柄完整导航，禁止 hover-only 交互；Steam Deck 兼容是 v1.0 目标；中文文字渲染需在 PC 与 Steam Deck 上验证清晰度
 
 ## Naming Conventions
 
-- **Classes**: [TO BE CONFIGURED]
-- **Variables**: [TO BE CONFIGURED]
-- **Signals/Events**: [TO BE CONFIGURED]
-- **Files**: [TO BE CONFIGURED]
-- **Scenes/Prefabs**: [TO BE CONFIGURED]
-- **Constants**: [TO BE CONFIGURED]
+- **Classes**: PascalCase（如 `PlayerController`）—— 必须声明为 `partial`
+- **Variables**: Public 属性/字段 PascalCase（如 `MoveSpeed`、`JumpVelocity`）；Private 字段 `_camelCase`（如 `_currentHealth`、`_isGrounded`）
+- **Signals/Events**: PascalCase + `EventHandler` 后缀（如 `HealthChangedEventHandler`）
+- **Files**: PascalCase 匹配类名（如 `PlayerController.cs`）
+- **Scenes/Prefabs**: PascalCase 匹配根节点（如 `PlayerController.tscn`）
+- **Constants**: PascalCase（如 `MaxHealth`、`DefaultMoveSpeed`）
 
 ## Performance Budgets
 
@@ -40,9 +40,9 @@
 
 ## Testing
 
-- **Framework**: [TO BE CONFIGURED]
-- **Minimum Coverage**: [TO BE CONFIGURED]
-- **Required Tests**: Balance formulas, gameplay systems, networking (if applicable)
+- **Framework**: GdUnit4（Godot 原生测试框架，同时支持 GDScript 与 C#，与编辑器深度集成）
+- **Minimum Coverage**: [TO BE CONFIGURED — 等首个系统落地后再设阈值]
+- **Required Tests**: 平衡公式（功力曲线、克制系数、伤害公式）、核心叙事系统（心境双轴位移、暗号/书信触发条件、误会触发与释怀路径）、存档序列化反序列化；不强制 UI 自动化测试
 
 ## Forbidden Patterns
 
@@ -65,12 +65,12 @@
 <!-- Read by /code-review, /architecture-decision, /architecture-review, and team skills -->
 <!-- to know which specialist to spawn for engine-specific validation. -->
 
-- **Primary**: [TO BE CONFIGURED — run /setup-engine]
-- **Language/Code Specialist**: [TO BE CONFIGURED]
-- **Shader Specialist**: [TO BE CONFIGURED]
-- **UI Specialist**: [TO BE CONFIGURED]
-- **Additional Specialists**: [TO BE CONFIGURED]
-- **Routing Notes**: [TO BE CONFIGURED]
+- **Primary**: godot-specialist
+- **Language/Code Specialist**: godot-csharp-specialist（所有 .cs 文件）
+- **Shader Specialist**: godot-shader-specialist（.gdshader 文件、VisualShader 资源）
+- **UI Specialist**: godot-specialist（无独立 UI 专家 —— 由 primary 覆盖全部 UI）
+- **Additional Specialists**: godot-gdextension-specialist（仅 GDExtension / 原生 C++ 绑定时）
+- **Routing Notes**: 架构决策、ADR 校验、跨切代码 review 调 primary。代码质量、[Signal] delegate 模式、[Export] 属性、.csproj 管理、C# Godot idiom 调 C# specialist。材质设计与 shader 代码调 shader specialist。仅在原生 C++ 插件涉及时调 GDExtension specialist。
 
 ### File Extension Routing
 
@@ -79,9 +79,10 @@
 
 | File Extension / Type | Specialist to Spawn |
 |-----------------------|---------------------|
-| Game code (primary language) | [TO BE CONFIGURED] |
-| Shader / material files | [TO BE CONFIGURED] |
-| UI / screen files | [TO BE CONFIGURED] |
-| Scene / prefab / level files | [TO BE CONFIGURED] |
-| Native extension / plugin files | [TO BE CONFIGURED] |
-| General architecture review | Primary |
+| Game code (.cs files) | godot-csharp-specialist |
+| Shader / material files (.gdshader, VisualShader) | godot-shader-specialist |
+| UI / screen files (Control nodes, CanvasLayer) | godot-specialist |
+| Scene / prefab / level files (.tscn, .tres) | godot-specialist |
+| Project config (.csproj, NuGet) | godot-csharp-specialist |
+| Native extension / plugin files (.gdextension, C++) | godot-gdextension-specialist |
+| General architecture review | godot-specialist |

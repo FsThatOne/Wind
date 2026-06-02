@@ -1,9 +1,70 @@
 # Godot — Current Best Practices
 
-Last verified: 2026-02-12 | Engine: Godot 4.6
+Last verified: 2026-06-02 | Engine: Godot 4.6.3
 
 Practices that are **new or changed** since the model's training data (~4.3).
 This supplements (not replaces) the agent's built-in knowledge.
+
+## C# in Godot 4.6 (PROJECT LANGUAGE)
+
+> 本项目使用 C# (.NET 8+) 作为主语言。以下规范在 4.4-4.6 期间引入或强化。
+
+### 类与节点
+- **所有节点脚本类必须声明为 `partial`**：Godot 源生成器在 build 时注入代码
+  ```csharp
+  using Godot;
+
+  public partial class PlayerController : CharacterBody2D
+  {
+      [Export] public float MoveSpeed { get; set; } = 200f;
+  }
+  ```
+
+### Signals（信号）
+- **使用 `[Signal] delegate` 声明**，连接走 C# event 语法（**4.5+ 推荐**）
+  ```csharp
+  [Signal] public delegate void HealthChangedEventHandler(int newValue, int oldValue);
+
+  // 触发
+  EmitSignal(SignalName.HealthChanged, 80, 100);
+
+  // 订阅（type-safe）
+  enemy.HealthChanged += OnEnemyHealthChanged;
+  ```
+- **禁止**用 string-based `Connect("signal_name", callable)` —— 已被替代且不 type-safe
+
+### Exports（导出到 Inspector）
+- **属性导出**：用 `{ get; set; }` 而非 public field（更符合 C# 惯例）
+  ```csharp
+  [Export] public float JumpVelocity { get; set; } = -400f;
+  [Export] public PackedScene EnemyScene { get; set; }
+  [Export(PropertyHint.Range, "0,100,1")] public int MaxHealth { get; set; } = 100;
+  ```
+
+### Resource Duplication（4.5+）
+- 嵌套资源用 `DuplicateDeep()` 而非 `Duplicate(true)`
+  ```csharp
+  var copy = original.DuplicateDeep(); // 显式深拷贝
+  ```
+
+### Translation Strings 自动提取（4.6）
+- C# 字符串字面量可被自动提取到翻译表 —— 配合 `Tr()` 调用
+  ```csharp
+  label.Text = Tr("OBJECTIVE_FIND_MASTER"); // 自动加入 .pot
+  ```
+
+### .NET 8 & async
+- 使用标准 .NET 8 `async/await` —— Godot 4.4+ 完整支持
+- 帧同步等待用 `await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);`
+
+### Obsolete 警告（4.5+）
+- IDE 会显示 `[Obsolete("...")]` 警告 —— **不要忽略**，按提示替换 API
+
+### 注意：C# 在 mobile 导出
+- 当前本项目纯 PC，不受影响
+- 如未来移植 mobile：C# 在 Android/iOS 是实验性的，不如 GDScript 稳定
+
+---
 
 ## GDScript (4.5+)
 
