@@ -22,9 +22,9 @@
 | 1 | 角色属性 / 功力 | Core | MVP | Designed | [character-attributes.md](character-attributes.md) | — |
 | 2 | 回合制战斗（Burst+Read） | Gameplay | MVP | Designed | [combat-system.md](combat-system.md) | 角色属性 |
 | 3 | 武学组合 | Gameplay | MVP | Designed | [martial-arts-system.md](martial-arts-system.md) | 角色属性 |
-| 4 | 敌方 AI | Gameplay | MVP | Not Started | — | 回合制战斗, 角色属性 |
-| 5 | 对话系统 | Narrative | MVP | Not Started | — | — |
-| 6 | 心境双轴 | Gameplay | MVP | Not Started | — | NPC 状态管理, 对话系统 |
+| 4 | 敌方 AI | Gameplay | MVP | Approved | [enemy-ai.md](enemy-ai.md) | 回合制战斗, 角色属性, 武学组合(软) |
+| 5 | 对话系统 | Narrative | MVP | Designed | [dialogue-system.md](dialogue-system.md) | — |
+| 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-dual-axis.md](mindset-dual-axis.md) | NPC 状态管理, 对话系统 |
 | 7 | 战斗 UI | UI | MVP | Not Started | — | 回合制战斗, 武学组合 |
 | 8 | 存档系统 | Persistence | MVP | Not Started | — | — |
 | 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Not Started | — | 对话系统, 地图/场景管理 |
@@ -172,10 +172,10 @@ None found.
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 24 |
-| Design docs started | 3 |
-| Design docs reviewed | 0 |
-| Design docs approved | 0 |
-| MVP systems designed | 3/8 |
+| Design docs started | 6 |
+| Design docs reviewed | 1 |
+| Design docs approved | 1 |
+| MVP systems designed | 6/8 |
 | Vertical Slice systems designed | 0/7 |
 
 ---

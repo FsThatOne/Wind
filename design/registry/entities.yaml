@@ -143,6 +143,7 @@ formulas:
     referenced_by:
       - design/gdd/combat-system.md
       - design/gdd/character-attributes.md
+      - design/gdd/enemy-ai.md
     variables:
       - attack_for_type
       - defense
@@ -161,12 +162,61 @@ formulas:
     referenced_by:
       - design/gdd/combat-system.md
       - design/gdd/character-attributes.md
+      - design/gdd/enemy-ai.md
     variables:
       - power_ratio
       - insight
     output_range: [0, 100]
     expression: "base_chance(power_ratio) + insight × 1%"
     notes: "Per-round per-enemy roll. base_chance: >1.5=100%+move_name, 1.0-1.5=100%, 0.7-1.0=80%, 0.5-0.7=50%, <0.5=30%"
+    added: 2026-06-02
+    revised: ""
+
+  - name: type_selection_probability
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+    variables:
+      - base_weight
+      - condition_modifiers
+    output_range: [0, 100]
+    expression: "(base_weight[type] + Σ condition_modifiers[type]) / Σ all adjusted weights"
+    notes: "Three types sum to 100%. Weights clamped to min 5."
+    added: 2026-06-02
+    revised: ""
+
+  - name: counter_read_trigger
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+    variables:
+      - counter_read_chance
+      - cooldown_penalty
+    output_range: [0, 40]
+    expression: "counter_read_chance × (1 - cooldown_penalty)"
+    notes: "Only triggers when player used same type 2+ consecutive rounds. Normal enemies=0, elite=20%, boss=30-25% (Phase 2→3b). Multi-char: track each player independently, use highest."
+    revised: "2026-06-03"
+    # OLD: output_range [0,60], boss 40-60% — boss max reduced to 25% (Phase 3b), tuning cap 40%
+    added: 2026-06-02
+    revised: ""
+
+  - name: target_priority_score
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+    variables:
+      - decisive_bonus
+      - kill_bonus
+      - threat_bonus
+      - spread_penalty
+    output_range: [-20, 200]
+    expression: "decisive_bonus + kill_bonus + threat_bonus + spread_penalty"
+    notes: "Decisive=100 if stagger>=threshold, kill=50 if HP<30%, threat=min(50, 30% of last round damage), spread=-20 if ally already targeting. Max=100+50+50=200."
+    revised: "2026-06-03"
+    # OLD: output_range [-20, 180] was wrong — threat_bonus caps at 50, not 30
     added: 2026-06-02
     revised: ""
 
@@ -241,6 +291,7 @@ constants:
     source: design/gdd/combat-system.md
     referenced_by:
       - design/gdd/combat-system.md
+      - design/gdd/enemy-ai.md
     value: 1.3
     unit: multiplier
     added: 2026-06-02
@@ -271,6 +322,7 @@ constants:
     source: design/gdd/combat-system.md
     referenced_by:
       - design/gdd/combat-system.md
+      - design/gdd/enemy-ai.md
     value: 15
     unit: rounds
     added: 2026-06-02
@@ -281,6 +333,7 @@ constants:
     source: design/gdd/character-attributes.md
     referenced_by:
       - design/gdd/character-attributes.md
+      - design/gdd/enemy-ai.md
     value: 5
     unit: stagger_points
     added: 2026-06-02
@@ -296,6 +349,41 @@ constants:
     added: 2026-06-02
     revised: ""
 
+  - name: min_type_weight
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+    value: 5
+    unit: weight_points
+    notes: "Minimum weight per type after condition modifiers. Prevents 0% probability."
+    added: 2026-06-02
+    revised: ""
+
+  - name: consecutive_type_penalty
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+    value: -15
+    unit: weight_per_round
+    notes: "Soft penalty per round of consecutive same-type use, starting from 2nd repeat (1st repeat = 0 penalty). Replaces old hard 'forced switch' design. Boss Type Lock periods exempt."
+    added: 2026-06-02
+    revised: "2026-06-03"
+    # OLD: consecutive_type_limit=2, "forced switch" — deprecated by soft penalty redesign
+
+  - name: boss_default_phase_thresholds
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+    value: "[60, 30, 15]"
+    unit: hp_percent
+    notes: "Default boss phase transition HP thresholds (%). 4 phases: Phase 1 (100-60%), Phase 2 (60-30%), Phase 3a (30-15%), Phase 3b (15-0%). Individual bosses may override."
+    added: 2026-06-02
+    revised: "2026-06-03"
+    # OLD: "[60, 30]" — missed Phase 3a/3b split at 15%
+
   - name: realm_thresholds
     status: active
     source: design/gdd/character-attributes.md
@@ -305,6 +393,18 @@ constants:
     unit: total_power
     notes: "9 realms: 初学乍练/初窥门径/登堂入室/融会贯通/驾轻就熟/炉火纯青/出神入化/登峰造极/返璞归真"
     added: 2026-06-02
+    revised: ""
+
+  - name: insight_threshold_range
+    status: active
+    source: design/gdd/dialogue-system.md
+    referenced_by:
+      - design/gdd/dialogue-system.md
+      - design/gdd/character-attributes.md
+    value: "[5, 40]"
+    unit: insight_points
+    notes: "Dialogue insight cue thresholds. Min=5 (trivial clues), Max=40 (critical plot clues). Requires player insight stat to reach ≥40 for full content access. Character-attributes insight range is 0-50, so compatible."
+    added: 2026-06-03
     revised: ""
 
 # Example:
