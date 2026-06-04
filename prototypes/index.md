@@ -1,6 +1,6 @@
 # Prototypes Index
 
-Complete history of every prototype run for 《孤山遗剑》. Each row is a verdict,
+Complete history of every prototype run for 《风止》. Each row is a verdict,
 not just a "we tried this." This file exists so future decisions know what was
 already learned (and avoid making the same mistake twice).
 

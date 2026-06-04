@@ -1,4 +1,4 @@
-# Systems Index: 《孤山遗剑》
+# Systems Index: 《风止》
 
 > **Status**: Draft
 > **Created**: 2026-06-02
@@ -9,7 +9,7 @@
 
 ## Overview
 
-《孤山遗剑》是一款 2D 像素武侠叙事 RPG，以"一读定生死"的 Burst+Read 回合制战斗为核心差异化体验，融合心境双轴道德系统、彗星模型感情系统和活江湖世界层。
+《风止》是一款 2D 像素武侠叙事 RPG，以"一读定生死"的 Burst+Read 回合制战斗为核心差异化体验，融合心境双轴道德系统、彗星模型感情系统和活江湖世界层。
 
 项目需要 24 个系统，覆盖：武侠战斗（刚/柔/巧克制 + 一击决胜）、深度叙事分支（对话 + 章节 + 5 结局）、角色关系（同伴独立旅程 + 误会 + 书信）、世界模拟（自然日 + 传闻 + 暗号）、以及"朦胧化"文学 UI 包装。核心循环是 **紧张（战斗 + 抉择）→ 呼吸（探索 + 关系）→ 宏观（心境演变 + 活江湖）**。
 
@@ -27,7 +27,7 @@
 | 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-system.md](mindset-system.md) | NPC 状态管理, 对话系统 |
 | 7 | 战斗 UI | UI | MVP | Designed | [combat-ui.md](combat-ui.md) | 回合制战斗, 武学组合 |
 | 8 | 存档系统 | Persistence | MVP | Designed | [save-system.md](save-system.md) | — |
-| 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Not Started | — | 对话系统, 地图/场景管理 |
+| 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Designed | [main-narrative.md](main-narrative.md) | 对话系统, 地图/场景管理 |
 | 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Not Started | — | — |
 | 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Not Started | — | 角色属性, 地图/场景管理 |
 | 12 | 地图 / 场景管理 | Core | Vertical Slice | Designed | map-scene-management.md | — |

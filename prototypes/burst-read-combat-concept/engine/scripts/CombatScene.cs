@@ -106,7 +106,7 @@ public partial class CombatScene : Control
         var topRow = new HBoxContainer { Position = new Vector2(40, 40), CustomMinimumSize = new Vector2(1200, 200) };
         AddChild(topRow);
 
-        _playerCard = MakeCard("主角 (孤山弟子)", out _playerName, out _playerStats);
+        _playerCard = MakeCard("主角 (风止弟子)", out _playerName, out _playerStats);
         topRow.AddChild(_playerCard);
 
         // center: round + intent
