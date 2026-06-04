@@ -407,6 +407,39 @@ constants:
     added: 2026-06-03
     revised: ""
 
+  - name: mindset_initial_values
+    status: active
+    source: design/gdd/mindset-system.md
+    referenced_by:
+      - design/gdd/mindset-system.md
+    value: "[50, 50]"
+    unit: mindset_points
+    notes: "Initial (obsession, worldly) coordinates. Both axes range 0-100. 50=neutral starting point."
+    added: 2026-06-03
+    revised: ""
+
+  - name: ending_zone_thresholds
+    status: active
+    source: design/gdd/mindset-system.md
+    referenced_by:
+      - design/gdd/mindset-system.md
+    value: "{release: 40, obsession: 60, abyss_obsession: 85, abyss_count: 3}"
+    unit: mindset_points
+    notes: "5-ending zone boundaries. obsession<40=释怀, obsession>=60=执念, worldly<40=出世, worldly>=60=入世. Abyss requires obsession>=85 + abyss_counter>=3."
+    added: 2026-06-03
+    revised: ""
+
+  - name: abyss_trigger_max
+    status: active
+    source: design/gdd/mindset-system.md
+    referenced_by:
+      - design/gdd/mindset-system.md
+    value: 3
+    unit: count
+    notes: "Number of abyss trigger points needed to unlock 剑覆苍生 ending. Total available trigger points in game: 4-5."
+    added: 2026-06-03
+    revised: ""
+
 # Example:
 #
 # constants:

@@ -2,7 +2,7 @@
 
 > **Status**: Draft
 > **Created**: 2026-06-02
-> **Last Updated**: 2026-06-02
+> **Last Updated**: 2026-06-03
 > **Source Concept**: design/gdd/game-concept.md
 
 ---
@@ -24,13 +24,13 @@
 | 3 | 武学组合 | Gameplay | MVP | Designed | [martial-arts-system.md](martial-arts-system.md) | 角色属性 |
 | 4 | 敌方 AI | Gameplay | MVP | Approved | [enemy-ai.md](enemy-ai.md) | 回合制战斗, 角色属性, 武学组合(软) |
 | 5 | 对话系统 | Narrative | MVP | Designed | [dialogue-system.md](dialogue-system.md) | — |
-| 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-dual-axis.md](mindset-dual-axis.md) | NPC 状态管理, 对话系统 |
-| 7 | 战斗 UI | UI | MVP | Not Started | — | 回合制战斗, 武学组合 |
-| 8 | 存档系统 | Persistence | MVP | Not Started | — | — |
+| 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-system.md](mindset-system.md) | NPC 状态管理, 对话系统 |
+| 7 | 战斗 UI | UI | MVP | Designed | [combat-ui.md](combat-ui.md) | 回合制战斗, 武学组合 |
+| 8 | 存档系统 | Persistence | MVP | Designed | [save-system.md](save-system.md) | — |
 | 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Not Started | — | 对话系统, 地图/场景管理 |
 | 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Not Started | — | — |
 | 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Not Started | — | 角色属性, 地图/场景管理 |
-| 12 | 地图 / 场景管理 (inferred) | Core | Vertical Slice | Not Started | — | — |
+| 12 | 地图 / 场景管理 | Core | Vertical Slice | Designed | map-scene-management.md | — |
 | 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Not Started | — | 心境双轴, NPC 状态管理, 对话系统 |
 | 14 | 朦胧化 UI | UI | Vertical Slice | Not Started | — | 心境双轴, 角色属性, 感情系统 |
 | 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Not Started | — | 角色属性, 武学组合 |

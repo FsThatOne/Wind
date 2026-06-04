@@ -1,6 +1,6 @@
 # 心境双轴
 
-> **Status**: In Design
+> **Status**: In Design (Post-Review Revision)
 > **Author**: user + agents
 > **Last Updated**: 2026-06-03
 > **Implements Pillar**: Pillar 2 (每个选择必须有重量), Pillar 3 (武侠味先于游戏味)
@@ -163,13 +163,44 @@ Step 4: 输出 = 基础结局 × 善恶档位
 
 NPC 的态度响应基于心境区域而非精确值。NPC 可配置其对不同心境区域的反应模板：
 
+**接口返回类型规范**：`get_mindset_zone()` 返回 9 值组合枚举（`MindsetZone`），包含双轴组合的完整区域名称：`孤剑入世 | 执念未定 | 孤山执念 | 入世未定 | 中庸 | 出世未定 | 白衣入世 | 释怀未定 | 大隐于市`。NPC 态度表和伴侣兼容性检查均统一使用此枚举，不使用两个独立轴枚举：
+
 ```
-npc_reaction = npc.attitude_table[current_resolve_zone][current_worldly_zone]
+npc_reaction = npc.attitude_table[get_mindset_zone()]   // MindsetZone 枚举索引
 ```
 
 - 每个有名有姓的 NPC 有一张 3×3 态度表
 - 态度影响：可用对话序列、对白语气变化、支线触发条件、暗号/传闻的内容
 - 善恶档位作为全局修正：极恶时部分 NPC 拒绝交谈；极善时部分 NPC 主动帮助
+
+**7. 善恶轴间接反馈机制**
+
+善恶轴对玩家完全隐藏，但玩家必须能通过世界的反应**感知**自己的行为积累了什么道德分量——否则"深渊的诱惑"体验无法成立。反馈通过三个叠加层实现，均**不提及善恶、不显示数值**：
+
+**层 A：世界回声（World Echo）**
+行善/作恶后，周遭环境通过 NPC 的细微行为变化无声映照：
+- 行善类选择后：路过的孩童不再回避、老者主动问候、摊贩暗中少收一文
+- 作恶类选择后：路人低头加快脚步、动物受惊离去、客栈掌柜沉默收钱
+
+这些是**叙事行为**，不与善恶档位绑定（任何善恶值均可出现），仅在行善/作恶后的下一个场景中插入。由对话/叙事设计时配置，心境系统提供 `get_last_morality_delta()` 供叙事节点条件判断。
+
+**层 B：叙事旁白回响（Narration Echo）**
+关键道德选择（|delta| ≥ 3 的善恶位移）后，旁白插入一句无判断的环境描述，以武侠文学意象映照情绪：
+- 高善行为后：`> 山风拂过，檐下铃铛轻响。`
+- 高恶行为后：`> 血迹渗入泥土，一只乌鸦在枯枝上沉默。`
+
+旁白不解释因果，仅营造氛围。这是**最直接的善恶行为反馈**，但对不敏感的玩家透明无感——符合"武侠味先于游戏味"原则。
+
+**层 C：主角内心独白（Inner Monologue）**
+每隔 2-3 章，若善恶轴有明显偏移（同方向累计 ≥ 10），主角触发一条无评判的内心独白，反映自己当下的感受（而非道德判断）：
+- 善方向：`~ 不知从什么时候起，出手帮人成了一件理所当然的事。~`
+- 恶方向：`~ 他们的眼神让我想起了什么，我没有细想。~`
+
+内心独白由叙事设计在每章节末或场景转换时触发，使用 `get_morality_cumulative_delta(last_chapters=2)` 判断是否满足触发条件。
+
+**"深渊诱惑"的叙事实现路径**：三层反馈在中档位给出微弱信号，玩家若不注意则无感；当接近极恶档位（morality ≤ -20）时，世界回声密度加大、旁白色彩加深、内心独白的语调开始出现"疏离感"——玩家在不知不觉中进入了"某种东西在改变"的感知。具体的深渊触发叙事场景（转折点、觉醒时刻）由**主线叙事 GDD** 详细定义，心境系统提供条件查询接口支持。
+
+> ⚠️ **Open Question**：层 A（世界回声）的具体台词库和触发密度（每章几次）需要叙事总监在主线叙事 GDD 中定义。本节仅定义机制框架。
 
 **8. 声望（Reputation）— 善恶的延迟派生值**
 
@@ -183,7 +214,7 @@ npc_reaction = npc.attitude_table[current_resolve_zone][current_worldly_zone]
 
 `reputation = clamp(reputation + (morality - reputation) × catch_up_rate, -50, +50)`
 
-- `catch_up_rate` = 0.2（默认——约 3 章追上内心变化）
+- `catch_up_rate` = 0.2（默认——每章缩小约 20% 的差距；3 章后约追近 49%，完全追平需约 10 章）
 - 声望**不由玩家直接控制**——它是善恶行为的延迟镜像
 - 声望使用与善恶相同的 5 档分级（极恶/恶/中性/善/极善，阈值 ±15 和 ±30）
 
@@ -230,7 +261,7 @@ mindset_check(morality, >=, 10)
 |---|---|---|
 | **对话系统** | 对话 → 心境 | `mindset_shift(axis, delta)` — 对话选择和战斗后叙事触发心境位移 |
 | | 心境 → 对话 | `mindset_check(axis, op, threshold)` — 对话条件查询当前心境值 |
-| | 心境 → 对话 | `get_mindset_zone()` — 返回当前双轴区域标签 |
+| | 心境 → 对话 | `get_mindset_zone()` — 返回当前双轴区域（`MindsetZone` 9值枚举） |
 | **感情系统** | 心境 → 感情 | `mindset_check` — 感情系统查询心境来决定关系事件走向 |
 | | 心境 → 感情 | `get_morality_tier()` — 善恶档位影响 NPC 总体态度和伙伴结局 |
 | | 心境 → 感情 | `is_zone_compatible(npc_id, zone)` — 伴侣兼容性查询（"道不同不相为谋"） |
@@ -281,6 +312,20 @@ elif currently_in_zone(negative):
 | 滞后带 | `hysteresis` | int | 2 | 退出区域需要额外偏移量 |
 | 当前区域 | `current_zone` | enum | negative/neutral/positive | 上一次区域判定结果 |
 
+**冷启动初始化规则（游戏启动 / 存档加载时）**：
+
+滞后逻辑依赖历史区域状态。首次初始化（无历史）时，使用**无滞后快照规则**确定初始区域，之后滞后逻辑正常生效：
+
+```
+function zone_initial(value):
+    if value >= threshold:    return positive   // ≥+15
+    elif value <= -threshold: return negative   // ≤-15
+    else:                     return neutral    // -14 至 +14
+```
+
+- **游戏首次启动**：resolve 初始值 -5 → neutral；worldly 初始值 0 → neutral
+- **存档加载**：从存档中读取持久化的 `current_zone` 字段；若存档中区域字段缺失（旧版存档兼容），则用 `zone_initial(value)` 重新计算
+
 **输出**：3 值 enum {negative, neutral, positive}，分别应用于 resolve 轴和 worldly 轴
 **双轴组合**：两轴各自独立判定，组合为 9 区域之一
 
@@ -308,8 +353,9 @@ else:                  tier = EXTREME_GOOD
 
 ```
 function determine_ending(resolve, worldly, morality):
-    resolve_zone = zone_of(resolve)
-    worldly_zone = zone_of(worldly)
+    // 终幕判定使用无滞后快照区域，消除历史路径依赖（见 F2 冷启动规则）
+    resolve_zone = zone_initial(resolve)
+    worldly_zone = zone_initial(worldly)
 
     // Step 1: 确定基础结局
     if resolve_zone == negative AND worldly_zone == negative:
@@ -320,14 +366,26 @@ function determine_ending(resolve, worldly, morality):
         base = 白衣行天下
     elif resolve_zone == positive AND worldly_zone == positive:
         base = 大隐于市
-    else:  // 至少一轴在 neutral
+    else:  // 至少一轴在 neutral — 以下逻辑完全确定，无注释歧义
         if abs(resolve) > abs(worldly):
-            base = (resolve < 0) ? 孤剑斩世或孤山留剑 : 白衣行天下或大隐于市
-            // 取决于 worldly 的符号（含零则默认入世）
+            // resolve 主导：按 resolve 方向选择结局对，再用 worldly 符号消歧
+            if resolve < 0:
+                // 执念方向
+                base = (worldly <= 0) ? 孤剑斩世 : 孤山留剑
+            else:
+                // 释怀方向（resolve > 0；resolve == 0 不会走此分支，因 abs(0) 不大于 abs(worldly)）
+                base = (worldly <= 0) ? 白衣行天下 : 大隐于市
         elif abs(worldly) > abs(resolve):
-            base = (worldly < 0) ? 孤剑斩世或白衣行天下 : 孤山留剑或大隐于市
-            // 取决于 resolve 的符号（含零则默认执念）
-        else:  // abs(resolve) == abs(worldly) 且均在 neutral
+            // worldly 主导：按 worldly 方向选择结局对，再用 resolve 符号消歧
+            if worldly < 0:
+                // 入世方向
+                base = (resolve <= 0) ? 孤剑斩世 : 白衣行天下
+            else:
+                // 出世方向
+                base = (resolve <= 0) ? 孤山留剑 : 大隐于市
+        else:
+            // abs(resolve) == abs(worldly)：两轴完全对称，触发第五结局
+            // 注意：此处两轴必然均在 neutral 区域（否则已被上方四个 if/elif 捕获）
             base = 未定之人
 
     // Step 2: 确定善恶装饰
@@ -335,6 +393,8 @@ function determine_ending(resolve, worldly, morality):
 
     return (base, morality_tier)
 ```
+
+> ⚠️ **实现注意**：`zone_initial()` 是无滞后的快照函数（见 F2），专为终幕判定设计，确保相同坐标值的玩家得到相同的基础结局，不受历史路径影响。日常游戏中区域切换仍使用带滞后的 F2 逻辑。
 
 **输出**：(基础结局 5 选 1) × (善恶档位 5 选 1) → 最多 25 种结局变体
 
@@ -408,7 +468,7 @@ function determine_ending(resolve, worldly, morality):
 
 - **If 伴侣兼容性检查时伴侣的兼容区域列表为空**：视为"兼容任何区域"（不做心境门控）。构建时应标记为警告。
 
-- **If 心境战斗中玩家反复失败重试**：每次战斗结果的心境位移独立触发。失败→重试→成功时，失败和成功的位移都会累积。这是有意设计——反复挣扎本身就应影响心境。
+- **If 心境战斗中玩家反复失败重试**：仅记录**最终叙事结果**的位移。失败→重试→成功时，只触发"胜利"对应的心境位移；最终以失败告终时，只触发"失败"对应的心境位移。中途重试的失败位移全部忽略。**设计理由**：心境反映的是叙事选择和命运结果，而非操作熟练度；允许累积会使技术差的玩家产生比技术好的玩家高出数倍的心境位移，破坏"每次选择有重量"的 Pillar 2 原则。
 
 - **If 玩家在一章内经历大幅善恶反转（如从 -25 通过转念事件到 -10 再通过后续善行到 +5）**：正常累积，不做限制。善恶允许剧烈摆动，这正是"浪子回头"叙事弧线的数学表达。NPC 反应在档位切换后自动更新。
 
@@ -508,7 +568,7 @@ function determine_ending(resolve, worldly, morality):
 
 8. **GIVEN** 终幕触发，resolve=+20, worldly=-25，**WHEN** 结局判定，**THEN** 基础结局为"白衣行天下"（释怀+入世象限）。
 
-9. **GIVEN** 终幕触发，resolve=+10, worldly=+8（均在 neutral），**WHEN** 结局判定，**THEN** abs(resolve)=10 > abs(worldly)=8，按 resolve 正方向辅助判定。
+9. **GIVEN** 终幕触发，resolve=+10, worldly=+8（均在 neutral），**WHEN** 结局判定，**THEN** abs(resolve)=10 > abs(worldly)=8，resolve 正方向主导，worldly=+8 为出世方向（正值），基础结局为**"大隐于市"**。
 
 10. **GIVEN** 终幕触发，resolve=+5, worldly=+5（均在 neutral 且绝对值相同），**WHEN** 结局判定，**THEN** 触发"未定之人"基础结局。
 
@@ -520,9 +580,19 @@ function determine_ending(resolve, worldly, morality):
 
 14. **GIVEN** NPC 配置了心境兼容区域 ["白衣入世", "大隐于市"]，玩家终幕时在"孤剑入世"区域，**WHEN** 调用 `is_zone_compatible(npc_id, current_zone)`，**THEN** 返回 false。
 
-15. **GIVEN** 心境战斗失败触发 `mindset_shift(resolve, -5)`，玩家重试后胜利触发 `mindset_shift(resolve, -3)`，**WHEN** 两次位移执行，**THEN** 两次位移都累积生效（总计 resolve -8）。
+15. **GIVEN** 初始 resolve=0，心境战斗中玩家首次失败（记录"失败位移" resolve -5），重试后胜利（记录"胜利位移" resolve -3），**WHEN** 最终结算，**THEN** 仅最终叙事结果（胜利）的位移生效，resolve 更新为 -3（不是 -8），失败的中途位移被忽略。
 
 16. **GIVEN** 存档中 resolve=60（超出合法范围），**WHEN** 加载存档，**THEN** resolve 钳位到 +50，记录警告日志，区域从钳位后值重新计算。
+
+17. **GIVEN** morality=-20, reputation=-10, catch_up_rate=0.2，**WHEN** 章节结束时声望更新，**THEN** reputation = clamp(-10 + (-20 - (-10)) × 0.2, -50, +50) = clamp(-10 + (-2), -50, +50) = **-12**。
+
+18. **GIVEN** morality=+5, reputation=-20, catch_up_rate=0.2，**WHEN** 章节结束时声望更新，**THEN** reputation = clamp(-20 + (5 - (-20)) × 0.2, -50, +50) = clamp(-20 + 5, -50, +50) = **-15**（仍处于恶声望档位，验证声望滞后于善恶改变）。
+
+19. **GIVEN** 一个对话选择同时触发 `mindset_shift(resolve, +5)` 和 `mindset_shift(morality, +3)`，初始 resolve=-5, morality=0，**WHEN** 两次位移依序执行，**THEN** resolve 更新为 +0（即 clamp(-5+5, -50, +50)），morality 更新为 +3，worldly 不变，区域切换事件在两次位移全部完成后批量检查。
+
+20. **GIVEN** 游戏首次启动（无存档），**WHEN** 心境系统初始化，**THEN** resolve=-5（neutral 区域），worldly=0（neutral 区域），morality=0（中性档位），reputation=0，`current_zone_resolve=neutral`，`current_zone_worldly=neutral`。
+
+21. **GIVEN** 存档中缺少 `current_zone_resolve` 字段（旧版存档），存档记录 resolve=+17，**WHEN** 加载存档，**THEN** 使用 `zone_initial(+17)` 计算：+17 ≥ +15 → positive（"释怀"），滞后逻辑从 positive 开始正常生效。
 
 ## Open Questions
 
@@ -530,8 +600,12 @@ function determine_ending(resolve, worldly, morality):
 |------|--------|-----------|------|
 | 心境图的朦胧化 UI 具体视觉形态——太极图 / 水墨图 / 其他？ | art-director + ux-designer | 朦胧化 UI GDD | 需要在不暴露数值的前提下让玩家"读懂"自己的倾向 |
 | 每位女主/同伴的心境兼容区域具体定义 | game-designer | 感情系统 GDD | 本 GDD 定义接口，感情系统 GDD 定义数据 |
-| NPC 态度表的具体配置——20+ 命名角色各自的 3×3 态度表 | narrative-director | 主线叙事 GDD / NPC 状态管理 GDD | 内容量大，需要系统化配置工具 |
+| NPC 态度表的具体配置——20+ 命名角色各自的 9区域态度表 | narrative-director | 主线叙事 GDD / NPC 状态管理 GDD | 内容量大，需要系统化配置工具和叙事一致性准则 |
 | 转念事件的具体叙事设计——每个转念事件的前置铺垫和触发条件 | narrative-director | 主线叙事 GDD | 约 3 个转念事件，每个需要完整的微叙事弧 |
 | "未定之人"第五结局的叙事内容——是真正的结局还是"无结局" | narrative-director + creative-director | 主线叙事 GDD | 需要确认这是有意义的结局还是"失败"状态 |
 | 善恶位移历史日志的具体记录格式和存档大小影响 | lead-programmer | Architecture 阶段 | 60-80 个位移事件 × 每条约 20 bytes，存档影响极小 |
 | Game Concept 需要从"5 结局"更新为"5 基础结局 × 5 善恶档位 = 25 变体"描述 | game-designer | 本 GDD 完成后 | Summary 中仍写"5 种结局"需要改为更准确的描述 |
+| **[新]** 善恶结局变体的叙事资产边界——每个色调变体仅改结局旁白文本，还是需要独立场景/对话序列？ | narrative-director + creative-director | 主线叙事 GDD | 未定义会导致制作范围蔓延；建议默认仅改旁白文本，特殊变体（极恶路径）显式标注例外 |
+| **[新]** "魔道"结局定位——极恶色调变体（当前设计），还是独立第六结局（override 所有象限，game-concept.md 原始描述）？ | narrative-director + creative-director | 主线叙事 GDD | 影响结局架构的根本性决策，须在主线叙事 GDD 开始前确认 |
+| **[新]** 伴侣兼容性中期预警信号——感情系统 GDD 需定义终幕前通过 NPC 对话/反应给出心境不兼容的叙事信号 | narrative-director + game-designer | 感情系统 GDD | 心境系统提供接口，感情系统负责设计叙事信号 |
+| **[新]** 善恶间接反馈（第 7 节）的世界回声台词库和触发密度 | narrative-director | 主线叙事 GDD | 本 GDD 定义机制框架，叙事设计填充具体台词内容 |
