@@ -60,8 +60,13 @@
    → 玩家方的意图对敌方隐藏
 
 ③ 玩家决策
-   → 玩家为己方每个角色选择一个招式
-   → 可选择"反制"（消耗 3 内息，对特定目标使用克制体系招式）
+   → 玩家为己方每个角色选择一个行动：
+     a. 使用招式（从 6 个装备槽中选择，消耗对应内息）
+     b. 反制（消耗 3 内息，对特定目标使用克制体系招式，额外 +1 破绽）
+     c. 决胜一击（当目标破绽 ≥ 阈值时可选）
+     d. 调息（放弃攻击，回复内息，详见 F7）
+     e. 普通攻击（零消耗，无体系，固定低伤害，紧急备用）
+     f. 使用道具（消耗回合，从战斗背包中选取消耗品使用，详见 item-system GDD）
    → 如果一击决胜窗口开启，可选择"决胜一击"
 
 ④ 同时结算
@@ -179,10 +184,76 @@
 | | `OnDamageDealt(source, target, amount)` | 战斗→UI | 通知伤害结算 |
 | | `OnStaggerChanged(target, amount)` | 战斗→UI | 通知破绽变化 |
 | | `OnDecisiveStrikeAvailable(target)` | 战斗→UI | 通知一击决胜窗口开启 |
+| | `OnNeixiChanged(actor, new_value)` | 战斗→UI | 通知内息变化（消耗/调息恢复后触发） |
 | | `OnBattleEnd(result)` | 战斗→UI | 通知战斗结束 |
 | **顿悟突破** | `OnEpiphanyTrigger()` | 战斗→顿悟 | 特殊条件满足时触发顿悟 |
 | **心境双轴** | — | — | **不适用** — 心境不影响战斗属性或加成（由心境双轴 GDD 确认） |
 | **存档** | — | — | **不适用**（已决议：战斗中不允许手动存档；崩溃恢复依赖战前 autosave，见 Open Questions #2） |
+
+### Action Registry
+
+战斗中玩家可执行的完整行动类型注册表。所有子系统（UI、AI、存档回放）均以此为行动类型的 SSoT。
+
+| ID | 行动类型 | 内息消耗 | 前置条件 | 结果摘要 |
+|---|---|---|---|---|
+| `action_move` | 使用招式 | 招式定义值 | 内息 ≥ 消耗 | 造成伤害/施加效果；扣除内息 |
+| `action_counter` | 反制 | 3 | 内息 ≥ 3；选择的招式体系克制目标意图体系 | 伤害×1.3 + 目标破绽+2；若不克制则降级为普通攻击 |
+| `action_decisive` | 决胜一击 | 0 | 目标破绽 ≥ 5（阈值） | 伤害×2.0 + 专属演出；清空目标破绽 |
+| `action_breathe` | 调息 | 0（恢复） | 无 | 放弃攻击；回复 `breathe_recover`(默认 4) 点内息 |
+| `action_basic` | 普通攻击 | 0 | 无 | 固定低伤害（`basic_attack_damage` = 角色攻击力×0.3）；无体系属性 |
+| `action_item` | 使用道具 | 0 | 战斗背包中有可用消耗品 | 消耗回合；效果由道具定义（见 item-system GDD `RegisterCombatAction("use_item")`） |
+
+> **扩展约定**：新增战斗行动须在此表注册并分配唯一 ID，同步更新 UI 面板和 AI 决策树。
+
+### Event Bus — 战斗事件清单
+
+战斗系统通过事件总线（Event Bus）向所有订阅方广播状态变更。以下为完整事件清单：
+
+| 事件名 | 参数 | 触发时机 | 订阅方 |
+|---|---|---|---|
+| `OnRoundStart(round_number)` | 当前回合数 | 每回合开始，意图公开前 | 战斗 UI, 敌方 AI |
+| `OnIntentRevealed(enemies[])` | 每个敌人的意图类型（或"?"） | AI 意图决策后 | 战斗 UI |
+| `OnPlayerActionSubmitted(actor, action_id, target)` | 行动者、行动ID、目标 | 玩家确认行动选择后 | 战斗系统内部（结算管线入口） |
+| `OnDamageDealt(source, target, amount, is_crit, is_counter)` | 来源、目标、伤害值、暴击标记、反制标记 | 伤害结算后 | 战斗 UI, 顿悟突破 |
+| `OnStaggerChanged(target, new_stagger)` | 目标、新破绽值 | 破绽增减后 | 战斗 UI |
+| `OnNeixiChanged(actor, new_value)` | 行动者、新内息值 | 内息消耗或恢复后 | 战斗 UI |
+| `OnDecisiveStrikeAvailable(target)` | 破绽达标的目标 | 破绽 ≥ 阈值时 | 战斗 UI |
+| `OnBattleEnd(result)` | 胜/败/平/惜败 + 奖励数据 | 战斗结束条件满足时 | 战斗 UI, 主线叙事, 心境双轴 |
+| `OnEpiphanyTrigger(actor, condition)` | 角色、触发条件 | 特殊战斗条件满足时 | 顿悟突破 |
+| `OnRoundEnd(round_number)` | 当前回合数 | 结算完毕、下一回合开始前 | 战斗 UI（回合计数刷新） |
+
+> **订阅方注册**：各系统在初始化时通过 `BattleEventBus.Subscribe(event_name, callback)` 注册；战斗结束时自动解除所有订阅。
+
+### Battle Entry Interface
+
+外部系统通过以下接口发起战斗：
+
+```
+InitiateBattle(config: BattleConfig) → BattleInstance
+```
+
+**BattleConfig 数据结构**：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `battle_type` | enum | `lethal`（致命）/ `narrative`（剧情杀）/ `non_lethal`（非致命） |
+| `player_party` | CharacterId[] | 己方参战角色列表（1-3人） |
+| `enemy_group` | EnemyConfig[] | 敌方配置（id、等级、AI策略、意图公开规则） |
+| `max_rounds` | int | 最大回合数（默认 15） |
+| `environment` | string? | 战场环境标识（影响演出背景，不影响数值） |
+| `on_victory` | Callback | 胜利后回调（推进叙事节点/发放奖励） |
+| `on_defeat` | Callback | 失败后回调（依 battle_type 决定：致命→死亡；剧情杀→继续；非致命→记录 choice_log） |
+| `on_draw` | Callback | 平局回调（达到 max_rounds） |
+
+**调用方**：
+
+| 系统 | 场景 |
+|---|---|
+| 主线叙事 (#9) | 剧情节点触发的必打战斗 |
+| 大地图/奇遇 (#3) | 移动中遭遇敌人 |
+| NPC 系统 (#10) | 与特定 NPC 切磋/冲突 |
+
+**返回值 `BattleInstance`**：战斗实例句柄，外部可通过 `BattleInstance.status` 查询战斗状态（进行中/已结束）。
 
 ## Formulas
 
@@ -341,7 +412,7 @@ if move.special_condition.met(battle_context):
 ## UI Requirements
 
 - **意图显示面板**：每个敌人头顶的体系图标（或"?"）
-- **招式选择面板**：列出可用招式，每条显示：名称、体系图标（体系色）、内息消耗、**触发条件图标**（可快速识别条件类型）、**特殊效果摘要**；灰显内息不足的招式；额外显示"调息"选项。**无品质颜色标注**，玩家根据条件和效果自行判断取舍
+- **招式选择面板**：列出可用招式，每条显示：名称、体系图标（体系色）、内息消耗、**触发条件图标**（可快速识别条件类型）、**特殊效果摘要**；灰显内息不足的招式；额外显示"调息"、"普通攻击"、"使用道具"选项。**无品质颜色标注**，玩家根据条件和效果自行判断取舍
 - **气血/内息/破绽条**：实时更新的资源条
 - **反制按钮**：选择克制体系招式后出现"反制"选项
 - **一击决胜提示**：当目标破绽达标时，高亮"决胜一击"选项

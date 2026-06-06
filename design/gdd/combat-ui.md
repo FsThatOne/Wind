@@ -64,6 +64,7 @@
 - 心法专属招式（若有）：标注"心法"角标
 - 调息（内息回复，本回合不攻击）
 - 普通攻击（零消耗，无体系，低伤害，紧急备用）
+- 使用道具（消耗回合，打开战斗背包选取消耗品；持有 0 个可用战斗道具时置灰）
 
 **效果预览行为**：悬停/聚焦到某个招式时，面板旁显示预览卡，内容：
 - 体系关系标记（克制 ✓ 绿高亮 / 被克 ⚠ 橙警告 / 同系 = 中性）——**只显示关系，不显示数字**
@@ -160,11 +161,11 @@
 | 系统 | 接口 | 数据方向 | UI 行为 |
 |---|---|---|---|
 | **回合制战斗** | `OnIntentRevealed(enemies[])` | 战斗→UI | 触发意图图标显示动画 |
-| | `OnDamageDealt(source, target, amount, type)` | 战斗→UI | 弹出伤害数字，刷新气血条 |
-| | `OnStaggerChanged(target, delta)` | 战斗→UI | 刷新破绽条；≥5 时脉冲+浮字 |
+| | `OnDamageDealt(source, target, amount, is_crit, is_counter)` | 战斗→UI | 弹出伤害数字，刷新气血条 |
+| | `OnStaggerChanged(target, new_stagger)` | 战斗→UI | 刷新破绽条；≥5 时脉冲+浮字 |
 | | `OnDecisiveStrikeAvailable(target)` | 战斗→UI | 高亮面板"决胜一击"选项 |
 | | `OnBattleEnd(result)` | 战斗→UI | 切换到 BATTLE_END 状态 |
-| | `OnNeixiChanged(actor, amount)` | 战斗→UI | 刷新内息条 |
+| | `OnNeixiChanged(actor, new_value)` | 战斗→UI | 刷新内息条 |
 | **武学组合** | `GetEquippedMoves()` | 武学→UI | 填充招式选择面板 |
 | | `GetMoveDetails(id)` | 武学→UI | 显示招式名/体系/消耗/倍率/`special_condition`/`special_effect`；批注版传回 `condition_override` 和 `effect_override` |
 | 玩家输入 | `MoveSelected(actorId, moveId, targetId, isCounter)` | UI→战斗 | 玩家确认后传回战斗系统 |

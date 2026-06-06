@@ -24,16 +24,16 @@
 | 3 | 武学组合 | Gameplay | MVP | Designed | [martial-arts-system.md](martial-arts-system.md) | 角色属性 |
 | 4 | 敌方 AI | Gameplay | MVP | Approved | [enemy-ai.md](enemy-ai.md) | 回合制战斗, 角色属性, 武学组合(软) |
 | 5 | 对话系统 | Narrative | MVP | Designed | [dialogue-system.md](dialogue-system.md) | — |
-| 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-system.md](mindset-system.md) | NPC 状态管理, 对话系统 |
+| 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-dual-axis.md](mindset-dual-axis.md) | NPC 状态管理, 对话系统 |
 | 7 | 战斗 UI | UI | MVP | Designed | [combat-ui.md](combat-ui.md) | 回合制战斗, 武学组合 |
 | 8 | 存档系统 | Persistence | MVP | Designed | [save-system.md](save-system.md) | — |
 | 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Designed | [main-narrative.md](main-narrative.md) | 对话系统, 地图/场景管理 |
-| 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Not Started | — | — |
-| 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Not Started | — | 角色属性, 地图/场景管理 |
+| 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Designed | [npc-state.md](npc-state.md) | — |
+| 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Designed | [natural-day-stamina.md](natural-day-stamina.md) | 角色属性, 地图/场景管理 |
 | 12 | 地图 / 场景管理 | Core | Vertical Slice | Designed | map-scene-management.md | — |
-| 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Not Started | — | 心境双轴, NPC 状态管理, 对话系统 |
-| 14 | 朦胧化 UI | UI | Vertical Slice | Not Started | — | 心境双轴, 角色属性, 感情系统 |
-| 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Not Started | — | 角色属性, 武学组合 |
+| 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Designed | romance-system.md | 心境双轴, NPC 状态管理, 对话系统 |
+| 14 | 朦胧化 UI | UI | Vertical Slice | Designed | [blurred-ui.md](blurred-ui.md) | 心境双轴, 角色属性, 感情系统 |
+| 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Designed | [item-system.md](item-system.md) | 角色属性, 武学组合 |
 | 16 | 活江湖层 | Gameplay | Alpha | Not Started | — | 自然日+体力, NPC 状态管理, 主线叙事 |
 | 17 | 顿悟突破 | Gameplay | Alpha | Not Started | — | 回合制战斗, 角色属性, 主线叙事 |
 | 18 | 误会系统 | Narrative | Alpha | Not Started | — | 感情系统, NPC 状态管理, 活江湖层 |
@@ -172,11 +172,11 @@ None found.
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 24 |
-| Design docs started | 6 |
+| Design docs started | 8 |
 | Design docs reviewed | 1 |
 | Design docs approved | 1 |
 | MVP systems designed | 6/8 |
-| Vertical Slice systems designed | 0/7 |
+| Vertical Slice systems designed | 4/7 |
 
 ---
 

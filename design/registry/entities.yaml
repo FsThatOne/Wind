@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: "2026-06-02"
+last_updated: "2026-06-05"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -389,11 +389,14 @@ constants:
     source: design/gdd/character-attributes.md
     referenced_by:
       - design/gdd/character-attributes.md
+      - design/gdd/blurred-ui.md
+      - design/gdd/combat-system.md
     value: "[25, 35, 50, 70, 90, 115, 140, 170, 200]"
     unit: total_power
     notes: "9 realms: 初学乍练/初窥门径/登堂入室/融会贯通/驾轻就熟/炉火纯青/出神入化/登峰造极/返璞归真"
     added: 2026-06-02
-    revised: ""
+    revised: "2026-06-05"
+    # OLD referenced_by: only character-attributes.md — added blurred-ui.md and combat-system.md (intent_insight uses power_ratio which depends on realm)
 
   - name: insight_threshold_range
     status: active
@@ -407,38 +410,68 @@ constants:
     added: 2026-06-03
     revised: ""
 
+  - name: days_per_season
+    status: active
+    source: design/gdd/natural-day-stamina.md
+    referenced_by:
+      - design/gdd/natural-day-stamina.md
+      - design/gdd/map-scene-management.md
+    value: 30
+    unit: game_days
+    notes: "每季游戏日数。全年=4季×30天=120游戏日。map-scene-management引用此值驱动季节循环色调切换。"
+    added: 2026-06-05
+    revised: ""
+
+  - name: combat_action_types
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/combat-ui.md
+      - design/gdd/item-system.md
+      - design/gdd/enemy-ai.md
+    value: "[action_move, action_counter, action_decisive, action_breathe, action_basic, action_item]"
+    unit: enum_ids
+    notes: "6种战斗行动类型。combat-ui渲染面板选项，item-system注册use_item行动，enemy-ai的DecideAction返回值必须属于此枚举。"
+    added: 2026-06-05
+    revised: ""
+
   - name: mindset_initial_values
     status: active
-    source: design/gdd/mindset-system.md
+    source: design/gdd/mindset-dual-axis.md
     referenced_by:
-      - design/gdd/mindset-system.md
-    value: "[50, 50]"
+      - design/gdd/mindset-dual-axis.md
+    value: "[-5, 0, 0]"
     unit: mindset_points
-    notes: "Initial (obsession, worldly) coordinates. Both axes range 0-100. 50=neutral starting point."
+    notes: "Initial (resolve, worldly, morality) coordinates. Three axes range -50 to +50. resolve starts at -5 due to sect destruction backstory; worldly and morality start neutral."
     added: 2026-06-03
-    revised: ""
+    revised: "2026-06-04"
+    # OLD: source mindset-system.md, value [50, 50], 2-axis 0-100 range — replaced by 3-axis ±50 system
 
   - name: ending_zone_thresholds
     status: active
-    source: design/gdd/mindset-system.md
+    source: design/gdd/mindset-dual-axis.md
     referenced_by:
-      - design/gdd/mindset-system.md
-    value: "{release: 40, obsession: 60, abyss_obsession: 85, abyss_count: 3}"
+      - design/gdd/mindset-dual-axis.md
+      - design/gdd/main-narrative.md
+    value: "{zone_boundary: 15, morality_extreme_evil: -30, morality_evil: -15, morality_good: 15, morality_extreme_good: 30}"
     unit: mindset_points
-    notes: "5-ending zone boundaries. obsession<40=释怀, obsession>=60=执念, worldly<40=出世, worldly>=60=入世. Abyss requires obsession>=85 + abyss_counter>=3."
+    notes: "Zone boundaries: |axis| >= 15 exits neutral. 5 base endings from resolve×worldly (4 quadrants + 未定之人). Morality decorates as 5 tiers (极恶/恶/中性/善/极善). 6th ending (魔道) overrides when morality <= -30."
     added: 2026-06-03
-    revised: ""
+    revised: "2026-06-04"
+    # OLD: source mindset-system.md, {release:40, obsession:60, abyss_obsession:85, abyss_count:3} — 0-100 two-axis system deprecated
 
   - name: abyss_trigger_max
-    status: active
-    source: design/gdd/mindset-system.md
+    status: deprecated
+    source: design/gdd/mindset-dual-axis.md
     referenced_by:
-      - design/gdd/mindset-system.md
+      - design/gdd/mindset-dual-axis.md
     value: 3
     unit: count
-    notes: "Number of abyss trigger points needed to unlock 剑覆苍生 ending. Total available trigger points in game: 4-5."
+    notes: "DEPRECATED — old 2-axis system required abyss_counter >= 3. New 3-axis system uses morality <= -30 (极恶) to directly override to 6th ending (魔道). No counter needed."
     added: 2026-06-03
-    revised: ""
+    revised: "2026-06-04"
+    # OLD: active, used as abyss trigger threshold in mindset-system.md
 
 # Example:
 #

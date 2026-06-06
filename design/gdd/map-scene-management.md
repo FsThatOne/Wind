@@ -124,7 +124,7 @@
 
 **5a. 季节系统**
 
-- 四季循环：春→夏→秋→冬，每季 15 个游戏日，一年 = 60 天
+- 四季循环：春→夏→秋→冬，每季 30 个游戏日，一年 = 120 天
 - 季节状态由自然日系统推进，场景管理系统订阅 `season_changed(new_season)` 事件
 - 季节对场景的影响按区域分级：
 
@@ -178,7 +178,7 @@
 对外暴露：
 - `get_current_season()` → 春/夏/秋/冬
 - `get_current_weather()` → 7 种之一
-- `get_season_day()` → 当前季节内第几天（1-15）
+- `get_season_day()` → 当前季节内第几天（1-30）
 - `get_current_shichen()` → 当前时辰（子/丑/寅/卯/辰/巳/午/未/申/酉/戌/亥）
 - `get_light_category()` → 当前光照分类（日/晨/昏/夜）
 - `is_weather_forced()` → 是否为剧情强制天气
@@ -551,7 +551,7 @@ locked → known → unlocked
 | `station_time_multiplier` | 0.5 | 0.3 ~ 0.8 | 驿站旅行时间相对步行的比率 |
 | `station_base_fee` | 待定 | — | 驿站基础费用 |
 | `station_distance_fee` | 待定 | — | 驿站每格距离附加费用 |
-| `season_days` | 15 天/季 | 10 ~ 30 | 每季持续游戏日数 |
+| `season_days` | 30 天/季 | 20 ~ 40 | 每季持续游戏日数（由自然日系统定义，此处引用） |
 | `weather_duration_min` | 1 天 | 1 ~ 2 | 天气最短持续天数 |
 | `weather_duration_max` | 3 天 | 2 ~ 5 | 天气最长持续天数 |
 | `transition_fade_duration` | 1.0 秒 | 0.5 ~ 2.0 | 普通场景过渡（淡入淡出）时长 |
@@ -670,7 +670,7 @@ locked → known → unlocked
 10. 进入新场景时立即应用当前时辰的光照状态
 
 **季节与天气：**
-11. 季节按 15 天/季正确循环
+11. 季节按 30 天/季正确循环
 12. 天气每日刷新符合概率池规则（区域过滤正确、归一化正确）
 13. 剧情强制天气期间不被日刷新覆盖
 14. 不同 `season_sensitivity` 等级的场景视觉差异符合设计（none 无变化、high 明显变化）
