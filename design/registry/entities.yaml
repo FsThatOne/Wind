@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: "2026-06-05"
+last_updated: "2026-06-07"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -472,6 +472,31 @@ constants:
     added: 2026-06-03
     revised: "2026-06-04"
     # OLD: active, used as abyss trigger threshold in mindset-system.md
+
+  - name: growth_node_total_budget
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+      - design/gdd/epiphany-breakthrough.md
+      - design/gdd/main-narrative.md
+    value: 107
+    unit: attribute_points
+    notes: "Total base attribute points awarded through chapter growth nodes across all chapters (19 nodes). Combined with epiphany (24-72 pts), ensures total_power reaches 147-219 from starting 40."
+    added: 2026-06-07
+    revised: ""
+
+  - name: growth_node_count_total
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+      - design/gdd/main-narrative.md
+    value: 19
+    unit: count
+    notes: "Total number of chapter growth nodes across all chapters. Distribution: 序章(1) + ch1(3) + ch2(3) + ch3(4) + ch4(3) + ch5(3) + 终章(2) = 19."
+    added: 2026-06-07
+    revised: ""
 
 # Example:
 #

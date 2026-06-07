@@ -1,6 +1,6 @@
 # 心境双轴
 
-> **Status**: In Design (Post-Review Revision)
+> **Status**: Designed (Post-Review Revision)
 > **Author**: user + agents
 > **Last Updated**: 2026-06-03
 > **Implements Pillar**: Pillar 2 (每个选择必须有重量), Pillar 3 (武侠味先于游戏味)
