@@ -1,7 +1,7 @@
 # CG / 演出系统 (Cutscene System)
 
 > **System**: #20 CG / 演出
-> **Status**: In Design
+> **Status**: Designed
 > **Priority**: Alpha
 > **Depends On**: #9 主线叙事, #2 回合制战斗
 > **Author**: user + agents

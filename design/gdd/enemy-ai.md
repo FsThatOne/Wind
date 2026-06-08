@@ -415,6 +415,7 @@ Boss 阶段转换时：
 | | `GetIntentType() → Type` | AI→战斗 | 输出体系类型供意图公开（调息时返回 `Type.MEDITATION`，战斗 UI 显示"调息"图标而非体系图标） |
 | | `GetChargeAnnounce() → MoveName?` | AI→战斗 | Boss 蓄力预告时输出下回合招式名称（无预告时返回 null） |
 | **武学组合** | `GetAvailableMoves()` | 武学→AI | 获取敌人可用招式列表 |
+| 教学/引导 (#22) | 教学 → AI | `SetBehaviorMode("tutorial")` | 教学战斗中限制 AI 至基础招式池，不使用一击决胜和心法增益 |
 
 ## Formulas
 

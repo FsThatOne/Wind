@@ -1,6 +1,6 @@
 # 教学/引导 (Tutorial & Onboarding)
 
-> **Status**: In Design
+> **Status**: Designed
 > **Author**: user + agents
 > **Last Updated**: 2026-06-08
 > **Implements Pillar**: Pillar 3 (武侠味先于游戏味), Pillar 4 (情感深度优先于内容广度)
@@ -39,44 +39,273 @@
 
 ### Core Rules
 
-[To be designed]
+**R1. 教学步骤（Tutorial Step）是最小教学单元**
+
+每个教学步骤包含以下要素：
+
+| 字段 | 说明 |
+|------|------|
+| `step_id` | 唯一标识，如 `tut_gather_herb` |
+| `chapter` | 所属叙事阶段（序章/章外章/第一章/第二章） |
+| `teacher` | 教授者 NPC（师姐/师兄/老镖师/无·自然触发） |
+| `trigger_condition` | 触发条件（到达某地点 / 与某 NPC 对话 / 进入某战斗） |
+| `narrative_scene_id` | 关联的对话/演出场景 ID |
+| `guided_action` | 玩家需要执行的操作（采集/出招/选择心境等） |
+| `hint_text` | 文学化底部提示文本，包含实际按键（如 `"师姐的话回响在耳：按住 [E] 采集草药"` ） |
+| `completion_condition` | 完成条件（成功采集 1 次 / 完成 1 回合战斗等） |
+| `on_fail_scene_id` | 失败时的叙事补救场景（仅战斗教学有，其余为空） |
+
+**R2. 教学提示呈现规则**
+
+- 教学对话通过对话系统正常呈现（NPC 头像 + 文本框），与普通对话无差异
+- 操作提示以**底部半透明文学化提示条**呈现，格式为："[NPC角色名]的话似乎在说：[文学化描述] [按键]"
+- 提示条在玩家完成 `guided_action` 后自动消失
+- 提示条如果 15 秒未操作，会缓入淡出闪烁一次（不重复弹），提醒玩家注意
+- **不使用**：箭头、高亮圈、强制暂停遮罩、弹窗
+
+**R3. 教学战斗特殊规则（师兄教授）**
+
+- 师兄作为对手的受控战斗：师兄 AI 使用 `tutorial` 行为模式（只使用基础招式、不使用一击决胜、不使用心法增益）
+- 玩家**可以失败**：失败后触发 `on_fail_scene_id` 叙事场景——师兄说一句评点（如"你出招太急了，再来"），然后自动重新开始本次教学战斗
+- 教学战斗分为 3 个子步骤，每完成一个子步骤师兄暂停并解说：
+  1. **基础攻防**：出招 → 防御 → 交代刚/柔/巧三系存在
+  2. **克制系统**：师兄亮出一招刚系 → 提示玩家用柔系反制 → 体验克制倍率
+  3. **一击决胜**：师兄故意累积破绽至阈值 → 提示玩家尝试一击决胜
+- 3 个子步骤完成后战斗结束，不计胜负（叙事上"切磋到此为止"）
+
+**R4. 二周目（New Game+）跳过规则**
+
+- 当 `save.is_new_game_plus == true` 时，所有教学步骤的状态直接标记为 `Skipped`
+- 教学关联的叙事对话**整段跳过**——对话系统检查 `tutorial_step.status == Skipped` 后不触发该对话节点
+- 教学战斗（师兄切磋）跳过，叙事替换为一句简短回忆（"你与师兄简单过了几招"）
+- 玩家仍会正常经历非教学叙事内容
+
+**R5. 系统首次使用提示（被动重放）**
+
+- 当玩家首次使用某系统功能（如首次打开心境图、首次收到书信）时，如果对应教学步骤状态为 `Completed`，**不再重复提示**
+- 如果因 bug 或跳过导致 `Locked`，自动触发一条精简版底部提示（仅按键提示，无叙事包装）
+
+### 教学序列（按叙事阶段）
+
+| 阶段 | Step ID | 教授者 | 教授内容 | 目标系统 |
+|------|---------|--------|---------|---------|
+| 序章·日常 | `tut_move` | — (自然) | 移动与场景交互 | 地图/场景管理 |
+| 序章·日常 | `tut_gather_herb` | 师姐 | 采药（按住 [E]） | 物品系统（采集子系统） |
+| 序章·日常 | `tut_gather_ore` | 师姐 | 采矿（按住 [E]） | 物品系统（采集子系统） |
+| 序章·日常 | `tut_dialogue` | 师弟 | 对话选项与分支 | 对话系统 |
+| 序章·师兄回山 | `tut_combat_basic` | 师兄 | 战斗基础（出招/防御/三系） | 回合制战斗 |
+| 序章·师兄回山 | `tut_combat_counter` | 师兄 | 克制系统（柔克刚） | 回合制战斗 |
+| 序章·师兄回山 | `tut_combat_decisive` | 师兄 | 一击决胜 | 回合制战斗 |
+| 序章·尾段 | `tut_letter` | 师兄 | 书信收发 | 活江湖层（书信） |
+| 章外章 | `tut_mindset` | 老镖师 | 心境双轴（选择有重量） | 心境双轴 |
+| 章外章 | `tut_day_stamina` | 老镖师 | 自然日与体力 | 自然日+体力 |
+| 章外章 | `tut_item_equip` | 老镖师 | 装备与道具使用 | 物品系统 |
+| 章外章 | `tut_jianghu` | 老镖师 | 传闻/暗号/告示 | 活江湖层 |
+| 第一章 | `tut_romance` | — (自然) | 感情系统（彗星模型） | 感情系统 |
+| 第一章 | `tut_npc_attitude` | — (自然) | NPC 态度变化 | NPC 状态管理 |
+| 第二章 | `tut_epiphany` | — (自然) | 顿悟突破（生死危局触发） | 顿悟突破 |
+| 第二章 | `tut_explore` | — (自然) | 探索/洞察 | 探索/洞察 |
+
+> **注意**：`tut_epiphany` 无教授者——设计上刻意不预先教学。顿悟突破在战斗中自然触发时，由战斗 UI 的"凝神顿悟 / 稳妥取胜"菜单自带简短说明文字。
 
 ### States and Transitions
 
-[To be designed]
+每个教学步骤的状态机：
+
+```
+  [Locked]
+     │
+     ▼ trigger_condition met
+  [Triggered] ── narrative_scene plays ──▶ [Active]
+                                              │
+                             completion_condition met ──▶ [Completed]
+                             on_fail (combat only) ──▶ [Active] (retry)
+                                              │
+                   save.is_new_game_plus ──▶ [Skipped]
+```
+
+| 状态 | 说明 |
+|------|------|
+| `Locked` | 未满足触发条件，不可见 |
+| `Triggered` | 条件满足，开始播放叙事场景 |
+| `Active` | 等待玩家完成 guided_action |
+| `Completed` | 玩家完成操作，步骤永久标记完成 |
+| `Skipped` | 二周目跳过，视同 Completed |
+
+**全局状态**：
+- `TutorialManager.is_first_playthrough` → true/false（由存档系统的 `is_new_game_plus` 字段决定）
 
 ### Interactions with Other Systems
 
-[To be designed]
+| 系统 | 方向 | 接口 | 说明 |
+|------|------|------|------|
+| **对话系统** | 教学 → 对话 | `DialogueSystem.StartDialogue(scene_id)` | 教学触发叙事对话 |
+| **对话系统** | 对话 → 教学 | `TutorialManager.OnDialogueComplete(scene_id)` | 对话完成通知教学系统推进 |
+| **战斗系统** | 教学 → 战斗 | `CombatSystem.StartTutorialCombat(config)` | 启动受控教学战斗（师兄 AI 使用 tutorial 模式） |
+| **战斗系统** | 战斗 → 教学 | `TutorialManager.OnCombatResult(step_id, win/lose)` | 战斗结果回调 |
+| **敌方 AI** | 教学 → AI | `EnemyAI.SetBehaviorMode("tutorial")` | 师兄 AI 限制招式池和决策逻辑 |
+| **物品系统** | 物品 → 教学 | `TutorialManager.OnFirstGather(item_type)` | 首次采集通知 |
+| **心境双轴** | 心境 → 教学 | `TutorialManager.OnFirstMindsetShift()` | 首次心境位移通知 |
+| **活江湖层** | 活江湖 → 教学 | `TutorialManager.OnFirstRumor() / OnFirstLetter()` | 首次传闻/书信通知 |
+| **顿悟突破** | 顿悟 → 教学 | `TutorialManager.OnEpiphanyTriggered()` | 顿悟触发时检查是否为首次 |
+| **存档系统** | 存档 → 教学 | `SaveSystem.tutorial_steps[]` | 持久化所有步骤状态 |
+| **存档系统** | 存档 → 教学 | `SaveSystem.is_new_game_plus` | 决定是否跳过教学 |
+| **战斗 UI** | 教学 → 战斗UI | `CombatUI.ShowTutorialHint(text)` | 战斗中显示教学提示 |
 
 ## Formulas
 
-[To be designed]
+教学/引导系统不包含数学公式。所有教学步骤的触发、推进和完成均为布尔条件判断（trigger_condition met → state transition），不涉及数值计算、概率滚动或曲线缩放。
+
+教学战斗中的伤害计算、克制倍率等使用战斗系统（combat-system.md）的既有公式，教学系统不引入任何新公式。
+
+唯一的数值参数（提示条超时时间）归于 Tuning Knobs 段。
 
 ## Edge Cases
 
-[To be designed]
+- **如果玩家在教学步骤 Active 状态时存档退出**：读档后恢复 `Active` 状态，重新显示提示条，不重播叙事对话。
+- **如果玩家在教学战斗的子步骤之间存档退出**：读档后从当前子步骤重新开始（不回退已完成子步骤），师兄重复当前子步骤的解说。
+- **如果教学战斗连续失败 3 次**：第 3 次失败后师兄的补救对话变为："别急，我放慢些。" 后续教学战斗中师兄 AI 额外降低出招频率（每回合 50% 概率选择防御而非攻击）。此降级持续到本次教学战斗结束。
+- **如果两个教学步骤的 trigger_condition 在同一帧同时满足**：按教学序列表中的顺序依次触发，不同时显示两个提示条。先完成靠前的步骤，再触发下一个。
+- **如果玩家在序章日常阶段直接跑向师兄回山触发点，跳过了采药/采矿教学**：师兄回山事件正常触发。跳过的采集教学步骤保持 `Locked`，当玩家后续首次与采集点交互时，退化为 R5 精简提示（仅按键，无叙事）。
+- **如果二周目玩家手动触发了教学 NPC 的对话**：因 `Skipped` 状态，教学专属对话节点不出现。NPC 只显示非教学对话内容（如日常寒暄）。
+- **如果教学提示条显示期间进入战斗**：提示条暂时隐藏，战斗结束后恢复显示（如果教学步骤仍为 Active）。
+- **如果顿悟突破在第一章就意外触发**（边界情况：概率极低但理论可能）：`tut_epiphany` 从 `Locked` 直接进入 `Completed`（因为顿悟系统自带 UI 说明），不触发叙事教学场景。
 
 ## Dependencies
 
-[To be designed]
+**硬依赖**（系统无法运行）：
+
+| 依赖系统 | 方向 | 接口数据 | 说明 |
+|---------|------|---------|------|
+| 对话系统 | 双向 | `StartDialogue` / `OnDialogueComplete` | 所有教学叙事通过对话管道传递 |
+| 存档系统 | 单向（存档→教学） | `tutorial_steps[]`, `is_new_game_plus` | 持久化步骤状态 + 判断二周目 |
+
+**软依赖**（增强功能，但系统在无此依赖时仍可工作——退化为精简提示）：
+
+| 依赖系统 | 方向 | 接口数据 | 说明 |
+|---------|------|---------|------|
+| 回合制战斗 | 双向 | `StartTutorialCombat` / `OnCombatResult` | 教学战斗场景 |
+| 敌方 AI | 单向（教学→AI） | `SetBehaviorMode("tutorial")` | 师兄 AI 受控模式 |
+| 物品系统 | 单向（物品→教学） | `OnFirstGather` | 首次采集通知 |
+| 心境双轴 | 单向（心境→教学） | `OnFirstMindsetShift` | 首次心境位移通知 |
+| 活江湖层 | 单向（活江湖→教学） | `OnFirstRumor` / `OnFirstLetter` | 首次传闻/书信通知 |
+| 顿悟突破 | 单向（顿悟→教学） | `OnEpiphanyTriggered` | 首次顿悟通知 |
+| 战斗 UI | 单向（教学→UI） | `ShowTutorialHint` | 战斗中教学提示 |
+| NPC 状态管理 | 单向（NPC→教学） | `OnFirstAttitudeChange` | 首次 NPC 态度变化通知 |
+| 感情系统 | 单向（感情→教学） | 无显式接口——通过对话系统触发 | 彗星模型首次体验由叙事自然带出 |
+| 自然日+体力 | 单向（日历→教学） | 无显式接口——通过对话系统触发 | 老镖师叙事中自然引入 |
+| 地图/场景管理 | 单向（场景→教学） | `OnSceneEnter(scene_id)` | 用于 trigger_condition 的场景到达判断 |
+
+**被依赖系统**（依赖教学的系统）：无。教学系统是叶节点。
 
 ## Tuning Knobs
 
-[To be designed]
+| 旋钮 | 默认值 | 安全范围 | 过低影响 | 过高影响 |
+|------|--------|---------|---------|---------|
+| `hint_timeout_seconds` | 15 | 5–30 | 提示闪烁过快，玩家感觉被催促 | 玩家可能已遗忘提示存在，闪烁失去意义 |
+| `hint_fade_duration_ms` | 500 | 200–1000 | 闪烁过于生硬 | 闪烁过于柔和，不够引起注意 |
+| `combat_fail_threshold` | 3 | 1–5 | 师兄过早降低难度，玩家无法感受正常战斗节奏 | 新手被卡太久，挫败感过重 |
+| `tutorial_ai_defense_chance` | 0.5 | 0.3–0.8 | 降级后师兄仍然太强 | 降级后师兄几乎不出招，缺乏互动性 |
+| `combat_substep_pause_ms` | 2000 | 1000–4000 | 师兄解说和战斗衔接太快，玩家来不及阅读 | 暂停太久，节奏拖沓 |
+
+**旋钮间交互**：
+- `combat_fail_threshold` 与 `tutorial_ai_defense_chance` 联动：当连续失败次数达到阈值后，师兄 AI 的防御概率从正常值切换为 `tutorial_ai_defense_chance`。两者需一起调：若降低阈值，应同时提高防御概率以确保降级后体验足够宽松。
+- `hint_timeout_seconds` 与 `hint_fade_duration_ms` 共同决定提示节奏：闪烁总时间 = timeout + fade duration，需确保总时间在 6–31 秒的舒适区间内。
+- `combat_substep_pause_ms` 独立于其他旋钮，仅影响教学战斗中师兄解说的节奏。
 
 ## Visual/Audio Requirements
 
-[To be designed]
+### 视觉需求
+
+| 元素 | 说明 | 美术资源 |
+|------|------|---------|
+| **底部提示条** | 半透明横条，锚定屏幕底部 10%，左对齐文字 | 无独立贴图——使用通用 UI Panel 样式 + 半透明黑底（alpha 0.6） |
+| **提示条闪烁** | 超时后整条 alpha 做一次 ease-in-out 闪烁（0.6 → 0.9 → 0.6） | 无额外资源——纯 Tween 动画 |
+| **教学战斗暂停遮罩** | 师兄解说时战斗场景轻微暗化（overlay alpha 0.3），聚焦对话框 | 复用对话系统的暗化遮罩 |
+
+### 音频需求
+
+| 触发点 | 音效 | 说明 |
+|--------|------|------|
+| 提示条出现 | 轻柔琴音（单音） | 提示玩家注意底部文字，不打断叙事氛围 |
+| 提示条闪烁 | 无 | 视觉已足够引导注意力 |
+| 教学步骤完成 | 短促清脆音（如木鱼一敲） | 给玩家"学会了"的正反馈，武侠味音效 |
+| 教学战斗失败 | 复用战斗系统的失败音效 | 不引入新音效 |
+| 师兄解说暂停 | 复用对话系统音效 | 与普通对话一致 |
+
+**不需要的资源**：
+- 无教学专属 BGM（教学场景使用各叙事阶段的既有 BGM）
+- 无教学专属特效/粒子
+- 无角色专属教学动画（师兄/师姐使用现有对话/战斗动画）
 
 ## UI Requirements
 
-[To be designed]
+**独立 UI 元素**
+
+| 元素 | 布局 | 交互 |
+|------|------|------|
+| **底部提示条** | `MarginContainer` 锚定 Bottom-Left，距底 5%，距左 3%，宽度 94%，高度 auto（单行文字 + padding 8px） | 无交互——纯展示，不可点击、不可拖动 |
+
+**提示条文字格式**：
+- 字体：与对话系统正文一致
+- 颜色：淡金色文字（`#E8D5B0`），按键标识用方括号高亮（`#FFFFFF`）
+- 格式模板：`"[NPC角色名]的话似乎在说：[文学化描述] [按键]"`
+- 示例：`"师姐的话似乎在说：草药就在眼前，弯腰摘取 [E]"`
+
+**复用 UI**：
+- 教学对话：复用对话系统 UI（NPC 头像 + 文本框），无改动
+- 教学战斗：复用战斗系统 UI，师兄解说时调用 `CombatUI.ShowTutorialHint(text)` 在战斗 UI 内显示提示文字
+- 教学战斗暂停：复用对话系统暗化遮罩 + 对话框
+
+**无需新增的 UI**：
+- 无"教学进度"面板——教学是透明的，玩家不需要知道还有多少步
+- 无"跳过教学"按钮——一周目不可跳过，二周目自动全跳过
+- 无教学专属图标/badge
 
 ## Acceptance Criteria
 
-[To be designed]
+### 核心流程
+
+| ID | 验收条件 | 对应规则 |
+|----|---------|---------|
+| AC-01 | 每个教学步骤从 `Locked` → `Triggered` → `Active` → `Completed` 按状态机正确流转 | R1 |
+| AC-02 | `trigger_condition` 满足时且仅当满足时，步骤进入 `Triggered` | R1 |
+| AC-03 | `completion_condition` 满足后，步骤永久标记 `Completed`，不可回退 | R1 |
+| AC-04 | 底部提示条在 `Active` 状态显示，`Completed` 后自动消失 | R2 |
+| AC-05 | 提示条格式严格遵循 `"[NPC角色名]的话似乎在说：[文学化描述] [按键]"` 模板 | R2 |
+| AC-06 | 提示条超时 `hint_timeout_seconds` 后闪烁一次，不重复 | R2 |
+| AC-07 | 提示条出现时播放琴音音效，步骤完成时播放木鱼音效 | Visual/Audio |
+
+### 教学战斗
+
+| ID | 验收条件 | 对应规则 |
+|----|---------|---------|
+| AC-08 | 师兄 AI 在 `tutorial` 模式下仅使用基础招式，不使用一击决胜和心法增益 | R3 |
+| AC-09 | 教学战斗分 3 个子步骤，每步完成后师兄暂停并解说 | R3 |
+| AC-10 | 玩家失败后触发补救对话，自动重新开始当前教学战斗 | R3 |
+| AC-11 | 连续失败 `combat_fail_threshold` 次后，师兄对话变为"别急，我放慢些"，AI 防御概率切换为 `tutorial_ai_defense_chance` | Edge Case |
+| AC-12 | 3 个子步骤全部完成后战斗结束，不计胜负 | R3 |
+
+### 二周目（New Game+）
+
+| ID | 验收条件 | 对应规则 |
+|----|---------|---------|
+| AC-13 | `is_new_game_plus == true` 时，所有教学步骤状态为 `Skipped` | R4 |
+| AC-14 | `Skipped` 状态的教学对话不触发，NPC 只显示非教学对话 | R4 |
+| AC-15 | 教学战斗跳过，叙事替换为简短回忆文本 | R4 |
+
+### 边界与健壮性
+
+| ID | 验收条件 | 对应规则 |
+|----|---------|---------|
+| AC-16 | `Active` 状态存档退出后读档恢复提示条，不重播叙事对话 | Edge Case |
+| AC-17 | 教学战斗子步骤间存档退出后读档从当前子步骤重新开始 | Edge Case |
+| AC-18 | 同帧触发多个步骤时按序列表顺序依次处理 | Edge Case |
+| AC-19 | 跳过采集教学后首次交互采集点时显示精简提示（仅按键） | R5 / Edge Case |
+| AC-20 | 提示条显示期间进入战斗时隐藏，战斗结束后恢复 | Edge Case |
 
 ## Open Questions
 
-[To be designed]
+1. **手柄按键映射**：当前提示条示例使用键盘按键（如 `[E]`）。手柄玩家是否需要自动替换为对应手柄图标？如需要，提示条模板需支持按键映射层。
+2. **无障碍/辅助功能**：底部提示条是否需要支持字体大小调整或高对比度模式？当前设计为固定样式。
+3. **教学步骤的数据驱动程度**：16 个教学步骤是硬编码在代码中，还是作为外部数据文件（如 JSON/Resource）加载？数据驱动便于后期调整但增加初始工作量。

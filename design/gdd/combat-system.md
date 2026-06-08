@@ -221,6 +221,8 @@
 | | `GetBenchObservers(battle_id)` | 队伍→战斗 | 战斗结束后用于关键战斗观战心得结算 |
 | | `IsDeploymentLocked(battle_id)` | 队伍→战斗 | 判断本战是否锁定特定同伴或上阵名单 |
 | **存档** | — | — | **不适用**（已决议：战斗中不允许手动存档；崩溃恢复依赖战前 autosave，见 Open Questions #2） |
+| 教学/引导 (#22) | 教学 → 战斗 | `StartTutorialCombat(config)` | 启动受控教学战斗（师兄 AI 使用 tutorial 模式，仅序章师兄切磋使用） |
+| 教学/引导 (#22) | 战斗 → 教学 | `TutorialManager.OnCombatResult(step_id, result)` | 教学战斗结果回调 |
 
 ### Action Registry
 

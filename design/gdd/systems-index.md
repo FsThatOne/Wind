@@ -2,7 +2,7 @@
 
 > **Status**: Draft
 > **Created**: 2026-06-02
-> **Last Updated**: 2026-06-07
+> **Last Updated**: 2026-06-08
 > **Source Concept**: design/gdd/game-concept.md
 
 ---
@@ -40,9 +40,9 @@
 | 19 | 探索 / 洞察 (inferred) | Gameplay | Alpha | Designed | [exploration-insight.md](exploration-insight.md) | 地图/场景管理, 主线叙事 |
 | 20 | CG / 演出 (inferred) | UI | Alpha | Designed | [cutscene-system.md](cutscene-system.md) | 主线叙事, 回合制战斗 |
 | 21 | 音乐 / 音效 (inferred) | Audio | Alpha | Designed | [audio-system.md](audio-system.md) | 地图/场景管理, 回合制战斗 |
-| 22 | 教学 / 引导 (inferred) | Meta | Full Vision | Not Started | — | 几乎全部 Core + Feature |
-| 23 | 设置 / 选项 (inferred) | Meta | Full Vision | Not Started | — | — |
-| 24 | 成就 / Steam 集成 (inferred) | Meta | Full Vision | Not Started | — | 心境双轴, 感情系统, 主线叙事 |
+| 22 | 教学 / 引导 (inferred) | Meta | Full Vision | Designed | [tutorial-onboarding.md](tutorial-onboarding.md) | 几乎全部 Core + Feature |
+| 23 | 设置 / 选项 (inferred) | Meta | Full Vision | Designed | [settings-options.md](settings-options.md) | — |
+| 24 | 成就 / Steam 集成 (inferred) | Meta | Full Vision | Designed | [achievement-steam.md](achievement-steam.md) | 心境双轴, 感情系统, 主线叙事 |
 | 25 | 队伍管理 / 同伴成长 | Gameplay | Vertical Slice | Designed | [party-management.md](party-management.md) | 角色属性, 回合制战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层 |
 
 ---
@@ -81,7 +81,8 @@
 |------|---------|---------|---------|
 | **序章前半** | 师门生活 → 灭门事件 | #12 地图/场景、#5 对话、#2 战斗（基础）、#13 感情系统、#10 NPC 态度 | 与师兄弟/师傅/师姐互动教学；将死之人态度死后固定 |
 | **序章尾段** | 师兄归来 → 误会 → 分别 | #18 误会系统、#10 飞书/书信 | 师兄误会主角独活=内奸（对话解除）；分别时约定通信 |
-| **第一章** | 镖局岁月 | #6 心境双轴、#11 自然日/体力、#15 物品/装备、#15 锻造/炼丹、#16 活江湖层·传闻/暗号、#25 队伍管理（基础） | 老镖师教授江湖规矩；镖局采药采矿锻造兵器/炼药；首次出现可同行角色后开放队伍配置 |
+| **章外章** | 初入世间（镖局岁月） | #6 心境双轴、#11 自然日/体力、#15 物品/装备、#15 锻造/炼丹、#16 活江湖层·传闻/暗号、#25 队伍管理（基础） | 老镖师教授江湖规矩；镖局采药采矿锻造兵器/炼药；首次出现可同行角色后开放队伍配置 |
+| **第一章** | 江南 | （本阶段无新增系统首次引入——感情系统和 NPC 态度已在序章激活，彗星模型自然体验于此阶段，教学在此触发） | 首次遇见女主后感情系统教学自然触发；NPC 态度变化自然引起关注 |
 | **第二章** | 独行江湖 | #17 顿悟突破、#19 探索/洞察、#25 同伴成长（完整） | 生死危局触发突破并顺势教学；同伴观战、追赶、离队历练和个人旅程成长开始完整运作 |
 
 > **注**：教学/引导(#22)、设置/选项(#23)、成就(#24) 为 Full Vision 层，不在游戏叙事中解锁。CG/演出(#20)、音乐/音效(#21) 随叙事自然出现，无需显式教学。
@@ -190,13 +191,13 @@ None found.
 | Metric | Count |
 |--------|-------|
 | Total systems identified | 25 |
-| Design docs written | 22 |
+| Design docs written | 25 |
 | Cross-GDD reviews completed | 5 |
 | Design docs approved | 1 |
 | MVP systems designed | 8/8 |
 | Vertical Slice systems designed | 8/8 |
 | Alpha systems designed | 6/6 |
-| Full Vision systems designed | 0/3 |
+| Full Vision systems designed | 3/3 |
 
 ---
 
@@ -214,5 +215,7 @@ None found.
 - [x] ~~Run `/design-review` on remaining GDDs (#15 物品, #18 误会)~~
 - [x] ~~Fix combat-system.md F6 编号重复~~
 - [x] ~~Run `/review-all-gdds` after all Alpha GDDs are complete~~ → [gdd-cross-review-2026-06-07.md](gdd-cross-review-2026-06-07.md) — Verdict: CONCERNS (7 BLOCKING)
-- [ ] Fix 7 BLOCKING issues identified in cross-review
-- [ ] Run `/gate-check pre-production` when BLOCKING resolved
+- [x] ~~Fix 7 BLOCKING issues identified in cross-review~~ ✅ All 7 BLOCKING + 15 WARNING fixed 2026-06-07
+- [x] ~~Design #24 成就/Steam 集成 GDD (last undesigned system)~~ ✅ achievement-steam.md written 2026-06-08
+- [x] ~~Run `/design-review` on #24 成就/Steam 集成 — 5 blocking + 12 warning fixed, verdict: Designed~~
+- [ ] Run `/gate-check pre-production` when all 25 GDDs reviewed

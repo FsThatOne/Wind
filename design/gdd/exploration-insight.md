@@ -1,7 +1,7 @@
 # 探索 / 洞察系统 GDD
 
 > **System**: #19 探索 / 洞察
-> **Status**: In Design
+> **Status**: Designed
 > **Priority**: Alpha
 > **Depends On**: #12 地图/场景管理, #9 主线叙事, #1 角色属性, #5 对话系统
 > **Author**: game-designer, level-designer
