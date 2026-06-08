@@ -67,6 +67,7 @@
    - 游戏内时间（第几日）
    - 累计游戏时长（秒）
    - 截图缩略图（128×72 px PNG，base64 嵌入 JSON 或独立文件）
+   - `is_new_game_plus`（bool，默认 `false`）：当玩家从已通关存档发起"二周目 / New Game+"时设为 `true`。该标志在存档生命周期内不可变（一旦创建即固定）。下游系统（如教学/引导）读取此字段决定是否跳过新手引导。
 
 ### States and Transitions
 
@@ -91,7 +92,12 @@
 | 主线叙事/章节（未设计） | 下游 → 存档 | 预留 key `"chapter_progress"` |
 | 自然日/体力（未设计） | 下游 → 存档 | 预留 key `"calendar"` |
 | 物品/道具（未设计） | 下游 → 存档 | 预留 key `"inventory"`，导出背包物品列表（物品 ID + 数量） |
+| 教学/引导（未设计） | 下游 → 存档 | 预留 key `"tutorial"`，导出所有教学步骤状态（Locked / Triggered / Active / Completed / Skipped） |
+| 成就系统（未设计） | 下游 → 存档 | 预留 key `"achievements"`，导出单存档内的成就进度追踪数据 |
 | 所有 UI 系统 | 存档 → 上游 | 读取元数据渲染存档槽位 UI；SaveManager 发布 `SaveStarted` / `SaveCompleted` / `LoadCompleted` 信号供 UI 监听 |
+| 教学/引导 (#22) | 教学 → 存档 | `tutorial_steps[]`：持久化所有教学步骤状态 |
+| 教学/引导 (#22) | 存档 → 教学 | `is_new_game_plus`：判断是否为二周目，决定跳过教学 |
+| 成就系统 (#24) | 成就 → 存档 | `achievement_progress`：单存档内成就进度追踪 |
 
 ## Formulas
 

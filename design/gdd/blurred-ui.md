@@ -243,7 +243,7 @@ relative = sign(my_realm_tier - target_realm_tier)
 
 - **If 存档/读档时 pending_reveals 队列有积压**: 队列内容随存档序列化。读档后恢复队列，下次对应 UIContext 激活时正常弹出。不丢弃任何未揭示的信息。
 
-- **If `total_power` 恰好等于境界阈值**: 采用 `bisect_right` 语义——阈值本身属于新境界（即 power=20 时为 Tier 2"略窥门径"）。
+- **If `total_power` 恰好等于境界阈值**: 采用 `bisect_right` 语义——阈值本身属于新境界（即 power=35 时为 Tier 2"初窥门径"）。
 
 - **If 玩家连续快速切换场景导致 CH-2 色调尚未渐变完成**: 中断当前渐变，直接跳到目标 zone 的色调值。不累加未完成的渐变（防止色调漂移）。
 

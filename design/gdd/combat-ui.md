@@ -169,6 +169,7 @@
 | **武学组合** | `GetEquippedMoves()` | 武学→UI | 填充招式选择面板 |
 | | `GetMoveDetails(id)` | 武学→UI | 显示招式名/体系/消耗/倍率/`special_condition`/`special_effect`；批注版传回 `condition_override` 和 `effect_override` |
 | 玩家输入 | `MoveSelected(actorId, moveId, targetId, isCounter)` | UI→战斗 | 玩家确认后传回战斗系统 |
+| 教学/引导 (#22) | 教学 → 战斗UI | `ShowTutorialHint(text)` | 战斗中显示教学提示文字（底部半透明条） |
 
 ## Formulas
 

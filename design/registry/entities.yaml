@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: "2026-06-05"
+last_updated: "2026-06-07"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -430,11 +430,12 @@ constants:
       - design/gdd/combat-ui.md
       - design/gdd/item-system.md
       - design/gdd/enemy-ai.md
-    value: "[action_move, action_counter, action_decisive, action_breathe, action_basic, action_item]"
+    value: "[action_move, action_counter, action_decisive, action_breathe, action_basic, action_item, action_epiphany, action_epiphany_skip]"
     unit: enum_ids
-    notes: "6种战斗行动类型。combat-ui渲染面板选项，item-system注册use_item行动，enemy-ai的DecideAction返回值必须属于此枚举。"
+    notes: "8种战斗行动类型。combat-ui渲染面板选项，item-system注册use_item行动，enemy-ai的DecideAction返回值必须属于此枚举。action_epiphany/action_epiphany_skip仅在顿悟抉择状态下可选（排他替代正常菜单）。"
+    revised: "2026-06-07"
+    # OLD: 6种, value不含 action_epiphany/action_epiphany_skip
     added: 2026-06-05
-    revised: ""
 
   - name: mindset_initial_values
     status: active
@@ -456,10 +457,10 @@ constants:
       - design/gdd/main-narrative.md
     value: "{zone_boundary: 15, morality_extreme_evil: -30, morality_evil: -15, morality_good: 15, morality_extreme_good: 30}"
     unit: mindset_points
-    notes: "Zone boundaries: |axis| >= 15 exits neutral. 5 base endings from resolve×worldly (4 quadrants + 未定之人). Morality decorates as 5 tiers (极恶/恶/中性/善/极善). 6th ending (魔道) overrides when morality <= -30."
+    notes: "Zone boundaries: |axis| >= 15 exits neutral. 6 ending branches: 5 from resolve×worldly (4 quadrants + 未定之人) + 1 魔道 override (morality <= -30). Combined with bond_status (companion/farewell/solo) = 16 演出脚本. Morality 5-tier decorates narrator tone only, not independent branches."
     added: 2026-06-03
-    revised: "2026-06-04"
-    # OLD: source mindset-system.md, {release:40, obsession:60, abyss_obsession:85, abyss_count:3} — 0-100 two-axis system deprecated
+    revised: "2026-06-07"
+    # OLD: "5 base endings from resolve×worldly (4 quadrants + 未定之人). Morality decorates as 5 tiers. 6th ending (魔道) overrides when morality <= -30." — unified count to 16 scripts per romance-system C4
 
   - name: abyss_trigger_max
     status: deprecated
@@ -472,6 +473,31 @@ constants:
     added: 2026-06-03
     revised: "2026-06-04"
     # OLD: active, used as abyss trigger threshold in mindset-system.md
+
+  - name: growth_node_total_budget
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+      - design/gdd/epiphany-breakthrough.md
+      - design/gdd/main-narrative.md
+    value: 107
+    unit: attribute_points
+    notes: "Total base attribute points awarded through chapter growth nodes across all chapters (19 nodes). Combined with epiphany (24-72 pts), ensures total_power reaches 147-219 from starting 40."
+    added: 2026-06-07
+    revised: ""
+
+  - name: growth_node_count_total
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+      - design/gdd/main-narrative.md
+    value: 19
+    unit: count
+    notes: "Total number of chapter growth nodes across all chapters. Distribution: 序章(1) + ch1(3) + ch2(3) + ch3(4) + ch4(3) + ch5(3) + 终章(2) = 19."
+    added: 2026-06-07
+    revised: ""
 
 # Example:
 #

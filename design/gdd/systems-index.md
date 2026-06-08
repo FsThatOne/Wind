@@ -2,7 +2,7 @@
 
 > **Status**: Draft
 > **Created**: 2026-06-02
-> **Last Updated**: 2026-06-03
+> **Last Updated**: 2026-06-08
 > **Source Concept**: design/gdd/game-concept.md
 
 ---
@@ -11,7 +11,7 @@
 
 《风止》是一款 2D 像素武侠叙事 RPG，以"一读定生死"的 Burst+Read 回合制战斗为核心差异化体验，融合心境双轴道德系统、彗星模型感情系统和活江湖世界层。
 
-项目需要 24 个系统，覆盖：武侠战斗（刚/柔/巧克制 + 一击决胜）、深度叙事分支（对话 + 章节 + 5 结局）、角色关系（同伴独立旅程 + 误会 + 书信）、世界模拟（自然日 + 传闻 + 暗号）、以及"朦胧化"文学 UI 包装。核心循环是 **紧张（战斗 + 抉择）→ 呼吸（探索 + 关系）→ 宏观（心境演变 + 活江湖）**。
+项目需要 25 个系统，覆盖：武侠战斗（刚/柔/巧克制 + 一击决胜）、队伍管理（5 人上阵 + 同伴成长 + 板凳追赶）、深度叙事分支（对话 + 章节 + 5 结局）、角色关系（同伴独立旅程 + 误会 + 书信）、世界模拟（自然日 + 传闻 + 暗号）、以及"朦胧化"文学 UI 包装。核心循环是 **紧张（战斗 + 抉择）→ 呼吸（探索 + 关系）→ 宏观（心境演变 + 活江湖）**。
 
 ---
 
@@ -30,19 +30,20 @@
 | 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Designed | [main-narrative.md](main-narrative.md) | 对话系统, 地图/场景管理 |
 | 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Designed | [npc-state.md](npc-state.md) | — |
 | 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Designed | [natural-day-stamina.md](natural-day-stamina.md) | 角色属性, 地图/场景管理 |
-| 12 | 地图 / 场景管理 | Core | Vertical Slice | Designed | map-scene-management.md | — |
-| 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Designed | romance-system.md | 心境双轴, NPC 状态管理, 对话系统 |
+| 12 | 地图 / 场景管理 | Core | Vertical Slice | Designed | [map-scene-management.md](map-scene-management.md) | — |
+| 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Designed | [romance-system.md](romance-system.md) | 心境双轴, NPC 状态管理, 对话系统 |
 | 14 | 朦胧化 UI | UI | Vertical Slice | Designed | [blurred-ui.md](blurred-ui.md) | 心境双轴, 角色属性, 感情系统 |
 | 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Designed | [item-system.md](item-system.md) | 角色属性, 武学组合 |
-| 16 | 活江湖层 | Gameplay | Alpha | Not Started | — | 自然日+体力, NPC 状态管理, 主线叙事 |
-| 17 | 顿悟突破 | Gameplay | Alpha | Not Started | — | 回合制战斗, 角色属性, 主线叙事 |
-| 18 | 误会系统 | Narrative | Alpha | Not Started | — | 感情系统, NPC 状态管理, 活江湖层 |
-| 19 | 探索 / 洞察 (inferred) | Gameplay | Alpha | Not Started | — | 地图/场景管理, 主线叙事 |
-| 20 | CG / 演出 (inferred) | UI | Alpha | Not Started | — | 主线叙事, 回合制战斗 |
-| 21 | 音乐 / 音效 (inferred) | Audio | Alpha | Not Started | — | 地图/场景管理, 回合制战斗 |
-| 22 | 教学 / 引导 (inferred) | Meta | Full Vision | Not Started | — | 几乎全部 Core + Feature |
-| 23 | 设置 / 选项 (inferred) | Meta | Full Vision | Not Started | — | — |
-| 24 | 成就 / Steam 集成 (inferred) | Meta | Full Vision | Not Started | — | 心境双轴, 感情系统, 主线叙事 |
+| 16 | 活江湖层 | Gameplay | Alpha | Designed | [living-jianghu-layer.md](living-jianghu-layer.md) | 自然日+体力, NPC 状态管理, 主线叙事 |
+| 17 | 顿悟突破 | Gameplay | Alpha | Designed | [epiphany-breakthrough.md](epiphany-breakthrough.md) | 回合制战斗, 角色属性, 主线叙事 |
+| 18 | 误会系统 | Narrative | Alpha | Designed | [misunderstanding-system.md](misunderstanding-system.md) | 感情系统, NPC 状态管理, 活江湖层 |
+| 19 | 探索 / 洞察 (inferred) | Gameplay | Alpha | Designed | [exploration-insight.md](exploration-insight.md) | 地图/场景管理, 主线叙事 |
+| 20 | CG / 演出 (inferred) | UI | Alpha | Designed | [cutscene-system.md](cutscene-system.md) | 主线叙事, 回合制战斗 |
+| 21 | 音乐 / 音效 (inferred) | Audio | Alpha | Designed | [audio-system.md](audio-system.md) | 地图/场景管理, 回合制战斗 |
+| 22 | 教学 / 引导 (inferred) | Meta | Full Vision | Designed | [tutorial-onboarding.md](tutorial-onboarding.md) | 几乎全部 Core + Feature |
+| 23 | 设置 / 选项 (inferred) | Meta | Full Vision | Designed | [settings-options.md](settings-options.md) | — |
+| 24 | 成就 / Steam 集成 (inferred) | Meta | Full Vision | Designed | [achievement-steam.md](achievement-steam.md) | 心境双轴, 感情系统, 主线叙事 |
+| 25 | 队伍管理 / 同伴成长 | Gameplay | Vertical Slice | Designed | [party-management.md](party-management.md) | 角色属性, 回合制战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层 |
 
 ---
 
@@ -66,9 +67,25 @@
 | Tier | Definition | System Count |
 |------|------------|--------------|
 | **MVP** | 核心循环可运转 — 能打一场 Burst+Read 战斗 + 做一次心境选择 + 存档读档 | 8 |
-| **Vertical Slice** | "第一章：江南水乡"完整体验 — 战斗+叙事+关系+日历+朦胧化 UI | 7 |
+| **Vertical Slice** | "第一章：江南水乡"完整体验 — 战斗+叙事+关系+日历+朦胧化 UI+队伍管理 | 8 |
 | **Alpha** | 所有 gameplay 系统就位 — 活江湖、顿悟、误会、探索、CG、音乐 | 6 |
 | **Full Vision** | 最终润色 — 教学、设置、成就 | 3 |
+
+---
+
+## System Unlock Timeline（玩家视角解锁顺序）
+
+> **原则**：不超过第二章全部解锁。通过叙事锚点自然引入，避免一次性信息轰炸。
+
+| 阶段 | 叙事场景 | 新增系统 | 叙事锚点 |
+|------|---------|---------|---------|
+| **序章前半** | 师门生活 → 灭门事件 | #12 地图/场景、#5 对话、#2 战斗（基础）、#13 感情系统、#10 NPC 态度 | 与师兄弟/师傅/师姐互动教学；将死之人态度死后固定 |
+| **序章尾段** | 师兄归来 → 误会 → 分别 | #18 误会系统、#10 飞书/书信 | 师兄误会主角独活=内奸（对话解除）；分别时约定通信 |
+| **章外章** | 初入世间（镖局岁月） | #6 心境双轴、#11 自然日/体力、#15 物品/装备、#15 锻造/炼丹、#16 活江湖层·传闻/暗号、#25 队伍管理（基础） | 老镖师教授江湖规矩；镖局采药采矿锻造兵器/炼药；首次出现可同行角色后开放队伍配置 |
+| **第一章** | 江南 | （本阶段无新增系统首次引入——感情系统和 NPC 态度已在序章激活，彗星模型自然体验于此阶段，教学在此触发） | 首次遇见女主后感情系统教学自然触发；NPC 态度变化自然引起关注 |
+| **第二章** | 独行江湖 | #17 顿悟突破、#19 探索/洞察、#25 同伴成长（完整） | 生死危局触发突破并顺势教学；同伴观战、追赶、离队历练和个人旅程成长开始完整运作 |
+
+> **注**：教学/引导(#22)、设置/选项(#23)、成就(#24) 为 Full Vision 层，不在游戏叙事中解锁。CG/演出(#20)、音乐/音效(#21) 随叙事自然出现，无需显式教学。
 
 ---
 
@@ -99,6 +116,7 @@
 4. **误会系统** — depends on: 感情系统, NPC 状态管理, 活江湖层
 5. **物品 / 道具** — depends on: 角色属性, 武学组合
 6. **探索 / 洞察** — depends on: 地图/场景管理, 主线叙事
+7. **队伍管理 / 同伴成长** — depends on: 角色属性, 回合制战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层
 
 ### Presentation Layer (depends on Features)
 
@@ -143,6 +161,7 @@
 | 22 | 教学 / 引导 | Full | Polish | game-designer, ux-designer | M |
 | 23 | 设置 / 选项 | Full | Polish | ui-programmer | S |
 | 24 | 成就 / Steam 集成 | Full | Polish | game-designer, devops-engineer | S |
+| 25 | 队伍管理 / 同伴成长 | VS | Feature | game-designer, systems-designer | M |
 
 > **Effort**: S = 1 session, M = 2-3 sessions, L = 4+ sessions
 
@@ -171,19 +190,32 @@ None found.
 
 | Metric | Count |
 |--------|-------|
-| Total systems identified | 24 |
-| Design docs started | 8 |
-| Design docs reviewed | 1 |
+| Total systems identified | 25 |
+| Design docs written | 25 |
+| Cross-GDD reviews completed | 5 |
 | Design docs approved | 1 |
-| MVP systems designed | 6/8 |
-| Vertical Slice systems designed | 4/7 |
+| MVP systems designed | 8/8 |
+| Vertical Slice systems designed | 8/8 |
+| Alpha systems designed | 6/6 |
+| Full Vision systems designed | 3/3 |
 
 ---
 
 ## Next Steps
 
-- [ ] Design MVP-tier systems first — run `/design-system 角色属性` to start
-- [ ] Run `/design-review` on each completed GDD
-- [ ] Run `/review-all-gdds` after all MVP GDDs are complete
-- [ ] Run `/gate-check pre-production` when MVP + VS systems are designed
-- [ ] Validate highest-risk systems with `/vertical-slice` before committing to Production
+- [x] ~~Design MVP-tier systems (8/8)~~
+- [x] ~~Design Vertical Slice systems (8/8)~~
+- [x] ~~Resolve cross-review CRITICAL issues (G-3 物品武侠化已执行；C-1~C-4 已验证修复)~~
+- [x] ~~Update GDD Status headers (#1~#6 → Designed)~~
+- [x] ~~Design #19 探索/洞察 GDD~~
+- [x] ~~Run `/design-review` on #19 探索/洞察 — 2 blocking fixed, verdict: Designed~~
+- [x] ~~Design #20 CG/演出 GDD~~
+- [x] ~~Design remaining Alpha systems — next: 音乐/音效 (#21)~~
+- [x] ~~Sync 风止尺法招式体系到 martial-arts-system GDD~~
+- [x] ~~Run `/design-review` on remaining GDDs (#15 物品, #18 误会)~~
+- [x] ~~Fix combat-system.md F6 编号重复~~
+- [x] ~~Run `/review-all-gdds` after all Alpha GDDs are complete~~ → [gdd-cross-review-2026-06-07.md](gdd-cross-review-2026-06-07.md) — Verdict: CONCERNS (7 BLOCKING)
+- [x] ~~Fix 7 BLOCKING issues identified in cross-review~~ ✅ All 7 BLOCKING + 15 WARNING fixed 2026-06-07
+- [x] ~~Design #24 成就/Steam 集成 GDD (last undesigned system)~~ ✅ achievement-steam.md written 2026-06-08
+- [x] ~~Run `/design-review` on #24 成就/Steam 集成 — 5 blocking + 12 warning fixed, verdict: Designed~~
+- [ ] Run `/gate-check pre-production` when all 25 GDDs reviewed

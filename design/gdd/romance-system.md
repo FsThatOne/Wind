@@ -1,5 +1,7 @@
 # Romance System (Comet Model) — GDD
 
+> **Status**: Designed
+
 ## A. Overview
 
 | Field | Value |

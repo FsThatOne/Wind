@@ -105,6 +105,7 @@
 - 驿站传送：0
 - 战斗：0（但战后可能因剧情扣减）
 - 场景内：0
+- **冥想**：`meditation_stamina_cost`（默认 = max_stamina × 0.5，即半天体力）。冥想由顿悟突破系统触发，消耗在冥想开始时一次性扣除。若当前体力 < 消耗量，则不允许进入冥想（UI 提示"体力不足，需先休息"）
 
 体力恢复：
 - 客栈休息：完全恢复至 max_stamina
@@ -162,7 +163,7 @@ register_delayed_event(event_id, trigger_day, callback, priority)
 | 转换 | 触发条件 | 结果 |
 |---|---|---|
 | 时辰切换 | `day_progress` 累积越过 1/12 边界 | 发送 `shichen_changed`，更新光照 |
-| 日切换 | 12 个时辰走完 | `current_day += 1`，触发天气刷新，检查延迟事件 |
+| 日切换 | 12 个时辰走完 | `current_day += 1`，触发天气刷新，检查延迟事件，标记 `narrative_prompt_pending = true` |
 | 季节切换 | `season_day > days_per_season` | 发送 `season_changed`，重置 `season_day` |
 | 体力状态降级 | 消耗导致体力跌破阈值 | 更新 `stamina_state`，触发视觉/速度变化 |
 | 体力状态升级 | 恢复导致体力超过阈值 | 更新 `stamina_state`，恢复正常速度/视觉 |
@@ -179,6 +180,7 @@ register_delayed_event(event_id, trigger_day, callback, priority)
 | **存档系统** | 双向 | 持久化 `current_day` / `current_shichen` / `day_progress` / `current_season` / `current_stamina` / 延迟事件队列 |
 | **物品/道具** | 道具 → 日历 | 食物道具调用 `restore_stamina(amount)` |
 | **对话系统** | 对话 → 日历 | 某些对话节点可触发 `advance_time(N)` 表示"时间流逝" |
+| **对话系统** | 日历 → 对话 | 跨日后设置 `narrative_prompt_pending`；当玩家首次跨场景或旅店休息完成时，发送 `narrative_prompt_ready` 事件触发内心独白，并重置标记 |
 
 ## Formulas
 
