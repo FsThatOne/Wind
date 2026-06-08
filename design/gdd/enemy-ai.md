@@ -199,7 +199,7 @@ consecutive_penalty:
 
 **5. 目标选择逻辑**
 
-多人战斗中（如 2v2、2v3），AI 按以下优先级选择目标：
+多人战斗中（如 3v4、5v6 或被围攻战），AI 按以下优先级选择目标：
 
 | 优先级 | 条件 | 说明 |
 |---|---|---|
@@ -455,7 +455,7 @@ if player_used_same_type >= 2 consecutive rounds:
 
 **Phase B 否决行为**：如果反读触发，覆盖 Phase A 选定的体系，改为选择克制玩家最常用体系的招式。如果克制体系无内息可用招式，反读失败，保持 Phase A 结果。
 
-**多人战（2v2/2v3）反读规则**：AI 对每个玩家角色独立维护出招历史窗口。反读触发判定时，取**所有玩家角色中连续同体系回合数最高者**的数据。克制的目标体系 = 该玩家角色最常用的体系。如果多个玩家角色同时满足触发条件（连续 2+ 回合同体系），取 `counter_read_chance` 最高的那次判定（不叠加多次判定）。
+**多人战反读规则**：AI 对每个玩家角色独立维护出招历史窗口。反读触发判定时，取**所有玩家角色中连续同体系回合数最高者**的数据。克制的目标体系 = 该玩家角色最常用的体系。如果多个玩家角色同时满足触发条件（连续 2+ 回合同体系），取 `counter_read_chance` 最高的那次判定（不叠加多次判定）。
 
 ### F3. 目标优先级评分（Target Priority Score）
 
@@ -494,7 +494,7 @@ if current_neixi <= meditation_threshold:
 
 **调息行为表现**：AI 调息不是"原地打坐"——武侠高手在险境中"以退为进"。调息回合 AI 采取防御反击姿态：视觉上表现为后撤半步 + 运气，期间 AI 仍占据场上位置（不是跳过回合）。调息回合 AI 的防御力 +20%（由战斗系统结算），体现"蓄势待发"。这保证调息回合对玩家仍有战术意义——不是白送的输出回合。
 
-**调息恢复量**：AI 调息时回复的内息量 = 角色属性系统的 `neixi_recovery` 派生属性（公式：`2 + 内力×0.2`，详见 `character-attributes.md` F6）。由战斗系统的调息结算逻辑处理（`combat-system.md` F6: `meditation_recovery = ceil(neixi_recovery × 0.5)`）。
+**调息恢复量**：AI 调息时回复的内息量 = 角色属性系统的 `neixi_recovery` 派生属性（公式：`2 + 内力×0.2`，详见 `character-attributes.md` F6）。由战斗系统的调息结算逻辑处理（`combat-system.md` F8: `meditation_recovery = ceil(neixi_recovery × 0.5)`）。
 
 **死锁防护**：如果 AI 连续 3 回合选择调息（未使用任何招式），第 4 回合强制跳过调息检查，进入 Phase A 正常决策。即使选出的招式内息不足，回退到零消耗招式或普通攻击。此规则防止低恢复 + 高消耗招式组合下 AI 永久停战。
 
@@ -602,7 +602,7 @@ AI 决策结果通过战斗 UI 系统展示：
 6. **GIVEN** 多人战斗中目标 A 破绽 = 5（达标）、目标 B HP = 满血，**WHEN** F3 计算优先级评分，**THEN** 目标 A 得分 ≥ 100，目标 B 得分 = 0，AI 选择目标 A。
 7. **GIVEN** AI 内息 = 1（≤ meditation_threshold=2，meditation_base_chance=40%，故 meditation_chance=50%），**WHEN** 运行 1000 次前置调息检查（seeded random），**THEN** 调息触发次数在 469-531 次范围内（95% CI, n=1000, p=0.5, σ≈0.0158），且触发时跳过后续管线。
 8. **GIVEN** 刚猛型敌人（标志序列：刚→刚→任意），战斗第 1 回合，**WHEN** Phase A 计算权重，**THEN** 刚系权重包含 floor(signature_bonus(25) × opening_multiplier(1.5)) = +37 的额外加成。
-9. **GIVEN** 敌人意图公开为刚系，玩家在意图公开后选择了柔系招式（克制刚），且上一回合也做出了正确克制选择（连续 2 回合正确预判），**WHEN** "读破！"条件判定（意图公开→玩家选招→结算前），**THEN** 触发 `OnReadBreak(enemy_id)` 事件 + 该敌人剩余回合意图洞察概率（combat-system F7 的 `base_chance`）+20%（加算，不超过 100%）。
+9. **GIVEN** 敌人意图公开为刚系，玩家在意图公开后选择了柔系招式（克制刚），且上一回合也做出了正确克制选择（连续 2 回合正确预判），**WHEN** "读破！"条件判定（意图公开→玩家选招→结算前），**THEN** 触发 `OnReadBreak(enemy_id)` 事件 + 该敌人剩余回合意图洞察概率（combat-system F9 的 `base_chance`）+20%（加算，不超过 100%）。
 10. **GIVEN** 修正叠加使某体系 raw_weight = -15，**WHEN** F1 钳位计算，**THEN** clamped_weight = min_type_weight(5)。
 11. **GIVEN** Boss Phase 3a（HP 25%），体系锁定激活（锁定体系=刚，type_lock_bias=65），**WHEN** Phase A 计算权重，**THEN** 刚系权重基准为 65（非原 base_weight），其余两体系按原比例分配 35；连续同体系惩罚暂停（不叠加）。
 12. **GIVEN** Boss Phase 3b（HP 10%），**WHEN** AI 决策，**THEN** 连续同体系惩罚被忽略 + 优先攻击冷却 = 1 回合 + counter_read_chance = 25%。
@@ -613,7 +613,7 @@ AI 决策结果通过战斗 UI 系统展示：
 17. **GIVEN** Boss 体系锁定激活（type_lock_bias=65，锁定刚系，持续 2 回合），**WHEN** 锁定结束后下一回合，**THEN** 连续同体系惩罚计数从 0 重新开始（锁定期间惩罚暂停，不计入连续回合数）。
 18. **GIVEN** Boss Phase 2 蓄力预告激活，**WHEN** 预告回合，**THEN** AI 通过正常 Phase A/B 管线选定下回合招式并写入 `pending_charge`，本回合执行蓄力动作（非攻击），通过 `GetChargeAnnounce() → MoveName` 输出下回合招式名称。下一回合 `⓪ 蓄力检查`命中，直接执行 `pending_charge` 招式，跳过全部管线。
 19. **GIVEN** AI 连续 3 回合选择调息（未使用任何攻击招式），**WHEN** 第 4 回合前置调息检查，**THEN** 强制跳过调息，进入 Phase A 正常决策。
-20. **GIVEN** 2v3 多人战，玩家角色 A 连续 2 回合使用柔系、角色 B 使用混合体系，Boss counter_read_chance=40%，**WHEN** Phase B 反读判定，**THEN** 基于角色 A 的数据触发反读（选择克柔的巧系），角色 B 的数据不触发（无连续同体系）。
+20. **GIVEN** 5v6 多人战，玩家角色 A 连续 2 回合使用柔系、角色 B 使用混合体系，Boss counter_read_chance=40%，**WHEN** Phase B 反读判定，**THEN** 基于角色 A 的数据触发反读（选择克柔的巧系），角色 B 的数据不触发（无连续同体系）。
 
 21. **GIVEN** Boss 上回合反读已触发（cooldown_penalty=0.5），counter_read_chance=40%，玩家本回合仍连续同体系，**WHEN** Phase B 反读判定，**THEN** 实际触发概率 = 40% × (1 - 0.5) = 20%。运行 1000 次判定（seeded random），触发次数在 175-225 范围内（95% CI, n=1000, p=0.2）。
 22. **GIVEN** Boss Phase 3a 体系锁定激活（锁定刚系，剩余 1 回合），HP 降至 15% 触发阶段转换到 Phase 3b，**WHEN** 阶段转换处理，**THEN** 锁定状态清除 + 锁定冷却重置 + 破绽归零 + Phase 3b 参数生效。下一回合 Phase A 不再使用锁定权重。

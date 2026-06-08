@@ -79,6 +79,51 @@ event:
   tags: [jiangnan, chenyuan, consequence]
 ```
 
+**字段协议补充：**
+
+**`content_key` 格式规范（W7）：**
+
+所有 `content_key` 遵循多语言本地化 key 格式，由对话系统统一解析：
+
+| 格式 | 示例 | 说明 |
+|------|------|------|
+| `rumor_{event_id}_text` | `rumor_chenyuan_defeats_wanderers_text` | 传闻类——对话系统从文本表中读取对应条目，呈现为说书人/旅人台词 |
+| `letter_{event_id}_body` | `letter_bailin_report_body` | 飞书类——信件正文节点，支持多段落 + 落款 |
+| `delegation_{event_id}_result_{outcome}` | `delegation_rescue_result_success` | 代办汇报——按结果分支选择文本 |
+| `ambient_{event_id}_line` | `ambient_code_change_line` | 环境闲谈——单句台词，嵌入 NPC 对话气泡 |
+
+规则：
+- 所有 key 必须在 `assets/text/living_jianghu_strings.yaml` 中有对应条目（构建期校验）
+- 对话系统通过 `get_text(content_key, locale)` 查询，返回富文本节点（支持角色名高亮、地名标注）
+- 无需在事件表中内嵌原始文本——文本与事件逻辑分离
+
+**`npc_state_change` 协议格式（W4）：**
+
+`on_trigger` 中的 `npc_state_change` 必须遵循 npc-state.md 定义的接口签名：
+
+```yaml
+npc_state_change:
+  npc_id: "three_wanderers"       # 必填：NPC 唯一标识（对应 npc-state 注册表）
+  field: "attitude"               # 必填：合法字段枚举见下表
+  value: -1                       # 必填：相对值（+/-N）或绝对值（枚举字符串）
+  source_event: "rumor_chenyuan_defeats_wanderers"  # 必填：来源事件ID，用于审计追溯
+```
+
+合法 `field` 枚举（与 npc-state.md 多轴模型对齐）：
+
+| field | value 类型 | 示例 | 说明 |
+|-------|-----------|------|------|
+| `attitude` | int (相对偏移) | -1, +2 | 态度档位偏移，受地板保护规则约束 |
+| `presence` | enum | "away", "in_scene" | 在场状态切换 |
+| `journey_stage` | enum | "investigating", "delegation_complete" | 独立旅程阶段推进 |
+| `state_tag` | string | "knows_rumor_X", "can_delegate_Y" | 添加状态标记（前缀 `-` 表示移除） |
+| `life_status` | enum | "injured", "missing" | 生命状态变更（慎用，通常由主线驱动） |
+
+约束：
+- 每条 `on_trigger` 最多包含 3 个 `npc_state_change` 条目（防止单事件过度影响）
+- `attitude` 偏移范围限制为 `[-2, +2]`，超出此范围必须由主线叙事节点驱动
+- NPC State 系统在对话进行中收到的变更排队至对话结束后批量生效
+
 **2. 每日 Tick 循环**
 
 每次 `day_advanced` 事件触发时，活江湖层执行以下流程：
@@ -177,6 +222,26 @@ inactive → pending → triggered → delivered → expired/consumed
 | **心境双轴** | ← 查询 | precondition 中可查询心境区域 |
 | **地图/场景管理** | ← 查询 | 查询玩家当前区域用于 preconditions 和传闻延迟计算 |
 | **误会系统 (下游)** | → 推送 | 世界事件和传闻可触发误会条件 |
+| **探索/洞察系统** | ↔ 互斥协调 | 共享"世界内容发现"入口；遵循下方优先级规则 |
+
+**探索系统与活江湖的内容触发优先级（W12）：**
+
+两套系统都提供"发现世界信息"的入口，但定位不同：
+- **探索/洞察** = 主动发现（玩家在场景中探索时触发，需满足洞察门槛）
+- **活江湖传闻** = 被动推送（世界自行演进后，信息通过说书人/旅人到达玩家）
+
+冲突解决规则：
+
+| 情况 | 处理 | 理由 |
+|------|------|------|
+| 同一叙事信息同时设计了 InsightNode 和传闻事件 | **探索优先**：玩家若在场景中主动发现了该信息，对应传闻标记为 `consumed`（不再推送） | 主动发现的体验优于被动告知 |
+| 玩家错过了探索发现（离开场景/洞察不足） | **传闻兜底**：延迟 2-5 天后以传闻形式到达（`precondition: not_flag: "insight_X_discovered"`） | 错过不惩罚 |
+| 同日 tick 中探索发现与传闻同时就绪 | 探索发现立即呈现（场景内实时）；传闻在每日 tick 结算时被 `consumed` 抑制 | 场景内事件不经过每日 tick |
+| 传闻已 delivered 后玩家再次进入该场景 | InsightNode 仍存在但 `narrative_context` 改为回顾语气（"你此前已听闻此事……"） | 信息不重复，但奖励仍可获取 |
+
+协调机制：
+- 共享 flag 命名空间：探索系统发现时设置 `insight_{node_id}_discovered` flag；传闻事件使用 `not_flag` 条件检查
+- 内容设计规范：对于重要世界信息，**必须**同时配置 InsightNode（主动路径）和传闻事件（被动路径），确保不同玩法风格都能获取关键信息
 
 ## Formulas
 

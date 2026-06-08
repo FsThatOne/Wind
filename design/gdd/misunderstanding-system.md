@@ -97,6 +97,7 @@ MisunderstandingInstance:
 | HIDDEN | 无直接信号，仅 NPC 态度静默下降 | 刚创建的前 1 天 |
 | HINTED | 间接信号：NPC 称呼回退、传闻提及、第三方暗示 | 创建后 1 天自动升级，或玩家与该 NPC 交互时 |
 | PERCEIVED | 玩家明确知道"此人对我有误会"（UI 关系面板标记为"心有疑云"） | 窗口期过半，或玩家主动调查 |
+| URGENT | 关系面板标记脉动 + 朦胧化 UI 推送"此人的疑虑正在加深"类文学信号 | `window_remaining ≤ 3` 且已在 PERCEIVED 阶段 |
 
 **5. 混合制澄清机制**
 
@@ -168,6 +169,33 @@ before_apply_misunderstanding_mod(npc_id, mod):
     # 例外：SEVERE 触发 force_break 时无视地板
 ```
 
+**地板保护下的独立效果层**（W3 解决）：
+
+当 `effective_mod` 被地板钳位为 0（即态度已在地板值、无法再降）时，误会**不会被忽略**——它通过独立的对话效果层继续产生影响：
+
+| 地板保护状态 | 态度档位显示 | 对话效果（独立于态度） |
+|---|---|---|
+| mod 被钳位 | 保持地板标签（如"推心置腹"） | 措辞回退一级 + 部分对话选项锁定（与正常 MINOR/MODERATE 效果一致） |
+| mod 未被钳位 | 正常降档 | 同上 + 态度档位下移 |
+
+> **设计原理**：地板保护的是"关系不会因普通误会倒退到历史以下"的长期承诺，但短期的"语气变冷、部分话题不愿聊"仍需体现——否则误会系统对深度关系 NPC 完全失效。
+
+**级联熔断器**（S5 / Scenario 5 解决）：
+
+```
+on_battle_end(result):
+    if result == DEFEAT:
+        set_protection("absence_immunity", duration=2)  # 战败后 2 天保护期
+
+on_absence_check(npc_id):
+    if has_protection("absence_immunity"):
+        skip_trigger()  # 不触发缺席误解
+        return
+    # ... 正常缺席判定逻辑
+```
+
+> **核心原则**：**不可控的失败（战力不足导致的战败）不应触发仅属于可控选择（主动缺席）的惩罚**。保护期 2 天给予玩家恢复和赶赴澄清的时间窗口。此规则仅豁免"缺席误解"触发器，不豁免其他类型的误会。
+
 ## Formulas
 
 ### F1. misunderstanding_mod 计算
@@ -220,7 +248,15 @@ func check_transparency_upgrade(inst):
         if days_elapsed >= half_window:
             inst.transparency = PERCEIVED
             blurred_ui.notify_attitude_change(inst.target_npc, "misunderstanding")
+    
+    if inst.transparency == PERCEIVED and inst.window_remaining <= 3:
+        inst.transparency = URGENT
+        blurred_ui.pulse_relationship_indicator(inst.target_npc)
+        blurred_ui.push_literary_signal(inst.target_npc, "urgency")
+        # 推送朦胧化文学信号，如"你隐约觉得，若再不做些什么，某种东西就要碎了"
 ```
+
+> **W17 设计意图**：URGENT 阶段确保玩家在误会窗口即将关闭时获得更强的感知信号。这不是"倒计时数字"，而是朦胧化 UI 风格内的"氛围加深"——关系面板标记脉动加快、进入相关区域时环境音调变暗。玩家不知道"还剩 3 天"，但能感受到"再不去做点什么就来不及了"。
 
 ### F4. 恶化判定
 

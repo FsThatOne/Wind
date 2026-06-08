@@ -4,7 +4,7 @@
 > **Entity Registry**: `design/registry/entities.yaml` v1 (2026-06-05)
 > **Design Pillars**: P1(江湖是活的) P2(选择有重量) P3(武侠味先于游戏味) P4(情感深度优先)
 > **Anti-Pillars**: NOT 开放世界, NOT 后宫系统, NOT 高频战斗/数值刷怪
-> **Verdict**: ⚠️ CONCERNS — 7 BLOCKING issues require resolution before architecture phase
+> **Verdict**: ✅ PASS — 7/7 BLOCKING + 15/15 WARNING issues fixed 2026-06-07; 4 INFO remain (recommendations only)
 
 ---
 
@@ -62,14 +62,14 @@
 
 | # | Issue | Brief |
 |---|-------|-------|
-| W13 | 成长平台期风险 | 章节间若无顿悟，total_power 可能长期停滞，玩家感知不到成长。 |
-| W14 | "稳妥取胜"零风险循环 | 选稳妥获得内息回复+必暴击，实际上比凝神更安全且有即时战斗收益，可能使凝神成为"傻瓜选择"。 |
-| W15 | 冥想路径优于战斗路径 | 冥想顿悟 100% 触发、零风险；战斗顿悟概率触发、需 HP≤20%。理性玩家永远选冥想路径。 |
-| W16 | 装备词条趋向数值刷怪 | item-system 的装备系统（如果有数值词条）可能让玩家追求"最优装备build"，偏离 Anti-Pillar "NOT 数值刷怪"。 |
-| W17 | 误会窗口期 vs 呼吸期节奏不透明 | 玩家可能在呼吸期做其他活动（冥想/探索）时不知不觉耗尽误会窗口。 |
-| W18 | 5 结局 × 5 善恶 = 25 变体内容量巨大 | 对独立开发体量而言，25 个独立结局变体的叙事内容量可能不可持续。 |
-| W19 | 破绽衰减 vs 短战斗设计 | 每轮破绽 -1 + 阈值 5 意味着需要连续 3-4 回合克制才能触发决胜。5 回合内极难达成，可能拉长战斗至 10+ 回合。 |
-| W20 | 多人战斗（2v3）UI 复杂度爆炸 | 5 个单位同时决策，每个都有体系类型/破绽/HP/内息——战斗 UI 信息密度极高。 |
+| W13 | 成长平台期风险 | ~~章节间若无顿悟，total_power 可能长期停滞~~ ✅ FIXED (B6) — 19 叙事节点分布于各章，无空窗期 |
+| W14 | "稳妥取胜"零风险循环 | ~~选稳妥获得回复+必暴击，凝神成为傻瓜选择~~ ✅ FIXED — skip_chance_decay 衰减机制 |
+| W15 | 冥想路径优于战斗路径 | ~~冥想100%零风险，理性玩家永远选冥想~~ ✅ FIXED — cap=4、不解锁招式/高阶境界 |
+| W16 | 装备词条趋向数值刷怪 | ~~装备数值词条可能偏离Anti-Pillar~~ ✅ FIXED — 6条Anti-Pillar约束 |
+| W17 | 误会窗口期 vs 呼吸期节奏不透明 | ~~玩家不知不觉耗尽误会窗口~~ ✅ FIXED — URGENT透明度阶段 |
+| W18 | 5 结局 × 5 善恶 = 25 变体内容量巨大 | ~~25变体不可持续~~ ✅ FIXED (B2) — 已收敛为16演出脚本 |
+| W19 | 破绽衰减 vs 短战斗设计 | ~~连续3-4回合克制才能触发决胜~~ ✅ FIXED — 新增设计意图分析 |
+| W20 | 多人战斗（2v3）UI 复杂度爆炸 | ~~5单位信息密度过高~~ ✅ FIXED — 三层信息分级 |
 
 ### ℹ️ INFO
 
@@ -184,25 +184,35 @@
 | Priority | Issue | Owner GDD | Suggested Fix |
 |----------|-------|-----------|---------------|
 | 1 | B6: total_power 增长路径 | character-attributes | ~~补充"章节成长节点"机制~~ ✅ FIXED 2026-06-07 — 新增 Section 8 "成长系统"，含 19 节点 / 107 点预算表 |
-| 2 | B1+B11: 顿悟行动+AI接口注册 | combat-system | 在 Action Registry 注册 `action_epiphany`；在 Interactions 表补充 enemy-ai 的 6 条接口 |
-| 3 | B5+S1: 顿悟时序+免死 | epiphany, combat | 明确：判定在回合结束，抉择在下一回合开始时呈现（替代正常决策）；凝神期间 HP 不可降至 0（免死 1 轮） |
-| 4 | B2+S2: 结局变体收敛 | mindset, romance, main-narrative | 统一定义为：5 基础走向 × 善恶色调（文本变化）× romance 尾声（同行/道别）= 10-15 核心变体 |
-| 5 | B3: F6→F8 编号错误 | enemy-ai | 纠正所有对 character-attributes 公式的引用编号 |
-| 6 | B4: 调息防御+20% | combat-system 或 enemy-ai | 决定规则归属：若为正式规则则写入 combat Action Registry；若仅为 AI 评估权重则从规则描述中移除"防御+20%" |
-| 7 | B7+S1: 绝境三重决策 | epiphany, combat | 当顿悟窗口呈现时，道具和正常行动**不可选**——凝神 vs 稳妥是排他性二选一，消除认知过载 |
+| 2 | B1+B11: 顿悟行动+AI接口注册 | combat-system | ~~在 Action Registry 注册 `action_epiphany`；在 Interactions 表补充 enemy-ai 的 6 条接口~~ ✅ FIXED 2026-06-07 — Action Registry 新增 `action_epiphany` + `action_epiphany_skip`；Interactions 表扩展至 enemy-ai 8 条 + epiphany 3 条双向协议 |
+| 3 | B5+S1: 顿悟时序+免死 | epiphany, combat | ~~明确：判定在回合结束，抉择在下一回合开始时呈现（替代正常决策）；凝神期间 HP 不可降至 0（免死 1 轮）~~ ✅ FIXED 2026-06-07 — 新增 "Epiphany Integration Protocol" 章节：回合末判定→下回合初排他抉择；凝神免死（HP 钳位 1）；稳妥取胜立即执行 |
+| 4 | B2+S2: 结局变体收敛 | mindset, romance, main-narrative | ~~统一定义为：5 基础走向 × 善恶色调（文本变化）× romance 尾声（同行/道别）= 10-15 核心变体~~ ✅ FIXED 2026-06-07 — 三方统一为 16 种演出脚本（6 结局分支 × 3 伴侣状态 - 2 魔道限制）；善恶 5 档仅为旁白色调层，不产生独立分支。SSoT: romance-system C4 |
+| 5 | B3: F6→F8 编号错误 | enemy-ai | ~~纠正所有对 character-attributes 公式的引用编号~~ ✅ FIXED 2026-06-07 — enemy-ai 中 combat-system 引用修正：F6→F8（调息回复）、F7→F9（意图洞察概率） |
+| 6 | B4: 调息防御+20% | combat-system 或 enemy-ai | ~~决定规则归属：若为正式规则则写入 combat Action Registry；若仅为 AI 评估权重则从规则描述中移除"防御+20%"~~ ✅ FIXED 2026-06-07 — 规则归属 combat-system：Action Registry `action_breathe` 明确"防御 +20% 持续至下回合结算前" |
+| 7 | B7+S1: 绝境三重决策 | epiphany, combat | ~~当顿悟窗口呈现时，道具和正常行动**不可选**——凝神 vs 稳妥是排他性二选一，消除认知过载~~ ✅ FIXED 2026-06-07 — Epiphany Integration Protocol 明确：顿悟抉择状态下正常行动菜单不可用，排他性二选一替代 |
 
 ### Should-Fix Before Vertical Slice (WARNING)
 
 | Priority | Issues | Brief |
 |----------|--------|-------|
-| 8 | W1 | 统一调息回复量：breathe 应使用 character-attributes 的 `neixi_recovery` 公式，删除硬编码 4 |
-| 9 | W3+S3 | 明确 misunderstanding_mod 与地板机制交互规则 |
-| 10 | W5 | combat-system 补充"心境战斗"标记和战后事件发射接口 |
-| 11 | W6 | natural-day-stamina 行动表补充"冥想"条目 |
-| 12 | W9 | character-attributes 修改器层补充 epiphany 临时 buff 来源 |
-| 13 | W11+Phase4-S1 | combat Action Registry 注册 `action_epiphany` |
-| 14 | W14+W15 | 平衡凝神 vs 稳妥 vs 冥想的风险-收益曲线（提高凝神收益或降低冥想可及性） |
-| 15 | S5 | 设计级联熔断器：战败后保护期或区分"不可控失败"与"缺席选择" |
+| 8 | W1 | ~~统一调息回复量：breathe 应使用 character-attributes 的 `neixi_recovery` 公式，删除硬编码 4~~ ✅ FIXED 2026-06-07 — `action_breathe` 已改为引用 F8 `meditation_recovery` 公式 |
+| 9 | W3+S3 | ~~明确 misunderstanding_mod 与地板机制交互规则~~ ✅ FIXED 2026-06-07 — 新增"地板保护下的独立效果层"：地板保护态度档位，误会通过独立对话效果层继续影响 |
+| 10 | W5 | ~~combat-system 补充"心境战斗"标记和战后事件发射接口~~ ✅ FIXED 2026-06-07 — Interactions 表新增 `OnBattleEnd(result)` 战斗→心境接口，含位移规则和 battle_tag |
+| 11 | W6 | ~~natural-day-stamina 行动表补充"冥想"条目~~ ✅ FIXED 2026-06-07 — 体力消耗列表新增冥想条目（max_stamina × 0.5） |
+| 12 | W9 | ~~character-attributes 修改器层补充 epiphany 临时 buff 来源~~ ✅ FIXED 2026-06-07 — 临时来源新增"顿悟悟后状态 buff（全属性 ×1.1）" |
+| 13 | W11+Phase4-S1 | ~~combat Action Registry 注册 `action_epiphany`~~ ✅ FIXED 2026-06-07 — 已在 B1 修复中完成 |
+| 14 | W14+W15 | ~~平衡凝神 vs 稳妥 vs 冥想的风险-收益曲线~~ ✅ FIXED 2026-06-07 — 新增路径收益分层表 + 稳妥取胜机会衰减（skip_chance_decay=0.15）+ 冥想约束（cap=4、不解锁招式/高阶境界） |
+| 15 | S5 | ~~设计级联熔断器~~ ✅ FIXED 2026-06-07 — 战败后 2 天 `absence_immunity` 保护期；核心原则"不可控失败不触发可控选择惩罚" |
+| 16 | W2 | ~~境界突破叙事前置条件清单~~ ✅ FIXED 2026-06-07 — character-attributes 新增 8 行境界→叙事节点映射表 |
+| 17 | W4 | ~~活江湖 npc_state_change 协议格式~~ ✅ FIXED 2026-06-07 — 定义精确 YAML 签名（npc_id/field/value/source_event）+ 合法 field 枚举 |
+| 18 | W7 | ~~传闻 content_key 格式未定义~~ ✅ FIXED 2026-06-07 — 定义多语言 key 命名规范（rumor_/letter_/delegation_/ambient_前缀）+ 文本表构建期校验 |
+| 19 | W8 | ~~物品系统战斗背包容量未被 combat 引用~~ ✅ FIXED 2026-06-07 — Interactions 表新增 `GetCombatPouch()` 物品→战斗接口 |
+| 20 | W10 | ~~协同攻击缺少 AI 侧实现约定~~ ✅ FIXED 2026-06-07 — 多人战斗规则新增"敌方协同"条目（非对称设计） |
+| 21 | W12 | ~~探索系统与活江湖钩子重叠~~ ✅ FIXED 2026-06-07 — 新增探索-传闻内容触发优先级规则（探索优先+传闻兜底+共享flag协调） |
+| 22 | W16 | ~~装备词条趋向数值刷怪~~ ✅ FIXED 2026-06-07 — item-system 新增 Anti-Pillar 约束 6 条（贡献上限 40%、无套装、章节门控等） |
+| 23 | W17 | ~~误会窗口期透明度不足~~ ✅ FIXED 2026-06-07 — 新增 URGENT 透明度阶段（window≤3 时脉动+朦胧化文学信号） |
+| 24 | W19 | ~~破绽衰减 vs 短战斗设计~~ ✅ FIXED 2026-06-07 — combat-system F7 后新增设计意图说明（连续3轮克制达标分析） |
+| 25 | W20 | ~~多人战斗 UI 信息密度爆炸~~ ✅ FIXED 2026-06-07 — 新增信息分层规则（焦点层/概览层/告警层）+ 密度上限 6 条 |
 
 ---
 
@@ -210,10 +220,10 @@
 
 | Pillar | Alignment Score | Notes |
 |--------|----------------|-------|
-| P1 (江湖是活的) | ✅ Strong | 活江湖层 + 误会系统 + NPC 独立旅程配合良好 |
-| P2 (选择有重量) | ⚠️ At Risk | 凝神 vs 稳妥的风险不对称可能使凝神成为"傻瓜选择"（W14）；级联惩罚可能过重（S5） |
-| P3 (武侠味先于游戏味) | ✅ Strong | 朦胧化 UI + 境界文学 + 一击决胜设计一致 |
-| P4 (情感深度优先) | ⚠️ At Risk | 25 结局变体的内容量可能导致每个变体深度不足（W18） |
+| P1 (江湖是活的) | ✅ Strong | 活江湖层 + 误会系统 + NPC 独立旅程配合良好；探索-传闻优先级已明确 |
+| P2 (选择有重量) | ✅ Strong | 凝神收益分层 + 稳妥机会衰减解决了"傻瓜选择"问题；级联熔断器保护不可控失败 |
+| P3 (武侠味先于游戏味) | ✅ Strong | 朦胧化 UI + 境界文学 + 一击决胜 + 战斗 UI 信息分层设计一致 |
+| P4 (情感深度优先) | ✅ Strong | 16 演出脚本（非 25 独立结局）确保每个变体有足够叙事深度 |
 
 ---
 
@@ -223,7 +233,7 @@
 |-------------|--------|------|
 | NOT 开放世界 | ✅ Compliant | 地图/场景管理明确为区域制 |
 | NOT 后宫系统 | ✅ Compliant | 结缘互斥规则 + 每周目一人约束 |
-| NOT 高频战斗/数值刷怪 | ⚠️ Watch | W16: 装备词条可能引入数值优化倾向；需 item-system 约束词条复杂度 |
+| NOT 高频战斗/数值刷怪 | ✅ Compliant | W16 修复：装备贡献上限 40%、无套装、确定性掉落、精炼上限 3 次 |
 
 ---
 

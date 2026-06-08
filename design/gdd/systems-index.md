@@ -11,7 +11,7 @@
 
 《风止》是一款 2D 像素武侠叙事 RPG，以"一读定生死"的 Burst+Read 回合制战斗为核心差异化体验，融合心境双轴道德系统、彗星模型感情系统和活江湖世界层。
 
-项目需要 24 个系统，覆盖：武侠战斗（刚/柔/巧克制 + 一击决胜）、深度叙事分支（对话 + 章节 + 5 结局）、角色关系（同伴独立旅程 + 误会 + 书信）、世界模拟（自然日 + 传闻 + 暗号）、以及"朦胧化"文学 UI 包装。核心循环是 **紧张（战斗 + 抉择）→ 呼吸（探索 + 关系）→ 宏观（心境演变 + 活江湖）**。
+项目需要 25 个系统，覆盖：武侠战斗（刚/柔/巧克制 + 一击决胜）、队伍管理（5 人上阵 + 同伴成长 + 板凳追赶）、深度叙事分支（对话 + 章节 + 5 结局）、角色关系（同伴独立旅程 + 误会 + 书信）、世界模拟（自然日 + 传闻 + 暗号）、以及"朦胧化"文学 UI 包装。核心循环是 **紧张（战斗 + 抉择）→ 呼吸（探索 + 关系）→ 宏观（心境演变 + 活江湖）**。
 
 ---
 
@@ -43,6 +43,7 @@
 | 22 | 教学 / 引导 (inferred) | Meta | Full Vision | Not Started | — | 几乎全部 Core + Feature |
 | 23 | 设置 / 选项 (inferred) | Meta | Full Vision | Not Started | — | — |
 | 24 | 成就 / Steam 集成 (inferred) | Meta | Full Vision | Not Started | — | 心境双轴, 感情系统, 主线叙事 |
+| 25 | 队伍管理 / 同伴成长 | Gameplay | Vertical Slice | Designed | [party-management.md](party-management.md) | 角色属性, 回合制战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层 |
 
 ---
 
@@ -66,7 +67,7 @@
 | Tier | Definition | System Count |
 |------|------------|--------------|
 | **MVP** | 核心循环可运转 — 能打一场 Burst+Read 战斗 + 做一次心境选择 + 存档读档 | 8 |
-| **Vertical Slice** | "第一章：江南水乡"完整体验 — 战斗+叙事+关系+日历+朦胧化 UI | 7 |
+| **Vertical Slice** | "第一章：江南水乡"完整体验 — 战斗+叙事+关系+日历+朦胧化 UI+队伍管理 | 8 |
 | **Alpha** | 所有 gameplay 系统就位 — 活江湖、顿悟、误会、探索、CG、音乐 | 6 |
 | **Full Vision** | 最终润色 — 教学、设置、成就 | 3 |
 
@@ -80,8 +81,8 @@
 |------|---------|---------|---------|
 | **序章前半** | 师门生活 → 灭门事件 | #12 地图/场景、#5 对话、#2 战斗（基础）、#13 感情系统、#10 NPC 态度 | 与师兄弟/师傅/师姐互动教学；将死之人态度死后固定 |
 | **序章尾段** | 师兄归来 → 误会 → 分别 | #18 误会系统、#10 飞书/书信 | 师兄误会主角独活=内奸（对话解除）；分别时约定通信 |
-| **第一章** | 镖局岁月 | #6 心境双轴、#11 自然日/体力、#15 物品/装备、#15 锻造/炼丹、#16 活江湖层·传闻/暗号 | 老镖师教授江湖规矩；镖局采药采矿锻造兵器/炼药 |
-| **第二章** | 独行江湖 | #17 顿悟突破、#19 探索/洞察 | 生死危局触发突破并顺势教学 |
+| **第一章** | 镖局岁月 | #6 心境双轴、#11 自然日/体力、#15 物品/装备、#15 锻造/炼丹、#16 活江湖层·传闻/暗号、#25 队伍管理（基础） | 老镖师教授江湖规矩；镖局采药采矿锻造兵器/炼药；首次出现可同行角色后开放队伍配置 |
+| **第二章** | 独行江湖 | #17 顿悟突破、#19 探索/洞察、#25 同伴成长（完整） | 生死危局触发突破并顺势教学；同伴观战、追赶、离队历练和个人旅程成长开始完整运作 |
 
 > **注**：教学/引导(#22)、设置/选项(#23)、成就(#24) 为 Full Vision 层，不在游戏叙事中解锁。CG/演出(#20)、音乐/音效(#21) 随叙事自然出现，无需显式教学。
 
@@ -114,6 +115,7 @@
 4. **误会系统** — depends on: 感情系统, NPC 状态管理, 活江湖层
 5. **物品 / 道具** — depends on: 角色属性, 武学组合
 6. **探索 / 洞察** — depends on: 地图/场景管理, 主线叙事
+7. **队伍管理 / 同伴成长** — depends on: 角色属性, 回合制战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层
 
 ### Presentation Layer (depends on Features)
 
@@ -158,6 +160,7 @@
 | 22 | 教学 / 引导 | Full | Polish | game-designer, ux-designer | M |
 | 23 | 设置 / 选项 | Full | Polish | ui-programmer | S |
 | 24 | 成就 / Steam 集成 | Full | Polish | game-designer, devops-engineer | S |
+| 25 | 队伍管理 / 同伴成长 | VS | Feature | game-designer, systems-designer | M |
 
 > **Effort**: S = 1 session, M = 2-3 sessions, L = 4+ sessions
 
@@ -186,12 +189,12 @@ None found.
 
 | Metric | Count |
 |--------|-------|
-| Total systems identified | 24 |
-| Design docs written | 21 |
+| Total systems identified | 25 |
+| Design docs written | 22 |
 | Cross-GDD reviews completed | 5 |
 | Design docs approved | 1 |
 | MVP systems designed | 8/8 |
-| Vertical Slice systems designed | 7/7 |
+| Vertical Slice systems designed | 8/8 |
 | Alpha systems designed | 6/6 |
 | Full Vision systems designed | 0/3 |
 
@@ -200,7 +203,7 @@ None found.
 ## Next Steps
 
 - [x] ~~Design MVP-tier systems (8/8)~~
-- [x] ~~Design Vertical Slice systems (7/7)~~
+- [x] ~~Design Vertical Slice systems (8/8)~~
 - [x] ~~Resolve cross-review CRITICAL issues (G-3 物品武侠化已执行；C-1~C-4 已验证修复)~~
 - [x] ~~Update GDD Status headers (#1~#6 → Designed)~~
 - [x] ~~Design #19 探索/洞察 GDD~~
