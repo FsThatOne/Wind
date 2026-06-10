@@ -3,8 +3,8 @@
 > **Layer**: Foundation
 > **GDD**: design/gdd/natural-day-stamina.md
 > **Architecture Module**: `Foundation/TimeSystem/`
-> **Status**: Ready
-> **Stories**: Not yet created — run `/create-stories time-system`
+> **Status**: Done
+> **Stories**: 6 stories (ts-001 through ts-006)
 
 ## Overview
 
@@ -40,6 +40,17 @@ This epic is complete when:
 - 体力系统正确管理消耗和恢复
 - 延迟事件在正确游戏日触发
 
+## Stories
+
+| Story | Name | Type | Status |
+|-------|------|------|--------|
+| ts-001 | Calendar Core | Logic | Done |
+| ts-002 | Stamina System | Logic | Done |
+| ts-003 | Delayed Event Scheduler | Logic | Done |
+| ts-004 | Time Advance Integration | Integration | Done |
+| ts-005 | Inn Rest Logic | Logic | Done |
+| ts-006 | Time Config YAML | Integration | Done |
+
 ## Next Step
 
-Run `/create-stories time-system` to break this epic into implementable stories.
+Run `/dev-story ts-001` to begin implementing the Calendar Core.

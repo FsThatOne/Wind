@@ -3,8 +3,8 @@
 > **Layer**: Foundation
 > **GDD**: design/gdd/npc-state.md
 > **Architecture Module**: `Foundation/NpcState/`
-> **Status**: Ready
-> **Stories**: Not yet created — run `/create-stories npc-state`
+> **Status**: Done
+> **Stories**: 7 stories (ns-001 through ns-007)
 
 ## Overview
 
@@ -38,6 +38,18 @@ This epic is complete when:
 - 状态变更通过 EventBus 正确发布
 - NPC 位置和态度可被下游系统正确查询
 
+## Stories
+
+| Story | Name | Type | Status |
+|-------|------|------|--------|
+| ns-001 | Generic FSM | Logic | Done |
+| ns-002 | NPC State Model | Logic | Done |
+| ns-003 | Attitude Formula | Logic | Done |
+| ns-004 | NPC State Manager | Integration | Done |
+| ns-005 | Delegate & Journey | Logic | Done |
+| ns-006 | Letter Queue | Logic | Done |
+| ns-007 | NPC YAML Config | Integration | Done |
+
 ## Next Step
 
-Run `/create-stories npc-state` to break this epic into implementable stories.
+Run `/dev-story ns-001` to begin implementing the Generic FSM.

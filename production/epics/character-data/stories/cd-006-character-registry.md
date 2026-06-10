@@ -8,7 +8,7 @@
 > **ADR Guidance**: ADR-0001 (EventBus 通知), ADR-0003 (DataRegistry 查询)
 > **GDD Source**: design/gdd/character-attributes.md §Interactions with Other Systems
 > **Control Manifest Version**: 2026-06-10
-> **Status**: Ready
+> **Status**: Done
 
 ## Goal
 

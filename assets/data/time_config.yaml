@@ -1,0 +1,7 @@
+days_per_season: 30
+base_stamina: 100
+stamina_per_con: 5
+rest_ratio_nap: 0.3
+fatigue_threshold: 0.5
+zero_stamina_speed_mult: 0.5
+stamina_per_grid: 0.2

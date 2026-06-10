@@ -8,7 +8,7 @@
 > **ADR Guidance**: ADR-0003 (核心约束: YAML 1.2, YamlDotNet, DataRegistry, 快速失败)
 > **GDD Source**: design/gdd/character-attributes.md §Interactions, §Tuning Knobs
 > **Control Manifest Version**: 2026-06-10
-> **Status**: Ready
+> **Status**: Done
 
 ## Goal
 
