@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FengZhi.Foundation/FengZhi.Foundation.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/Foundation/">
+    <Project Path="tests/Foundation/Foundation.Tests.csproj" />
+  </Folder>
+</Solution>

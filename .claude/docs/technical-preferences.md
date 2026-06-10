@@ -33,10 +33,12 @@
 
 ## Performance Budgets
 
-- **Target Framerate**: [TO BE CONFIGURED]
-- **Frame Budget**: [TO BE CONFIGURED]
-- **Draw Calls**: [TO BE CONFIGURED]
-- **Memory Ceiling**: [TO BE CONFIGURED]
+- **Target Framerate**: 60 FPS (PC) / 30 FPS (Steam Deck guaranteed minimum)
+- **Frame Budget**: 16.67ms (PC @ 60 FPS) / 33.33ms (Steam Deck @ 30 FPS)
+- **Draw Calls**: ≤ 200 per frame (2D pixel; TileMapLayer + UI + particles)
+- **Memory Ceiling**: 512 MB (含已加载场景 + 所有缓存纹理)
+- **Concurrent UI Tweens**: ≤ 8 同屏并发（避免 GC spike）
+- **Scene Load Time**: ≤ 2s (异步预加载 + 加载屏遮罩)
 
 ## Testing
 
@@ -52,12 +54,22 @@
 ## Allowed Libraries / Addons
 
 <!-- Add approved third-party dependencies here -->
-- [None configured yet — add as dependencies are approved]
+- **YamlDotNet** (NuGet) — YAML 1.2 解析/序列化，配置数据加载 (ADR-0003)
 
 ## Architecture Decisions Log
 
 <!-- Quick reference linking to full ADRs in docs/architecture/ -->
-- [No ADRs yet — use /architecture-decision to create one]
+- **Master Architecture**: [architecture.md](../../docs/architecture/architecture.md) — 5-layer architecture (Platform/Foundation/Core/Feature/Presentation)
+- ADR-001 (P0): EventBus 实现方案 — [Proposed](../../docs/architecture/adr-0001-event-bus-architecture.md)
+- ADR-002 (P0): UI 框架选型 (dual-focus 适配) — [Proposed](../../docs/architecture/adr-0002-ui-framework-dual-focus.md)
+- ADR-003 (P1): 数据配置格式 — [Proposed](../../docs/architecture/adr-0003-data-configuration-format.md)
+- ADR-004 (P1): 存档加密方案 — [Proposed](../../docs/architecture/adr-0004-save-encryption.md)
+- ADR-005 (P1): 对话系统格式 — [Proposed](../../docs/architecture/adr-0005-dialogue-format.md)
+- ADR-006 (P1): 场景加载策略 — [Proposed](../../docs/architecture/adr-0006-scene-loading-strategy.md)
+- ADR-007 (P1): 输入系统适配 — [Proposed](../../docs/architecture/adr-0007-input-system.md)
+- ADR-008 (P2): FSM 实现方案 — [Proposed](../../docs/architecture/adr-0008-finite-state-machine.md)
+- ADR-009 (P2): 动态音乐方案 — [Proposed](../../docs/architecture/adr-0009-dynamic-audio.md)
+- ADR-010 (P2): TileMapLayer 使用模式 — [Proposed](../../docs/architecture/adr-0010-tilemaplayer-usage.md)
 
 ## Engine Specialists
 

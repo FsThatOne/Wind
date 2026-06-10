@@ -1,0 +1,3 @@
+# 集成测试存放于此 —— 每个系统一个子目录
+# 例：tests/integration/combat/, tests/integration/save/
+# 适用于：跨系统交互、存档往返、场景切换、信号广播链路等

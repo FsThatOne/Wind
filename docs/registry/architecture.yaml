@@ -30,7 +30,7 @@
 #   Superseded entries:     Grep pattern="status: superseded"
 
 version: 1
-last_updated: ""
+last_updated: "2026-06-08"
 
 # ─── STATE OWNERSHIP ─────────────────────────────────────────────────────────
 # Who is the authoritative owner of each piece of shared game state.
@@ -43,7 +43,28 @@ last_updated: ""
 # interface: how other systems access this state (read-only property, method call,
 #   signal, shared resource, etc.) — this is the contract other ADRs depend on.
 
-state_ownership: []
+state_ownership:
+  - state: input_mode
+    status: active
+    owner_system: focus-manager
+    adr: docs/architecture/adr-0002-ui-framework-dual-focus.md
+    interface: "IFocusManager.CurrentMode (read-only InputMode enum: Keyboard|Mouse|Gamepad)"
+    write_access: focus-manager-only
+    referenced_by:
+      - docs/architecture/adr-0002-ui-framework-dual-focus.md
+    added: 2026-06-08
+    revised: ""
+
+  - state: ui_focus_stack
+    status: active
+    owner_system: focus-manager
+    adr: docs/architecture/adr-0002-ui-framework-dual-focus.md
+    interface: "IFocusManager.PushFocus(Control) / PopFocus()"
+    write_access: focus-manager-only
+    referenced_by:
+      - docs/architecture/adr-0002-ui-framework-dual-focus.md
+    added: 2026-06-08
+    revised: ""
 
 # Example:
 #
@@ -71,7 +92,36 @@ state_ownership: []
 #
 # pattern options: signal | direct_call | event_bus | shared_resource | rpc | none
 
-interfaces: []
+interfaces:
+  - contract: cross_layer_event_delivery
+    status: active
+    pattern: event_bus
+    producer: all-systems
+    consumers:
+      - all-systems
+    adr: docs/architecture/adr-0001-event-bus-architecture.md
+    signal_signature: "IEventBus.Publish<T>(T evt) where T : GameEvent"
+    referenced_by:
+      - docs/architecture/adr-0001-event-bus-architecture.md
+      - docs/architecture/adr-0002-ui-framework-dual-focus.md
+    added: 2026-06-08
+    revised: ""
+
+  - contract: input_mode_notification
+    status: active
+    pattern: event_bus
+    producer: focus-manager
+    consumers:
+      - combat-ui
+      - blurred-ui
+      - tutorial
+      - settings
+    adr: docs/architecture/adr-0002-ui-framework-dual-focus.md
+    signal_signature: "InputModeChangedEvent(InputMode newMode)"
+    referenced_by:
+      - docs/architecture/adr-0002-ui-framework-dual-focus.md
+    added: 2026-06-08
+    revised: ""
 
 # Example:
 #
@@ -131,7 +181,119 @@ performance_budgets: []
 # Register an API decision when the choice is non-obvious and other ADRs might
 # make a different choice for the same purpose without knowing this was decided.
 
-api_decisions: []
+api_decisions:
+  - purpose: cross_layer_communication
+    status: active
+    api: "Custom IEventBus (Publish/Subscribe pattern with typed GameEvent records)"
+    not: "Pure Godot Signals on Autoload (无法扩展到 75+ 事件), Static C# events (无生命周期管理)"
+    adr: docs/architecture/adr-0001-event-bus-architecture.md
+    reason: "需要类型安全、优先级排序、自动生命周期清理；Godot Signals 适合本地通信但不适合全局路由"
+    referenced_by:
+      - docs/architecture/adr-0001-event-bus-architecture.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: ui_framework
+    status: active
+    api: "Native Godot Control nodes + FocusManager thin layer"
+    not: "Third-party UI framework, custom draw_* rendering"
+    adr: docs/architecture/adr-0002-ui-framework-dual-focus.md
+    reason: "2D 像素项目不需要复杂框架；原生 Control 已支持 dual-focus、AccessKit、主题系统"
+    referenced_by:
+      - docs/architecture/adr-0002-ui-framework-dual-focus.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: static_data_format
+    status: active
+    api: "YAML 1.2 + YamlDotNet (NuGet)"
+    not: "JSON (无注释), Godot Resource .tres (不适合表格批量数据), TOML (嵌套弱)"
+    adr: docs/architecture/adr-0003-data-configuration-format.md
+    reason: "支持注释、Git diff 友好、嵌套表达力强；YamlDotNet 成熟稳定"
+    referenced_by:
+      - docs/architecture/adr-0003-data-configuration-format.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: save_encryption
+    status: active
+    api: ".NET 8 System.Security.Cryptography AES-256-CBC + HMAC-SHA256"
+    not: "GDExtension C++ (过度复杂), BouncyCastle (冗余依赖), XOR混淆 (无安全性)"
+    adr: docs/architecture/adr-0004-save-encryption.md
+    reason: ".NET 原生硬件加速AES-NI；零额外依赖；HMAC提供完整性校验"
+    referenced_by:
+      - docs/architecture/adr-0004-save-encryption.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: dialogue_data_format
+    status: active
+    api: "YAML 图节点格式 (自研 schema, 7种节点类型: line/choice/branch/set/check/event/jump)"
+    not: "Ink (C# 移植不稳定), Yarn Spinner (过重/不适合中文分支逻辑), JSON (无注释)"
+    adr: docs/architecture/adr-0005-dialogue-format.md
+    reason: "12-15万字叙事需要版本控制友好+注释支持；条件三元组配合心境双轴；无外部运行时依赖"
+    referenced_by:
+      - docs/architecture/adr-0005-dialogue-format.md
+      - docs/architecture/adr-0003-data-configuration-format.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: scene_loading_strategy
+    status: active
+    api: "ResourceLoader 异步加载 + 邻接预加载 + LRU缓存(5) + 过渡状态机(4状态)"
+    not: "同步 PackedScene.Instantiate (阻塞主线程), 全量预加载 (内存溢出)"
+    adr: docs/architecture/adr-0006-scene-loading-strategy.md
+    reason: "54 场景不可全量常驻内存；异步+预加载保证零可感知加载；LRU避免重复IO"
+    referenced_by:
+      - docs/architecture/adr-0006-scene-loading-strategy.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: input_system
+    status: active
+    api: "Godot 固定 InputMap (project.godot 内置) + SDL3 透明映射"
+    not: "运行时 Rebinding (v1.0 不实现), 自定义输入层 (过度工程)"
+    adr: docs/architecture/adr-0007-input-system.md
+    reason: "v1.0 范围内固定映射足够；SDL3 自动处理手柄兼容；v1.1 预留 rebinding 接口"
+    referenced_by:
+      - docs/architecture/adr-0007-input-system.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: state_machine_implementation
+    status: active
+    api: "泛型 C# FiniteStateMachine<TState, TTrigger> (自研轻量实现)"
+    not: "Godot AnimationTree 状态机 (仅适用动画), 第三方 FSM 库 (不必要依赖)"
+    adr: docs/architecture/adr-0008-finite-state-machine.md
+    reason: "5+ 系统复用(误会/音乐/场景/战斗/NPC)；泛型参数保证编译期类型安全；~150行核心代码"
+    referenced_by:
+      - docs/architecture/adr-0008-finite-state-machine.md
+      - docs/architecture/adr-0009-dynamic-audio.md
+      - docs/architecture/adr-0006-scene-loading-strategy.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: dynamic_audio_system
+    status: active
+    api: "自研 C# AudioStateMachine + Godot AudioServer 总线 (Master/BGM/Ambient/SFX)"
+    not: "FMOD/Wwise (商业授权+过重), 纯 AudioStreamPlayer 手动管理 (无法实现crossfade)"
+    adr: docs/architecture/adr-0009-dynamic-audio.md
+    reason: "6状态FSM + Override栈(深度3)满足武侠动态音乐需求；等功率crossfade+小节线对齐保证品质"
+    referenced_by:
+      - docs/architecture/adr-0009-dynamic-audio.md
+    added: 2026-06-08
+    revised: ""
+
+  - purpose: tilemap_layer_structure
+    status: active
+    api: "5层 TileMapLayer (Ground/Terrain/Structures/Overlay/Collision) + CanvasModulate 色调切换"
+    not: "单 TileMap 多 layer (4.3 废弃), 4× tileset 变体 (美术量膨胀)"
+    adr: docs/architecture/adr-0010-tilemaplayer-usage.md
+    reason: "5层分离物理/视觉职责；CanvasModulate 用 4 个色调替代 216 个重复场景tileset"
+    referenced_by:
+      - docs/architecture/adr-0010-tilemaplayer-usage.md
+    added: 2026-06-08
+    revised: ""
 
 # Example:
 #
@@ -157,7 +319,48 @@ api_decisions: []
 # Register a pattern when an ADR explicitly bans it AND other ADRs might
 # unknowingly use it (i.e., it's a tempting but wrong approach for this project).
 
-forbidden_patterns: []
+forbidden_patterns:
+  - pattern: string_based_signal_connect
+    status: active
+    description: "禁止使用 string-based Connect('signal_name', callable)。必须使用 [Signal] delegate + C# event 语法 (+=)"
+    why: "Godot 4.5+ 已废弃 string-based 连接；无类型安全；编译期不检查拼写错误"
+    adr: docs/architecture/adr-0001-event-bus-architecture.md
+    added: 2026-06-08
+
+  - pattern: direct_cross_layer_reference
+    status: active
+    description: "下层模块禁止直接引用上层模块。跨层通信必须通过 EventBus 事件"
+    why: "破坏分层隔离；造成循环依赖；使下层模块不可独立测试"
+    adr: docs/architecture/adr-0001-event-bus-architecture.md
+    added: 2026-06-08
+
+  - pattern: hover_only_interaction
+    status: active
+    description: "所有可交互 UI 元素禁止仅依赖鼠标 hover。必须设置 focus_mode = FOCUS_ALL 支持键盘/手柄导航"
+    why: "Steam Deck 手柄操作无法触发 hover；违反 accessibility 要求"
+    adr: docs/architecture/adr-0002-ui-framework-dual-focus.md
+    added: 2026-06-08
+
+  - pattern: synchronous_scene_load
+    status: active
+    description: "禁止在主线程同步加载场景 (PackedScene.Instantiate 阻塞)。必须使用 ResourceLoader 异步加载"
+    why: "54 场景中任意 >50ms 的同步加载都会造成可感知卡顿"
+    adr: docs/architecture/adr-0006-scene-loading-strategy.md
+    added: 2026-06-08
+
+  - pattern: hardcoded_dialogue_strings
+    status: active
+    description: "对话文本禁止硬编码在 C# 代码中。所有对话必须存储在 assets/data/dialogue/ YAML 文件中"
+    why: "12-15万字叙事无法在代码中维护；破坏翻译和版本控制工作流"
+    adr: docs/architecture/adr-0005-dialogue-format.md
+    added: 2026-06-08
+
+  - pattern: direct_audiostream_play_for_bgm
+    status: active
+    description: "BGM 播放禁止直接调用 AudioStreamPlayer.Play()。必须通过 AudioStateMachine 管理状态转换和 crossfade"
+    why: "绕过状态机会破坏 crossfade、Override 栈和小节线对齐逻辑"
+    adr: docs/architecture/adr-0009-dynamic-audio.md
+    added: 2026-06-08
 
 # Example:
 #
