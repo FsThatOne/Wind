@@ -1,0 +1,15 @@
+# 心法定义表。
+
+- id: feng_zhi_xinfa
+  name: 风止心法
+  requirements:
+    - stat: inner_force
+      min: 8
+  passive_bonuses:
+    - stat: rou_multiplier
+      value: 0.10
+    - stat: qiao_multiplier
+      value: 0.05
+  exclusive_moves:
+    - lian_xu_xi
+    - qing_dian_feng

@@ -1,0 +1,8 @@
+# 轻功定义表。
+
+- id: xun_feng_bu
+  name: 巡风步
+  move_range_bonus: 1
+  active_maneuvers:
+    - id: step_after_skill
+      description: 使用部分招式后若仍有行动力，可继续移动。
