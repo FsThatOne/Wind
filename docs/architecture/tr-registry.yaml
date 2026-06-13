@@ -480,6 +480,22 @@ requirements:
     revised: ""
     status: active
 
+  - id: TR-romance-system-004
+    system: romance-system
+    gdd: design/gdd/romance-system.md
+    requirement: "感情系统的结局变体解析必须优先处理 morality <= -30 的魔道结局 override，且该 override 不受 bonded_heroine 影响；非魔道且未结缘时必须返回 solo 变体；非魔道且已结缘时必须按心境兼容性返回 companion 或 farewell 变体；旁白语气可由 morality 派生但不得改变结局分支身份"
+    created: 2026-06-13
+    revised: ""
+    status: active
+
+  - id: TR-romance-system-005
+    system: romance-system
+    gdd: design/gdd/romance-system.md
+    requirement: "感情系统必须追踪暗号、书信、传闻和偶遇四类彗星存在感计数，并将计数写回 NPC State 的 RomanceData；传闻触发概率必须按 base(0.3) + same_region(+0.4) + absence>7天(+0.2) 计算并 Clamp 到 [0, 0.8]；暗号和书信触发必须更新 romance_last_contact_{npcId} 供存档读取后续算"
+    created: 2026-06-13
+    revised: ""
+    status: active
+
 # --- EXAMPLE ENTRIES (remove when first real entries are added) ---
 #
 # - id: TR-combat-001

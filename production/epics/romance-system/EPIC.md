@@ -34,7 +34,7 @@
 
 ## Trace Notes
 
-`docs/architecture/tr-registry.yaml` 已登记 `TR-romance-system-001` ~ `TR-romance-system-003`，覆盖里程碑地板、里程碑/诀别、结缘互斥与拒绝锁定。后续 story 启动前继续按需追加稳定 TR-ID。
+`docs/architecture/tr-registry.yaml` 已登记 `TR-romance-system-001` ~ `TR-romance-system-004`，覆盖里程碑地板、里程碑/诀别、结缘互斥与拒绝锁定、结局变体解析。后续 story 启动前继续按需追加稳定 TR-ID。
 
 ## Definition of Done
 
@@ -56,7 +56,7 @@ Run `/story-readiness production/epics/romance-system/stories/rs-001-romance-sta
 | rs-001 | [感情状态与里程碑地板钳位](stories/rs-001-romance-state-and-milestone-floor.md) | Logic | P0 | NPC State, EventBus | Complete |
 | rs-002 | [里程碑解锁顺序与诀别覆写](stories/rs-002-milestone-unlock-and-force-break.md) | Logic | P0 | rs-001 | Complete |
 | rs-003 | [结缘流程互斥与拒绝锁定](stories/rs-003-bond-flow-exclusivity-and-decline.md) | Integration | P0 | rs-001, rs-002 | Complete |
-| rs-004 | [结局变体解析器](stories/rs-004-ending-variant-resolver.md) | Integration | P1 | rs-002, rs-003 | Ready |
+| rs-004 | [结局变体解析器](stories/rs-004-ending-variant-resolver.md) | Integration | P1 | rs-002, rs-003 | Complete |
 | rs-005 | [彗星存在感与传闻概率](stories/rs-005-comet-presence-and-rumor-chance.md) | Logic | P1 | rs-001 | Ready |
 | rs-006 | [感情存档与联系计时续算](stories/rs-006-romance-save-and-contact-continuation.md) | Integration | P1 | rs-001, rs-003, rs-004, rs-005 | Ready |
 | rs-007 | [文学化关系展示契约](stories/rs-007-literary-relationship-presentation-contract.md) | UI | P1 | rs-001, rs-002, rs-003 | Ready |

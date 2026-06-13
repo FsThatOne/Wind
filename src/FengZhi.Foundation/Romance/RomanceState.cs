@@ -51,7 +51,7 @@ public interface IRomanceNpcStatePort
 /// <summary>
 /// Adapter that stores romance milestone flags inside <see cref="NpcState"/> flags.
 /// </summary>
-internal sealed class NpcStateRomancePort : IRomanceNpcStatePort
+internal sealed class NpcStateRomancePort : IRomanceNpcStatePort, IRomanceCometPresencePort
 {
     public const string BrokenFlag = "romance_milestone_break";
     public const string AcquaintedFlag = "romance_milestone_acquainted";
@@ -60,14 +60,29 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort
     public const string HeartFlag = "romance_milestone_heart";
     public const string BondFlag = "romance_milestone_bond";
     public const string BondedHeroineFlag = "romance_bonded_heroine";
+    public const string JourneyRegionFlag = "romance_journey_region";
+    public const string SignsDiscoveredFlag = "romance_comet_signs_discovered";
+    public const string LettersReceivedFlag = "romance_comet_letters_received";
+    public const string RumorsHeardFlag = "romance_comet_rumors_heard";
+    public const string EncountersHadFlag = "romance_comet_encounters_had";
 
     private readonly INpcStateManager _npcState;
     private readonly INpcStateAttitudeWriter _attitudeWriter;
+    private readonly INpcStateFlagWriter _flagWriter;
 
     public NpcStateRomancePort(NpcStateManager npcState)
+        : this(npcState, npcState, npcState)
+    {
+    }
+
+    internal NpcStateRomancePort(
+        INpcStateManager npcState,
+        INpcStateAttitudeWriter attitudeWriter,
+        INpcStateFlagWriter flagWriter)
     {
         _npcState = npcState;
-        _attitudeWriter = npcState;
+        _attitudeWriter = attitudeWriter;
+        _flagWriter = flagWriter;
     }
 
     public AttitudeLevel? GetAttitude(string npcId)
@@ -152,7 +167,59 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort
     public bool SetRomanceFlag(string npcId, string key, string value, string source)
     {
         EnsureRomanceFlagKey(key);
-        return _npcState.UpdateFlag(npcId, key, value, source);
+        return _flagWriter.UpdateFlag(npcId, key, value, source);
+    }
+
+    public CometPresenceCounters? GetCometPresenceCounters(string npcId)
+    {
+        var state = _npcState.GetState(npcId);
+        if (state == null) return null;
+
+        return new CometPresenceCounters(
+            SignsDiscovered: ReadIntFlag(state, SignsDiscoveredFlag),
+            LettersReceived: ReadIntFlag(state, LettersReceivedFlag),
+            RumorsHeard: ReadIntFlag(state, RumorsHeardFlag),
+            EncountersHad: ReadIntFlag(state, EncountersHadFlag));
+    }
+
+    public string? GetJourneyRegion(string npcId)
+    {
+        var state = _npcState.GetState(npcId);
+        return state?.Flags.TryGetValue(JourneyRegionFlag, out var region) == true
+            ? region
+            : null;
+    }
+
+    public int? GetLastContactDay(string npcId)
+    {
+        var state = _npcState.GetState(npcId);
+        if (state == null) return null;
+
+        var key = CometPresenceTracker.GetLastContactFlag(npcId);
+        return state.Flags.TryGetValue(key, out var value) && int.TryParse(value, out var day)
+            ? day
+            : null;
+    }
+
+    public bool RecordCometPresence(
+        string npcId,
+        CometPresenceKind kind,
+        int? lastContactDay,
+        string source)
+    {
+        var state = _npcState.GetState(npcId);
+        if (state == null || state.IsDead) return false;
+
+        var counterFlag = GetCounterFlag(kind);
+        if (!IncrementRomanceCounter(npcId, counterFlag, source)) return false;
+
+        if (lastContactDay == null) return true;
+
+        var contactFlag = CometPresenceTracker.GetLastContactFlag(npcId);
+        if (SetRomanceFlag(npcId, contactFlag, lastContactDay.Value.ToString(), source))
+            return true;
+
+        return false;
     }
 
     /// <summary>Writes a romance-prefixed milestone flag through the NPC State owner.</summary>
@@ -161,8 +228,18 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort
         EnsureRomanceFlagKey(key);
 
         return value
-            ? _npcState.UpdateFlag(npcId, key, "true", source)
-            : _npcState.RemoveFlag(npcId, key, source);
+            ? _flagWriter.UpdateFlag(npcId, key, "true", source)
+            : _flagWriter.RemoveFlag(npcId, key, source);
+    }
+
+    private bool IncrementRomanceCounter(string npcId, string key, string source)
+    {
+        EnsureRomanceFlagKey(key);
+        return _flagWriter.TransformFlag(
+            npcId,
+            key,
+            current => (ReadIntValue(current) + 1).ToString(),
+            source);
     }
 
     private static void EnsureRomanceFlagKey(string key)
@@ -190,5 +267,27 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort
         return state.Flags.TryGetValue(key, out var value)
             && bool.TryParse(value, out var parsed)
             && parsed;
+    }
+
+    private static int ReadIntFlag(NpcRuntimeState state, string key)
+    {
+        return state.Flags.TryGetValue(key, out var value) ? ReadIntValue(value) : 0;
+    }
+
+    private static int ReadIntValue(string? value)
+    {
+        return int.TryParse(value, out var parsed) ? parsed : 0;
+    }
+
+    private static string GetCounterFlag(CometPresenceKind kind)
+    {
+        return kind switch
+        {
+            CometPresenceKind.Sign => SignsDiscoveredFlag,
+            CometPresenceKind.Letter => LettersReceivedFlag,
+            CometPresenceKind.Rumor => RumorsHeardFlag,
+            CometPresenceKind.Encounter => EncountersHadFlag,
+            _ => throw new ArgumentOutOfRangeException(nameof(kind), kind, null)
+        };
     }
 }

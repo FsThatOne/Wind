@@ -1,19 +1,19 @@
 # Story rs-004: 结局变体解析器
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Integration
 > **Estimate**: M
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-13
 
 ## Context
 
 **GDD**: `design/gdd/romance-system.md`
-**Requirement**: `TR-romance-system-???`
+**Requirement**: `TR-romance-system-004`
 
-`docs/architecture/tr-registry.yaml` 尚无 `TR-romance-*` 条目；本 story 临时追踪 GDD AC5，补齐 registry 后需替换为稳定 TR-ID。
+Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at review time.
 
 **ADR Governing Implementation**: ADR-0015: Romance System
 **ADR Decision Summary**: `EndingResolver` 负责读取心境区域、善恶值和 `bonded_heroine`，先处理 morality ≤ -30 的魔道 override，否则输出 zone × companion/farewell/solo × narrator tone 的稳定结局变体。
@@ -34,10 +34,10 @@
 
 *From GDD `design/gdd/romance-system.md`, scoped to this story:*
 
-- [ ] AC5: 魔道结局 override 不受 `bonded_heroine` 影响
-- [ ] `morality <= -30` 且已结缘 A 时必须返回 `ENDING_6_DEMONIC`
-- [ ] 非魔道且未结缘时返回 solo 变体
-- [ ] 非魔道且已结缘时按心境兼容性返回 companion 或 farewell 变体
+- [x] AC5: 魔道结局 override 不受 `bonded_heroine` 影响
+- [x] `morality <= -30` 且已结缘 A 时必须返回 `ENDING_6_DEMONIC`
+- [x] 非魔道且未结缘时返回 solo 变体
+- [x] 非魔道且已结缘时按心境兼容性返回 companion 或 farewell 变体
 
 ---
 
@@ -89,7 +89,7 @@ Narrator tone derives from morality independently and must not affect branch ide
 **Required evidence**:
 - Integration: `tests/integration/romance/ending_variant_resolver_test.cs` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Created and passing
 
 ---
 
@@ -97,3 +97,12 @@ Narrator tone derives from morality independently and must not affect branch ide
 
 - Depends on: rs-002, rs-003
 - Unlocks: rs-006, rs-007
+
+## Completion Notes
+
+**Completed**: 2026-06-13
+**Criteria**: 4/4 passing
+**Deviations**: None
+**Test Evidence**: Integration: `tests/integration/romance/ending_variant_resolver_test.cs`
+**Code Review**: Complete — CHANGES REQUIRED -> fixed 9-zone to 5-core-script normalization and 16-variant coverage -> APPROVED
+**Verification**: `EndingVariantResolverTest` 13/13 passed; Romance filtered suite 59/59 passed; Foundation full suite 1164/1164 passed

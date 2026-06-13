@@ -39,10 +39,20 @@ internal interface INpcStateAttitudeWriter
 }
 
 /// <summary>
+/// Internal raw flag writer. Owning systems use transforms when queued writes must observe latest state.
+/// </summary>
+internal interface INpcStateFlagWriter
+{
+    bool UpdateFlag(string npcId, string key, string value, string source);
+    bool RemoveFlag(string npcId, string key, string source);
+    bool TransformFlag(string npcId, string key, Func<string?, string> transform, string source);
+}
+
+/// <summary>
 /// NPC 状态管理器实现。
 /// 通过 EventBus 发布变更事件；对话锁定时排队，解锁后批量生效。
 /// </summary>
-public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter
+public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter, INpcStateFlagWriter
 {
     private readonly Dictionary<string, NpcState> _states = new();
     private readonly Dictionary<string, List<PendingChange>> _pendingChanges = new();
@@ -187,6 +197,19 @@ public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter
             var old = state.Flags.TryGetValue(key, out var existing) ? existing : "(none)";
             state.SetFlag(key, value, source);
             return (old, value);
+        }, source);
+    }
+
+    public bool TransformFlag(string npcId, string key, Func<string?, string> transform, string source)
+    {
+        if (!CanModify(npcId, $"Flag:{key}")) return false;
+        return ApplyChange(npcId, $"Flag:{key}", () =>
+        {
+            var state = _states[npcId];
+            var old = state.Flags.TryGetValue(key, out var existing) ? existing : null;
+            var next = transform(old);
+            state.SetFlag(key, next, source);
+            return (old ?? "(none)", next);
         }, source);
     }
 

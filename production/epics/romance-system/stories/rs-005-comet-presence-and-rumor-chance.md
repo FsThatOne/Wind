@@ -1,19 +1,19 @@
 # Story rs-005: 彗星存在感与传闻概率
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: Ready
+> **Status**: In Progress
 > **Layer**: Feature
 > **Type**: Logic
 > **Estimate**: M
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-13
 
 ## Context
 
 **GDD**: `design/gdd/romance-system.md`
-**Requirement**: `TR-romance-system-???`
+**Requirement**: `TR-romance-system-005`
 
-`docs/architecture/tr-registry.yaml` 尚无 `TR-romance-*` 条目；本 story 临时追踪 GDD AC6，补齐 registry 后需替换为稳定 TR-ID。
+需求正文以 `docs/architecture/tr-registry.yaml` 为准；评审和完成检查时请读取最新 registry 内容。
 
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0003: Data Configuration Format
 **ADR Decision Summary**: `CometPresenceTracker` 追踪暗号、书信、传闻和偶遇计数，并按 `0.3 + same_region 0.4 + absence>7 0.2` 计算传闻概率，结果 Clamp 到 `[0, 0.8]`。调参数据遵循 YAML 配置规范。
@@ -90,7 +90,7 @@ Comet presence tracking updates counters only; concrete presentation remains in 
 **Required evidence**:
 - Logic: `tests/unit/romance/comet_presence_and_rumor_chance_test.cs` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Created — `CometPresenceAndRumorChanceTest` 14/14 passed; Romance filtered suite 73/73 passed; Foundation full suite 1178/1178 passed
 
 ---
 

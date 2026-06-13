@@ -161,3 +161,27 @@
 - Test evidence: `BondFlowExclusivityAndDeclineTest` 10/10 passed; Romance filtered suite 46/46 passed; Foundation full suite 1151/1151 passed
 - Tech debt logged: None
 - Next recommended: rs-004 结局变体解析器 — production/epics/romance-system/stories/rs-004-ending-variant-resolver.md
+
+## Session Extract — /dev-story 2026-06-13
+- Story: production/epics/romance-system/stories/rs-004-ending-variant-resolver.md — rs-004 结局变体解析器
+- Files changed: src/FengZhi.Foundation/Romance/EndingResolver.cs, tests/integration/romance/ending_variant_resolver_test.cs, production/epics/romance-system/stories/rs-004-ending-variant-resolver.md
+- Test written: tests/integration/romance/ending_variant_resolver_test.cs
+- Test evidence: `EndingVariantResolverTest` 11/11 passed; Romance filtered suite 57/57 passed; Foundation full suite 1162/1162 passed
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Romance/EndingResolver.cs tests/integration/romance/ending_variant_resolver_test.cs then /story-done production/epics/romance-system/stories/rs-004-ending-variant-resolver.md
+
+## Session Extract — /story-done 2026-06-13
+- Verdict: COMPLETE
+- Story: production/epics/romance-system/stories/rs-004-ending-variant-resolver.md — rs-004 结局变体解析器
+- Code review: CHANGES REQUIRED -> 修复 9 个 `MindsetZone` 到 5 个核心 `BaseEnding` script identity 的归一化，并补 16 变体总数覆盖 -> APPROVED
+- Test evidence: `EndingVariantResolverTest` 13/13 passed; Romance filtered suite 59/59 passed; Foundation full suite 1164/1164 passed
+- Tech debt logged: None
+- Next recommended: rs-005 彗星存在感与传闻概率 — production/epics/romance-system/stories/rs-005-comet-presence-and-rumor-chance.md
+
+## Session Extract — /dev-story 2026-06-13
+- Story: production/epics/romance-system/stories/rs-005-comet-presence-and-rumor-chance.md — rs-005 彗星存在感与传闻概率
+- Files changed: src/FengZhi.Foundation/Romance/CometPresenceTracker.cs, src/FengZhi.Foundation/Romance/RomanceState.cs, tests/unit/romance/comet_presence_and_rumor_chance_test.cs, production/epics/romance-system/stories/rs-005-comet-presence-and-rumor-chance.md
+- Test written: tests/unit/romance/comet_presence_and_rumor_chance_test.cs
+- Test evidence: `CometPresenceAndRumorChanceTest` 11/11 passed; Romance filtered suite 70/70 passed; Foundation full suite 1175/1175 passed
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Romance/CometPresenceTracker.cs src/FengZhi.Foundation/Romance/RomanceState.cs tests/unit/romance/comet_presence_and_rumor_chance_test.cs then /story-done production/epics/romance-system/stories/rs-005-comet-presence-and-rumor-chance.md
