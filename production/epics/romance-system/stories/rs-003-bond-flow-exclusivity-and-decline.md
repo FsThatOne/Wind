@@ -1,19 +1,19 @@
 # Story rs-003: 结缘流程互斥与拒绝锁定
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Integration
 > **Estimate**: M
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-13
 
 ## Context
 
 **GDD**: `design/gdd/romance-system.md`
-**Requirement**: `TR-romance-system-???`
+**Requirement**: `TR-romance-system-003`
 
-`docs/architecture/tr-registry.yaml` 尚无 `TR-romance-*` 条目；本 story 临时追踪 GDD AC3 与 AC9，补齐 registry 后需替换为稳定 TR-ID。
+Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at review time.
 
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0001: Event Bus Architecture
 **ADR Decision Summary**: 结缘必须全局互斥，且采用 TryBond → AwaitingChoice → ConfirmBond 三步流程；拒绝结缘必须设置 `romance_bond_declined_{npcId}` flag 防止同一节点重复触发。
@@ -35,10 +35,10 @@
 
 *From GDD `design/gdd/romance-system.md`, scoped to this story:*
 
-- [ ] AC3: 结缘互斥：已结缘后第二位女主节点走 "时机已过" / `already_bonded` 变体
-- [ ] AC9: 拒绝结缘后节点不再重复触发
-- [ ] `TryBond` 在条件满足时只进入 AwaitingChoice，不直接确认结缘
-- [ ] `ConfirmBond` 后设置 M_BOND 和全局 `bonded_heroine`
+- [x] AC3: 结缘互斥：已结缘后第二位女主节点走 "时机已过" / `already_bonded` 变体
+- [x] AC9: 拒绝结缘后节点不再重复触发
+- [x] `TryBond` 在条件满足时只进入 AwaitingChoice，不直接确认结缘
+- [x] `ConfirmBond` 后设置 M_BOND 和全局 `bonded_heroine`
 
 ---
 
@@ -90,7 +90,7 @@ Implement `DeclineBond(npcId)` to set the stable flag `romance_bond_declined_{np
 **Required evidence**:
 - Integration: `tests/integration/romance/bond_flow_exclusivity_and_decline_test.cs` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Created and passing
 
 ---
 
@@ -98,3 +98,12 @@ Implement `DeclineBond(npcId)` to set the stable flag `romance_bond_declined_{np
 
 - Depends on: rs-001, rs-002
 - Unlocks: rs-004, rs-006, rs-007
+
+## Completion Notes
+
+**Completed**: 2026-06-13
+**Criteria**: 4/4 passing
+**Deviations**: None. Scope note: added `INpcStateManager.GetAll()` as a read-only support query so `NpcStateRomancePort` can resolve the NPC-owned global `romance_bonded_heroine` flag.
+**Test Evidence**: Integration: `tests/integration/romance/bond_flow_exclusivity_and_decline_test.cs`
+**Code Review**: Complete — CHANGES REQUIRED -> fixed global bond state ownership, atomic `ConfirmBond`, decline gating, and event coverage -> APPROVED
+**Verification**: `Romance` filtered suite 46/46 passed; Foundation full suite 1151/1151 passed; `GetDiagnostics` clean; `git diff --check` clean

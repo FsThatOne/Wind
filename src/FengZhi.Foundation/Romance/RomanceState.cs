@@ -34,6 +34,18 @@ public interface IRomanceNpcStatePort
 
     /// <summary>Writes the terminal break milestone and attitude as one contract operation.</summary>
     bool ForceBreak(string npcId, AttitudeLevel terminalAttitude, string source);
+
+    /// <summary>Reads the globally bonded heroine, if one has been confirmed this playthrough.</summary>
+    string? GetBondedHeroine();
+
+    /// <summary>Writes M_BOND and the global bonded heroine flag as one contract operation.</summary>
+    bool ConfirmBond(string npcId, string source);
+
+    /// <summary>Returns whether a romance-owned flag is currently set.</summary>
+    bool HasRomanceFlag(string npcId, string key);
+
+    /// <summary>Writes a romance-owned flag through the NPC State owner.</summary>
+    bool SetRomanceFlag(string npcId, string key, string value, string source);
 }
 
 /// <summary>
@@ -47,6 +59,7 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort
     public const string CrisisFlag = "romance_milestone_crisis";
     public const string HeartFlag = "romance_milestone_heart";
     public const string BondFlag = "romance_milestone_bond";
+    public const string BondedHeroineFlag = "romance_bonded_heroine";
 
     private readonly INpcStateManager _npcState;
     private readonly INpcStateAttitudeWriter _attitudeWriter;
@@ -105,15 +118,57 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort
         return false;
     }
 
+    public string? GetBondedHeroine()
+    {
+        return _npcState.GetAll()
+            .FirstOrDefault(state => HasFlag(state, BondedHeroineFlag))
+            ?.TemplateId;
+    }
+
+    public bool ConfirmBond(string npcId, string source)
+    {
+        var state = _npcState.GetState(npcId);
+        if (state == null || state.IsDead || GetBondedHeroine() != null) return false;
+
+        var hadBondFlag = state.Flags.TryGetValue(BondFlag, out var previousBondValue);
+        if (!SetMilestone(npcId, RomanceMilestone.Bond, true, source)) return false;
+        if (SetRomanceFlag(npcId, BondedHeroineFlag, "true", source)) return true;
+
+        if (hadBondFlag)
+            _npcState.UpdateFlag(npcId, BondFlag, previousBondValue!, source);
+        else
+            _npcState.RemoveFlag(npcId, BondFlag, source);
+
+        return false;
+    }
+
+    public bool HasRomanceFlag(string npcId, string key)
+    {
+        EnsureRomanceFlagKey(key);
+        var state = _npcState.GetState(npcId);
+        return state != null && state.Flags.ContainsKey(key);
+    }
+
+    public bool SetRomanceFlag(string npcId, string key, string value, string source)
+    {
+        EnsureRomanceFlagKey(key);
+        return _npcState.UpdateFlag(npcId, key, value, source);
+    }
+
     /// <summary>Writes a romance-prefixed milestone flag through the NPC State owner.</summary>
     internal bool SetMilestoneFlag(string npcId, string key, bool value, string source)
     {
-        if (!key.StartsWith("romance_", StringComparison.Ordinal))
-            throw new ArgumentException("Romance milestone flags must use the romance_ prefix.", nameof(key));
+        EnsureRomanceFlagKey(key);
 
         return value
             ? _npcState.UpdateFlag(npcId, key, "true", source)
             : _npcState.RemoveFlag(npcId, key, source);
+    }
+
+    private static void EnsureRomanceFlagKey(string key)
+    {
+        if (!key.StartsWith("romance_", StringComparison.Ordinal))
+            throw new ArgumentException("Romance flags must use the romance_ prefix.", nameof(key));
     }
 
     private static string GetFlagKey(RomanceMilestone milestone)

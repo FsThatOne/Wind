@@ -472,6 +472,14 @@ requirements:
     revised: ""
     status: active
 
+  - id: TR-romance-system-003
+    system: romance-system
+    gdd: design/gdd/romance-system.md
+    requirement: "感情系统必须保证同一周目最多结缘一人；TryBond 在条件满足时只能返回 AwaitingChoice，不得直接确认结缘；ConfirmBond 必须设置该 NPC 的 M_BOND 并写入全局 bonded_heroine；已结缘后其他女主结缘节点必须返回 already_bonded 变体；DeclineBond 必须写入 romance_bond_declined_{npcId} flag，使同一结缘节点后续不再重复触发"
+    created: 2026-06-13
+    revised: ""
+    status: active
+
 # --- EXAMPLE ENTRIES (remove when first real entries are added) ---
 #
 # - id: TR-combat-001

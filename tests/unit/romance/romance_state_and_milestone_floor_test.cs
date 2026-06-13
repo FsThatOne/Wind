@@ -235,5 +235,25 @@ public class RomanceStateAndMilestoneFloorTest
             _attitudes[npcId] = terminalAttitude;
             return true;
         }
+
+        public string? GetBondedHeroine()
+        {
+            return null;
+        }
+
+        public bool ConfirmBond(string npcId, string source)
+        {
+            return SetMilestone(npcId, RomanceMilestone.Bond, true, source);
+        }
+
+        public bool HasRomanceFlag(string npcId, string key)
+        {
+            return false;
+        }
+
+        public bool SetRomanceFlag(string npcId, string key, string value, string source)
+        {
+            return _attitudes.ContainsKey(npcId);
+        }
     }
 }

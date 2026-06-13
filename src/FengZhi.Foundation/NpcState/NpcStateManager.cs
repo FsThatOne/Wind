@@ -15,6 +15,7 @@ public sealed record NpcStateChangedEvent(
 public interface INpcStateManager
 {
     NpcState? GetState(string npcId);
+    IReadOnlyList<NpcState> GetAll();
     bool UpdateLife(string npcId, LifeStatus value, string source);
     bool UpdatePresence(string npcId, PresenceStatus value, string source);
     bool UpdateLocation(string npcId, LocationStatus value, string source);
@@ -62,6 +63,11 @@ public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter
     public NpcState? GetState(string npcId)
     {
         return _states.TryGetValue(npcId, out var state) ? state : null;
+    }
+
+    public IReadOnlyList<NpcState> GetAll()
+    {
+        return _states.Values.ToList();
     }
 
     public IReadOnlyList<NpcState> GetByPresence(PresenceStatus status)

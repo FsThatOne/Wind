@@ -78,11 +78,33 @@ public sealed record RomanceMilestoneResult(
 }
 
 /// <summary>
+/// Narrative-facing status returned by the heroine bond flow.
+/// </summary>
+public enum RomanceBondStatus
+{
+    AwaitingChoice,
+    AlreadyBonded,
+    DeclinedPreviously,
+    ConditionsNotMet,
+    Confirmed
+}
+
+/// <summary>
+/// Result returned by the three-step heroine bond flow.
+/// </summary>
+public sealed record RomanceBondResult(
+    RomanceBondStatus Status,
+    string VariantKey,
+    string? BondedHeroine
+);
+
+/// <summary>
 /// Romance rules entry point. Data remains owned by NPC State; this service only applies rules.
 /// </summary>
 public sealed class RomanceService : IDisposable
 {
     private const string DefaultSource = "romance";
+    private const string NoBondedHeroine = "None";
     private readonly IRomanceNpcStatePort _npcState;
     private readonly MilestoneRegistry _milestones;
     private readonly IEventBus? _eventBus;
@@ -101,6 +123,9 @@ public sealed class RomanceService : IDisposable
         _auditLog = auditLog ?? new NullRomanceAuditLog();
         _unsubscribe = _eventBus?.Subscribe<AttitudeChangeRequestEvent>(OnAttitudeChangeRequest);
     }
+
+    /// <summary>Global one-per-playthrough heroine bond owner.</summary>
+    public string BondedHeroine => _npcState.GetBondedHeroine() ?? NoBondedHeroine;
 
     /// <summary>
     /// Applies the milestone floor to a requested attitude delta and writes the result through NPC State.
@@ -191,6 +216,58 @@ public sealed class RomanceService : IDisposable
         return RomanceMilestoneResult.Ok(RomanceMilestone.Break);
     }
 
+    /// <summary>
+    /// Checks bond eligibility without mutating milestone or global bond state.
+    /// </summary>
+    public RomanceBondResult TryBond(string npcId)
+    {
+        if (string.IsNullOrWhiteSpace(npcId))
+            return BondResult(RomanceBondStatus.ConditionsNotMet, "conditions_not_met");
+        if (_npcState.GetBondedHeroine() != null)
+            return BondResult(RomanceBondStatus.AlreadyBonded, "already_bonded");
+        if (_npcState.HasRomanceFlag(npcId, GetBondDeclinedFlag(npcId)))
+            return BondResult(RomanceBondStatus.DeclinedPreviously, "declined_previously");
+        if (!_milestones.CanUnlock(npcId, RomanceMilestone.Bond))
+            return BondResult(RomanceBondStatus.ConditionsNotMet, "conditions_not_met");
+
+        return BondResult(RomanceBondStatus.AwaitingChoice, "awaiting_choice");
+    }
+
+    /// <summary>
+    /// Confirms the pending bond choice, writes M_BOND, and claims the global bond slot.
+    /// </summary>
+    public RomanceBondResult ConfirmBond(string npcId, string? source = null)
+    {
+        var eligibility = TryBond(npcId);
+        if (eligibility.Status != RomanceBondStatus.AwaitingChoice)
+            return eligibility;
+
+        var changeSource = string.IsNullOrWhiteSpace(source) ? DefaultSource : source;
+        if (!_npcState.ConfirmBond(npcId, changeSource))
+            return BondResult(RomanceBondStatus.ConditionsNotMet, "conditions_not_met");
+
+        _eventBus?.Publish(new RomanceBondConfirmedEvent(npcId, changeSource));
+        return BondResult(RomanceBondStatus.Confirmed, "bond_confirmed");
+    }
+
+    /// <summary>
+    /// Locks this NPC's bond node after the player declines the choice.
+    /// </summary>
+    public RomanceBondResult DeclineBond(string npcId, string? source = null)
+    {
+        var eligibility = TryBond(npcId);
+        if (eligibility.Status != RomanceBondStatus.AwaitingChoice)
+            return eligibility;
+
+        var flag = GetBondDeclinedFlag(npcId);
+        var changeSource = string.IsNullOrWhiteSpace(source) ? DefaultSource : source;
+        if (!_npcState.SetRomanceFlag(npcId, flag, "true", changeSource))
+            return BondResult(RomanceBondStatus.ConditionsNotMet, "conditions_not_met");
+
+        _eventBus?.Publish(new RomanceBondDeclinedEvent(npcId, flag, changeSource));
+        return BondResult(RomanceBondStatus.DeclinedPreviously, "declined_previously");
+    }
+
     public void Dispose()
     {
         _unsubscribe?.Invoke();
@@ -199,6 +276,19 @@ public sealed class RomanceService : IDisposable
     private void OnAttitudeChangeRequest(AttitudeChangeRequestEvent request)
     {
         ApplyAttitudeChange(request.NpcId, request.Delta, request.Source);
+    }
+
+    /// <summary>
+    /// Returns the stable NPC State flag used to lock a declined heroine bond node.
+    /// </summary>
+    public static string GetBondDeclinedFlag(string npcId)
+    {
+        return $"romance_bond_declined_{npcId}";
+    }
+
+    private RomanceBondResult BondResult(RomanceBondStatus status, string variantKey)
+    {
+        return new RomanceBondResult(status, variantKey, BondedHeroine);
     }
 
     private static AttitudeLevel? ToAttitudeLevel(int value)

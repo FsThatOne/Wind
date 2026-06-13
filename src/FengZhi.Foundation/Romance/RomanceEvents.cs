@@ -39,3 +39,20 @@ public sealed record RomanceForceBreakEvent(
     string NpcId,
     string Source
 ) : GameEvent;
+
+/// <summary>
+/// Published when a heroine bond is confirmed after the player accepts the choice.
+/// </summary>
+public sealed record RomanceBondConfirmedEvent(
+    string NpcId,
+    string Source
+) : GameEvent;
+
+/// <summary>
+/// Published when a heroine bond choice is declined and locked from repeat triggers.
+/// </summary>
+public sealed record RomanceBondDeclinedEvent(
+    string NpcId,
+    string DeclineFlag,
+    string Source
+) : GameEvent;

@@ -145,3 +145,19 @@
 - Test evidence: `MilestoneUnlockAndForceBreakTest` 21/21 passed; Foundation full suite 1141/1141 passed
 - Tech debt logged: None
 - Next recommended: rs-003 结缘流程互斥与拒绝锁定 — production/epics/romance-system/stories/rs-003-bond-flow-exclusivity-and-decline.md
+
+## Session Extract — /dev-story 2026-06-13
+- Story: production/epics/romance-system/stories/rs-003-bond-flow-exclusivity-and-decline.md — rs-003 结缘流程互斥与拒绝锁定
+- Files changed: src/FengZhi.Foundation/Romance/RomanceEvents.cs, src/FengZhi.Foundation/Romance/RomanceState.cs, src/FengZhi.Foundation/Romance/RomanceService.cs, tests/unit/romance/romance_state_and_milestone_floor_test.cs, tests/unit/romance/milestone_unlock_and_force_break_test.cs, tests/integration/romance/bond_flow_exclusivity_and_decline_test.cs, production/epics/romance-system/stories/rs-003-bond-flow-exclusivity-and-decline.md
+- Test written: tests/integration/romance/bond_flow_exclusivity_and_decline_test.cs
+- Test evidence: `BondFlowExclusivityAndDeclineTest` 6/6 passed; Romance filtered suite 42/42 passed; Foundation full suite 1147/1147 passed
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Romance/RomanceEvents.cs src/FengZhi.Foundation/Romance/RomanceState.cs src/FengZhi.Foundation/Romance/RomanceService.cs tests/unit/romance/romance_state_and_milestone_floor_test.cs tests/unit/romance/milestone_unlock_and_force_break_test.cs tests/integration/romance/bond_flow_exclusivity_and_decline_test.cs then /story-done production/epics/romance-system/stories/rs-003-bond-flow-exclusivity-and-decline.md
+
+## Session Extract — /story-done 2026-06-13
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/romance-system/stories/rs-003-bond-flow-exclusivity-and-decline.md — rs-003 结缘流程互斥与拒绝锁定
+- Code review: CHANGES REQUIRED -> 修复全局结缘状态归属、`ConfirmBond` 原子性、拒绝锁前置条件与 typed event 覆盖 -> APPROVED
+- Test evidence: `BondFlowExclusivityAndDeclineTest` 10/10 passed; Romance filtered suite 46/46 passed; Foundation full suite 1151/1151 passed
+- Tech debt logged: None
+- Next recommended: rs-004 结局变体解析器 — production/epics/romance-system/stories/rs-004-ending-variant-resolver.md
