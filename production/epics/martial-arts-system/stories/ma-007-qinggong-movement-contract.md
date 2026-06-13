@@ -10,8 +10,8 @@
 > **GDD 来源**: design/gdd/martial-arts-system.md §Detailed Design, §Tuning Knobs, §Acceptance Criteria
 > **TR-ID**: TR-martial-arts-system-007
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
-> **Last Updated**: —
+> **状态**: Complete
+> **Last Updated**: 2026-06-12
 
 ## 目标
 
@@ -40,11 +40,11 @@
 
 ## 验收标准
 
-- [ ] 主角和同伴 loadout 均包含 1 个轻功槽
-- [ ] 装备轻功后，查询角色武学配置可返回轻功 id 和移动范围修正
-- [ ] 未装备轻功时，查询返回默认移动范围修正 0 或默认契约
-- [ ] 轻功主动机动效果以结构化数据返回，供战斗系统后续解释
-- [ ] 装备未习得或不存在的轻功失败
+- [x] 主角和同伴 loadout 均包含 1 个轻功槽
+- [x] 装备轻功后，查询角色武学配置可返回轻功 id 和移动范围修正
+- [x] 未装备轻功时，查询返回默认移动范围修正 0 或默认契约
+- [x] 轻功主动机动效果以结构化数据返回，供战斗系统后续解释
+- [x] 装备未习得或不存在的轻功失败
 
 ## QA 测试用例
 
@@ -74,3 +74,9 @@
 
 - Depends on: ma-001, ma-005
 - Unlocks: combat-system tactical movement stories
+
+## Completion Notes
+
+- Synced from implementation evidence on 2026-06-12.
+- Verification: `/usr/local/share/dotnet/dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore -v q` — 1033/1033 passed.
+

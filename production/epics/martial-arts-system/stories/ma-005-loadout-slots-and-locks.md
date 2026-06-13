@@ -10,8 +10,8 @@
 > **GDD 来源**: design/gdd/martial-arts-system.md §Detailed Design, §Interactions, §Edge Cases, §Acceptance Criteria
 > **TR-ID**: TR-martial-arts-system-005
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
-> **Last Updated**: —
+> **状态**: Complete
+> **Last Updated**: 2026-06-12
 
 ## 目标
 
@@ -44,11 +44,11 @@
 
 ## 验收标准
 
-- [ ] 同伴处于普通可控状态时，玩家可调整 6 个招式槽、1 个心法/内功槽和 1 个轻功槽
-- [ ] 装备 5 个刚系招式和 1 个柔系招式进入战斗时，显示“缺少巧系招式”警告但允许确认进入
-- [ ] 同伴某槽位被剧情锁定时，替换该槽位失败并返回锁定原因
-- [ ] 同伴偏好与玩家配置冲突时，配置允许成功，并返回轻量提醒
-- [ ] 战斗系统可读取 6 个基础招式槽的当前配置
+- [x] 同伴处于普通可控状态时，玩家可调整 6 个招式槽、1 个心法/内功槽和 1 个轻功槽
+- [x] 装备 5 个刚系招式和 1 个柔系招式进入战斗时，显示“缺少巧系招式”警告但允许确认进入
+- [x] 同伴某槽位被剧情锁定时，替换该槽位失败并返回锁定原因
+- [x] 同伴偏好与玩家配置冲突时，配置允许成功，并返回轻量提醒
+- [x] 战斗系统可读取 6 个基础招式槽的当前配置
 
 ## QA 测试用例
 
@@ -78,3 +78,9 @@
 
 - Depends on: ma-001, ma-002
 - Unlocks: ma-006, ma-007, ma-008, combat-system action selection stories
+
+## Completion Notes
+
+- Synced from implementation evidence on 2026-06-12.
+- Verification: `/usr/local/share/dotnet/dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore -v q` — 1033/1033 passed.
+

@@ -1,0 +1,11 @@
+# Affix pools are selected by equipment templates during generation.
+- id: fifth_weapon_pool
+  grade: fifth
+  affixes:
+    - id: sharp_edge
+      stat: attack
+      max_value: 6
+    - id: steady_hand
+      stat: insight
+      max_value: 4
+YAML; __tr_native_ec=$?; pwd -P >| '/var/folders/z2/gxqk07ts6vndmw3drw8s8z6c0000gn/T/agent-toolhost/jobs/job-799329d0bbcd4b7e885b94f33350aaa6/cwd.txt'; exit "$__tr_native_ec"

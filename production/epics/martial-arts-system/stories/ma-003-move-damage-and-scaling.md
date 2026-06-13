@@ -10,8 +10,8 @@
 > **GDD 来源**: design/gdd/martial-arts-system.md §Formulas, §Edge Cases, §Acceptance Criteria
 > **TR-ID**: TR-martial-arts-system-003
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
-> **Last Updated**: —
+> **状态**: Complete
+> **Last Updated**: 2026-06-12
 
 ## 目标
 
@@ -40,11 +40,11 @@
 
 ## 验收标准
 
-- [ ] 真传招式在“炉火纯青”境界下，伤害 = `base_multiplier × attack × 1.0 × 1.3`
-- [ ] 批注版普通招式原 `base_multiplier=0.7`、`annotation_mult=1.8` 时，`effective_base=1.26`
-- [ ] 批注版普通招式可高于同境界下未批注的高级招式
-- [ ] 返璞归真境界使用批注版普通招式时，`realm_scaling=2.0` 与 `annotation_mult` 同时生效
-- [ ] 未知境界、非法 completion、非法倍率会返回明确错误或校验失败
+- [x] 真传招式在“炉火纯青”境界下，伤害 = `base_multiplier × attack × 1.0 × 1.3`
+- [x] 批注版普通招式原 `base_multiplier=0.7`、`annotation_mult=1.8` 时，`effective_base=1.26`
+- [x] 批注版普通招式可高于同境界下未批注的高级招式
+- [x] 返璞归真境界使用批注版普通招式时，`realm_scaling=2.0` 与 `annotation_mult` 同时生效
+- [x] 未知境界、非法 completion、非法倍率会返回明确错误或校验失败
 
 ## QA 测试用例
 
@@ -74,3 +74,9 @@
 
 - Depends on: ma-001, ma-002
 - Unlocks: combat-system damage stories, ma-006
+
+## Completion Notes
+
+- Synced from implementation evidence on 2026-06-12.
+- Verification: `/usr/local/share/dotnet/dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore -v q` — 1033/1033 passed.
+

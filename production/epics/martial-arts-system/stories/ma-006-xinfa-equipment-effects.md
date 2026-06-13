@@ -10,8 +10,8 @@
 > **GDD 来源**: design/gdd/martial-arts-system.md §Detailed Design, §States and Transitions, §Formulas, §Edge Cases, §Acceptance Criteria
 > **TR-ID**: TR-martial-arts-system-006
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
-> **Last Updated**: —
+> **状态**: Complete
+> **Last Updated**: 2026-06-12
 
 ## 目标
 
@@ -41,11 +41,11 @@
 
 ## 验收标准
 
-- [ ] 心法需要力量 ≥ 20、玩家力量为 15 时，尝试装备失败，并提示“力量不足 5 点”
-- [ ] 心法装备成功后，被动属性加成按 `xinfa_base_bonus × realm_scaling` 计算
-- [ ] 装备心法后，战斗招式面板除 6 个基础槽位外，额外显示 1-2 个心法专属招式
-- [ ] 心法被封印时，心法专属招式不可用，被动加成暂时失效
-- [ ] 卸下心法后，被动加成和专属招式不再出现在查询结果中
+- [x] 心法需要力量 ≥ 20、玩家力量为 15 时，尝试装备失败，并提示“力量不足 5 点”
+- [x] 心法装备成功后，被动属性加成按 `xinfa_base_bonus × realm_scaling` 计算
+- [x] 装备心法后，战斗招式面板除 6 个基础槽位外，额外显示 1-2 个心法专属招式
+- [x] 心法被封印时，心法专属招式不可用，被动加成暂时失效
+- [x] 卸下心法后，被动加成和专属招式不再出现在查询结果中
 
 ## QA 测试用例
 
@@ -75,3 +75,9 @@
 
 - Depends on: ma-001, ma-003, ma-005
 - Unlocks: combat-system inner-art action stories
+
+## Completion Notes
+
+- Synced from implementation evidence on 2026-06-12.
+- Verification: `/usr/local/share/dotnet/dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore -v q` — 1033/1033 passed.
+

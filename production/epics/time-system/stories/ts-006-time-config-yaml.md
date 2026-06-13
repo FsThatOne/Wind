@@ -6,7 +6,7 @@
 > **Depends On**: ts-001, DataRegistry (cd-005)
 > **ADR Guidance**: ADR-0003 (YAML + DataRegistry)
 > **GDD Source**: design/gdd/natural-day-stamina.md §Tuning Knobs
-> **Status**: Ready
+> **Status**: Done
 
 ## Goal
 

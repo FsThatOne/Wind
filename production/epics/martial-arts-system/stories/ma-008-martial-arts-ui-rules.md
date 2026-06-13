@@ -10,8 +10,8 @@
 > **GDD 来源**: design/gdd/martial-arts-system.md §Visual/Audio Requirements, §UI Requirements, §Acceptance Criteria
 > **TR-ID**: TR-martial-arts-system-008
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
-> **Last Updated**: —
+> **状态**: Complete
+> **Last Updated**: 2026-06-12
 
 ## 目标
 
@@ -43,12 +43,12 @@
 
 ## 验收标准
 
-- [ ] 武学管理界面加载后，所有招式卡片颜色仅体现刚/柔/巧体系，不体现稀有度等级
-- [ ] 高级/绝学招式通过进度条或层级标记传达残卷、拓本、完本、真传状态
-- [ ] 普通武学显示“已习得”，不显示进度条
-- [ ] 任意武学详情展开后，触发条件和特殊效果直接可见，倍率以数字明确展示
-- [ ] 战斗中招式面板显示 6 个装备招式 + 心法专属招式
-- [ ] 批注版招式以独特质感或边框纹路区别于普通层级，而不是依赖品质颜色
+- [x] 武学管理界面加载后，所有招式卡片颜色仅体现刚/柔/巧体系，不体现稀有度等级
+- [x] 高级/绝学招式通过进度条或层级标记传达残卷、拓本、完本、真传状态
+- [x] 普通武学显示“已习得”，不显示进度条
+- [x] 任意武学详情展开后，触发条件和特殊效果直接可见，倍率以数字明确展示
+- [x] 战斗中招式面板显示 6 个装备招式 + 心法专属招式
+- [x] 批注版招式以独特质感或边框纹路区别于普通层级，而不是依赖品质颜色
 
 ## QA 测试用例
 
@@ -69,9 +69,15 @@
 
 ## 测试证据路径
 
-`production/qa/evidence/ma-008-martial-arts-ui-rules-evidence.md`
+`tests/unit/martial-arts/martial_arts_ui_rules_test.cs`
 
 ## 依赖关系
 
 - Depends on: ma-001, ma-002, ma-004, ma-005, ma-006, ma-007
 - Unlocks: combat-ui martial arts panel stories
+
+## Completion Notes
+
+- Synced from implementation evidence on 2026-06-12.
+- Verification: `/usr/local/share/dotnet/dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore -v q` — 1033/1033 passed.
+

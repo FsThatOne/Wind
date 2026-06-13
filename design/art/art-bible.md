@@ -5,9 +5,9 @@ status: Draft
 version: 1.0
 author: Art Director
 created: 2026-06-09
-last_updated: 2026-06-09
+last_updated: 2026-06-11
 engine: Godot 4.6.3
-render_pipeline: Forward+ (Vulkan)
+render_pipeline: 2D Canvas + TileMapLayer + CanvasModulate
 target_platforms: PC (Steam), Steam Deck
 ---
 
@@ -15,7 +15,7 @@ target_platforms: PC (Steam), Steam Deck
 
 ## Document Status
 - **Version**: 1.0
-- **Last Updated**: 2026-06-09
+- **Last Updated**: 2026-06-11
 - **Owned By**: Art Director
 - **Status**: Draft
 
@@ -34,6 +34,7 @@ target_platforms: PC (Steam), Steam Deck
 | Reference | Medium | What We're Taking |
 |-----------|--------|-------------------|
 | 《大神 (Ōkami)》 | Game | 水墨渲染 Shader 风格、笔触式粒子特效、环境与角色的色彩分层 |
+| 《逸剑风云决》 | Game | 2D 武侠战棋视角、伪 2.5D 场景层次、清晰的地图可读性与江湖氛围 |
 | 《十三机兵防卫圈》 | Game | 叙事驱动 UI、极简 HUD 在情绪场景中的消隐方式 |
 | 《只狼》 | Game | 武侠动作的动势捕捉、环境氛围光影、危险感传达 |
 | 《Hades》 | Game | Contextual HUD、浓烈色彩与暗背景的对比、角色肖像画风格 |
@@ -87,19 +88,21 @@ target_platforms: PC (Steam), Steam Deck
 
 ### Rendering Style
 
-**半写实 + 水墨后处理 (Stylized Ink-wash)**
+**2D 武侠战棋 + 水墨伪 2.5D (Stylized 2D Wuxia Tactics)**
 
-- 3D 场景使用 Godot Forward+ 渲染，基础为 PBR
-- 叠加自定义后处理 Shader：边缘检测描边 (Sobel) + 纸张纹理叠加 + 选择性颜色量化
-- 角色使用 Toon Shader（2-3 色阶）+ 描边
-- 远景使用大气散射模拟"远山淡影"效果
+- 视觉目标参考《逸剑风云决》这类“像素 + 场景融合观感”的呈现方式，但本项目仍以 2D 战棋地图为制作主轴；我们不以《歧路旅人》式 HD-2D 的完整技术标准、体积光和高成本景深为目标。
+- 场景使用 Godot 2D Canvas、TileMapLayer 多层结构、CanvasModulate 色调和局部 2D 光效；不以 Forward+ 3D/PBR 管线作为主制作路线。
+- 角色使用 2D sprite / sprite sheet / cutout animation，保留武侠动作的起势、爆发、收式；必要时用轻量描边或阴影增强战棋视角可读性。
+- 远景通过分层背景、云雾贴图、遮挡层、色调递减和缓慢视差表现"远山淡影"，避免重 3D 场景资产需求。
+- 所有战斗场景必须先满足格子、移动范围、攻击范围、角色朝向、遮挡关系的可读性，再叠加美术氛围。
 
 ### Proportions
 
 | Category | Proportion | Notes |
 |----------|-----------|-------|
-| 角色身高 | 7-7.5 头身 | 偏写实但略修长（武侠身姿感） |
-| 环境尺度 | 1:1 真实比例 | 建筑/山川按真实比例，保证代入感 |
+| 角色战斗小人 | 3-4 头身 | 保证战棋视角下武器、朝向、身份可读 |
+| 角色立绘 | 6.5-7.5 头身 | 用于对话/角色面板，可更写实修长 |
+| 环境尺度 | 战棋格优先 | 建筑/山川按可通行性、遮挡与构图服务玩法 |
 | UI 元素 | 与屏幕比例关系 | 参见 HUD §3 Zone 尺寸定义 |
 | 武器 | 略夸张 (1.1-1.2x) | 保证远景可辨识 |
 
@@ -107,10 +110,10 @@ target_platforms: PC (Steam), Steam Deck
 
 | Distance | Detail Level | Technique |
 |----------|-------------|-----------|
-| 前景 (0-5m) | 高 — 可见材质纹理、布料褶皱 | 完整 PBR + Toon |
-| 中景 (5-20m) | 中 — 轮廓清晰、简化细节 | LOD 1 + 描边 |
-| 远景 (20m+) | 低 — 剪影 + 色块 | 扁平化 + 大气雾 |
-| 极远 (天际) | 意象 — 水墨渲染 | 2D 纹理层/Shader |
+| 战斗格内角色 | 高 — 朝向、阵营、武器、状态可读 | 2D Sprite + 描边/投影 |
+| 当前交互层 | 中高 — 可通行、可交互、可遮挡清楚 | TileMapLayer + scene tile |
+| 背景层 | 中低 — 氛围、区域识别、空间深度 | 分层 2D 背景 + 视差 |
+| 极远景 | 意象 — 水墨远山/云雾 | 2D 纹理层/Shader |
 
 ### Visual Hierarchy (引导视线优先级)
 
@@ -167,23 +170,23 @@ target_platforms: PC (Steam), Steam Deck
 
 | Category | Grid | 变体要求 | Notes |
 |----------|------|---------|-------|
-| 地面 | 1m × 1m | ≥4 变体避免重复感 | 接缝需无缝 |
-| 墙体 | 1m × 3m (高) | ≥3 损坏等级 | 支持 autotile |
-| 屋顶 | 自由形状 | 按建筑类型 | 瓦片/茅草/青石 |
+| 地面 | 1 战棋格 | ≥4 变体避免重复感 | 接缝需无缝 |
+| 墙体 | 1 格宽，多格高视觉 | ≥3 损坏等级 | 支持 autotile / 遮挡层 |
+| 屋顶 | 自由形状 | 按建筑类型 | 位于 Overlay 层，可遮挡角色 |
 | 自然物 | 非网格 | 随机旋转/缩放 | 树/石/草 |
 
 ### Lighting
 
 | Scene Type | 主光源 | 色温 | 阴影 |
 |-----------|--------|------|------|
-| 白天户外 | DirectionalLight3D (太阳) | 5500K-6500K | 柔和，边缘模糊 |
-| 黄昏 | DirectionalLight3D (低角度) | 3000K-4000K | 长影，暖色 |
-| 室内 | OmniLight3D (烛/灯笼) | 2700K-3500K | 强明暗对比 |
-| 战斗场景 | 混合 (环境 + 聚光) | 偏冷 | 高对比聚焦角色 |
+| 白天户外 | CanvasModulate + 环境高光贴图 | 5500K-6500K | 贴图阴影/软投影 |
+| 黄昏 | CanvasModulate 暖色偏移 | 3000K-4000K | 长影贴图，暖色 |
+| 室内 | PointLight2D/灯笼贴图 | 2700K-3500K | 局部明暗对比 |
+| 战斗场景 | 环境色 + 角色/范围高亮 | 偏冷或剧情色 | 高对比聚焦角色 |
 
 ### Atmospheric Effects
 
-- **雾/云** — Godot VolumetricFog，远景必须有层次雾
+- **雾/云** — 2D 分层雾贴图/Shader，远景必须有层次雾
 - **粒子** — 落叶/飘雪/萤火虫/尘埃，用于暗示季节和情绪
 - **水面** — Shader 驱动涟漪 + 倒影（简化反射）
 - **墨迹** — 战斗中特效使用墨迹飞溅纹理（非写实血液）
@@ -296,21 +299,21 @@ sfx_ui_confirm_01.ogg
 
 | Category | Max Resolution | Format | Color Space | Compression |
 |----------|---------------|--------|-------------|-------------|
-| Characters | 2048×2048 | PNG (source) → .ctex | sRGB | VRAM Compressed (S3TC) |
-| Environments | 2048×2048 | PNG → .ctex | sRGB | VRAM Compressed |
+| Characters | 1024×1024 per sheet | PNG (source) → .ctex | sRGB | VRAM Compressed (S3TC) |
+| Environments | 2048×2048 per atlas | PNG → .ctex | sRGB | VRAM Compressed |
 | UI | 512×512 (max per atlas) | SVG (vector preferred) / PNG | sRGB | Lossless |
 | VFX | 512×512 | PNG → .ctex | sRGB | VRAM Compressed |
-| Skybox/BG | 4096×2048 (HDR optional) | EXR / PNG | Linear (if HDR) | VRAM |
+| Background | 4096×2048 max | PNG | sRGB | VRAM |
 
 ### Animation Standards
 
 | Category | Frame Rate | Blend Time | Notes |
 |----------|-----------|-----------|-------|
-| 角色移动 | 30 FPS | 0.1-0.2s | AnimationTree StateMachine |
+| 角色移动 | 12-24 FPS | 0.1-0.2s | Sprite sheet / AnimationPlayer |
 | 攻击动作 | 30 FPS | 0.05s (快切入) | 注重首帧力度感 |
 | UI 动画 | 60 FPS (Tween) | — | 参见 interaction-patterns §6 |
 | 环境动画 | 15-30 FPS | — | 风吹草/水流等可降帧率 |
-| 粒子 | 引擎 Process | — | GPUParticles3D |
+| 粒子 | 引擎 Process | — | GPUParticles2D |
 
 ### Audio Standards (简要，详见 interaction-patterns §7)
 
@@ -365,3 +368,4 @@ sfx_ui_confirm_01.ogg
 | 日期 | 版本 | 审计人 | 变更 |
 |------|------|--------|------|
 | 2026-06-09 | 1.0 | AI (art-director) | 全文创建 |
+| 2026-06-11 | 1.1 | Codex | 明确视觉目标参考《逸剑风云决》的像素与场景融合观感；移除主 3D/PBR 与《歧路旅人》式 HD-2D 完整标准假设 |

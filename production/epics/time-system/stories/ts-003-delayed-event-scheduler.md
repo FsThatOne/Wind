@@ -5,7 +5,7 @@
 > **Priority**: P1
 > **Depends On**: ts-001
 > **GDD Source**: design/gdd/natural-day-stamina.md §Core Rules 5, §Edge Cases (延迟事件)
-> **Status**: Ready
+> **Status**: Done
 
 ## Goal
 

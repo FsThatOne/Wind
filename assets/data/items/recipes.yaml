@@ -1,0 +1,9 @@
+# Crafting recipes consume inventory items and may charge silver.
+- id: brew_zhi_xue_wan
+  kind: alchemy
+  ingredients:
+    - item_id: herb_green
+      qty: 2
+  output_item_id: zhi_xue_wan
+  output_qty: 1
+  silver_cost: 3

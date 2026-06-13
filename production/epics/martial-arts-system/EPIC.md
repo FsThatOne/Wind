@@ -3,8 +3,8 @@
 > **Layer**: Core
 > **GDD**: design/gdd/martial-arts-system.md
 > **Architecture Module**: `Core/MartialArts/`
-> **Status**: Ready
-> **Stories**: 8 stories (ma-001 ~ ma-008)
+> **Status**: Complete
+> **Stories**: 8/8 Complete
 
 ## Overview
 
@@ -56,6 +56,19 @@
 | ma-007 | 轻功装备位与战棋移动契约 | Integration | P1 | ma-001, ma-005 | Ready |
 | ma-008 | 武学管理与战斗招式面板呈现规则 | UI | P1 | ma-001, ma-002, ma-004, ma-005, ma-006, ma-007 | Ready |
 
+## Stories
+
+| ID | Title | Type | Priority | Depends On | Status |
+|----|-------|------|----------|------------|--------|
+| ma-001 | 武学 YAML 数据模型与克制矩阵加载 | Config/Data | P0 | — | Complete |
+| ma-002 | 招式成长路径、残卷合成与批注版替换 | Logic | P0 | ma-001 | Complete |
+| ma-003 | 招式伤害、完整度、境界缩放与批注倍率公式 | Logic | P0 | ma-001, ma-002 | Complete |
+| ma-004 | 特殊触发条件与特殊效果解析契约 | Logic | P0 | ma-001, ma-002 | Complete |
+| ma-005 | 角色武学配置槽、体系覆盖警告与同伴锁定 | Integration | P0 | ma-001, ma-002 | Complete |
+| ma-006 | 心法装备门槛、被动加成与专属招式 | Integration | P1 | ma-001, ma-003, ma-005 | Complete |
+| ma-007 | 轻功装备位与战棋移动契约 | Integration | P1 | ma-001, ma-005 | Complete |
+| ma-008 | 武学管理与战斗招式面板呈现规则 | UI | P1 | ma-001~ma-007 | Complete |
+
 ## Next Step
 
-Run `/story-readiness production/epics/martial-arts-system/stories/ma-001-martial-arts-yaml-schema.md` to validate the first story before implementation.
+Martial arts system is complete.

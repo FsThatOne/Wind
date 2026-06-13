@@ -10,8 +10,8 @@
 > **GDD 来源**: design/gdd/martial-arts-system.md §Detailed Design, §States and Transitions, §Edge Cases, §Acceptance Criteria
 > **TR-ID**: TR-martial-arts-system-002
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
-> **Last Updated**: —
+> **状态**: Complete
+> **Last Updated**: 2026-06-12
 
 ## 目标
 
@@ -42,13 +42,13 @@
 
 ## 验收标准
 
-- [ ] 普通武学习得后直接以 `completion=1.00` 可出战，无进度门槛
-- [ ] 获得第 1 张高级/绝学残卷后，该招式以残卷状态 `completion=0.55` 可出战
-- [ ] 3 张同一招式残卷可合成拓本，`completion=0.72`
-- [ ] 拓本可进入完本状态，`completion=0.88`，高级特效 / 绝学特效 v1 解锁
-- [ ] 叙事事件可将招式提升为真传，`completion=1.00`，绝学特效 v2 解锁
-- [ ] 触发批注版奇遇后，批注版直接替换当前状态，当前进度不保留
-- [ ] 不存在批注版的招式不显示批注入口，并以真传为最高形态
+- [x] 普通武学习得后直接以 `completion=1.00` 可出战，无进度门槛
+- [x] 获得第 1 张高级/绝学残卷后，该招式以残卷状态 `completion=0.55` 可出战
+- [x] 3 张同一招式残卷可合成拓本，`completion=0.72`
+- [x] 拓本可进入完本状态，`completion=0.88`，高级特效 / 绝学特效 v1 解锁
+- [x] 叙事事件可将招式提升为真传，`completion=1.00`，绝学特效 v2 解锁
+- [x] 触发批注版奇遇后，批注版直接替换当前状态，当前进度不保留
+- [x] 不存在批注版的招式不显示批注入口，并以真传为最高形态
 
 ## QA 测试用例
 
@@ -78,3 +78,9 @@
 
 - Depends on: ma-001
 - Unlocks: ma-003, ma-004, ma-005
+
+## Completion Notes
+
+- Synced from implementation evidence on 2026-06-12.
+- Verification: `/usr/local/share/dotnet/dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore -v q` — 1033/1033 passed.
+

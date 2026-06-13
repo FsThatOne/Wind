@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/natural-day-stamina.md
 > **Architecture Module**: `Foundation/TimeSystem/`
 > **Status**: Done
-> **Stories**: 6 stories (ts-001 through ts-006)
+> **Stories**: 6/6 Done (ts-001 ~ ts-006)
 
 ## Overview
 
@@ -29,9 +29,9 @@
 | 客栈休息规则和效果 | ⚠️ 基础设施覆盖 |
 | 时段查询接口 (dawn/day/dusk/night) | ADR-0001 ✅ |
 
-## Definition of Done
+## 完成定义
 
-This epic is complete when:
+此 epic 满足以下条件时视为完成：
 - All stories are implemented, reviewed, and closed via `/story-done`
 - All acceptance criteria from `design/gdd/natural-day-stamina.md` are verified
 - All Logic and Integration stories have passing test files in `tests/`
@@ -51,6 +51,6 @@ This epic is complete when:
 | ts-005 | Inn Rest Logic | Logic | Done |
 | ts-006 | Time Config YAML | Integration | Done |
 
-## Next Step
+## 下一步
 
-Run `/dev-story ts-001` to begin implementing the Calendar Core.
+Foundation 自然日+体力 epic 已完成。下一步生产任务：使用 `/create-epics layer: core` 创建 Core 层 epics。

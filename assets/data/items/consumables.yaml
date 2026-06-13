@@ -1,0 +1,25 @@
+# Consumables and basic materials. Materials use category: material in this table.
+- id: zhi_xue_wan
+  name: 止血丸
+  category: consumable
+  rarity: common
+  max_stack: 20
+  combat_usable: true
+  exploration_usable: false
+  base_price: 30
+  effects:
+    - type: heal_hp
+      target: self
+      value: 45
+  tags: [medicine, combat]
+
+- id: herb_green
+  name: 青蘅草
+  category: material
+  rarity: uncommon
+  max_stack: 99
+  combat_usable: false
+  exploration_usable: false
+  base_price: 5
+  effects: []
+  tags: [herb, material]

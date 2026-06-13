@@ -3,8 +3,8 @@
 > **Layer**: Foundation
 > **GDD**: design/gdd/map-scene-management.md
 > **Architecture Module**: `Foundation/SceneManagement/`
-> **Status**: Ready
-> **Stories**: Not yet created — run `/create-stories scene-management`
+> **Status**: Done
+> **Stories**: 7/7 Done (sm-001 ~ sm-007)
 
 ## Overview
 
@@ -37,9 +37,9 @@
 - **TileMapLayer scene tile rotation (4.6 新增)** — 需要 Sprint 1 spike 验证 C# API 行为
 - ResourceLoader async API 自 4.0+ 稳定，风险 LOW
 
-## Definition of Done
+## 完成定义
 
-This epic is complete when:
+此 epic 满足以下条件时视为完成：
 - All stories are implemented, reviewed, and closed via `/story-done`
 - All acceptance criteria from `design/gdd/map-scene-management.md` are verified
 - All Logic and Integration stories have passing test files in `tests/`
@@ -48,6 +48,6 @@ This epic is complete when:
 - 过渡动画流畅且期间输入被正确锁定
 - TileMapLayer spike 通过并记录结果
 
-## Next Step
+## 下一步
 
-Run `/create-stories scene-management` to break this epic into implementable stories.
+Foundation 地图/场景管理 epic 已完成。下一步生产任务：使用 `/create-epics layer: core` 创建 Core 层 epics。

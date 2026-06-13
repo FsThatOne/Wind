@@ -3,8 +3,8 @@
 > **Layer**: Foundation
 > **GDD**: design/gdd/character-attributes.md
 > **Architecture Module**: `Foundation/CharacterData/`
-> **Status**: Ready
-> **Stories**: 7 stories created (see `stories/` directory)
+> **Status**: Done
+> **Stories**: 7/7 Done (cd-001 ~ cd-007)
 
 ## Overview
 
@@ -26,9 +26,9 @@
 | 属性修改器系统 (buff/debuff) | ⚠️ 基础设施覆盖 |
 | YAML 配置驱动的角色数据 | ADR-0003 ✅ |
 
-## Definition of Done
+## 完成定义
 
-This epic is complete when:
+此 epic 满足以下条件时视为完成：
 - All stories are implemented, reviewed, and closed via `/story-done`
 - All acceptance criteria from `design/gdd/character-attributes.md` are verified
 - All Logic and Integration stories have passing test files in `tests/`
@@ -43,12 +43,12 @@ This epic is complete when:
 | cd-002 | Formula Engine (F1-F9) | Logic | P0 | cd-001 | Done |
 | cd-003 | Modifier Stack | Logic | P1 | cd-001 | Done |
 | cd-004 | Realm & Power Comparison | Logic | P1 | cd-002 | Done |
-| cd-005 | YAML Character Config | Integration | P1 | cd-001 | Ready |
-| cd-006 | Character Registry | Integration | P1 | cd-005 | Ready |
+| cd-005 | YAML Character Config | Integration | P1 | cd-001 | Done |
+| cd-006 | Character Registry | Integration | P1 | cd-005 | Done |
 | cd-007 | Growth System | Logic | P1 | cd-003, cd-004 | Done |
 
-**Implementation Order**: cd-001 → cd-002 → cd-003 → cd-004/cd-005 (parallel) → cd-006 → cd-007
+**实现顺序**: cd-001 → cd-002 → cd-003 → cd-004/cd-005（可并行）→ cd-006 → cd-007
 
-## Next Step
+## 下一步
 
-Run `/dev-story cd-001` to begin implementation.
+Foundation 角色属性/功力 epic 已完成。下一步生产任务：使用 `/create-epics layer: core` 创建 Core 层 epics。

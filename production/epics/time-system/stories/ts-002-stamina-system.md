@@ -5,7 +5,7 @@
 > **Priority**: P0
 > **Depends On**: ts-001
 > **GDD Source**: design/gdd/natural-day-stamina.md §Core Rules 4, §F1, §F3, §F5
-> **Status**: Ready
+> **Status**: Done
 
 ## Goal
 

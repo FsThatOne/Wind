@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/npc-state.md
 > **Architecture Module**: `Foundation/NpcState/`
 > **Status**: Done
-> **Stories**: 7 stories (ns-001 through ns-007)
+> **Stories**: 7/7 Done (ns-001 ~ ns-007)
 
 ## Overview
 
@@ -28,9 +28,9 @@ NPC 状态管理是《风止》的角色世界状态层，负责记录每个重�
 | 状态变更事件发布到 EventBus | ADR-0001 ✅ |
 | 飞书/书信状态管理 | ADR-0001 ✅ |
 
-## Definition of Done
+## 完成定义
 
-This epic is complete when:
+此 epic 满足以下条件时视为完成：
 - All stories are implemented, reviewed, and closed via `/story-done`
 - All acceptance criteria from `design/gdd/npc-state.md` are verified
 - All Logic and Integration stories have passing test files in `tests/`
@@ -50,6 +50,6 @@ This epic is complete when:
 | ns-006 | Letter Queue | Logic | Done |
 | ns-007 | NPC YAML Config | Integration | Done |
 
-## Next Step
+## 下一步
 
-Run `/dev-story ns-001` to begin implementing the Generic FSM.
+Foundation NPC 状态管理 epic 已完成。下一步生产任务：使用 `/create-epics layer: core` 创建 Core 层 epics。

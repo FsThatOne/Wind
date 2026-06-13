@@ -6,7 +6,7 @@
 > **Depends On**: ts-001, ts-002, ts-003
 > **ADR Guidance**: ADR-0001 (EventBus)
 > **GDD Source**: design/gdd/natural-day-stamina.md §States and Transitions, §Interactions
-> **Status**: Ready
+> **Status**: Done
 
 ## Goal
 

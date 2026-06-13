@@ -10,8 +10,8 @@
 > **GDD 来源**: design/gdd/martial-arts-system.md §Detailed Design, §Edge Cases, §Acceptance Criteria
 > **TR-ID**: TR-martial-arts-system-004
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
-> **Last Updated**: —
+> **状态**: Complete
+> **Last Updated**: 2026-06-12
 
 ## 目标
 
@@ -40,11 +40,11 @@
 
 ## 验收标准
 
-- [ ] 批注版罗汉拳 `condition_override="第1次克制即触发"` 时，第 1 次克制命中立即触发破绽 +3
-- [ ] 原版罗汉拳 `condition="第2次克制触发"` 时，第 1 次克制不触发，第 2 次克制触发
-- [ ] 条件不满足时返回未触发，不输出特殊效果
-- [ ] 批注版效果使用 `effect_override`，原版效果不并行叠加
-- [ ] 未解锁的绝学特殊效果不会触发
+- [x] 批注版罗汉拳 `condition_override="第1次克制即触发"` 时，第 1 次克制命中立即触发破绽 +3
+- [x] 原版罗汉拳 `condition="第2次克制触发"` 时，第 1 次克制不触发，第 2 次克制触发
+- [x] 条件不满足时返回未触发，不输出特殊效果
+- [x] 批注版效果使用 `effect_override`，原版效果不并行叠加
+- [x] 未解锁的绝学特殊效果不会触发
 
 ## QA 测试用例
 
@@ -74,3 +74,9 @@
 
 - Depends on: ma-001, ma-002
 - Unlocks: combat-system special effect stories
+
+## Completion Notes
+
+- Synced from implementation evidence on 2026-06-12.
+- Verification: `/usr/local/share/dotnet/dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore -v q` — 1033/1033 passed.
+

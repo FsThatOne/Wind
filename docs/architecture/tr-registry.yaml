@@ -25,9 +25,436 @@
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
 version: 1
-last_updated: ""
+last_updated: "2026-06-12"
 
-requirements: []
+requirements:
+  - id: TR-dialogue-system-001
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "对话头必须包含 id / version / entry_node / nodes，且加载时校验节点 id 唯一、entry_node 存在、next/fallback 引用有效、孤立节点可被捕获"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-002
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "对话运行时必须稳定推进 Idle → Entering → Displaying → WaitingForInput → ProcessingChoice → Exiting 状态流，并通过 500 节点上限防御无限循环"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-003
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "条件评估必须支持 `{source, op, value}` 三元组与 conditions_any_of 语义，并在节点显示前过滤不可用选项且不显示灰化状态"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-004
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "对话节点与选项附加事件必须在对话结束后按编辑顺序通过 EventBus 分发，combat_trigger 需在当前节点事件完成后再进入战斗收口"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-005
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "洞察门槛必须在 Speech / Narration 节点的 WaitingForInput 阶段按 `player.insight >= node.insight_threshold` 判定，达标后显示无倒计时提示并允许追查进入 InsightPrompt 分支"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-006
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "玩家已学会暗号且当前 NPC / 场景 / 章节 / 条件上下文匹配时，暗号必须自动作为额外选项出现；多个匹配暗号全部显示，使用后按当前上下文标记"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-007
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "Letter 节点触发时必须进入独立信笺 UI 并存入书信匣；含暗号书信仅首次查看自动加入暗号簿，重读完整显示内容但不得重复触发暗号学习、心境位移、关系变化或其他游戏状态变更"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-008
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "对话 UI 必须呈现 Speech 名牌/立绘/文字、Narration 无名牌无立绘、InnerMonologue 独立样式、Letter 全屏信笺；逐字显示期间第一次确认补全文字，第二次确认推进，且键鼠/手柄均可完成确认、加速和关闭信笺"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-dialogue-system-009
+    system: dialogue-system
+    gdd: design/gdd/dialogue-system.md
+    requirement: "选择 UI 必须按编辑顺序显示所有可见选项并隐藏不可用选项；心境选择以文学暗示呈现且不显示数值；洞察提示可追查或推进且无倒计时；暗号选项以独特样式标记；选择确认后短暂高亮并立即沿分支推进，不提供确认对话框、撤销或回退"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-001
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "武学系统必须使用 YAML 1.2 配置招式、心法、轻功和刚柔巧克制矩阵，并在加载时校验 id 唯一、枚举合法、数值范围合法和引用完整性"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-002
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "招式成长必须支持普通武学习得即 completion=1.00，高级/绝学残卷 0.55、拓本 0.72、完本 0.88、真传 1.00，以及批注版奇遇直接替换当前进度并作为终态"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-003
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "招式输出必须按 move_damage = effective_base_multiplier × attack_for_type × completion × realm_scaling 计算；批注版 effective_base_multiplier = base_multiplier × annotation_mult，返璞归真境界与批注倍率可同时生效"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-004
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "招式特殊条件与特殊效果必须结构化表达；批注版可用 condition_override 和 effect_override 覆盖原条件与原效果，并由战斗上下文判定是否触发"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-005
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "主角和同伴必须拥有相同武学槽结构：6 个招式槽、1 个心法/内功槽、1 个轻功槽；缺少刚柔巧任一体系时只警告不阻止出战，剧情锁定槽位禁止替换并显示原因"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-006
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "心法装备必须检查属性门槛，成功后按 modifier = xinfa_base_bonus × realm_scaling 提供被动加成，并额外提供 1-2 个心法专属招式；心法封印时被动和专属招式暂时失效"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-007
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "轻功必须作为独立武学类和独立装备位存在，并向战斗系统提供移动范围修正与主动机动效果的结构化查询契约"
+    created: 2026-06-11
+    revised: ""
+    status: active
+  - id: TR-martial-arts-system-008
+    system: martial-arts-system
+    gdd: design/gdd/martial-arts-system.md
+    requirement: "武学管理和战斗招式面板必须让触发条件、特殊效果和倍率数字直接可见；颜色只表达刚柔巧体系，不表达品质稀有度，高级/绝学层级通过进度或质感表现"
+    created: 2026-06-11
+    revised: ""
+    status: active
+
+  - id: TR-mindset-dual-axis-001
+    system: mindset-dual-axis
+    gdd: design/gdd/mindset-dual-axis.md
+    requirement: "心境系统必须维护 resolve、worldly、morality 三轴坐标与 reputation，按 [-50,+50] 钳位，支持单轴和多轴批量位移，并以 (-5,0,0,0) 初始化"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-mindset-dual-axis-002
+    system: mindset-dual-axis
+    gdd: design/gdd/mindset-dual-axis.md
+    requirement: "心境系统必须按 ±15 阈值和 ±2 滞后带判定双轴 9 区域，首次启动或旧存档缺少区域字段时使用无滞后快照规则初始化"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-mindset-dual-axis-003
+    system: mindset-dual-axis
+    gdd: design/gdd/mindset-dual-axis.md
+    requirement: "善恶轴必须按 ExtremeEvil/Evil/Neutral/Good/ExtremeGood 五档判定，支持转念事件和善恶反转路径，并在档位变化时发布事件"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-mindset-dual-axis-004
+    system: mindset-dual-axis
+    gdd: design/gdd/mindset-dual-axis.md
+    requirement: "终幕结局判定必须使用无滞后快照区域，支持四象限结局、中立主导规则、未定之人、morality≤-30 魔道 override 以及善恶档位装饰"
+    created: 2026-06-12
+    revised: "2026-06-12"
+    status: active
+  - id: TR-mindset-dual-axis-005
+    system: mindset-dual-axis
+    gdd: design/gdd/mindset-dual-axis.md
+    requirement: "声望必须作为善恶的延迟派生值，在章节结束时按 reputation += (morality - reputation) × catch_up_rate 更新并钳位"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-mindset-dual-axis-006
+    system: mindset-dual-axis
+    gdd: design/gdd/mindset-dual-axis.md
+    requirement: "心境系统必须提供区域、善恶档位、条件检查、NPC/伴侣区域兼容性、文学描述和朦胧化视觉参数查询，且不向 UI 暴露数值"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-mindset-dual-axis-007
+    system: mindset-dual-axis
+    gdd: design/gdd/mindset-dual-axis.md
+    requirement: "对话 mindset_shift、心境战斗最终叙事结果和存档加载必须能驱动心境状态；对话位移在对话结束后批量应用，越界存档加载时钳位并记录警告"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-main-narrative-001
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "主线系统必须定义 YAML 兼容的章节节点图模型，支持 dialogue/combat/arrival/choice/gate 五种节点类型、入口节点、前置条件、on_complete、分支、限时和章节门字段，并在加载时校验引用完整性"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-main-narrative-002
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "主线运行时必须根据前置条件激活节点、完成节点并推进到下一可用节点，且通过 EventBus 发布节点激活和完成事件"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-main-narrative-003
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "主线系统必须记录 choice_log，支持分支合流和章节门 required_branches 判定，并允许软前置解锁额外内容但不阻塞主线"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-main-narrative-004
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "章节管理必须维持线性骨架，章节门通过后只允许向前切换章节，并发布章节切换、色调变化和区域解锁事件"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-main-narrative-005
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "呼吸期必须暂停主线自动推进，允许玩家主动触发下一主线节点退出，并在配置天数后最多触发一次温和引导"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-main-narrative-006
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "限时节点倒计时必须从节点激活时开始且不在呼吸期内启动，超时后发布强制推进事件，并提供 NPC 对话 3 档紧迫文本键查询"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-main-narrative-007
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "战斗节点必须按 lethal/scripted/non_lethal 三类处理败北与胜利结果，死亡、剧情推进、choice_log 和额外奖励均由节点配置决定"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-main-narrative-008
+    system: main-narrative
+    gdd: design/gdd/main-narrative.md
+    requirement: "终幕必须读取心境分支、结缘状态和 choice_log 输出稳定 ending script key；存档恢复必须保留节点进度、choice_log、呼吸期状态和限时倒计时"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-item-system-001
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "物品系统必须使用 YAML 1.2 配置消耗品、装备模板、关键物品、配方和词条池，并在加载时校验 id 唯一、枚举合法、范围合法和引用完整性"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-item-system-002
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "背包必须支持无限容量、有限堆叠、满堆叠自动溢出新堆叠、战斗/探索/叙事奖励写入，以及关键物品独立保存且默认不可丢弃不可出售"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-item-system-003
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "装备必须按品级倍率计算基础属性，按品级固定生成词条数量与 40%-100% 数值范围，支持主角与同伴一致五槽，并禁止同一装备实例被多个角色或多个槽位同时使用"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-item-system-004
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "战斗背包必须只暴露 combat_usable 且数量大于 0 的道具，使用道具消耗本回合行动机会、扣除数量并输出结构化效果结果"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-item-system-005
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "制作系统必须支持炼丹品质系数、锻造固定品级装备、精炼上限 cap×0.95、精炼次数上限和材料/银两不足时的原子失败"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-item-system-006
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "残卷和秘籍必须作为关键物品支持自学与传授：主角未学会时只能自学，已学会时可消耗残卷让指定同伴获得对应招式，且禁止重复传授已学会招式"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-item-system-007
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "经济系统必须维护非负银两、商店买卖价格、关键物品交易限制、黑市以物易物和拍卖出价校验，银两不足或出价非法时不得改变状态"
+    created: 2026-06-12
+    revised: ""
+    status: active
+  - id: TR-item-system-008
+    system: item-system
+    gdd: design/gdd/item-system.md
+    requirement: "物品系统必须可存档恢复库存堆叠、装备实例、装备归属、银两和关键物品，并向战斗、主线叙事、自然日、武学和 UI 提供稳定查询契约"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-001
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-001 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-002
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-002 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-003
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-003 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-004
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-004 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-005
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-005 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-006
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-006 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-007
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-007 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-008
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-008 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-009
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-009 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-combat-system-010
+    system: combat-system
+    gdd: design/gdd/combat-system.md
+    requirement: "回合制战斗 story cb-010 的已实现技术需求，覆盖战斗状态、角色模型、结算、破绽、行动、反制、意图、事件、多人与入口配置"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-001
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-001 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-002
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-002 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-003
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-003 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-004
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-004 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-005
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-005 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-006
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-006 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-007
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-007 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-enemy-ai-008
+    system: enemy-ai
+    gdd: design/gdd/enemy-ai.md
+    requirement: "敌方 AI story ai-008 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
+    created: 2026-06-12
+    revised: ""
+    status: active
 
 # --- EXAMPLE ENTRIES (remove when first real entries are added) ---
 #

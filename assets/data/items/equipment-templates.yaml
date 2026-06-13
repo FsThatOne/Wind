@@ -1,0 +1,22 @@
+# Equipment templates are immutable; runtime equipment instances are generated from these records.
+- id: plain_iron_sword
+  name: 素铁剑
+  category: equipment
+  grade: fifth
+  slot: main_hand
+  base_attr:
+    attack: 12
+  affix_pool: fifth_weapon_pool
+  base_price: 120
+  description_key: item.equipment.plain_iron_sword.desc
+
+- id: nameless_blade
+  name: 无名刃
+  category: equipment
+  grade: legendary
+  slot: main_hand
+  base_attr:
+    attack: 99
+  fixed_affixes: [silent_edge, old_oath]
+  base_price: 0
+  description_key: item.equipment.nameless_blade.desc
