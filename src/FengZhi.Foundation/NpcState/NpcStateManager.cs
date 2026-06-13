@@ -21,7 +21,8 @@ public interface INpcStateManager
     bool UpdateInteraction(string npcId, InteractionStatus value, string source);
     bool UpdateJourney(string npcId, JourneyStage value, string source);
     bool UpdateRelationship(string npcId, RelationshipStage value, string source);
-    bool UpdateAttitude(string npcId, AttitudeLevel value, string source);
+    bool UpdateFlag(string npcId, string key, string value, string source);
+    bool RemoveFlag(string npcId, string key, string source);
     IReadOnlyList<NpcState> GetByPresence(PresenceStatus status);
     IReadOnlyList<NpcState> GetByAttitude(AttitudeLevel level);
     void RegisterNpc(string npcId);
@@ -29,10 +30,18 @@ public interface INpcStateManager
 }
 
 /// <summary>
+/// Internal raw attitude writer. Romance is the public rule boundary for attitude deltas.
+/// </summary>
+internal interface INpcStateAttitudeWriter
+{
+    bool UpdateAttitude(string npcId, AttitudeLevel value, string source);
+}
+
+/// <summary>
 /// NPC 状态管理器实现。
 /// 通过 EventBus 发布变更事件；对话锁定时排队，解锁后批量生效。
 /// </summary>
-public sealed class NpcStateManager : INpcStateManager
+public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter
 {
     private readonly Dictionary<string, NpcState> _states = new();
     private readonly Dictionary<string, List<PendingChange>> _pendingChanges = new();
@@ -151,7 +160,7 @@ public sealed class NpcStateManager : INpcStateManager
         }, source);
     }
 
-    public bool UpdateAttitude(string npcId, AttitudeLevel value, string source)
+    bool INpcStateAttitudeWriter.UpdateAttitude(string npcId, AttitudeLevel value, string source)
     {
         if (!CanModify(npcId, "Attitude")) return false;
         return ApplyChange(npcId, "Attitude", () =>
@@ -160,6 +169,32 @@ public sealed class NpcStateManager : INpcStateManager
             var old = state.Attitude.ToString();
             state.SetAttitude(value, source);
             return (old, value.ToString());
+        }, source);
+    }
+
+    public bool UpdateFlag(string npcId, string key, string value, string source)
+    {
+        if (!CanModify(npcId, $"Flag:{key}")) return false;
+        return ApplyChange(npcId, $"Flag:{key}", () =>
+        {
+            var state = _states[npcId];
+            var old = state.Flags.TryGetValue(key, out var existing) ? existing : "(none)";
+            state.SetFlag(key, value, source);
+            return (old, value);
+        }, source);
+    }
+
+    public bool RemoveFlag(string npcId, string key, string source)
+    {
+        if (!CanModify(npcId, $"Flag:{key}")) return false;
+        if (!_states[npcId].Flags.ContainsKey(key)) return false;
+
+        return ApplyChange(npcId, $"Flag:{key}", () =>
+        {
+            var state = _states[npcId];
+            var old = state.Flags.TryGetValue(key, out var existing) ? existing : "(none)";
+            state.RemoveFlag(key, source);
+            return (old, "(removed)");
         }, source);
     }
 

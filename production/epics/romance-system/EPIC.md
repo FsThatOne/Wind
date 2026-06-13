@@ -53,8 +53,8 @@ Run `/story-readiness production/epics/romance-system/stories/rs-001-romance-sta
 
 | ID | Title | Type | Priority | Depends On | Status |
 |----|-------|------|----------|------------|--------|
-| rs-001 | [感情状态与里程碑地板钳位](stories/rs-001-romance-state-and-milestone-floor.md) | Logic | P0 | NPC State, EventBus | Ready |
-| rs-002 | [里程碑解锁顺序与诀别覆写](stories/rs-002-milestone-unlock-and-force-break.md) | Logic | P0 | rs-001 | Ready |
+| rs-001 | [感情状态与里程碑地板钳位](stories/rs-001-romance-state-and-milestone-floor.md) | Logic | P0 | NPC State, EventBus | Complete |
+| rs-002 | [里程碑解锁顺序与诀别覆写](stories/rs-002-milestone-unlock-and-force-break.md) | Logic | P0 | rs-001 | Complete |
 | rs-003 | [结缘流程互斥与拒绝锁定](stories/rs-003-bond-flow-exclusivity-and-decline.md) | Integration | P0 | rs-001, rs-002 | Ready |
 | rs-004 | [结局变体解析器](stories/rs-004-ending-variant-resolver.md) | Integration | P1 | rs-002, rs-003 | Ready |
 | rs-005 | [彗星存在感与传闻概率](stories/rs-005-comet-presence-and-rumor-chance.md) | Logic | P1 | rs-001 | Ready |

@@ -8,11 +8,13 @@ public class NpcStateManagerTests
 {
     private readonly EventBus _eventBus;
     private readonly NpcStateManager _manager;
+    private readonly INpcStateAttitudeWriter _attitudeWriter;
 
     public NpcStateManagerTests()
     {
         _eventBus = new EventBus();
         _manager = new NpcStateManager(_eventBus);
+        _attitudeWriter = _manager;
         _manager.RegisterNpc("bai_ling");
         _manager.RegisterNpc("lao_zhang");
     }
@@ -57,7 +59,7 @@ public class NpcStateManagerTests
         NpcStateChangedEvent? received = null;
         _eventBus.Subscribe<NpcStateChangedEvent>(e => received = e);
 
-        _manager.UpdateAttitude("bai_ling", AttitudeLevel.Friendly, "dialogue");
+        _attitudeWriter.UpdateAttitude("bai_ling", AttitudeLevel.Friendly, "dialogue");
 
         Assert.NotNull(received);
         Assert.Equal("Attitude", received!.Field);
@@ -119,7 +121,7 @@ public class NpcStateManagerTests
     [Fact]
     public void GetByAttitude_FiltersCorrectly()
     {
-        _manager.UpdateAttitude("bai_ling", AttitudeLevel.Trusted, "story");
+        _attitudeWriter.UpdateAttitude("bai_ling", AttitudeLevel.Trusted, "story");
 
         var trusted = _manager.GetByAttitude(AttitudeLevel.Trusted);
         Assert.Single(trusted);
@@ -159,6 +161,18 @@ public class NpcStateManagerTests
     public void UpdateLife_UnregisteredNpc_ReturnsFalse()
     {
         Assert.False(_manager.UpdateLife("ghost", LifeStatus.Alive, "test"));
+    }
+
+    [Fact]
+    public void RemoveFlag_MissingFlag_ReturnsFalseAndDoesNotPublishEvent()
+    {
+        var events = new List<NpcStateChangedEvent>();
+        _eventBus.Subscribe<NpcStateChangedEvent>(e => events.Add(e));
+
+        var result = _manager.RemoveFlag("bai_ling", "missing_flag", "test");
+
+        Assert.False(result);
+        Assert.Empty(events);
     }
 
     // ─── 边界：多次注册同一 NPC 幂等 ───────────────────────

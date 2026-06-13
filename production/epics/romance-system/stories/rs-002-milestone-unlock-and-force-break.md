@@ -1,19 +1,19 @@
 # Story rs-002: 里程碑解锁顺序与诀别覆写
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
 > **Estimate**: M
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-13
 
 ## Context
 
 **GDD**: `design/gdd/romance-system.md`
-**Requirement**: `TR-romance-system-???`
+**Requirement**: `TR-romance-system-002`
 
-`docs/architecture/tr-registry.yaml` 尚无 `TR-romance-*` 条目；本 story 临时追踪 GDD AC2 与 AC4，补齐 registry 后需替换为稳定 TR-ID。
+Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at review time.
 
 **ADR Governing Implementation**: ADR-0015: Romance System
 **ADR Decision Summary**: `MilestoneRegistry` 管理里程碑顺序、门槛和 `force_break`；里程碑按 Acquainted → Trust → Crisis → Heart → Bond 解锁，`force_break` 是唯一可无视地板与顺序的覆写操作。
@@ -87,7 +87,7 @@ Implement `ForceBreak(npcId)` so it writes `Broken = true` into NPC State romanc
 **Required evidence**:
 - Logic: `tests/unit/romance/milestone_unlock_and_force_break_test.cs` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Complete — `MilestoneUnlockAndForceBreakTest` passed
 
 ---
 
@@ -95,3 +95,12 @@ Implement `ForceBreak(npcId)` so it writes `Broken = true` into NPC State romanc
 
 - Depends on: rs-001
 - Unlocks: rs-003, rs-004
+
+## Completion Notes
+
+**Completed**: 2026-06-13
+**Criteria**: 4/4 passing
+**Deviations**: None
+**Test Evidence**: Logic: `tests/unit/romance/milestone_unlock_and_force_break_test.cs`
+**Code Review**: Complete — CHANGES REQUIRED -> fixed `force_break` partial-write risk -> APPROVED
+**Verification**: `MilestoneUnlockAndForceBreakTest` 21/21 passed; Foundation full suite 1141/1141 passed

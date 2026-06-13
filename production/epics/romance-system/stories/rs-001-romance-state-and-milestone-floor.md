@@ -1,25 +1,25 @@
 # Story rs-001: 感情状态与里程碑地板钳位
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
 > **Estimate**: M
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-13
 
 ## Context
 
 **GDD**: `design/gdd/romance-system.md`
-**Requirement**: `TR-romance-system-???`
+**Requirement**: `TR-romance-system-001`
 
-`docs/architecture/tr-registry.yaml` 尚无 `TR-romance-*` 条目；本 story 临时追踪 GDD AC1，补齐 registry 后需替换为稳定 TR-ID。
+Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at review time.
 
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0001: Event Bus Architecture
 **ADR Decision Summary**: 感情数据寄存于 NPC State，`RomanceService` 只拥有规则；所有态度变化必须经 `OnAttitudeChangeRequest` 拦截器应用里程碑地板钳位，并通过 EventBus 通知跨层消费者。
 
 **Engine**: Godot 4.6.3 | **Risk**: LOW
-**Engine Notes**: Romance 核心为纯逻辑；需验证 NPC State 可在对话进行中排队态度变更。
+**Engine Notes**: Romance 核心为纯逻辑；需验证 NPC State 可在对话进行中排队态度变更。No performance impact expected — pure rule evaluation, no frame loop or rendering path involved.
 
 **Control Manifest Rules (Feature Layer)**:
 - Required: 感情数据必须寄存于 NPC State，Romance Service 仅拥有规则
@@ -99,3 +99,15 @@ Use typed EventBus events for cross-layer notifications. Do not introduce static
 
 - Depends on: Foundation/Core NPC State, EventBus, and prior `npc-state` completion
 - Unlocks: rs-002, rs-003, rs-006
+
+## Completion Notes
+
+**Completed**: 2026-06-13
+**Criteria**: 4/4 passing
+**Deviations**: None
+**Test Evidence**: Logic test at `tests/unit/romance/romance_state_and_milestone_floor_test.cs`
+**Code Review**: Complete — first pass CHANGES REQUIRED; fixes applied; re-review APPROVED
+**Validation**:
+- `RomanceStateAndMilestoneFloorTest` passed: 15/15
+- Foundation full suite passed: 1120/1120
+- `GetDiagnostics` reported no errors

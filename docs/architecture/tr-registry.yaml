@@ -25,7 +25,7 @@
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
 version: 1
-last_updated: "2026-06-12"
+last_updated: "2026-06-13"
 
 requirements:
   - id: TR-dialogue-system-001
@@ -453,6 +453,22 @@ requirements:
     gdd: design/gdd/enemy-ai.md
     requirement: "敌方 AI story ai-008 的已实现技术需求，覆盖性格模板、状态修正、预兆、调息、反读、目标选择、Boss 阶段与 EnemyBrain 集成"
     created: 2026-06-12
+    revised: ""
+    status: active
+
+  - id: TR-romance-system-001
+    system: romance-system
+    gdd: design/gdd/romance-system.md
+    requirement: "感情系统必须在态度变化时根据最高已达成里程碑应用地板钳位，M_TRUST 后普通负面变化不得将态度降至 +1 以下，且被吞掉的负面 delta 必须记录审计信息；感情数据由 NPC State 拥有，Romance 仅拥有规则逻辑"
+    created: 2026-06-13
+    revised: ""
+    status: active
+
+  - id: TR-romance-system-002
+    system: romance-system
+    gdd: design/gdd/romance-system.md
+    requirement: "感情系统必须按 M_ACQUAINTED → M_TRUST → M_CRISIS → M_HEART → M_BOND 顺序解锁里程碑，禁止跳级；解锁门槛为 Trust≥1、Crisis≥1、Heart≥2、Bond≥2；force_break 必须无视地板与顺序，直接设置 M_BREAK 并将态度设为 -4，且 M_BREAK 后该 NPC 不再参与普通感情判定"
+    created: 2026-06-13
     revised: ""
     status: active
 
