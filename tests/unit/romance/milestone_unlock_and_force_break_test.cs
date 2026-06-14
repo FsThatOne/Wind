@@ -111,6 +111,33 @@ public class MilestoneUnlockAndForceBreakTest
     }
 
     [Fact]
+    public void TryUnlockMilestone_WhenRequestedForBond_RejectsNormalPath()
+    {
+        var (service, npcState, _) = CreateService(
+            AttitudeLevel.LifeDeath,
+            new RomanceMilestoneState(Acquainted: true, Trust: true, Crisis: true, Heart: true));
+
+        var result = service.TryUnlockMilestone("heroine_a", RomanceMilestone.Bond, "story");
+
+        Assert.False(result.Success);
+        Assert.Equal("bond_requires_confirm_bond", result.ErrorCode);
+        Assert.False(npcState.GetMilestones("heroine_a")!.Bond);
+    }
+
+    [Fact]
+    public void MilestoneRegistry_WhenRequestedForBond_RejectsDirectUnlock()
+    {
+        var (_, npcState, milestones) = CreateService(
+            AttitudeLevel.LifeDeath,
+            new RomanceMilestoneState(Acquainted: true, Trust: true, Crisis: true, Heart: true));
+
+        var unlocked = milestones.Unlock("heroine_a", RomanceMilestone.Bond, "story");
+
+        Assert.False(unlocked);
+        Assert.False(npcState.GetMilestones("heroine_a")!.Bond);
+    }
+
+    [Fact]
     public void BrokenNpc_RejectsLaterNormalRomanceJudgement()
     {
         var (service, npcState, milestones) = CreateService(
@@ -180,6 +207,28 @@ public class MilestoneUnlockAndForceBreakTest
         Assert.NotNull(state);
         Assert.Equal(AttitudeLevel.DrawnSword, state!.Attitude);
         Assert.True(port.GetMilestones("heroine_a")!.Broken);
+    }
+
+    [Fact]
+    public void NpcStateRomancePort_ForceBreakWhenDialogueLockedAppliesImmediately()
+    {
+        var manager = new NpcStateManager(new EventBus());
+        manager.RegisterNpc("heroine_a");
+        var port = new NpcStateRomancePort(manager);
+        var service = new RomanceService(port, new MilestoneRegistry(port));
+        manager.SetDialogueLocked("heroine_a", locked: true);
+        Assert.True(service.ApplyAttitudeChange("heroine_a", 3, "queued").Success);
+        Assert.True(manager.UpdateFlag("heroine_a", NpcStateRomancePort.HeartFlag, "true", "queued"));
+
+        var result = port.ForceBreak("heroine_a", AttitudeLevel.DrawnSword, "plot");
+        manager.SetDialogueLocked("heroine_a", locked: false);
+
+        Assert.True(result);
+        Assert.Equal(AttitudeLevel.DrawnSword, port.GetAttitude("heroine_a"));
+        var milestones = port.GetMilestones("heroine_a");
+        Assert.NotNull(milestones);
+        Assert.True(milestones!.Broken);
+        Assert.False(milestones.Heart);
     }
 
     private static (

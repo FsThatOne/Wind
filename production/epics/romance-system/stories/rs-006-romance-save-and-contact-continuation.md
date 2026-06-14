@@ -1,19 +1,19 @@
 # Story rs-006: 感情存档与联系计时续算
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Integration
 > **Estimate**: M
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-14
 
 ## Context
 
 **GDD**: `design/gdd/romance-system.md`
-**Requirement**: `TR-romance-system-???`
+**Requirement**: `TR-romance-system-006`
 
-`docs/architecture/tr-registry.yaml` 尚无 `TR-romance-*` 条目；本 story 临时追踪 GDD AC7，补齐 registry 后需替换为稳定 TR-ID。
+需求正文以 `docs/architecture/tr-registry.yaml` 为准；评审和完成检查时请读取最新 registry 内容。
 
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0004: Save Encryption & Persistence Strategy
 **ADR Decision Summary**: 大部分感情数据随 NPC State 持久化，RomanceService 只保存极简全局状态如 `bonded_heroine`；`days_since_last_contact` 通过 flag day 与当前世界日续算，不在读取后重置。
@@ -92,7 +92,7 @@ New game plus/new run initialization must explicitly clear romance runtime data 
 **Required evidence**:
 - Integration: `tests/integration/romance/romance_save_and_contact_continuation_test.cs` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Created — pending review closure
 
 ---
 
@@ -100,3 +100,12 @@ New game plus/new run initialization must explicitly clear romance runtime data 
 
 - Depends on: rs-001, rs-003, rs-004, rs-005, save-system complete
 - Unlocks: final narrative and UI relationship consumers
+
+## Completion Notes
+
+**Completed**: 2026-06-14
+**Criteria**: 4/4 passing
+**Deviations**: None blocking. Scope expanded during code review to harden NPC State immediate writes, bond uniqueness, force_break immediate semantics, and the normal milestone Bond bypass.
+**Test Evidence**: Integration: `tests/integration/romance/romance_save_and_contact_continuation_test.cs`; supporting regressions in `tests/integration/romance/bond_flow_exclusivity_and_decline_test.cs`, `tests/unit/romance/milestone_unlock_and_force_break_test.cs`, and `tests/Foundation/NpcState/NpcStateManagerTests.cs`.
+**Code Review**: Complete — APPROVED WITH SUGGESTIONS after fixes.
+**Verification**: `dotnet test --filter "RomanceSaveAndContactContinuationTest|BondFlowExclusivityAndDeclineTest|MilestoneUnlockAndForceBreakTest|NpcStateManagerTests"` passed 63/63; `dotnet test` passed 1198/1198.

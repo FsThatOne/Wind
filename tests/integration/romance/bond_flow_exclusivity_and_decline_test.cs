@@ -69,6 +69,53 @@ public class BondFlowExclusivityAndDeclineTest
     }
 
     [Fact]
+    public void ConfirmBond_WhenDialogueLocked_ClaimsGlobalBondImmediately()
+    {
+        var manager = new NpcStateManager(new EventBus());
+        manager.RegisterNpc("heroine_a");
+        manager.RegisterNpc("heroine_b");
+        manager.SetDialogueLocked("heroine_a", locked: true);
+        manager.SetDialogueLocked("heroine_b", locked: true);
+        var port = new NpcStateRomancePort(manager);
+
+        var first = port.ConfirmBond("heroine_a", "bond_node");
+        var second = port.ConfirmBond("heroine_b", "bond_node");
+        manager.SetDialogueLocked("heroine_a", locked: false);
+        manager.SetDialogueLocked("heroine_b", locked: false);
+
+        Assert.True(first);
+        Assert.False(second);
+        Assert.Equal("heroine_a", port.GetBondedHeroine());
+        Assert.True(manager.GetState("heroine_a")!.Flags.ContainsKey(NpcStateRomancePort.BondFlag));
+        Assert.True(manager.GetState("heroine_a")!.Flags.ContainsKey(NpcStateRomancePort.BondedHeroineFlag));
+        Assert.False(manager.GetState("heroine_b")!.Flags.ContainsKey(NpcStateRomancePort.BondFlag));
+        Assert.False(manager.GetState("heroine_b")!.Flags.ContainsKey(NpcStateRomancePort.BondedHeroineFlag));
+    }
+
+    [Fact]
+    public void TryUnlockMilestone_WhenDialogueLocked_DoesNotQueueBondBypass()
+    {
+        var manager = new NpcStateManager(new EventBus());
+        manager.RegisterNpc("heroine_a");
+        var port = new NpcStateRomancePort(manager);
+        var service = new RomanceService(port, new MilestoneRegistry(port));
+        Assert.True(manager.UpdateFlag("heroine_a", NpcStateRomancePort.AcquaintedFlag, "true", "setup"));
+        Assert.True(manager.UpdateFlag("heroine_a", NpcStateRomancePort.TrustFlag, "true", "setup"));
+        Assert.True(manager.UpdateFlag("heroine_a", NpcStateRomancePort.CrisisFlag, "true", "setup"));
+        Assert.True(manager.UpdateFlag("heroine_a", NpcStateRomancePort.HeartFlag, "true", "setup"));
+        Assert.True(service.ApplyAttitudeChange("heroine_a", 3, "setup").Success);
+        manager.SetDialogueLocked("heroine_a", locked: true);
+
+        var result = service.TryUnlockMilestone("heroine_a", RomanceMilestone.Bond, "story");
+        manager.SetDialogueLocked("heroine_a", locked: false);
+
+        Assert.False(result.Success);
+        Assert.Equal("bond_requires_confirm_bond", result.ErrorCode);
+        Assert.False(manager.GetState("heroine_a")!.Flags.ContainsKey(NpcStateRomancePort.BondFlag));
+        Assert.False(manager.GetState("heroine_a")!.Flags.ContainsKey(NpcStateRomancePort.BondedHeroineFlag));
+    }
+
+    [Fact]
     public void TryBond_WhenAnotherHeroineAlreadyBondedReturnsAlreadyBondedVariant()
     {
         var (service, npcState) = CreateService();

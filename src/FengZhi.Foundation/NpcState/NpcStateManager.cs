@@ -49,10 +49,35 @@ internal interface INpcStateFlagWriter
 }
 
 /// <summary>
+/// Internal immediate flag writer that bypasses dialogue queues for persistence and atomic owner contracts.
+/// </summary>
+internal interface INpcStateImmediateFlagWriter
+{
+    void UpdateFlagImmediate(string npcId, string key, string value, string source);
+    void RemoveFlagImmediate(string npcId, string key, string source);
+    void RemoveFlagsImmediate(string npcId, Predicate<string> keyPredicate, string source);
+}
+
+/// <summary>
+/// Internal immediate state writer for owner contracts that must not wait for dialogue unlock.
+/// </summary>
+internal interface INpcStateImmediateStateWriter
+{
+    bool UpdateAttitudeImmediate(string npcId, AttitudeLevel value, string source);
+    void RemovePendingChanges(string npcId, Predicate<string> fieldPredicate);
+    void RemovePendingChanges(Predicate<string> fieldPredicate);
+}
+
+/// <summary>
 /// NPC 状态管理器实现。
 /// 通过 EventBus 发布变更事件；对话锁定时排队，解锁后批量生效。
 /// </summary>
-public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter, INpcStateFlagWriter
+public sealed class NpcStateManager :
+    INpcStateManager,
+    INpcStateAttitudeWriter,
+    INpcStateFlagWriter,
+    INpcStateImmediateFlagWriter,
+    INpcStateImmediateStateWriter
 {
     private readonly Dictionary<string, NpcState> _states = new();
     private readonly Dictionary<string, List<PendingChange>> _pendingChanges = new();
@@ -227,6 +252,62 @@ public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter,
         }, source);
     }
 
+    void INpcStateImmediateFlagWriter.UpdateFlagImmediate(string npcId, string key, string value, string source)
+    {
+        RegisterNpc(npcId);
+        RemovePendingFlagChanges(npcId, keyPredicate: pendingKey => pendingKey == key);
+        var old = _states[npcId].Flags.TryGetValue(key, out var existing) ? existing : "(none)";
+        _states[npcId].SetFlag(key, value, source);
+        _eventBus.Publish(new NpcStateChangedEvent(npcId, $"Flag:{key}", old, value, source));
+    }
+
+    void INpcStateImmediateFlagWriter.RemoveFlagImmediate(string npcId, string key, string source)
+    {
+        RemovePendingFlagChanges(npcId, keyPredicate: pendingKey => pendingKey == key);
+        if (!_states.TryGetValue(npcId, out var state)) return;
+        if (!state.Flags.TryGetValue(key, out var old)) return;
+
+        state.RemoveFlag(key, source);
+        _eventBus.Publish(new NpcStateChangedEvent(npcId, $"Flag:{key}", old, "(removed)", source));
+    }
+
+    void INpcStateImmediateFlagWriter.RemoveFlagsImmediate(string npcId, Predicate<string> keyPredicate, string source)
+    {
+        RemovePendingFlagChanges(npcId, keyPredicate);
+        if (!_states.TryGetValue(npcId, out var state)) return;
+
+        var removals = state.Flags
+            .Where(pair => keyPredicate(pair.Key))
+            .Select(pair => (Key: pair.Key, Value: pair.Value))
+            .ToList();
+        foreach (var (key, old) in removals)
+        {
+            state.RemoveFlag(key, source);
+            _eventBus.Publish(new NpcStateChangedEvent(npcId, $"Flag:{key}", old, "(removed)", source));
+        }
+    }
+
+    bool INpcStateImmediateStateWriter.UpdateAttitudeImmediate(string npcId, AttitudeLevel value, string source)
+    {
+        if (!_states.TryGetValue(npcId, out var state) || state.IsDead) return false;
+        RemovePendingChanges(npcId, field => field == "Attitude");
+        var old = state.Attitude.ToString();
+        state.SetAttitude(value, source);
+        _eventBus.Publish(new NpcStateChangedEvent(npcId, "Attitude", old, value.ToString(), source));
+        return true;
+    }
+
+    void INpcStateImmediateStateWriter.RemovePendingChanges(string npcId, Predicate<string> fieldPredicate)
+    {
+        RemovePendingChanges(npcId, fieldPredicate);
+    }
+
+    void INpcStateImmediateStateWriter.RemovePendingChanges(Predicate<string> fieldPredicate)
+    {
+        foreach (var npcId in _pendingChanges.Keys.ToList())
+            RemovePendingChanges(npcId, fieldPredicate);
+    }
+
     // ─── 私有 ───────────────────────────────────────────────
 
     private bool CanModify(string npcId, string field)
@@ -266,6 +347,28 @@ public sealed class NpcStateManager : INpcStateManager, INpcStateAttitudeWriter,
         }
 
         _pendingChanges.Remove(npcId);
+    }
+
+    private void RemovePendingFlagChanges(string npcId, Predicate<string> keyPredicate)
+    {
+        if (!_pendingChanges.TryGetValue(npcId, out var changes)) return;
+
+        changes.RemoveAll(change =>
+            change.Field.StartsWith("Flag:", StringComparison.Ordinal)
+            && keyPredicate(change.Field["Flag:".Length..]));
+
+        if (changes.Count == 0)
+            _pendingChanges.Remove(npcId);
+    }
+
+    private void RemovePendingChanges(string npcId, Predicate<string> fieldPredicate)
+    {
+        if (!_pendingChanges.TryGetValue(npcId, out var changes)) return;
+
+        changes.RemoveAll(change => fieldPredicate(change.Field));
+
+        if (changes.Count == 0)
+            _pendingChanges.Remove(npcId);
     }
 
     private sealed record PendingChange(string Field, Func<(string old, string @new)> ApplyAction, string Source);

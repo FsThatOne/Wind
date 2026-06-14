@@ -185,3 +185,41 @@
 - Test evidence: `CometPresenceAndRumorChanceTest` 11/11 passed; Romance filtered suite 70/70 passed; Foundation full suite 1175/1175 passed
 - Blockers: None
 - Next: /code-review src/FengZhi.Foundation/Romance/CometPresenceTracker.cs src/FengZhi.Foundation/Romance/RomanceState.cs tests/unit/romance/comet_presence_and_rumor_chance_test.cs then /story-done production/epics/romance-system/stories/rs-005-comet-presence-and-rumor-chance.md
+
+## Session Extract — /story-done 2026-06-13
+- Verdict: COMPLETE
+- Story: production/epics/romance-system/stories/rs-005-comet-presence-and-rumor-chance.md — rs-005 彗星存在感与传闻概率
+- Code review: APPROVED WITH SUGGESTIONS -> 修复 DataRegistry 调参注册缺口 -> COMPLETE
+- Test evidence: `CometPresenceAndRumorChanceTest` 15/15 passed; Romance filtered suite 74/74 passed; Foundation full suite 1179/1179 passed
+- Tech debt logged: None
+- Next recommended: rs-006 感情存档与联系计时续算 — production/epics/romance-system/stories/rs-006-romance-save-and-contact-continuation.md
+
+## Session Extract — /dev-story 2026-06-13
+- Story: production/epics/romance-system/stories/rs-006-romance-save-and-contact-continuation.md — rs-006 感情存档与联系计时续算
+- Files changed: src/FengZhi.Foundation/Romance/CometPresenceTracker.cs, src/FengZhi.Foundation/Romance/RomanceState.cs, src/FengZhi.Foundation/Romance/RomancePersistenceAdapter.cs, tests/integration/romance/romance_save_and_contact_continuation_test.cs, production/epics/romance-system/stories/rs-006-romance-save-and-contact-continuation.md
+- Test written: tests/integration/romance/romance_save_and_contact_continuation_test.cs
+- Test evidence: `RomanceSaveAndContactContinuationTest` 4/4 passed; Romance filtered suite 78/78 passed; Foundation full suite 1183/1183 passed
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Romance/CometPresenceTracker.cs src/FengZhi.Foundation/Romance/RomanceState.cs src/FengZhi.Foundation/Romance/RomancePersistenceAdapter.cs tests/integration/romance/romance_save_and_contact_continuation_test.cs then /story-done production/epics/romance-system/stories/rs-006-romance-save-and-contact-continuation.md
+
+## Session Extract — /code-review-fix 2026-06-13
+- Story: production/epics/romance-system/stories/rs-006-romance-save-and-contact-continuation.md — rs-006 感情存档与联系计时续算
+- Fixes: staged romance restore validation before mutation; bonded_heroine uniqueness validation; invalid bonded boolean safe failure; Sign/Letter last-contact write before counter increment; expanded new-run reset coverage
+- Test evidence: `RomanceSaveAndContactContinuationTest` 8/8 passed; Romance filtered suite 82/82 passed; Foundation full suite 1187/1187 passed
+- Blockers: None
+- Next: re-run /code-review src/FengZhi.Foundation/Romance/CometPresenceTracker.cs src/FengZhi.Foundation/Romance/RomanceState.cs src/FengZhi.Foundation/Romance/RomancePersistenceAdapter.cs tests/integration/romance/romance_save_and_contact_continuation_test.cs
+
+## Session Extract — /code-review-fix 2026-06-13
+- Story: production/epics/romance-system/stories/rs-006-romance-save-and-contact-continuation.md — rs-006 感情存档与联系计时续算
+- Fixes: added NPC State immediate flag writer for persistence; RestoreRomanceFlags now bypasses death guards and dialogue queues; ResetRomanceForNewRun clears current and pending romance flags immediately
+- Test evidence: `RomanceSaveAndContactContinuationTest` 12/12 passed; Romance filtered suite 86/86 passed; Foundation full suite 1191/1191 passed
+- Blockers: None
+- Next: re-run /code-review src/FengZhi.Foundation/NpcState/NpcStateManager.cs src/FengZhi.Foundation/Romance/RomanceState.cs src/FengZhi.Foundation/Romance/RomancePersistenceAdapter.cs tests/integration/romance/romance_save_and_contact_continuation_test.cs
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/romance-system/stories/rs-006-romance-save-and-contact-continuation.md — rs-006 感情存档与联系计时续算
+- Criteria: 4/4 passing; code review APPROVED WITH SUGGESTIONS after fixes
+- Test evidence: `RomanceSaveAndContactContinuationTest` plus bond/force_break/NPC immediate event regressions passed; Foundation full suite 1198/1198 passed
+- Tech debt logged: None
+- Next recommended: rs-007 文学化关系展示契约 — run `/story-readiness production/epics/romance-system/stories/rs-007-literary-relationship-presentation-contract.md` after replacing placeholder TR-ID

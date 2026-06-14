@@ -49,9 +49,29 @@ public interface IRomanceNpcStatePort
 }
 
 /// <summary>
+/// NPC State persistence boundary for romance-owned flags.
+/// </summary>
+public interface IRomancePersistencePort
+{
+    /// <summary>Exports all NPC State flags owned by the Romance system.</summary>
+    IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> ExportRomanceFlags();
+
+    /// <summary>Restores romance-owned flags from a save snapshot.</summary>
+    void RestoreRomanceFlags(
+        IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> npcRomanceFlags,
+        string source);
+
+    /// <summary>Clears all romance-owned flags for a fresh run.</summary>
+    void ResetRomanceForNewRun(string source);
+}
+
+/// <summary>
 /// Adapter that stores romance milestone flags inside <see cref="NpcState"/> flags.
 /// </summary>
-internal sealed class NpcStateRomancePort : IRomanceNpcStatePort, IRomanceCometPresencePort
+internal sealed class NpcStateRomancePort :
+    IRomanceNpcStatePort,
+    IRomanceCometPresencePort,
+    IRomancePersistencePort
 {
     public const string BrokenFlag = "romance_milestone_break";
     public const string AcquaintedFlag = "romance_milestone_acquainted";
@@ -69,20 +89,26 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort, IRomanceCometP
     private readonly INpcStateManager _npcState;
     private readonly INpcStateAttitudeWriter _attitudeWriter;
     private readonly INpcStateFlagWriter _flagWriter;
+    private readonly INpcStateImmediateFlagWriter _immediateFlagWriter;
+    private readonly INpcStateImmediateStateWriter _immediateStateWriter;
 
     public NpcStateRomancePort(NpcStateManager npcState)
-        : this(npcState, npcState, npcState)
+        : this(npcState, npcState, npcState, npcState, npcState)
     {
     }
 
     internal NpcStateRomancePort(
         INpcStateManager npcState,
         INpcStateAttitudeWriter attitudeWriter,
-        INpcStateFlagWriter flagWriter)
+        INpcStateFlagWriter flagWriter,
+        INpcStateImmediateFlagWriter immediateFlagWriter,
+        INpcStateImmediateStateWriter immediateStateWriter)
     {
         _npcState = npcState;
         _attitudeWriter = attitudeWriter;
         _flagWriter = flagWriter;
+        _immediateFlagWriter = immediateFlagWriter;
+        _immediateStateWriter = immediateStateWriter;
     }
 
     public AttitudeLevel? GetAttitude(string npcId)
@@ -120,17 +146,12 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort, IRomanceCometP
         var state = _npcState.GetState(npcId);
         if (state == null || state.IsDead) return false;
 
-        var hadBreakFlag = state.Flags.TryGetValue(BrokenFlag, out var previousBreakValue);
-        if (!SetMilestone(npcId, RomanceMilestone.Break, true, source)) return false;
-        if (_attitudeWriter.UpdateAttitude(npcId, terminalAttitude, source)) return true;
+        _immediateStateWriter.RemovePendingChanges(npcId, IsRomanceOrAttitudePendingField);
+        if (!_immediateStateWriter.UpdateAttitudeImmediate(npcId, terminalAttitude, source))
+            return false;
 
-        // Best-effort rollback preserves the contract if an unexpected writer failure appears.
-        if (hadBreakFlag)
-            _npcState.UpdateFlag(npcId, BrokenFlag, previousBreakValue!, source);
-        else
-            _npcState.RemoveFlag(npcId, BrokenFlag, source);
-
-        return false;
+        _immediateFlagWriter.UpdateFlagImmediate(npcId, BrokenFlag, "true", source);
+        return true;
     }
 
     public string? GetBondedHeroine()
@@ -145,16 +166,12 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort, IRomanceCometP
         var state = _npcState.GetState(npcId);
         if (state == null || state.IsDead || GetBondedHeroine() != null) return false;
 
-        var hadBondFlag = state.Flags.TryGetValue(BondFlag, out var previousBondValue);
-        if (!SetMilestone(npcId, RomanceMilestone.Bond, true, source)) return false;
-        if (SetRomanceFlag(npcId, BondedHeroineFlag, "true", source)) return true;
+        _immediateStateWriter.RemovePendingChanges(IsBondCommitPendingField);
+        if (GetBondedHeroine() != null) return false;
 
-        if (hadBondFlag)
-            _npcState.UpdateFlag(npcId, BondFlag, previousBondValue!, source);
-        else
-            _npcState.RemoveFlag(npcId, BondFlag, source);
-
-        return false;
+        _immediateFlagWriter.UpdateFlagImmediate(npcId, BondFlag, "true", source);
+        _immediateFlagWriter.UpdateFlagImmediate(npcId, BondedHeroineFlag, "true", source);
+        return true;
     }
 
     public bool HasRomanceFlag(string npcId, string key)
@@ -210,16 +227,81 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort, IRomanceCometP
         var state = _npcState.GetState(npcId);
         if (state == null || state.IsDead) return false;
 
-        var counterFlag = GetCounterFlag(kind);
-        if (!IncrementRomanceCounter(npcId, counterFlag, source)) return false;
+        if (lastContactDay != null)
+        {
+            var contactFlag = CometPresenceTracker.GetLastContactFlag(npcId);
+            if (!SetRomanceFlag(npcId, contactFlag, lastContactDay.Value.ToString(), source))
+                return false;
+        }
 
-        if (lastContactDay == null) return true;
+        return IncrementRomanceCounter(npcId, GetCounterFlag(kind), source);
+    }
 
-        var contactFlag = CometPresenceTracker.GetLastContactFlag(npcId);
-        if (SetRomanceFlag(npcId, contactFlag, lastContactDay.Value.ToString(), source))
-            return true;
+    public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> ExportRomanceFlags()
+    {
+        return _npcState.GetAll()
+            .Select(state => new
+            {
+                state.TemplateId,
+                Flags = state.Flags
+                    .Where(pair => IsRomanceFlagKey(pair.Key))
+                    .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal)
+            })
+            .Where(entry => entry.Flags.Count > 0)
+            .ToDictionary(
+                entry => entry.TemplateId,
+                entry => (IReadOnlyDictionary<string, string>)entry.Flags,
+                StringComparer.Ordinal);
+    }
 
-        return false;
+    public void RestoreRomanceFlags(
+        IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> npcRomanceFlags,
+        string source)
+    {
+        ValidateRomanceRestoreSnapshot(npcRomanceFlags);
+        ResetRomanceForNewRun(source);
+
+        foreach (var (npcId, flags) in npcRomanceFlags)
+        {
+            _npcState.RegisterNpc(npcId);
+            foreach (var (key, value) in flags)
+            {
+                EnsureRomanceFlagKey(key);
+                _immediateFlagWriter.UpdateFlagImmediate(npcId, key, value, source);
+            }
+        }
+    }
+
+    public void ResetRomanceForNewRun(string source)
+    {
+        foreach (var state in _npcState.GetAll())
+            _immediateFlagWriter.RemoveFlagsImmediate(state.TemplateId, IsRomanceFlagKey, source);
+    }
+
+    private static void ValidateRomanceRestoreSnapshot(
+        IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> npcRomanceFlags)
+    {
+        var bondedCount = 0;
+        foreach (var (npcId, flags) in npcRomanceFlags)
+        {
+            if (string.IsNullOrWhiteSpace(npcId))
+                throw new InvalidOperationException("Romance save data contains an empty NPC id.");
+
+            foreach (var (key, value) in flags)
+            {
+                EnsureRomanceFlagKey(key);
+                if (!string.Equals(key, BondedHeroineFlag, StringComparison.Ordinal))
+                    continue;
+
+                if (!bool.TryParse(value, out var isBonded))
+                    throw new InvalidOperationException("romance_bonded_heroine must be a boolean value.");
+                if (isBonded)
+                    bondedCount++;
+            }
+        }
+
+        if (bondedCount > 1)
+            throw new InvalidOperationException("Romance save data contains multiple bonded heroines.");
     }
 
     /// <summary>Writes a romance-prefixed milestone flag through the NPC State owner.</summary>
@@ -244,8 +326,29 @@ internal sealed class NpcStateRomancePort : IRomanceNpcStatePort, IRomanceCometP
 
     private static void EnsureRomanceFlagKey(string key)
     {
-        if (!key.StartsWith("romance_", StringComparison.Ordinal))
+        if (!IsRomanceFlagKey(key))
             throw new ArgumentException("Romance flags must use the romance_ prefix.", nameof(key));
+    }
+
+    private static bool IsRomanceFlagKey(string key)
+    {
+        return key.StartsWith("romance_", StringComparison.Ordinal);
+    }
+
+    private static bool IsRomanceOrAttitudePendingField(string field)
+    {
+        return field == "Attitude"
+            || (field.StartsWith("Flag:", StringComparison.Ordinal)
+                && IsRomanceFlagKey(field["Flag:".Length..]));
+    }
+
+    private static bool IsBondCommitPendingField(string field)
+    {
+        if (!field.StartsWith("Flag:", StringComparison.Ordinal)) return false;
+
+        var key = field["Flag:".Length..];
+        return string.Equals(key, BondFlag, StringComparison.Ordinal)
+            || string.Equals(key, BondedHeroineFlag, StringComparison.Ordinal);
     }
 
     private static string GetFlagKey(RomanceMilestone milestone)

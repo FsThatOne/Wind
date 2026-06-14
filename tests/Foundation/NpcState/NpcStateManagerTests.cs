@@ -9,12 +9,16 @@ public class NpcStateManagerTests
     private readonly EventBus _eventBus;
     private readonly NpcStateManager _manager;
     private readonly INpcStateAttitudeWriter _attitudeWriter;
+    private readonly INpcStateImmediateFlagWriter _immediateFlagWriter;
+    private readonly INpcStateImmediateStateWriter _immediateStateWriter;
 
     public NpcStateManagerTests()
     {
         _eventBus = new EventBus();
         _manager = new NpcStateManager(_eventBus);
         _attitudeWriter = _manager;
+        _immediateFlagWriter = _manager;
+        _immediateStateWriter = _manager;
         _manager.RegisterNpc("bai_ling");
         _manager.RegisterNpc("lao_zhang");
     }
@@ -64,6 +68,44 @@ public class NpcStateManagerTests
         Assert.NotNull(received);
         Assert.Equal("Attitude", received!.Field);
         Assert.Equal("Friendly", received.NewValue);
+    }
+
+    [Fact]
+    public void UpdateFlagImmediate_PublishesEventEvenWhenDialogueLocked()
+    {
+        _manager.SetDialogueLocked("bai_ling", true);
+        NpcStateChangedEvent? received = null;
+        _eventBus.Subscribe<NpcStateChangedEvent>(e => received = e);
+
+        _immediateFlagWriter.UpdateFlagImmediate("bai_ling", "romance_milestone_bond", "true", "bond_node");
+
+        Assert.NotNull(received);
+        Assert.Equal("bai_ling", received!.NpcId);
+        Assert.Equal("Flag:romance_milestone_bond", received.Field);
+        Assert.Equal("(none)", received.OldValue);
+        Assert.Equal("true", received.NewValue);
+        Assert.Equal("bond_node", received.Source);
+    }
+
+    [Fact]
+    public void UpdateAttitudeImmediate_PublishesEventEvenWhenDialogueLocked()
+    {
+        _manager.SetDialogueLocked("bai_ling", true);
+        NpcStateChangedEvent? received = null;
+        _eventBus.Subscribe<NpcStateChangedEvent>(e => received = e);
+
+        var result = _immediateStateWriter.UpdateAttitudeImmediate(
+            "bai_ling",
+            AttitudeLevel.DrawnSword,
+            "force_break");
+
+        Assert.True(result);
+        Assert.NotNull(received);
+        Assert.Equal("bai_ling", received!.NpcId);
+        Assert.Equal("Attitude", received.Field);
+        Assert.Equal("Stranger", received.OldValue);
+        Assert.Equal("DrawnSword", received.NewValue);
+        Assert.Equal("force_break", received.Source);
     }
 
     // ─── AC3: 对话锁定时排队，解锁后批量生效 ───────────────

@@ -80,7 +80,7 @@ public sealed class MilestoneRegistry
     /// </summary>
     public bool Unlock(string npcId, RomanceMilestone milestone, string source)
     {
-        if (milestone == RomanceMilestone.Break) return false;
+        if (milestone is RomanceMilestone.Break or RomanceMilestone.Bond) return false;
         return CanUnlock(npcId, milestone)
             && _npcState.SetMilestone(npcId, milestone, true, source);
     }

@@ -189,6 +189,8 @@ public sealed class RomanceService : IDisposable
             return RomanceMilestoneResult.Fail("npc_id_required", milestone);
         if (milestone == RomanceMilestone.Break)
             return RomanceMilestoneResult.Fail("break_requires_force_break", milestone);
+        if (milestone == RomanceMilestone.Bond)
+            return RomanceMilestoneResult.Fail("bond_requires_confirm_bond", milestone);
 
         var changeSource = string.IsNullOrWhiteSpace(source) ? DefaultSource : source;
         if (!_milestones.CanUnlock(npcId, milestone))
