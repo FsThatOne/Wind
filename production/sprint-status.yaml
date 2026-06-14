@@ -9,82 +9,60 @@
 #   done           ↔  Complete
 #   blocked        ↔  Blocked
 
-sprint: 3
-goal: "实现完整的敌方 AI 决策管线，使 AI 可在纯 C# 环境中为任意战斗配置提供符合 GDD 统计分布的决策输出。"
-start: "2026-06-12"
-end: "2026-06-26"
-generated: "2026-06-12"
-updated: "2026-06-12"
+sprint: 4
+goal: "实现场景 InsightNode 的发现、追查、奖励分派、存档恢复和锁定恢复管线，让洞察属性在世界探索中形成可测试的主动发现闭环。"
+start: "2026-06-14"
+end: "2026-06-28"
+generated: "2026-06-14"
+updated: "2026-06-14"
 
 stories:
-  - id: "ai-001"
-    name: "性格模板与体系选择 (Phase A)"
-    file: "production/epics/enemy-ai/stories/ai-001-personality-template-type-selection.md"
+  - id: "ei-001"
+    name: "InsightNode 数据模型、注册表与场景激活"
+    file: "production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md"
     priority: must-have
     status: done
     owner: ""
-    estimate_days: 0.5
+    estimate_days: 0.75
     blocker: ""
+    completed: "2026-06-14"
 
-  - id: "ai-002"
-    name: "状态机与综合修正系统"
-    file: "production/epics/enemy-ai/stories/ai-002-state-machine-modifiers.md"
+  - id: "ei-002"
+    name: "洞察距离检测、门槛检定与重访发现"
+    file: "production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md"
     priority: must-have
     status: done
     owner: ""
     estimate_days: 1
-    blocker: "ai-001"
+    blocker: "ei-001"
+    completed: "2026-06-14"
 
-  - id: "ai-003"
-    name: "招式预兆序列"
-    file: "production/epics/enemy-ai/stories/ai-003-signature-patterns.md"
-    priority: should-have
-    status: done
-    owner: ""
-    estimate_days: 0.5
-    blocker: "ai-001"
-
-  - id: "ai-004"
-    name: "调息决策与选招逻辑"
-    file: "production/epics/enemy-ai/stories/ai-004-meditation-and-move-selection.md"
-    priority: must-have
-    status: done
-    owner: ""
-    estimate_days: 0.5
-    blocker: "ai-001"
-
-  - id: "ai-005"
-    name: "反读系统 (Phase B)"
-    file: "production/epics/enemy-ai/stories/ai-005-counter-read-phase-b.md"
+  - id: "ei-003"
+    name: "多节点 stagger、忽略与 linger 恢复"
+    file: "production/epics/exploration-insight/stories/ei-003-multi-node-stagger-and-cue-linger.md"
     priority: must-have
     status: done
     owner: ""
     estimate_days: 1
-    blocker: "ai-001"
+    blocker: "ei-002"
+    completed: "2026-06-14"
 
-  - id: "ai-006"
-    name: "目标选择 (F3)"
-    file: "production/epics/enemy-ai/stories/ai-006-target-selection.md"
+  - id: "ei-004"
+    name: "发现奖励分派：Clue 与 CodePhrase"
+    file: "production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md"
     priority: must-have
-    status: done
+    status: ready-for-dev
     owner: ""
-    estimate_days: 0.5
-    blocker: ""
+    estimate_days: 1.25
+    blocker: "ei-002"
+    completed: ""
 
-  - id: "ai-007"
-    name: "Boss 阶段与特殊机制"
-    file: "production/epics/enemy-ai/stories/ai-007-boss-phases-special-mechanics.md"
-    priority: should-have
-    status: done
-    owner: ""
-    estimate_days: 1
-    blocker: "ai-001, ai-005"
-
-  - id: "ai-008"
-    name: "AI 管线集成与验证"
-    file: "production/epics/enemy-ai/stories/ai-008-pipeline-integration-validation.md"
+  - id: "ei-005"
+    name: "存档恢复、场景卸载清理与战斗/对话锁恢复"
+    file: "production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md"
     priority: must-have
-    status: done
+    status: ready-for-dev
     owner: ""
-    estimate_days: 1
-    blocker: "ai-001, ai-002, ai-003, ai-004, ai-005, ai-006, ai-007"
+    estimate_days: 1.5
+    blocker: "ei-001, ei-003, ei-004"
+    completed: ""

@@ -239,3 +239,99 @@
 - Test evidence: `RelationshipPresentationContractTest` passed 16/16; UI evidence doc approved; Foundation full suite 1214/1214 passed
 - Tech debt logged: None
 - Next recommended: romance-system Epic MVP/P1 stories are complete; run `/smoke-check sprint` or select the next Epic/story via `/sprint-status`
+
+<!-- QA RUN: 2026-06-14 | Sprint: sprint-3 | Verdict: APPROVED WITH CONDITIONS | Report: production/qa/qa-signoff-sprint-3-2026-06-14.md -->
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/combat-ui/stories/cu-001-combat-ui-foundation-and-event-adapter.md — cu-001 战斗 UI 基础层与事件适配
+- Files changed: src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs, src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs, tests/integration/combat-ui/combat_ui_foundation_event_adapter_test.cs, production/qa/evidence/cu-001-combat-ui-foundation-and-event-adapter-evidence.md, production/epics/combat-ui/stories/cu-001-combat-ui-foundation-and-event-adapter.md
+- Test written: tests/integration/combat-ui/combat_ui_foundation_event_adapter_test.cs (7 checks)
+- Verification: `dotnet test --filter CombatUiFoundationEventAdapterTest` passed 7/7; `dotnet test` passed 1221/1221
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs tests/integration/combat-ui/combat_ui_foundation_event_adapter_test.cs production/qa/evidence/cu-001-combat-ui-foundation-and-event-adapter-evidence.md then /story-done production/epics/combat-ui/stories/cu-001-combat-ui-foundation-and-event-adapter.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/combat-ui/stories/cu-001-combat-ui-foundation-and-event-adapter.md — cu-001 战斗 UI 基础层与事件适配
+- Criteria: 6/6 passing; code review APPROVED WITH SUGGESTIONS
+- Test evidence: `CombatUiFoundationEventAdapterTest` passed 9/9; Foundation full suite 1223/1223 passed; integration evidence documented
+- Tech debt logged: None
+- Notes: real Godot scene visibility and dual-focus walkthrough evidence deferred to later combat UI stories
+- Next recommended: cu-002 意图图标与 HUD 汇总 — production/epics/combat-ui/stories/cu-002-intent-icons-and-hud-summary.md
+
+<!-- QA-PLAN: 2026-06-14 | System: sprint-4 exploration-insight | Plan written: production/qa/qa-plan-sprint-4-2026-06-14.md -->
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/combat-ui/stories/cu-002-intent-icons-and-hud-summary.md — cu-002 意图图标与 HUD 汇总
+- Files changed: src/FengZhi.Foundation/Combat/BattleEventBus.cs, src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs, src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs, src/FengZhi.Foundation/CombatUi/CombatUiLayers.cs, tests/integration/combat-ui/combat_ui_intent_icons_hud_summary_test.cs, production/qa/evidence/cu-002-intent-icons-and-hud-summary-evidence.md, production/epics/combat-ui/stories/cu-002-intent-icons-and-hud-summary.md
+- Test written: tests/integration/combat-ui/combat_ui_intent_icons_hud_summary_test.cs (7 checks)
+- Verification: `dotnet test tests/Foundation/Foundation.Tests.csproj --filter CombatUi` passed 16/16
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Combat/BattleEventBus.cs src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs src/FengZhi.Foundation/CombatUi/CombatUiLayers.cs tests/integration/combat-ui/combat_ui_intent_icons_hud_summary_test.cs production/qa/evidence/cu-002-intent-icons-and-hud-summary-evidence.md then /story-done production/epics/combat-ui/stories/cu-002-intent-icons-and-hud-summary.md
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md — ei-001 InsightNode 数据模型、注册表与场景激活
+- Files changed: src/FengZhi.Foundation/Exploration/InsightNode.cs, src/FengZhi.Foundation/Exploration/InsightNodeRegistry.cs, tests/unit/exploration/insight_node_registry_test.cs, production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md, production/sprint-status.yaml
+- Test written: tests/unit/exploration/insight_node_registry_test.cs (9 tests)
+- Verification: `dotnet test tests/Foundation/Foundation.Tests.csproj --filter InsightNodeRegistryTest` passed 9/9; `dotnet test tests/Foundation/Foundation.Tests.csproj` passed 1239/1239
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Exploration/InsightNode.cs src/FengZhi.Foundation/Exploration/InsightNodeRegistry.cs tests/unit/exploration/insight_node_registry_test.cs then /story-done production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md — ei-001 InsightNode 数据模型、注册表与场景激活
+- Criteria: 4/4 passing; code review APPROVED WITH SUGGESTIONS
+- Test evidence: `InsightNodeRegistryTest` passed 9/9; diagnostics clean
+- Tech debt logged: None
+- Next recommended: ei-002 洞察距离检测、门槛检定与重访发现 — production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md — ei-002 洞察距离检测、门槛检定与重访发现
+- Files changed: src/FengZhi.Foundation/Exploration/InsightEvents.cs, src/FengZhi.Foundation/Exploration/ProximityDetector.cs, tests/unit/exploration/insight_detection_threshold_test.cs, production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md, production/sprint-status.yaml
+- Test written: tests/unit/exploration/insight_detection_threshold_test.cs (9 tests)
+- Verification: `dotnet test tests/Foundation/Foundation.Tests.csproj --filter InsightDetectionThresholdTest` passed 9/9; `dotnet test tests/Foundation/Foundation.Tests.csproj` passed 1250/1250
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Exploration/InsightEvents.cs src/FengZhi.Foundation/Exploration/ProximityDetector.cs tests/unit/exploration/insight_detection_threshold_test.cs then /story-done production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/combat-ui/stories/cu-002-intent-icons-and-hud-summary.md — cu-002 意图图标与 HUD 汇总
+- Criteria: 6/6 passing; code review APPROVED WITH SUGGESTIONS
+- Test evidence: `CombatUiIntentIconsHudSummaryTest` + `CombatUiFoundationEventAdapterTest` passed 18/18 via `dotnet test tests/Foundation/Foundation.Tests.csproj --filter CombatUi`; Foundation full suite previously passed 1241/1241
+- Tech debt logged: None
+- Notes: `intent_icon_fadein_duration` tuning knob and real Godot scene animation/focus walkthrough remain advisory follow-ups
+- Next recommended: cu-003 资源条与伤害反馈 — production/epics/combat-ui/stories/cu-003-resource-bars-and-damage-feedback.md, or cu-004 招式选择面板与预览卡 — production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md — ei-002 洞察距离检测、门槛检定与重访发现
+- Acceptance criteria: 5/5 passing; `InsightDetectionThresholdTest` passed 9/9
+- Code review: Complete — approved with suggestions
+- Tech debt logged: 2 items in docs/tech-debt-register.md
+- Next recommended: ei-003 多节点 stagger、忽略与 linger 恢复 — production/epics/exploration-insight/stories/ei-003-multi-node-stagger-and-cue-linger.md, or ei-004 发现奖励分派：Clue 与 CodePhrase — production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/combat-ui/stories/cu-003-resource-bars-and-damage-feedback.md — cu-003 资源条与伤害反馈
+- Files changed: src/FengZhi.Foundation/Combat/BattleEventBus.cs, src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs, src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs, src/FengZhi.Foundation/CombatUi/CombatUiLayers.cs, tests/integration/combat-ui/combat_ui_resource_bars_damage_feedback_test.cs, production/qa/evidence/cu-003-resource-bars-and-damage-feedback-evidence.md, production/epics/combat-ui/stories/cu-003-resource-bars-and-damage-feedback.md, production/epics/combat-ui/EPIC.md
+- Test written: tests/integration/combat-ui/combat_ui_resource_bars_damage_feedback_test.cs (9 tests)
+- Verification: `dotnet test tests/Foundation/Foundation.Tests.csproj --filter CombatUi` passed 31/31; `dotnet test tests/Foundation/Foundation.Tests.csproj` passed 1273/1273
+- Blockers: None
+- Notes: Visual/Feel 实机走查仍需在 Godot 场景中确认资源条 Tween、伤害浮字可读性、破绽脉冲与池化焦点释放。
+- Next: /code-review src/FengZhi.Foundation/Combat/BattleEventBus.cs src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs src/FengZhi.Foundation/CombatUi/CombatUiLayers.cs tests/integration/combat-ui/combat_ui_resource_bars_damage_feedback_test.cs production/qa/evidence/cu-003-resource-bars-and-damage-feedback-evidence.md then /story-done production/epics/combat-ui/stories/cu-003-resource-bars-and-damage-feedback.md
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/exploration-insight/stories/ei-003-multi-node-stagger-and-cue-linger.md — ei-003 多节点 stagger、忽略与 linger 恢复
+- Files changed: src/FengZhi.Foundation/Exploration/InsightEvents.cs, src/FengZhi.Foundation/Exploration/ProximityDetector.cs, tests/unit/exploration/insight_cue_timing_test.cs, production/epics/exploration-insight/stories/ei-003-multi-node-stagger-and-cue-linger.md, production/sprint-status.yaml
+- Test written: tests/unit/exploration/insight_cue_timing_test.cs (9 tests)
+- Verification: `dotnet test tests/Foundation/Foundation.Tests.csproj --filter "InsightCueTimingTest|InsightDetectionThresholdTest"` passed 19/19; `dotnet test tests/Foundation/Foundation.Tests.csproj --filter exploration` passed 29/29
+- Full suite note: standard full run crashed test host nondeterministically; rerun with `RunConfiguration.DisableParallelization=true` completed with 1 unrelated combat-ui failure in `CombatUiResourceBarsDamageFeedbackTest.HudPanel_AppliesResourcesDamageNumbersAndStaggerCues`
+- Blockers: None for ei-003 scope
+- Next: /code-review src/FengZhi.Foundation/Exploration/InsightEvents.cs src/FengZhi.Foundation/Exploration/ProximityDetector.cs tests/unit/exploration/insight_cue_timing_test.cs then /story-done production/epics/exploration-insight/stories/ei-003-multi-node-stagger-and-cue-linger.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/exploration-insight/stories/ei-003-multi-node-stagger-and-cue-linger.md — ei-003 多节点 stagger、忽略与 linger 恢复
+- Test evidence: `InsightCueTimingTest|InsightDetectionThresholdTest` passed 19/19 via `dotnet test tests/Foundation/Foundation.Tests.csproj --filter "InsightCueTimingTest|InsightDetectionThresholdTest"`
+- Code review: Complete — approved with suggestions
+- Tech debt logged: 3 items (`Detect()` linger tracking bypass, idempotent hidden event duplication, pending queue cleanup deferred to `ei-005`)
+- Next recommended: ei-004 发现奖励分派：Clue 与 CodePhrase — production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md
