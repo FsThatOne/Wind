@@ -335,3 +335,31 @@
 - Code review: Complete — approved with suggestions
 - Tech debt logged: 3 items (`Detect()` linger tracking bypass, idempotent hidden event duplication, pending queue cleanup deferred to `ei-005`)
 - Next recommended: ei-004 发现奖励分派：Clue 与 CodePhrase — production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/combat-ui/stories/cu-003-resource-bars-and-damage-feedback.md — cu-003 资源条与伤害反馈
+- Criteria: 6/6 passing
+- Test evidence: `CombatUiResourceBarsDamageFeedbackTest` and CombatUi suite passed 31/31 via `dotnet test tests/Foundation/Foundation.Tests.csproj --filter CombatUi`
+- Code review: Complete — APPROVED WITH SUGGESTIONS
+- Tech debt logged: None
+- Notes: Visual/Feel 实机走查仍需在真实 Godot 战斗场景中确认资源条闪白与 Tween 体感、破绽脉冲、同帧 6 个伤害浮字可读性，以及池化 Label 回收后的焦点释放。
+- Next recommended: ei-004 发现奖励分派：Clue 与 CodePhrase — production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md；若继续 Presentation/UI 并行线，可做 cu-004 招式选择面板与预览卡。
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md — ei-004 发现奖励分派：Clue 与 CodePhrase
+- Files changed: src/FengZhi.Foundation/Exploration/DiscoveryDispatcher.cs, src/FengZhi.Foundation/Exploration/InsightEvents.cs, tests/integration/exploration/insight_reward_dispatch_test.cs, production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md, production/sprint-status.yaml
+- Test written: tests/integration/exploration/insight_reward_dispatch_test.cs (10 tests)
+- Verification: `dotnet test tests/Foundation/Foundation.Tests.csproj --filter "InsightRewardDispatchTest|InsightCueTimingTest|InsightDetectionThresholdTest"` passed 31/31; `dotnet test tests/Foundation/Foundation.Tests.csproj --filter exploration` passed 41/41
+- Code review fix: post-preflight downstream rejection removed from port commit contract; duplicate CodePhrase learn covered as safe no-op
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Exploration/DiscoveryDispatcher.cs src/FengZhi.Foundation/Exploration/InsightEvents.cs tests/integration/exploration/insight_reward_dispatch_test.cs then /story-done production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE
+- Story: production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md — ei-004 发现奖励分派：Clue 与 CodePhrase
+- Criteria: 6/6 passing; post-preflight `Try*` commit contract added for Narrative and CodePhrase ports
+- Test evidence: `InsightRewardDispatchTest|InsightCueTimingTest|InsightDetectionThresholdTest` passed 34/34; exploration suite passed 44/44
+- Code review: Complete — Lean mode; user confirmed post-fix small contract change reviewed
+- Tech debt logged: 1 item (`DiscoveryDispatcher` monologue request remains a presentation-side effect if reward commit rejects)
+- Next recommended: ei-005 存档恢复、场景卸载清理与战斗/对话锁恢复 — production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md

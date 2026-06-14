@@ -51,11 +51,11 @@ stories:
     name: "发现奖励分派：Clue 与 CodePhrase"
     file: "production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md"
     priority: must-have
-    status: ready-for-dev
+    status: done
     owner: ""
     estimate_days: 1.25
     blocker: "ei-002"
-    completed: ""
+    completed: "2026-06-14"
 
   - id: "ei-005"
     name: "存档恢复、场景卸载清理与战斗/对话锁恢复"

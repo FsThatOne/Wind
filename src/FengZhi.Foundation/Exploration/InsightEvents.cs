@@ -16,3 +16,11 @@ public sealed record InsightCueShownEvent(
 /// Presentation-safe cue event emitted when an active insight cue is dismissed.
 /// </summary>
 public sealed record InsightCueHiddenEvent(string NodeId) : GameEvent;
+
+/// <summary>
+/// Event emitted after an insight node has been permanently investigated.
+/// </summary>
+public sealed record InsightDiscoveredEvent(
+    string NodeId,
+    DiscoveryType DiscoveryType,
+    string NarrativeContext) : GameEvent;
