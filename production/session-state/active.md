@@ -223,3 +223,19 @@
 - Test evidence: `RomanceSaveAndContactContinuationTest` plus bond/force_break/NPC immediate event regressions passed; Foundation full suite 1198/1198 passed
 - Tech debt logged: None
 - Next recommended: rs-007 文学化关系展示契约 — run `/story-readiness production/epics/romance-system/stories/rs-007-literary-relationship-presentation-contract.md` after replacing placeholder TR-ID
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/romance-system/stories/rs-007-literary-relationship-presentation-contract.md — rs-007 文学化关系展示契约
+- Files changed: src/FengZhi.Foundation/Romance/RomanceService.cs, src/FengZhi.Foundation/Romance/RelationshipPresentation.cs, tests/unit/romance/relationship_presentation_contract_test.cs, production/qa/evidence/rs-007-literary-relationship-presentation-contract-evidence.md, production/epics/romance-system/stories/rs-007-literary-relationship-presentation-contract.md
+- Test written: tests/unit/romance/relationship_presentation_contract_test.cs (16 checks)
+- Verification: `dotnet test --filter RelationshipPresentationContractTest` passed 16/16; `dotnet test --filter Romance` passed 107/107; `dotnet test` passed 1214/1214
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Romance/RomanceService.cs src/FengZhi.Foundation/Romance/RelationshipPresentation.cs tests/unit/romance/relationship_presentation_contract_test.cs production/qa/evidence/rs-007-literary-relationship-presentation-contract-evidence.md then /story-done production/epics/romance-system/stories/rs-007-literary-relationship-presentation-contract.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/romance-system/stories/rs-007-literary-relationship-presentation-contract.md — rs-007 文学化关系展示契约
+- Criteria: 4/4 passing; code review APPROVED WITH SUGGESTIONS
+- Test evidence: `RelationshipPresentationContractTest` passed 16/16; UI evidence doc approved; Foundation full suite 1214/1214 passed
+- Tech debt logged: None
+- Next recommended: romance-system Epic MVP/P1 stories are complete; run `/smoke-check sprint` or select the next Epic/story via `/sprint-status`

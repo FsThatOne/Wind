@@ -496,6 +496,22 @@ requirements:
     revised: ""
     status: active
 
+  - id: TR-romance-system-006
+    system: romance-system
+    gdd: design/gdd/romance-system.md
+    requirement: "感情系统必须在保存/加载后恢复 romance_last_contact_{npcId} 并按当前世界日续算 days_since_last_contact；全局 bonded_heroine 必须可保存和恢复；新周目初始化必须清空感情里程碑、结缘状态、彗星存在感计数和 last-contact 标志，且不得误清非感情 NPC State 字段"
+    created: 2026-06-13
+    revised: ""
+    status: active
+
+  - id: TR-romance-system-007
+    system: romance-system
+    gdd: design/gdd/romance-system.md
+    requirement: "感情系统必须向 UI/人物图鉴提供文学化关系展示契约；输出不得包含好感度数字、进度条、攻略进度百分比、内部里程碑 enum/flag 名称或结缘状态直白提示；各态度档位与已达成里程碑组合必须能映射为文学化描述 key、tone tag 和回忆片段 id，供 Presentation 层渲染但不暴露内部数值与状态实现细节"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
 # --- EXAMPLE ENTRIES (remove when first real entries are added) ---
 #
 # - id: TR-combat-001

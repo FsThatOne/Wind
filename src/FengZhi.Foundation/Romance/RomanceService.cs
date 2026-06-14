@@ -128,6 +128,21 @@ public sealed class RomanceService : IDisposable
     public string BondedHeroine => _npcState.GetBondedHeroine() ?? NoBondedHeroine;
 
     /// <summary>
+    /// Returns literary-safe relationship presentation keys for UI consumers.
+    /// </summary>
+    public RomanceRelationshipPresentation GetRelationshipPresentation(string npcId)
+    {
+        if (string.IsNullOrWhiteSpace(npcId))
+        {
+            return RelationshipPresentationMapper.Map(null, null);
+        }
+
+        return RelationshipPresentationMapper.Map(
+            _npcState.GetAttitude(npcId),
+            _npcState.GetMilestones(npcId));
+    }
+
+    /// <summary>
     /// Applies the milestone floor to a requested attitude delta and writes the result through NPC State.
     /// </summary>
     public RomanceAttitudeChangeResult ApplyAttitudeChange(string npcId, int delta, string? source = null)

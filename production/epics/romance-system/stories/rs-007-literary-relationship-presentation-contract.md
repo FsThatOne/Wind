@@ -1,19 +1,19 @@
 # Story rs-007: 文学化关系展示契约
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: UI
 > **Estimate**: S
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-14
 
 ## Context
 
 **GDD**: `design/gdd/romance-system.md`
-**Requirement**: `TR-romance-system-???`
+**Requirement**: `TR-romance-system-007`
 
-`docs/architecture/tr-registry.yaml` 尚无 `TR-romance-*` 条目；本 story 临时追踪 GDD AC8，补齐 registry 后需替换为稳定 TR-ID。
+需求正文以 `docs/architecture/tr-registry.yaml` 为准；评审和完成检查时请读取最新 registry 内容。
 
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0002: UI Framework & Dual-Focus Adaptation
 **ADR Decision Summary**: 感情系统绝不向玩家暴露数值，UI 只能消费文学化关系描述和回忆片段；具体面板应基于 Godot Control + `BaseUiPanel`，但本 story 只定义 Feature 层展示查询契约。
@@ -54,6 +54,8 @@ The actual character encyclopedia panel belongs to Presentation or Blurred UI wo
 
 If a minimal manual evidence doc is created during this story, it should verify sample outputs across attitude tiers and milestone states.
 
+Performance: no runtime UI scene/rendering impact expected; this story only exposes a small Feature-layer query DTO containing stable localization keys, tone tags, and memory fragment ids.
+
 ---
 
 ## Out of Scope
@@ -90,7 +92,7 @@ If a minimal manual evidence doc is created during this story, it should verify 
 **Required evidence**:
 - UI: `production/qa/evidence/rs-007-literary-relationship-presentation-contract-evidence.md` or interaction test
 
-**Status**: [ ] Not yet created
+**Status**: [x] Created at `production/qa/evidence/rs-007-literary-relationship-presentation-contract-evidence.md`
 
 ---
 
@@ -98,3 +100,12 @@ If a minimal manual evidence doc is created during this story, it should verify 
 
 - Depends on: rs-001, rs-002, rs-003
 - Unlocks: `blurred-ui` relationship panel stories and `misunderstanding-system` relation signal stories
+
+## Completion Notes
+
+**Completed**: 2026-06-14
+**Criteria**: 4/4 passing
+**Deviations**: None blocking. Code review suggestions accepted as non-blocking: `MemoryFragmentIds` could be made stricter-readonly, and `shared_vow` / `vowed` wording can be made more oblique in a later polish pass if desired.
+**Test Evidence**: UI evidence at `production/qa/evidence/rs-007-literary-relationship-presentation-contract-evidence.md`; automated contract test at `tests/unit/romance/relationship_presentation_contract_test.cs`.
+**Code Review**: Complete — APPROVED WITH SUGGESTIONS.
+**Verification**: `dotnet test --filter RelationshipPresentationContractTest` passed 16/16; `dotnet test` passed 1214/1214.
