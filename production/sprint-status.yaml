@@ -61,8 +61,8 @@ stories:
     name: "存档恢复、场景卸载清理与战斗/对话锁恢复"
     file: "production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md"
     priority: must-have
-    status: ready-for-dev
+    status: done
     owner: ""
     estimate_days: 1.5
     blocker: "ei-001, ei-003, ei-004"
-    completed: ""
+    completed: "2026-06-14"

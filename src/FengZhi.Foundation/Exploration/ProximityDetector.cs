@@ -30,6 +30,7 @@ public sealed partial class ProximityDetector
     private readonly HashSet<string> _queuedNodeIds = new();
     private readonly Dictionary<string, float> _detectedElapsedSeconds = new();
     private float _staggerRemainingSeconds;
+    private bool _isPaused;
 
     public ProximityDetector(
         InsightNodeRegistry registry,
@@ -45,11 +46,19 @@ public sealed partial class ProximityDetector
         _cueLingerSeconds = Math.Max(0f, cueLingerSeconds);
     }
 
+    /// <summary>True while a combat, dialogue, or transition lock is suppressing detection.</summary>
+    public bool IsPaused => _isPaused;
+
     /// <summary>
     /// Detects active nodes in range and emits cues only when prerequisites and insight threshold pass.
     /// </summary>
     public IReadOnlyList<InsightCueShownEvent> Detect(Vector2 playerPosition, int playerInsight)
     {
+        if (_isPaused)
+        {
+            return Array.Empty<InsightCueShownEvent>();
+        }
+
         var shown = new List<InsightCueShownEvent>();
 
         foreach (var node in _registry.GetActiveNodes())
@@ -96,6 +105,11 @@ public sealed partial class ProximityDetector
     /// </summary>
     public IReadOnlyList<InsightCueShownEvent> Tick(Vector2 playerPosition, int playerInsight, float deltaSeconds)
     {
+        if (_isPaused)
+        {
+            return Array.Empty<InsightCueShownEvent>();
+        }
+
         var delta = Math.Max(0f, deltaSeconds);
         ResetTransientNodesOutsideRange(playerPosition);
         AdvanceLingerTimers(delta);
@@ -128,6 +142,29 @@ public sealed partial class ProximityDetector
         _detectedElapsedSeconds.Remove(nodeId);
         PublishHidden(nodeId);
         return true;
+    }
+
+    /// <summary>Pauses detection and hides currently visible insight cues without clearing ignored nodes.</summary>
+    public IReadOnlyList<InsightCueHiddenEvent> PauseDetection()
+    {
+        _isPaused = true;
+        ClearPendingTriggers();
+        return HideVisibleCuesForLockPause();
+    }
+
+    /// <summary>Resumes detection; callers should tick again with the latest player position.</summary>
+    public void ResumeDetection()
+    {
+        _isPaused = false;
+    }
+
+    /// <summary>Clears scene-scoped detector state and unloads the registry's active scene nodes.</summary>
+    public IReadOnlyList<InsightCueHiddenEvent> OnSceneUnloaded()
+    {
+        var hidden = HideActiveCuesAndResetTransientStates();
+        ClearPendingTriggers();
+        _registry.OnSceneUnloaded();
+        return hidden;
     }
 
     /// <summary>Returns true when the player is inside or on the edge of the node detection radius.</summary>
@@ -256,5 +293,58 @@ public sealed partial class ProximityDetector
     private void PublishHidden(string nodeId)
     {
         _eventBus?.Publish(new InsightCueHiddenEvent(nodeId));
+    }
+
+    private void ClearPendingTriggers()
+    {
+        _pendingTriggers.Clear();
+        _queuedNodeIds.Clear();
+        _detectedElapsedSeconds.Clear();
+        _staggerRemainingSeconds = 0f;
+    }
+
+    private IReadOnlyList<InsightCueHiddenEvent> HideActiveCuesAndResetTransientStates()
+    {
+        var hidden = new List<InsightCueHiddenEvent>();
+        foreach (var node in _registry.GetActiveNodes())
+        {
+            var state = _registry.GetState(node.Id);
+            if (state is not (DiscoveryState.Detected or DiscoveryState.Ignored))
+            {
+                continue;
+            }
+
+            if (state == DiscoveryState.Detected)
+            {
+                var hiddenEvent = new InsightCueHiddenEvent(node.Id);
+                hidden.Add(hiddenEvent);
+                _eventBus?.Publish(hiddenEvent);
+            }
+
+            _registry.TrySetState(node.Id, DiscoveryState.Undiscovered);
+        }
+
+        _detectedElapsedSeconds.Clear();
+        return hidden;
+    }
+
+    private IReadOnlyList<InsightCueHiddenEvent> HideVisibleCuesForLockPause()
+    {
+        var hidden = new List<InsightCueHiddenEvent>();
+        foreach (var node in _registry.GetActiveNodes())
+        {
+            if (_registry.GetState(node.Id) != DiscoveryState.Detected)
+            {
+                continue;
+            }
+
+            var hiddenEvent = new InsightCueHiddenEvent(node.Id);
+            hidden.Add(hiddenEvent);
+            _eventBus?.Publish(hiddenEvent);
+            _registry.TrySetState(node.Id, DiscoveryState.Undiscovered);
+        }
+
+        _detectedElapsedSeconds.Clear();
+        return hidden;
     }
 }

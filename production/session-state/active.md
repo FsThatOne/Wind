@@ -363,3 +363,21 @@
 - Code review: Complete — Lean mode; user confirmed post-fix small contract change reviewed
 - Tech debt logged: 1 item (`DiscoveryDispatcher` monologue request remains a presentation-side effect if reward commit rejects)
 - Next recommended: ei-005 存档恢复、场景卸载清理与战斗/对话锁恢复 — production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md
+
+## Session Extract — /dev-story 2026-06-14
+- Story: production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md — ei-005 存档恢复、场景卸载清理与战斗/对话锁恢复
+- Files changed: src/FengZhi.Foundation/Exploration/ExplorationPersistenceAdapter.cs, src/FengZhi.Foundation/Exploration/ExplorationLockGuard.cs, src/FengZhi.Foundation/Exploration/InsightNodeRegistry.cs, src/FengZhi.Foundation/Exploration/ProximityDetector.cs, src/FengZhi.Foundation/StateMachine/GameStateLock.cs, tests/integration/exploration/insight_save_scene_lock_test.cs, production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md, production/sprint-status.yaml
+- Test written: tests/integration/exploration/insight_save_scene_lock_test.cs (6 tests)
+- Verification: `dotnet test tests/Foundation/Foundation.Tests.csproj --filter "InsightSaveSceneLockTest|InsightCueTimingTest|InsightNodeRegistryTest|InsightRewardDispatchTest"` passed 40/40; `dotnet test tests/Foundation/Foundation.Tests.csproj --filter exploration` passed 50/50; full `dotnet test` passed 1294/1294
+- Deviations: Story-readiness documentation gaps remain (Estimate, Out of Scope, Control Manifest Rules, Engine Notes, Performance Notes); implementation followed those constraints but did not add the missing sections.
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/Exploration/ExplorationPersistenceAdapter.cs src/FengZhi.Foundation/Exploration/ExplorationLockGuard.cs src/FengZhi.Foundation/Exploration/InsightNodeRegistry.cs src/FengZhi.Foundation/Exploration/ProximityDetector.cs src/FengZhi.Foundation/StateMachine/GameStateLock.cs tests/integration/exploration/insight_save_scene_lock_test.cs then /story-done production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md
+
+## Session Extract — /story-done 2026-06-14
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md — ei-005 存档恢复、场景卸载清理与战斗/对话锁恢复
+- Criteria: 6/6 passing; integration evidence covers save-only-investigated, restore validation, scene unload cleanup, lock pause/resume, nested locks, and ignored-node regression
+- Test evidence: `InsightSaveSceneLockTest|InsightCueTimingTest|InsightNodeRegistryTest|InsightRewardDispatchTest` passed 41/41; exploration suite passed 51/51; full `dotnet test` passed 1295/1295
+- Code review: Complete — Lean mode; `/code-review` approved after lock-pause regression fix
+- Tech debt logged: 1 item (story-readiness documentation gaps)
+- Next recommended: Sprint 4 Must Have complete; run `/smoke-check sprint`, then `/team-qa sprint`
