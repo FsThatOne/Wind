@@ -381,3 +381,25 @@
 - Code review: Complete — Lean mode; `/code-review` approved after lock-pause regression fix
 - Tech debt logged: 1 item (story-readiness documentation gaps)
 - Next recommended: Sprint 4 Must Have complete; run `/smoke-check sprint`, then `/team-qa sprint`
+
+<!-- QA RUN: 2026-06-14 | Sprint: sprint-4 | Verdict: APPROVED WITH CONDITIONS | Report: production/qa/qa-signoff-sprint-4-2026-06-14.md -->
+
+<!-- QA-PLAN: 2026-06-14 | System: sprint-5-combat-ui | Plan written: production/qa/qa-plan-sprint-5-2026-06-14.md -->
+
+## Session Extract — /dev-story 2026-06-15
+- Story: production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md — cu-004 招式选择面板与预览卡
+- Files changed: src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs, src/FengZhi.Foundation/Presentation/Shared/FocusManagement.cs, tests/integration/combat-ui/combat_ui_move_selection_panel_test.cs, production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md, production/sprint-status.yaml
+- Test written: tests/integration/combat-ui/combat_ui_move_selection_panel_test.cs (17 tests)
+- Verification: `DOTNET_ROOT=/usr/local/share/dotnet DOTNET_MULTILEVEL_LOOKUP=0 dotnet test tests/Foundation/Foundation.Tests.csproj --filter FullyQualifiedName~CombatUiMoveSelectionPanelTest --no-restore` passed 17/17 via SDK 8.0.421; full `dotnet test tests/Foundation/Foundation.Tests.csproj --no-restore` passed 1312/1312 via SDK 8.0.421
+- Notes: Default SDK 10.0.300 fails before build with MSBuild task-host error; tests require temporary SDK 8 `global.json` plus `DOTNET_ROOT=/usr/local/share/dotnet DOTNET_MULTILEVEL_LOOKUP=0`.
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs tests/integration/combat-ui/combat_ui_move_selection_panel_test.cs then /story-done production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md
+
+## Session Extract — /story-done 2026-06-15
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md — cu-004 招式选择面板与预览卡
+- Acceptance criteria: 8/8 passing; automated traceability covered by `CombatUiMoveSelectionPanelTest`
+- Test evidence: `CombatUiMoveSelectionPanelTest` passed 18/18; full `Foundation.Tests` passed 1313/1313 via SDK 8.0.421
+- Code review: Complete — APPROVED WITH SUGGESTIONS after FocusManager lifecycle fix
+- Tech debt logged: 1 item (manual UI walkthrough evidence pending)
+- Next recommended: cu-005 反制与决胜行动提示 — production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md

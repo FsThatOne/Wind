@@ -9,60 +9,60 @@
 #   done           ↔  Complete
 #   blocked        ↔  Blocked
 
-sprint: 4
-goal: "实现场景 InsightNode 的发现、追查、奖励分派、存档恢复和锁定恢复管线，让洞察属性在世界探索中形成可测试的主动发现闭环。"
+sprint: 5
+goal: "Complete the Combat UI player-decision loop by implementing the move selection panel, counter/decisive prompts, dual-focus navigation, and the QA/tooling fixes needed for reliable Presentation sprint validation."
 start: "2026-06-14"
 end: "2026-06-28"
 generated: "2026-06-14"
-updated: "2026-06-14"
+updated: "2026-06-15"
 
 stories:
-  - id: "ei-001"
-    name: "InsightNode 数据模型、注册表与场景激活"
-    file: "production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md"
+  - id: "cu-004"
+    name: "招式选择面板与预览卡"
+    file: "production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md"
     priority: must-have
     status: done
+    owner: ""
+    estimate_days: 1
+    blocker: ""
+    completed: "2026-06-15"
+
+  - id: "cu-005"
+    name: "反制与决胜行动提示"
+    file: "production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md"
+    priority: must-have
+    status: blocked
     owner: ""
     estimate_days: 0.75
-    blocker: ""
-    completed: "2026-06-14"
+    blocker: "cu-004, S5-Preflight"
+    completed: ""
 
-  - id: "ei-002"
-    name: "洞察距离检测、门槛检定与重访发现"
-    file: "production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md"
+  - id: "cu-008"
+    name: "双焦点与手柄导航"
+    file: "production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md"
     priority: must-have
-    status: done
+    status: blocked
+    owner: ""
+    estimate_days: 0.75
+    blocker: "cu-004, cu-005, S5-Preflight"
+    completed: ""
+
+  - id: "cu-006"
+    name: "一击决胜演出编排"
+    file: "production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md"
+    priority: should-have
+    status: backlog
     owner: ""
     estimate_days: 1
-    blocker: "ei-001"
-    completed: "2026-06-14"
+    blocker: "cu-005"
+    completed: ""
 
-  - id: "ei-003"
-    name: "多节点 stagger、忽略与 linger 恢复"
-    file: "production/epics/exploration-insight/stories/ei-003-multi-node-stagger-and-cue-linger.md"
-    priority: must-have
-    status: done
+  - id: "cu-007"
+    name: "协同与回合警戒反馈"
+    file: "production/epics/combat-ui/stories/cu-007-synergy-and-round-warning-feedback.md"
+    priority: should-have
+    status: backlog
     owner: ""
-    estimate_days: 1
-    blocker: "ei-002"
-    completed: "2026-06-14"
-
-  - id: "ei-004"
-    name: "发现奖励分派：Clue 与 CodePhrase"
-    file: "production/epics/exploration-insight/stories/ei-004-discovery-reward-dispatch.md"
-    priority: must-have
-    status: done
-    owner: ""
-    estimate_days: 1.25
-    blocker: "ei-002"
-    completed: "2026-06-14"
-
-  - id: "ei-005"
-    name: "存档恢复、场景卸载清理与战斗/对话锁恢复"
-    file: "production/epics/exploration-insight/stories/ei-005-save-scene-lock-recovery.md"
-    priority: must-have
-    status: done
-    owner: ""
-    estimate_days: 1.5
-    blocker: "ei-001, ei-003, ei-004"
-    completed: "2026-06-14"
+    estimate_days: 0.5
+    blocker: "cu-003"
+    completed: ""
