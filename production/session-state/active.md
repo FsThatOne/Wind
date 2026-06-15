@@ -403,3 +403,17 @@
 - Code review: Complete — APPROVED WITH SUGGESTIONS after FocusManager lifecycle fix
 - Tech debt logged: 1 item (manual UI walkthrough evidence pending)
 - Next recommended: cu-005 反制与决胜行动提示 — production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md
+
+## Session Extract — /dev-story 2026-06-15
+- Story: production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md — cu-005 反制与决胜行动提示
+- Files changed: src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs, tests/integration/combat-ui/combat_ui_counter_decisive_prompt_test.cs, production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md, production/sprint-status.yaml
+- Test written: tests/integration/combat-ui/combat_ui_counter_decisive_prompt_test.cs (17 tests)
+- Verification: `CombatUiCounterDecisivePromptTest` passed 17/17; `CombatUiMoveSelectionPanelTest` passed 18/18; full `Foundation.Tests` passed 1330/1330 via SDK 8.0.421 with `DOTNET_ROOT=/usr/local/share/dotnet DOTNET_MULTILEVEL_LOOKUP=0`
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs tests/integration/combat-ui/combat_ui_counter_decisive_prompt_test.cs then /story-done production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md
+
+## Session Extract — /story-done 2026-06-15
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md — cu-005 反制与决胜行动提示
+- Tech debt logged: 1 item (manual UI walkthrough evidence pending)
+- Next recommended: production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md — blocked by S5-Preflight readiness cleanup

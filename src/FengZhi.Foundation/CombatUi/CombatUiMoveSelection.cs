@@ -13,7 +13,8 @@ public enum CombatUiMoveActionKind
     EquippedMove,
     RestMeditate,
     BasicAttack,
-    UseItem
+    UseItem,
+    DecisiveStrike
 }
 
 /// <summary>
@@ -45,7 +46,19 @@ public sealed record CombatUiMoveSelectionContext(
     int PlayerNeixi,
     bool IsXinfaSealed,
     int UsableCombatItemCount,
-    MoveType? RevealedEnemyMoveType);
+    MoveType? RevealedEnemyMoveType,
+    string? CurrentTargetId = null,
+    IReadOnlyList<string>? DecisiveStrikeTargetIds = null);
+
+/// <summary>
+/// 反制提示展示契约。只表达是否可触发，不执行扣费或结算。
+/// </summary>
+public sealed record CombatUiCounterPrompt(
+    bool IsVisible,
+    bool IsEnabled,
+    string Label,
+    string ColorKey,
+    string? DisabledReason);
 
 /// <summary>
 /// 单个行动槽位展示 DTO。字段全部为展示契约，不包含任何结算预测。
@@ -63,7 +76,21 @@ public sealed record CombatUiMoveSelectionEntry(
     bool IsXinfaExclusive,
     bool IsEnabled,
     string? DisabledReason,
+    CombatUiCounterPrompt? CounterPrompt,
+    string? TargetId,
+    bool IsDecisiveStrike,
     int StableOrder);
+
+/// <summary>
+/// UI 确认行动后交给战斗系统的意图。UI 不在此执行扣费、伤害或破绽结算。
+/// </summary>
+public sealed record CombatUiMoveSelectionIntent(
+    string ActorId,
+    string TargetId,
+    string ActionId,
+    string? MoveId,
+    bool IsCounter,
+    bool IsDecisiveStrike);
 
 /// <summary>
 /// 聚焦或悬停行动后显示的预览卡。禁止加入伤害预测、胜率、期望值或结算输出字段。
@@ -157,6 +184,32 @@ public sealed class CombatUiMoveSelectionPresenter
     }
 
     /// <summary>
+    /// 确认当前选中行动并生成提交给战斗系统的意图。
+    /// </summary>
+    public CombatUiMoveSelectionIntent? ConfirmSelected(string actorId, string fallbackTargetId)
+    {
+        if (string.IsNullOrWhiteSpace(actorId) || string.IsNullOrWhiteSpace(fallbackTargetId))
+            return null;
+
+        var entries = BuildEntries();
+        var selectedEntry = entries.FirstOrDefault(entry => entry.ActionId == _selectedActionId);
+        if (selectedEntry is null || !selectedEntry.IsEnabled)
+            return null;
+
+        var targetId = selectedEntry.TargetId ?? _context.CurrentTargetId ?? fallbackTargetId;
+        if (string.IsNullOrWhiteSpace(targetId))
+            return null;
+
+        return new CombatUiMoveSelectionIntent(
+            actorId,
+            targetId,
+            selectedEntry.ActionId,
+            selectedEntry.MoveId,
+            selectedEntry.CounterPrompt?.IsEnabled == true,
+            selectedEntry.IsDecisiveStrike);
+    }
+
+    /// <summary>
     /// 关闭面板。焦点恢复由 Godot Control 适配层执行。
     /// </summary>
     public CombatUiMoveSelectionSnapshot Close()
@@ -199,8 +252,15 @@ public sealed class CombatUiMoveSelectionPresenter
             return Array.Empty<CombatUiMoveSelectionEntry>();
 
         var moveCount = Math.Min(_displayData.Entries.Count, MaxEquippedMoveSlots);
-        var result = new List<CombatUiMoveSelectionEntry>(moveCount + BaseActionCount);
+        var decisiveTargetId = ResolveCurrentDecisiveTargetId();
+        var result = new List<CombatUiMoveSelectionEntry>(moveCount + BaseActionCount + (decisiveTargetId is null ? 0 : 1));
         var order = 0;
+        if (decisiveTargetId is not null)
+        {
+            result.Add(BuildDecisiveStrikeAction(decisiveTargetId, order));
+            order++;
+        }
+
         foreach (var move in _displayData.Entries.Take(MaxEquippedMoveSlots))
         {
             result.Add(BuildMoveEntry(move, order));
@@ -230,6 +290,9 @@ public sealed class CombatUiMoveSelectionPresenter
             move.Source == MoveSource.XinfaExclusive,
             disabledReason is null,
             disabledReason,
+            ResolveCounterPrompt(iconKind),
+            _context.CurrentTargetId,
+            false,
             stableOrder);
     }
 
@@ -252,6 +315,9 @@ public sealed class CombatUiMoveSelectionPresenter
             false,
             true,
             null,
+            null,
+            _context.CurrentTargetId,
+            false,
             stableOrder);
     }
 
@@ -271,6 +337,30 @@ public sealed class CombatUiMoveSelectionPresenter
             false,
             disabledReason is null,
             disabledReason,
+            null,
+            _context.CurrentTargetId,
+            false,
+            stableOrder);
+    }
+
+    private CombatUiMoveSelectionEntry BuildDecisiveStrikeAction(string targetId, int stableOrder)
+    {
+        return new CombatUiMoveSelectionEntry(
+            "decisive_strike",
+            null,
+            CombatUiMoveActionKind.DecisiveStrike,
+            "▶ 决胜一击",
+            CombatUiIntentIconKind.Unknown,
+            "决",
+            0,
+            "target_stagger_exposed",
+            "抓住破绽，一击定胜负",
+            false,
+            true,
+            null,
+            null,
+            targetId,
+            true,
             stableOrder);
     }
 
@@ -292,6 +382,43 @@ public sealed class CombatUiMoveSelectionPresenter
             relationship,
             RelationshipText(relationship),
             CounterHint(relationship, _context.PlayerNeixi));
+    }
+
+    private CombatUiCounterPrompt? ResolveCounterPrompt(CombatUiIntentIconKind attackerKind)
+    {
+        var relationship = ResolveRelationship(attackerKind, _context.RevealedEnemyMoveType);
+        if (relationship != CombatUiMoveTypeRelationship.Advantage)
+            return null;
+
+        if (_context.PlayerNeixi >= CounterNeixiThreshold)
+        {
+            return new CombatUiCounterPrompt(
+                true,
+                true,
+                "反制",
+                "counter_gold",
+                null);
+        }
+
+        return new CombatUiCounterPrompt(
+            true,
+            false,
+            "反制 / 内息不足",
+            "counter_disabled_gray",
+            "内息不足");
+    }
+
+    private string? ResolveCurrentDecisiveTargetId()
+    {
+        var targets = _context.DecisiveStrikeTargetIds ?? Array.Empty<string>();
+        if (targets.Count == 0)
+            return null;
+
+        if (_context.CurrentTargetId is not null
+            && targets.Contains(_context.CurrentTargetId, StringComparer.Ordinal))
+            return _context.CurrentTargetId;
+
+        return targets.FirstOrDefault(targetId => !string.IsNullOrWhiteSpace(targetId));
     }
 
     private static CombatUiMoveTypeRelationship ResolveRelationship(
@@ -559,6 +686,12 @@ public partial class CombatMoveActionSlot : Control
 
     public string? DisabledReason { get; private set; }
 
+    public CombatUiCounterPrompt? CounterPrompt { get; private set; }
+
+    public string? TargetId { get; private set; }
+
+    public bool IsDecisiveStrike { get; private set; }
+
     public int StableOrder { get; private set; }
 
     public void Configure(CombatUiMoveSelectionEntry entry)
@@ -575,6 +708,9 @@ public partial class CombatMoveActionSlot : Control
         IsXinfaExclusive = entry.IsXinfaExclusive;
         IsEnabledForSelection = entry.IsEnabled;
         DisabledReason = entry.DisabledReason;
+        CounterPrompt = entry.CounterPrompt;
+        TargetId = entry.TargetId;
+        IsDecisiveStrike = entry.IsDecisiveStrike;
         StableOrder = entry.StableOrder;
         Visible = true;
         Modulate = entry.IsEnabled ? Colors.White : new Color(1f, 1f, 1f, 0.4f);
@@ -584,6 +720,9 @@ public partial class CombatMoveActionSlot : Control
     {
         ReleaseFocus();
         Visible = false;
+        CounterPrompt = null;
+        TargetId = null;
+        IsDecisiveStrike = false;
     }
 }
 
