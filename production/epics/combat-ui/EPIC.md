@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/combat-ui.md
 > **Architecture Module**: `Presentation/CombatUi/`
 > **Status**: Ready
-> **Stories**: Not yet created — run `/create-stories combat-ui`
+> **Stories**: 8 stories
 
 ## Overview
 
@@ -35,7 +35,20 @@
 
 ## Trace Notes
 
-`docs/architecture/tr-registry.yaml` 当前没有 `TR-combat-ui-*` 条目。此 Epic 为 HIGH engine risk，创建 stories 前应优先安排 Godot 4.6 dual-focus / TimeScale Tween spike。
+`docs/architecture/tr-registry.yaml` 已开始登记 `TR-combat-ui-*` 条目。此 Epic 为 HIGH engine risk；涉及 Godot 4.6 dual-focus / SceneTreeTween / TimeScale 的 story 仍需在对应证据文档中保留场景走查。
+
+## Stories
+
+| # | Story | Type | Status | ADR |
+|---|-------|------|--------|-----|
+| 001 | [战斗 UI 基础层与事件适配](stories/cu-001-combat-ui-foundation-and-event-adapter.md) | Integration | Ready | ADR-0002, ADR-0011 |
+| 002 | [意图图标与 HUD 汇总](stories/cu-002-intent-icons-and-hud-summary.md) | UI | Complete | ADR-0011 |
+| 003 | [资源条与伤害反馈](stories/cu-003-resource-bars-and-damage-feedback.md) | Visual/Feel | Complete | ADR-0011 |
+| 004 | [招式选择面板与预览卡](stories/cu-004-move-selection-panel-and-preview-card.md) | UI | Ready | ADR-0002, ADR-0011 |
+| 005 | [反制与决胜行动提示](stories/cu-005-counter-and-decisive-action-prompts.md) | Integration | Ready | ADR-0011, ADR-0002 |
+| 006 | [一击决胜演出编排](stories/cu-006-decisive-strike-animation-director.md) | Visual/Feel | Ready | ADR-0011, ADR-0009 |
+| 007 | [协同与回合警戒反馈](stories/cu-007-synergy-and-round-warning-feedback.md) | Visual/Feel | Ready | ADR-0011 |
+| 008 | [双焦点与手柄导航](stories/cu-008-dual-focus-and-gamepad-navigation.md) | UI | Ready | ADR-0002 |
 
 ## Definition of Done
 

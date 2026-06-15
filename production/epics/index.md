@@ -42,14 +42,14 @@
 | [living-jianghu-layer](living-jianghu-layer/EPIC.md) | Feature | 活江湖层 | living-jianghu-layer.md | Not yet created | Ready |
 | [epiphany-breakthrough](epiphany-breakthrough/EPIC.md) | Feature | 顿悟突破 | epiphany-breakthrough.md | Not yet created | Ready |
 | [misunderstanding-system](misunderstanding-system/EPIC.md) | Feature | 误会系统 | misunderstanding-system.md | Not yet created | Ready |
-| [exploration-insight](exploration-insight/EPIC.md) | Feature | 探索 / 洞察 | exploration-insight.md | Not yet created | Ready |
+| [exploration-insight](exploration-insight/EPIC.md) | Feature | 探索 / 洞察 | exploration-insight.md | 5 stories | Ready |
 | [party-management](party-management/EPIC.md) | Feature | 队伍管理 / 同伴成长 | party-management.md | Not yet created | Ready |
 
 ## Presentation 层
 
 | Epic | Layer | System | GDD | Stories | Status |
 |------|-------|--------|-----|---------|--------|
-| [combat-ui](combat-ui/EPIC.md) | Presentation | 战斗 UI | combat-ui.md | Not yet created | Ready |
+| [combat-ui](combat-ui/EPIC.md) | Presentation | 战斗 UI | combat-ui.md | 8 stories | Ready |
 | [blurred-ui](blurred-ui/EPIC.md) | Presentation | 朦胧化 UI | blurred-ui.md | Not yet created | Ready |
 | [cutscene-system](cutscene-system/EPIC.md) | Presentation | CG / 演出 | cutscene-system.md | Not yet created | Ready |
 | [audio-system](audio-system/EPIC.md) | Presentation | 音乐 / 音效 | audio-system.md | Not yet created | Ready |

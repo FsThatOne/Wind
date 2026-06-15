@@ -4,7 +4,7 @@
 > **GDD**: design/gdd/exploration-insight.md
 > **Architecture Module**: `Feature/Exploration/`
 > **Status**: Ready
-> **Stories**: Not yet created — run `/create-stories exploration-insight`
+> **Stories**: 5 stories
 
 ## Overview
 
@@ -33,9 +33,19 @@
 | 战斗/对话期间提示暂停，结束后恢复 | ADR-0018 ✅ |
 | linger 超时后提示自动消失，下次接近可再触发 | ADR-0018 ✅ |
 
+## Stories
+
+| # | Story | Type | Status | ADR |
+|---|-------|------|--------|-----|
+| ei-001 | InsightNode 数据模型、注册表与场景激活 | Logic | Ready | ADR-0018 |
+| ei-002 | 洞察距离检测、门槛检定与重访发现 | Logic | Ready | ADR-0018 |
+| ei-003 | 多节点 stagger、忽略与 linger 恢复 | Logic | Ready | ADR-0018 |
+| ei-004 | 发现奖励分派：Clue 与 CodePhrase | Integration | Ready | ADR-0018 / ADR-0014 |
+| ei-005 | 存档恢复、场景卸载清理与战斗/对话锁恢复 | Integration | Ready | ADR-0018 / ADR-0004 / ADR-0006 |
+
 ## Trace Notes
 
-`docs/architecture/tr-registry.yaml` 当前没有 `TR-exploration-*` 条目。创建 stories 时应从 `exploration-insight.md` AC1-AC9 生成 trace，并特别标明 Scene Loading、Items、MartialArts、Narrative 的集成边界。
+`docs/architecture/tr-registry.yaml` 已建立 `TR-exploration-insight-001` 到 `TR-exploration-insight-005`。Stories 从 `exploration-insight.md` AC1-AC9 拆分，并特别标明 Scene Loading、Narrative、CodePhrase、Save 与 LockMode 的集成边界。
 
 ## Definition of Done
 
@@ -48,4 +58,4 @@ This epic is complete when:
 
 ## Next Step
 
-Run `/create-stories exploration-insight` to break this epic into implementable stories.
+Run `/story-readiness production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md` to begin implementation readiness.

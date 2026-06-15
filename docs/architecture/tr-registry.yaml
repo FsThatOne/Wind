@@ -25,7 +25,7 @@
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
 version: 1
-last_updated: "2026-06-13"
+last_updated: "2026-06-14"
 
 requirements:
   - id: TR-dialogue-system-001
@@ -508,6 +508,86 @@ requirements:
     system: romance-system
     gdd: design/gdd/romance-system.md
     requirement: "感情系统必须向 UI/人物图鉴提供文学化关系展示契约；输出不得包含好感度数字、进度条、攻略进度百分比、内部里程碑 enum/flag 名称或结缘状态直白提示；各态度档位与已达成里程碑组合必须能映射为文学化描述 key、tone tag 和回忆片段 id，供 Presentation 层渲染但不暴露内部数值与状态实现细节"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-combat-ui-001
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗 UI 必须建立 WorldIntentLayer 与 HUDLayer 两个 CanvasLayer 底座，将战斗事件适配为只读 UI 快照，按 INACTIVE → ROUND_START → PLAYER_DECISION → RESOLVING → ROUND_END → BATTLE_END 状态流推进，并通过脏标记刷新呈现 Core Combat 与 MartialArts 的结果而不拥有战斗结算逻辑"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-combat-ui-002
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗 UI 必须在 OnIntentRevealed 后于 WorldIntentLayer 敌方头顶槽位与 HUDLayer 汇总区同步展示敌方意图；刚/柔/巧/未知必须分别以可区分图标呈现，未知意图不得泄露真实体系；未知转已识破必须有过渡动画；已落败目标收到意图事件时必须安全消隐或变暗且不得访问已释放节点；多敌人同时刷新时 HUD 汇总顺序必须稳定"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-combat-ui-003
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗 UI 必须展示所有参战角色的气血、内息与破绽状态；气血受击必须先闪白再平滑扣减，内息变化必须即时可见；破绽达到 5 时必须显示深红脉冲与“破绽！”浮字；伤害数字必须按克制、同系、被克、暴击、一击决胜使用可区分样式；同帧多个伤害事件不得丢失或重叠到不可读；UI 不得计算伤害或显示伤害预测数字。"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-combat-ui-004
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗 UI 必须在玩家行动阶段展示招式选择面板，包含 6 个装备招式、调息、普通攻击和使用道具；招式格必须显示名称、体系、内息消耗、触发条件和效果摘要，心法专属招式显示角标；不可用行动必须置灰并显示原因；聚焦或悬停时预览卡只显示体系关系和反制提示，不得显示伤害预测、胜率、期望值或结算结果；面板打开时默认聚焦第一个可用行动，资源刷新不得中断交互。"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-combat-ui-005
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗 UI 必须在招式选择面板中呈现反制与决胜窗口：当选中招式体系克制目标公开意图且内息 >= 3 时显示金色“反制”标签，内息不足时显示置灰“反制 / 内息不足”；确认反制行动时 UI 仅向战斗系统提交 isCounter=true，不执行扣费、伤害或破绽结算；当当前目标破绽 >= 5 时面板顶部插入可聚焦的“决胜一击”高亮行，多目标达标时随目标切换刷新提示；面板打开期间内息变化必须即时刷新反制可用状态。"
+    created: 2026-06-15
+    revised: ""
+    status: active
+
+  - id: TR-exploration-insight-001
+    system: exploration-insight
+    gdd: design/gdd/exploration-insight.md
+    requirement: "探索/洞察系统必须定义 InsightNode 数据模型、DiscoveryState 状态和场景节点注册表；场景加载时只激活当前 scene_id 的节点，已 INVESTIGATED 且 one_time=true 的节点不得再次注册，场景卸载时 DETECTED/IGNORED 瞬态状态必须回退为 UNDISCOVERED"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-exploration-insight-002
+    system: exploration-insight
+    gdd: design/gdd/exploration-insight.md
+    requirement: "探索/洞察系统必须在玩家进入 detection_radius 时实时评估 prerequisite 与 insight_threshold，并按 player.insight >= node.insight_threshold 的纯布尔规则显示水墨提示；insight 不足时不得显示任何提示，角色洞察提升后重访同一位置必须可重新检定并发现"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-exploration-insight-003
+    system: exploration-insight
+    gdd: design/gdd/exploration-insight.md
+    requirement: "探索/洞察系统必须在多个 InsightNode 同时进入范围时按距离近到远依次触发，并遵守 multi_node_stagger 间隔；提示出现后超过 insight_cue_linger 未追查必须自动隐藏并转为 IGNORED，玩家离开后再次接近必须可重新提示"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-exploration-insight-004
+    system: exploration-insight
+    gdd: design/gdd/exploration-insight.md
+    requirement: "探索/洞察系统必须通过 DiscoveryDispatcher 播放 narrative_context 独白并按 discovery_type 分派奖励；Clue 节点必须正确设置主线叙事 quest_flag，CodePhrase 节点必须写入暗号簿，完成追查后必须标记 INVESTIGATED 并发布发现事件"
+    created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-exploration-insight-005
+    system: exploration-insight
+    gdd: design/gdd/exploration-insight.md
+    requirement: "探索/洞察系统必须只持久化 INVESTIGATED 终态；存档加载后已发现节点保持 INVESTIGATED 且不重复触发，DETECTED/IGNORED 不得持久化；战斗、对话或 LockMode >= Partial 期间必须暂停检测并隐藏提示，锁释放后若玩家仍在范围内必须恢复检测"
     created: 2026-06-14
     revised: ""
     status: active

@@ -1,7 +1,7 @@
 # Story rs-005: 彗星存在感与传闻概率
 
 > **Epic**: 感情系统（彗星模型）
-> **Status**: In Progress
+> **Status**: Complete
 > **Layer**: Feature
 > **Type**: Logic
 > **Estimate**: M
@@ -90,7 +90,7 @@ Comet presence tracking updates counters only; concrete presentation remains in 
 **Required evidence**:
 - Logic: `tests/unit/romance/comet_presence_and_rumor_chance_test.cs` — must exist and pass
 
-**Status**: [x] Created — `CometPresenceAndRumorChanceTest` 14/14 passed; Romance filtered suite 73/73 passed; Foundation full suite 1178/1178 passed
+**Status**: [x] Created — `CometPresenceAndRumorChanceTest` 15/15 passed; Romance filtered suite 74/74 passed; Foundation full suite 1179/1179 passed
 
 ---
 
@@ -98,3 +98,13 @@ Comet presence tracking updates counters only; concrete presentation remains in 
 
 - Depends on: rs-001
 - Unlocks: rs-006, living-jianghu integration stories
+
+---
+
+## Completion Notes
+
+**Completed**: 2026-06-13
+**Criteria**: 4/4 passing
+**Deviations**: None
+**Test Evidence**: Logic: `tests/unit/romance/comet_presence_and_rumor_chance_test.cs` — 15/15 passed; Romance filtered suite 74/74 passed; Foundation full suite 1179/1179 passed
+**Code Review**: Complete — `/code-review` approved with suggestions, follow-up DataRegistry integration gap resolved before closure

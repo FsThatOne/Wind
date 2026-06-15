@@ -1,4 +1,5 @@
 using FengZhi.Foundation.Events;
+using FengZhi.Foundation.Data;
 using FengZhi.Foundation.NpcState;
 using FengZhi.Foundation.Romance;
 using Xunit;
@@ -192,6 +193,27 @@ public class CometPresenceAndRumorChanceTest
         Assert.Equal(0.3f, tuning.RumorAbsenceBonus);
         Assert.Equal(9, tuning.RumorAbsenceThresholdDays);
         Assert.Equal(0.6f, tuning.RumorCap);
+    }
+
+    [Fact]
+    public void CometPresenceTuningLoader_RegistersRuntimeReadOnlyTable()
+    {
+        const string yaml = """
+                            rumor_base_chance: 0.1
+                            rumor_same_region_bonus: 0.2
+                            rumor_absence_bonus: 0.3
+                            rumor_absence_threshold_days: 9
+                            rumor_cap: 0.6
+                            """;
+        var registry = new DataRegistry();
+
+        new CometPresenceTuningLoader().LoadAll(yaml, registry);
+
+        var table = registry.GetTable<CometPresenceTuning>();
+        Assert.NotNull(table);
+        Assert.Equal(1, table!.Count);
+        Assert.Equal(0.6f, table.Get("default")!.RumorCap);
+        Assert.Null(table.Get("missing"));
     }
 
     private sealed record FixedWorldDay(int CurrentDay) : IWorldDayProvider;

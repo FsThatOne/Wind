@@ -1,3 +1,5 @@
+using FengZhi.Foundation.CharacterData;
+
 namespace FengZhi.Foundation.Combat;
 
 /// <summary>
@@ -58,10 +60,30 @@ public readonly record struct RoundStartEvent(int RoundNumber);
 
 public readonly record struct IntentRevealedEvent(IReadOnlyList<EnemyIntent> Enemies);
 
-public readonly record struct EnemyIntent(string EnemyId, IntentVisibility Visibility, string? MoveTypeName);
+public readonly record struct EnemyIntent(
+    string EnemyId,
+    IntentVisibility Visibility,
+    string? MoveTypeName,
+    MoveType? MoveType = null);
+
+/// <summary>
+/// 伤害事件的战斗语义提示。Presentation 层可据此选择样式，但不得反推伤害数值。
+/// </summary>
+public enum DamageVisualRelation
+{
+    Neutral,
+    Advantage,
+    Disadvantage,
+    Decisive
+}
 
 public readonly record struct DamageDealtEvent(
-    string SourceId, string TargetId, int Amount, bool IsCrit, bool IsCounter);
+    string SourceId,
+    string TargetId,
+    int Amount,
+    bool IsCrit,
+    bool IsCounter,
+    DamageVisualRelation VisualRelation = DamageVisualRelation.Neutral);
 
 public readonly record struct StaggerChangedEvent(string TargetId, int NewStagger);
 

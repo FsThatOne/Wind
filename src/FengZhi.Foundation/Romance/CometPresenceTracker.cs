@@ -81,6 +81,15 @@ public sealed class CometPresenceTuningLoader
         }
     }
 
+    /// <summary>Loads comet-presence tuning and registers it as a runtime read-only DataRegistry table.</summary>
+    public void LoadAll(string yaml, DataRegistry registry)
+    {
+        ArgumentNullException.ThrowIfNull(registry);
+
+        var tuning = Load(yaml, DefaultPath);
+        registry.RegisterTable<CometPresenceTuning>(new CometPresenceTuningTable(tuning));
+    }
+
     private static void Validate(CometPresenceTuning tuning, string filePath)
     {
         if (tuning.RumorBaseChance < 0f)
@@ -94,6 +103,31 @@ public sealed class CometPresenceTuningLoader
         if (tuning.RumorCap < 0f || tuning.RumorCap > 1f)
             throw new DataLoadException(filePath, null, "rumor_cap must be between 0 and 1.");
     }
+}
+
+/// <summary>
+/// DataRegistry adapter for the singleton comet-presence tuning record.
+/// </summary>
+public sealed class CometPresenceTuningTable : IDataTable<CometPresenceTuning>
+{
+    private readonly CometPresenceTuning _tuning;
+
+    public CometPresenceTuningTable(CometPresenceTuning tuning)
+    {
+        _tuning = tuning ?? throw new ArgumentNullException(nameof(tuning));
+    }
+
+    public CometPresenceTuning? Get(string id)
+    {
+        return string.Equals(id, "default", StringComparison.Ordinal) ? _tuning : null;
+    }
+
+    public IReadOnlyList<CometPresenceTuning> GetAll()
+    {
+        return new[] { _tuning };
+    }
+
+    public int Count => 1;
 }
 
 /// <summary>
@@ -156,14 +190,25 @@ public sealed class CometPresenceTracker
             chance += _tuning.RumorSameRegionBonus;
         }
 
-        var lastContactDay = _npcState.GetLastContactDay(npcId);
-        if (lastContactDay != null
-            && _worldDay.CurrentDay - lastContactDay.Value > _tuning.RumorAbsenceThresholdDays)
+        var daysSinceLastContact = GetDaysSinceLastContact(npcId);
+        if (daysSinceLastContact != null
+            && daysSinceLastContact.Value > _tuning.RumorAbsenceThresholdDays)
         {
             chance += _tuning.RumorAbsenceBonus;
         }
 
         return Math.Clamp(chance, 0f, _tuning.RumorCap);
+    }
+
+    /// <summary>
+    /// Computes contact absence from the persisted last-contact day without mutating contact recency.
+    /// </summary>
+    public int? GetDaysSinceLastContact(string npcId)
+    {
+        var lastContactDay = _npcState.GetLastContactDay(npcId);
+        return lastContactDay == null
+            ? null
+            : Math.Max(0, _worldDay.CurrentDay - lastContactDay.Value);
     }
 
     /// <summary>Records a discovered sign and updates the direct-contact day.</summary>
