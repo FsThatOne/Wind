@@ -1,0 +1,25 @@
+# 属性系统调优参数
+# 修改此文件不需要重新编译代码
+
+base_hp: 100
+base_neixi: 20
+base_stagger_threshold: 5
+
+attribute_min: 1
+attribute_cap: 50
+max_total_attributes: 250
+
+realm_thresholds:
+  - 25
+  - 35
+  - 50
+  - 70
+  - 90
+  - 115
+  - 140
+  - 170
+  - 200
+
+crit_rate_cap: 0.30
+neixi_recovery_floor: 2
+stagger_decay_per_turn: 1

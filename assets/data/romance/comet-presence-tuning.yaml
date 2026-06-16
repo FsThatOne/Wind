@@ -1,0 +1,6 @@
+# Comet presence tuning for rs-005.
+rumor_base_chance: 0.3
+rumor_same_region_bonus: 0.4
+rumor_absence_bonus: 0.2
+rumor_absence_threshold_days: 7
+rumor_cap: 0.8

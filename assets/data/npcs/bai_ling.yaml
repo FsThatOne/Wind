@@ -1,0 +1,18 @@
+id: bai_ling
+name: 白灵
+initial_life: Alive
+initial_presence: NearbyVisible
+initial_location: Town
+initial_interaction: DialogueAvailable
+initial_relationship: Stranger
+base_attitude: 0
+mindset_compatibility:
+  release: 1
+  obsession: -1
+morality_reaction:
+  honorable: 1
+  ruthless: -1
+delegate_allowed: true
+help_request_allowed: true
+journey_required_chapter: 3
+journey_required_days: 15

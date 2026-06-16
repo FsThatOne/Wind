@@ -23,6 +23,14 @@ already learned (and avoid making the same mistake twice).
 
 ---
 
+## Vertical Slice Prototypes
+
+| Concept | Date | Path | Verdict | Report | Notes |
+|---|---|---|---|---|---|
+| 风止 — Full Core Loop | 2026-06-10 | `fengzhi-vertical-slice/` | **PROCEED** (carry-forward note) | [REPORT.md](./fengzhi-vertical-slice/REPORT.md) | First-run slice. 对话→战斗→心境选择→朦胧化反馈闭环验证。Carry-forward: 对话推进改为全屏点击+快捷键 |
+
+---
+
 ## How to Read This File
 
 - **PROCEED** —— 概念哲学验证通过，可投入正式 GDD 编写

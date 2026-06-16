@@ -1,0 +1,4 @@
+# 单元测试存放于此 —— 每个系统一个子目录
+# 例：tests/unit/combat/, tests/unit/dialogue/, tests/unit/save/
+# C# 文件：CombatDamageTest.cs
+# GDScript 文件：combat_damage_test.gd

@@ -1,0 +1,18 @@
+id: player
+name: 风止·主角
+type: player
+base_hp: 100
+base_neixi: 20
+base_stagger_threshold: 5
+strength: 8
+agility: 8
+inner_power: 8
+insight: 8
+constitution: 8
+base_attack: 10
+scaling_factor: 1.0
+primary_style: gang
+moves:
+  - basic_attack
+  - duan_shui_han_guang
+  - tie_shan_kao

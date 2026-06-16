@@ -1,0 +1,7 @@
+# Key items are separated from normal stackable inventory and cannot be sold by default.
+- id: letter_wind_stop
+  name: 风止旧信
+  category: key_item
+  rarity: rare
+  auctionable: false
+  description_key: item.key.letter_wind_stop.desc

@@ -1,0 +1,78 @@
+# 武学招式定义表。体系 type: gang | rou | qiao。
+
+# === 普通武学（Basic）===
+
+- id: lian_xu_xi
+  name: 敛虚息
+  type: rou
+  category: basic
+  neixi_cost: 2
+  base_multiplier: 0.85
+  trigger_conditions: [always]
+  special_effects: [guard_up]
+  tags: [defensive, neixi]
+
+- id: qing_dian_feng
+  name: 轻点封
+  type: qiao
+  category: basic
+  neixi_cost: 3
+  base_multiplier: 1.00
+  trigger_conditions: [target_not_immobilized]
+  special_effects: [immobilize_chance]
+  tags: [control, precise]
+
+- id: tie_bi_heng_lan
+  name: 铁臂横拦
+  type: gang
+  category: basic
+  neixi_cost: 4
+  base_multiplier: 1.15
+  trigger_conditions: [adjacent_enemy]
+  special_effects: [stagger_bonus]
+  tags: [direct, stagger]
+
+- id: luo_han_quan
+  name: 罗汉拳
+  type: gang
+  category: basic
+  neixi_cost: 2
+  base_multiplier: 0.70
+  trigger_conditions: [always]
+  special_effects: [flaw_expose]
+  tags: [direct, martial]
+  annotatable: true
+  annotation:
+    condition_override: first_counter_hit
+    effect_override: flaw_expose_3
+    annotation_mult: 1.8
+
+# === 高级武学（Advanced）===
+
+- id: qian_ying_zhang
+  name: 千影掌
+  type: qiao
+  category: advanced
+  neixi_cost: 5
+  base_multiplier: 1.10
+  trigger_conditions: [second_counter_hit]
+  special_effects: [multi_strike]
+  tags: [combo, precise]
+  annotatable: false
+
+# === 绝学（Ultimate）===
+
+- id: tian_gang_lie_po
+  name: 天罡裂魄
+  type: gang
+  category: ultimate
+  neixi_cost: 8
+  base_multiplier: 1.40
+  trigger_conditions: [no_condition]
+  special_effects: [shatter_guard, devastate]
+  tags: [direct, finishing]
+  annotatable: true
+  annotation:
+    condition_override: no_condition
+    effect_override: shatter_guard_enhanced
+    annotation_mult: 1.2
