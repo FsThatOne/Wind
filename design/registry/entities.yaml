@@ -37,7 +37,7 @@
 #   Each entry: name, status, source, referenced_by[], attributes{}, added, revised
 
 version: 1
-last_updated: "2026-06-07"
+last_updated: "2026-06-16"
 
 # ─── ENTITIES ────────────────────────────────────────────────────────────────
 # Named game-world objects: enemies, NPCs, characters, factions, bosses.
@@ -147,17 +147,17 @@ formulas:
     variables:
       - attack_for_type
       - defense
-      - counter_multiplier
+      - qi_match_multiplier
       - crit_multiplier
       - damage_variance
     output_range: [1, 999]
-    expression: "max(1, attack_for_type - defense) × random(0.95,1.05) × counter_mult × crit_mult"
-    notes: "counter_mult: 1.3 counter / 0.7 countered / 1.0 same. crit_mult: 1.5 or 1.0"
+    expression: "max(1, attack_for_type - defense) × random(0.95,1.05) × qi_match_mult × crit_mult"
+    notes: "qi_match_mult: qi_advantage_multiplier / qi_disadvantage_multiplier / 1.0 neutral. crit_mult: 1.5 or 1.0. Revised 2026-06-16 from old counter_mult model."
     added: 2026-06-02
-    revised: ""
+    revised: "2026-06-16"
 
   - name: intent_insight_formula
-    status: active
+    status: deprecated
     source: design/gdd/combat-system.md
     referenced_by:
       - design/gdd/combat-system.md
@@ -168,12 +168,46 @@ formulas:
       - insight
     output_range: [0, 100]
     expression: "base_chance(power_ratio) + insight × 1%"
-    notes: "Per-round per-enemy roll. base_chance: >1.5=100%+move_name, 1.0-1.5=100%, 0.7-1.0=80%, 0.5-0.7=50%, <0.5=30%"
+    notes: "DEPRECATED 2026-06-16 — old per-round enemy intent reveal formula. Replaced by current_qi_visibility and combat UI information-depth rules; insight no longer affects action order or xingqi."
     added: 2026-06-02
+    revised: "2026-06-16"
+
+  - name: xingqi_gain
+    status: active
+    source: design/gdd/character-attributes.md
+    referenced_by:
+      - design/gdd/character-attributes.md
+      - design/gdd/combat-system.md
+    variables:
+      - base_xingqi_gain
+      - agility_factor
+      - qinggong_xingqi_multiplier
+      - status_xingqi_multiplier
+    output_range: [0, 999]
+    expression: "base_xingqi_gain × agility_factor × qinggong_xingqi_multiplier × status_xingqi_multiplier"
+    notes: "agility_factor = clamp(agility / chapter_baseline_agility, 0.75, 1.35). insight is forbidden from this formula."
+    added: 2026-06-16
+    revised: ""
+
+  - name: current_qi_visibility
+    status: active
+    source: design/gdd/combat-ui.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/combat-ui.md
+      - design/gdd/enemy-ai.md
+    variables:
+      - current_inner_power_qi_type
+      - insight
+      - information_depth_threshold
+    output_range: [0, 3]
+    expression: "visibility tier determined by current inner power qi type plus insight-gated detail depth"
+    notes: "Shows current qi / inner power detail / possible move tendency by tier. Does not reveal a full next-action plan and does not affect xingqi."
+    added: 2026-06-16
     revised: ""
 
   - name: type_selection_probability
-    status: active
+    status: deprecated
     source: design/gdd/enemy-ai.md
     referenced_by:
       - design/gdd/enemy-ai.md
@@ -182,12 +216,12 @@ formulas:
       - condition_modifiers
     output_range: [0, 100]
     expression: "(base_weight[type] + Σ condition_modifiers[type]) / Σ all adjusted weights"
-    notes: "Three types sum to 100%. Weights clamped to min 5."
+    notes: "DEPRECATED 2026-06-16 — old enemy type selection model. Replaced by enemy move/action scoring in enemy-ai.md using board state, current qi, range, resources, cooldown, stagger, and personality weights."
     added: 2026-06-02
-    revised: ""
+    revised: "2026-06-16"
 
   - name: counter_read_trigger
-    status: active
+    status: deprecated
     source: design/gdd/enemy-ai.md
     referenced_by:
       - design/gdd/enemy-ai.md
@@ -196,14 +230,13 @@ formulas:
       - cooldown_penalty
     output_range: [0, 40]
     expression: "counter_read_chance × (1 - cooldown_penalty)"
-    notes: "Only triggers when player used same type 2+ consecutive rounds. Normal enemies=0, elite=20%, boss=30-25% (Phase 2→3b). Multi-char: track each player independently, use highest."
-    revised: "2026-06-03"
+    notes: "DEPRECATED 2026-06-16 — old hidden counter-read mechanic. Enemy AI may adapt only through visible tell, movement, current qi, cooldown, target choice, and already-observed player history."
     # OLD: output_range [0,60], boss 40-60% — boss max reduced to 25% (Phase 3b), tuning cap 40%
     added: 2026-06-02
-    revised: ""
+    revised: "2026-06-16"
 
   - name: target_priority_score
-    status: active
+    status: deprecated
     source: design/gdd/enemy-ai.md
     referenced_by:
       - design/gdd/enemy-ai.md
@@ -214,10 +247,47 @@ formulas:
       - spread_penalty
     output_range: [-20, 200]
     expression: "decisive_bonus + kill_bonus + threat_bonus + spread_penalty"
-    notes: "Decisive=100 if stagger>=threshold, kill=50 if HP<30%, threat=min(50, 30% of last round damage), spread=-20 if ally already targeting. Max=100+50+50=200."
-    revised: "2026-06-03"
+    notes: "DEPRECATED 2026-06-16 — old target-only priority formula. Replaced by separate enemy move_score and action_score formulas in enemy-ai.md."
     # OLD: output_range [-20, 180] was wrong — threat_bonus caps at 50, not 30
     added: 2026-06-02
+    revised: "2026-06-16"
+
+  - name: enemy_move_score
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+      - design/gdd/combat-system.md
+    variables:
+      - target_access_score
+      - facing_score
+      - safety_score
+      - personality_position_score
+      - objective_score
+    output_range: [-999, 999]
+    expression: "target_access_score + facing_score + safety_score + personality_position_score + objective_score"
+    notes: "行气战棋 AI movement scoring. Scores legal board cells only."
+    added: 2026-06-16
+    revised: ""
+
+  - name: enemy_action_score
+    status: active
+    source: design/gdd/enemy-ai.md
+    referenced_by:
+      - design/gdd/enemy-ai.md
+      - design/gdd/combat-system.md
+    variables:
+      - damage_score
+      - stagger_score
+      - qi_advantage_score
+      - resource_score
+      - cooldown_score
+      - personality_action_score
+      - boss_script_score
+    output_range: [-999, 999]
+    expression: "damage_score + stagger_score + qi_advantage_score + resource_score + cooldown_score + personality_action_score + boss_script_score"
+    notes: "行气战棋 AI action scoring after a legal move cell is considered."
+    added: 2026-06-16
     revised: ""
 
   - name: power_comparison
@@ -287,24 +357,52 @@ constants:
     revised: ""
 
   - name: counter_advantage_multiplier
-    status: active
+    status: deprecated
     source: design/gdd/combat-system.md
     referenced_by:
       - design/gdd/combat-system.md
       - design/gdd/enemy-ai.md
     value: 1.3
     unit: multiplier
+    notes: "DEPRECATED 2026-06-16 — old counter model. Use qi_advantage_multiplier."
     added: 2026-06-02
-    revised: ""
+    revised: "2026-06-16"
 
   - name: counter_disadvantage_multiplier
-    status: active
+    status: deprecated
     source: design/gdd/combat-system.md
     referenced_by:
       - design/gdd/combat-system.md
     value: 0.7
     unit: multiplier
+    notes: "DEPRECATED 2026-06-16 — old counter model. Use qi_disadvantage_multiplier."
     added: 2026-06-02
+    revised: "2026-06-16"
+
+  - name: qi_advantage_multiplier
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/combat-ui.md
+      - design/gdd/enemy-ai.md
+    value: 1.3
+    unit: multiplier
+    notes: "Damage multiplier when attack move qi_type克制 target current inner power qi_type."
+    added: 2026-06-16
+    revised: ""
+
+  - name: qi_disadvantage_multiplier
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/combat-ui.md
+      - design/gdd/enemy-ai.md
+    value: 0.7
+    unit: multiplier
+    notes: "Damage multiplier when attack move qi_type is countered by target current inner power qi_type."
+    added: 2026-06-16
     revised: ""
 
   - name: decisive_strike_multiplier
@@ -318,25 +416,65 @@ constants:
     revised: ""
 
   - name: max_combat_rounds
-    status: active
+    status: deprecated
     source: design/gdd/combat-system.md
     referenced_by:
       - design/gdd/combat-system.md
       - design/gdd/enemy-ai.md
     value: 15
     unit: rounds
+    notes: "DEPRECATED 2026-06-16 — row/round limit from old turn combat. 行气战棋 uses xingqi_threshold, battle objectives, and encounter-specific fail states instead."
     added: 2026-06-02
-    revised: ""
+    revised: "2026-06-16"
 
   - name: base_stagger_threshold
-    status: active
+    status: deprecated
     source: design/gdd/character-attributes.md
     referenced_by:
       - design/gdd/character-attributes.md
       - design/gdd/enemy-ai.md
     value: 5
     unit: stagger_points
+    notes: "DEPRECATED 2026-06-16 — old attribute-owned stagger threshold. Current stagger is combat-owned; use stagger_threshold."
     added: 2026-06-02
+    revised: "2026-06-16"
+
+  - name: stagger_threshold
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/combat-ui.md
+      - design/gdd/enemy-ai.md
+    value: 5
+    unit: stagger_points
+    notes: "Combat-owned threshold for 破绽大开 / decisive strike window. Bosses may explicitly override."
+    added: 2026-06-16
+    revised: ""
+
+  - name: xingqi_threshold
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/combat-ui.md
+      - design/gdd/enemy-ai.md
+    value: 100
+    unit: xingqi_points
+    notes: "Actor enters the action queue when current xingqi reaches or exceeds this threshold."
+    added: 2026-06-16
+    revised: ""
+
+  - name: base_xingqi_gain
+    status: active
+    source: design/gdd/combat-system.md
+    referenced_by:
+      - design/gdd/combat-system.md
+      - design/gdd/character-attributes.md
+    value: 20
+    unit: xingqi_points_per_pulse
+    notes: "Base gain per combat pulse before agility, qinggong, and status multipliers."
+    added: 2026-06-16
     revised: ""
 
   - name: attr_cap_per_stat
@@ -350,26 +488,26 @@ constants:
     revised: ""
 
   - name: min_type_weight
-    status: active
+    status: deprecated
     source: design/gdd/enemy-ai.md
     referenced_by:
       - design/gdd/enemy-ai.md
     value: 5
     unit: weight_points
-    notes: "Minimum weight per type after condition modifiers. Prevents 0% probability."
+    notes: "DEPRECATED 2026-06-16 — old enemy type probability tuning. Replaced by enemy_move_score and enemy_action_score."
     added: 2026-06-02
-    revised: ""
+    revised: "2026-06-16"
 
   - name: consecutive_type_penalty
-    status: active
+    status: deprecated
     source: design/gdd/enemy-ai.md
     referenced_by:
       - design/gdd/enemy-ai.md
     value: -15
     unit: weight_per_round
-    notes: "Soft penalty per round of consecutive same-type use, starting from 2nd repeat (1st repeat = 0 penalty). Replaces old hard 'forced switch' design. Boss Type Lock periods exempt."
+    notes: "DEPRECATED 2026-06-16 — old per-round same-type probability penalty. Replaced by visible AI adaptation through board movement, current qi, cooldown, target choice, and tell."
     added: 2026-06-02
-    revised: "2026-06-03"
+    revised: "2026-06-16"
     # OLD: consecutive_type_limit=2, "forced switch" — deprecated by soft penalty redesign
 
   - name: boss_default_phase_thresholds
@@ -396,7 +534,7 @@ constants:
     notes: "9 realms: 初学乍练/初窥门径/登堂入室/融会贯通/驾轻就熟/炉火纯青/出神入化/登峰造极/返璞归真"
     added: 2026-06-02
     revised: "2026-06-05"
-    # OLD referenced_by: only character-attributes.md — added blurred-ui.md and combat-system.md (intent_insight uses power_ratio which depends on realm)
+    # OLD referenced_by: only character-attributes.md — added blurred-ui.md and combat-system.md
 
   - name: insight_threshold_range
     status: active
@@ -430,11 +568,11 @@ constants:
       - design/gdd/combat-ui.md
       - design/gdd/item-system.md
       - design/gdd/enemy-ai.md
-    value: "[action_move, action_counter, action_decisive, action_breathe, action_basic, action_item, action_epiphany, action_epiphany_skip]"
+    value: "[action_move, action_move_skip, action_use_move, action_meditate, action_item, action_qinggong, action_switch_inner_power, action_decisive, action_epiphany_focus, action_epiphany_skip]"
     unit: enum_ids
-    notes: "8种战斗行动类型。combat-ui渲染面板选项，item-system注册use_item行动，enemy-ai的DecideAction返回值必须属于此枚举。action_epiphany/action_epiphany_skip仅在顿悟抉择状态下可选（排他替代正常菜单）。"
-    revised: "2026-06-07"
-    # OLD: 6种, value不含 action_epiphany/action_epiphany_skip
+    notes: "行气战棋行动类型。移动与出手分阶段；不包含普通攻击或基础反制按钮。epiphany actions only appear in exclusive epiphany choice UI."
+    revised: "2026-06-16"
+    # OLD 2026-06-07: [action_move, action_counter, action_decisive, action_breathe, action_basic, action_item, action_epiphany, action_epiphany_skip]
     added: 2026-06-05
 
   - name: mindset_initial_values
