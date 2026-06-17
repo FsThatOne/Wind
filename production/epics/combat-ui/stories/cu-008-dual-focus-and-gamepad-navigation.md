@@ -8,9 +8,10 @@
 > **阻塞**: 无
 > **ADR 指引**: ADR-0002（Godot 4.6 dual-focus / FocusManager / InputModeDetector）
 > **GDD 来源**: design/gdd/combat-ui.md §Detailed Design / 手柄键盘完整导航, §Edge Cases
-> **TR-ID**: TR-combat-ui-???（待 architecture review 写入稳定编号）
+> **TR-ID**: TR-combat-ui-008
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
+> **状态**: Complete
+> **Last Updated**: 2026-06-15
 
 ## 目标
 
@@ -42,16 +43,41 @@
 - Godot 4.6 dual-focus 是 HIGH risk，必须产出手动验证证据
 - 禁止 hover-only 交互；鼠标能做的选择，手柄也必须能完成
 
+## Control Manifest Rules
+
+- 所有 UI 必须基于 Godot Control 节点树 + 薄抽象层，战斗面板必须继承或组合 `BaseUiPanel`（ADR-0002）。
+- 所有可交互行动 Control 必须使用 `FocusModeEnum.All`；非交互提示、装饰和池化节点必须使用 `FocusModeEnum.None` 且回收时释放焦点。
+- 面板打开/关闭必须通过 `IFocusManager.PushFocus` / `PopFocus` 管理焦点栈，不得在各按钮中分散实现焦点恢复。
+- UI 刷新必须使用 dirty 标记集中刷新；输入事件只更新焦点/模式状态，不得每帧无条件重建面板。
+- 禁止 hover-only 交互；鼠标可执行的行动，键盘和手柄必须同样可完成。
+- `focus_neighbor_*` 或等效导航图必须限制在招式面板内部循环，禁止焦点逃逸到 HUD、暂停按钮或场景外 Control。
+
+## Performance Notes
+
+- 继承 Combat HUD 刷新预算：焦点/输入模式反馈刷新目标 `<= 1ms/frame`。
+- D-pad/摇杆导航必须基于当前面板行动列表做 O(1) 或 O(n<=10) 的稳定索引切换，不得扫描场景树或依赖文件 IO。
+- 面板空闲期间不得产生 per-frame allocation；仅在输入模式、hover 目标、手柄焦点或行动列表变化时刷新受影响视觉状态。
+- 焦点循环和确认提交不得触发 Combat 结算查询；只提交当前聚焦行动意图。
+- 反制与决胜行动行复用现有行动列表顺序，不得引入额外运行时 Control 重建循环。
+
+## Engine Notes
+
+- Godot 4.6.3 dual-focus 属于 post-cutoff 高风险 API 行为，必须通过手动 evidence 验证并记录。
+- `grab_focus()` 必须受 FocusManager 生命周期保护，且不得清除当前鼠标 hover 高亮。
+- 鼠标 hover 与手柄焦点需要维护独立视觉状态；输入模式切换只改变样式优先级，不得丢失 selected/focused action。
+- `focus_neighbor_top/bottom` 或等效 API 的循环设置必须在 Godot 4.6.3 下验证，避免面板动态刷新后邻居引用失效。
+- 自动测试可覆盖导航图和状态契约；真实手柄、Steam Deck 或 Godot scene 中的 dual-focus 表现必须由 `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md` 留证。
+
 ## 验收标准
 
-- [ ] 招式面板打开时默认聚焦第一个可用招式
-- [ ] D-pad 可上下导航所有可交互行动
-- [ ] 从最后一项继续向下会循环到第一项，向上同理
-- [ ] 焦点不会逃出招式面板
-- [ ] A/确认键可提交当前聚焦行动
-- [ ] 反制和决胜一击行可通过手柄触达
-- [ ] 鼠标 hover 与手柄焦点可同时存在且视觉不冲突
-- [ ] 切换输入模式后焦点高亮显示规则正确
+- [x] 招式面板打开时默认聚焦第一个可用招式
+- [x] D-pad 可上下导航所有可交互行动
+- [x] 从最后一项继续向下会循环到第一项，向上同理
+- [x] 焦点不会逃出招式面板
+- [x] A/确认键可提交当前聚焦行动
+- [x] 反制和决胜一击行可通过手柄触达
+- [x] 鼠标 hover 与手柄焦点可同时存在且视觉不冲突
+- [x] 切换输入模式后焦点高亮显示规则正确
 
 ## QA 手动检查
 
@@ -96,3 +122,21 @@ Manual evidence required:
 
 - Depends on: cu-004, cu-005
 - Unlocks: None
+
+## Completion Notes
+
+**Completed**: 2026-06-15
+**Verdict**: COMPLETE WITH NOTES
+**Criteria**: 8/8 covered by automated contract tests; keyboard fallback manually verified in Godot vertical slice.
+**Test Evidence**:
+- `tests/integration/combat-ui/combat_ui_dual_focus_navigation_test.cs`
+- `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md`
+- `production/qa/evidence/media/cu-008-keyboard-dual-focus-navigation-rerun.mp4`
+**Verification**:
+- `CombatUiMoveSelectionPanelTest|CombatUiCounterDecisivePromptTest|CombatUiDualFocusNavigationTest` passed 45/45.
+- `dotnet build prototypes/fengzhi-vertical-slice/FengzhiSlice.csproj` passed with 0 warnings / 0 errors.
+- `BUG-0001` reproduced the original Godot scene failure and was closed after successful keyboard fallback rerun.
+**Deviations / Advisory Notes**:
+- No physical controller was available during closure. Real hand controller D-pad / A-key submission and gamepad-hover dual-focus recording remain tracked as tech debt.
+- Code review gate was recorded as pending for sprint close-out per user decision; previous `/code-review` covered the Foundation implementation before the vertical-slice adapter fix.
+**Code Review**: Pending — rerun before Sprint 5 close-out for `CombatUiMoveSelection.cs`, `BossBattleUI.cs`, and `combat_ui_dual_focus_navigation_test.cs`.

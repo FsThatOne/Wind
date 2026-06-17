@@ -3,7 +3,7 @@
 > **System**: #20 CG / 演出
 > **Status**: Designed
 > **Priority**: Alpha
-> **Depends On**: #9 主线叙事, #2 回合制战斗
+> **Depends On**: #9 主线叙事, #2 行气战棋战斗
 > **Author**: user + agents
 > **Created**: 2026-06-07
 
@@ -152,7 +152,7 @@ IDLE → LOADING → PLAYING → COMPLETED
 | 系统 | 方向 | 接口 |
 |------|------|------|
 | **主线叙事** | 叙事 → 演出 | `play_cutscene("ch1_transition")` 章节过渡、`play_cutscene("death_screen")` 死亡结局、`play_cutscene("ending_*")` 终幕结局 |
-| **回合制战斗** | 战斗 → 演出 | `play_cutscene("decisive_[gang/rou/qiao]")` 一击决胜演出 |
+| **行气战棋战斗** | 战斗 → 演出 | `play_cutscene("decisive_[gang/rou/qiao]")` 一击决胜演出 |
 | **敌方 AI** | AI → 演出 | `play_cutscene("boss_phase_*")` Boss 阶段转换、`play_cutscene("berserk_*")` 绝境爆发 |
 | **顿悟突破** | 顿悟 → 演出 | `play_cutscene_chain(["epiphany_*", "breakthrough_*"])` 顿悟+境界突破串联 |
 | **角色属性** | 属性 → 演出 | `play_cutscene("breakthrough_rank_*")` 境界突破单独触发时 |
@@ -209,7 +209,7 @@ estimated_duration = Σ step.duration + Σ wait.duration + Σ wait_input.avg_res
 | 依赖系统 | 依赖类型 | 说明 |
 |---------|---------|------|
 | **#9 主线叙事** | 硬依赖 | 章节过渡、死亡结局、终幕结局的演出脚本触发 |
-| **#2 回合制战斗** | 硬依赖 | 一击决胜演出的战斗上下文（招式类型、角色位置） |
+| **#2 行气战棋战斗** | 硬依赖 | 一击决胜演出的战斗上下文（招式气质、角色位置、当前行气行动） |
 | **#21 音乐/音效** | 软依赖 | 演出脚本中的 `PLAY_SFX`/`PLAY_BGM` 步骤需要音频系统执行 |
 | **#12 地图/场景管理** | 软依赖 | 场景内 Tier 4 微演出需要场景坐标和摄像机控制 |
 | **#8 存档系统** | 软依赖 | `cutscene_viewed` 记录持久化（用于 `first_view_unskippable`）；FULL 锁定期间阻止存档 |

@@ -15,7 +15,7 @@
 
 ## 目标
 
-实现玩家行动时的招式选择面板，展示 6 个装备招式、基础行动、消耗/条件/效果摘要和预览卡，让玩家基于体系关系做判断，但不看到伤害预测数字。
+实现玩家行动时的招式选择面板，展示 6 个装备招式、当前 GDD 允许的基础行动、消耗/条件/效果摘要和预览卡，让玩家基于体系关系做判断，但不看到胜率、期望值或最终结算输出。
 
 ## 范围
 
@@ -23,12 +23,12 @@
 - 玩家行动时弹出招式面板
 - 6 个装备招式格：招式名、体系图标、内息消耗、触发条件图标、特殊效果摘要
 - 心法专属招式显示“心法”角标
-- 调息、普通攻击、使用道具三类基础行动
+- 调息、使用道具两类基础行动；普通攻击不属于当前 `combat_action_types`
 - 内息不足置灰并显示“差 X 内息”
 - 心法封印时心法专属招式置灰并显示“心法封印中”
 - 持有 0 个可用战斗道具时“使用道具”置灰
 - 悬停/聚焦招式时显示预览卡
-- 预览卡显示克制、被克、中性关系和反制提示，但不显示伤害预测
+- 预览卡显示克制、被克、中性关系、预计伤害区间、预计破绽变化、合法范围和提示，但不显示胜率、期望值或最终结算输出
 - 面板打开时默认聚焦第一个可用招式
 
 ### 不包含
@@ -40,8 +40,8 @@
 ## 技术说明
 
 - 招式数据通过 MartialArts 查询契约读取 `GetEquippedMoves()` 与 `GetMoveDetails(id)`
-- UI 只显示招式详情、条件摘要和效果摘要，不计算实际伤害
-- 克制关系可显示“关系”，但不得显示数值预测
+- UI 只显示招式详情、条件摘要、效果摘要和 GDD 允许的预览信息，不执行实际结算
+- 克制关系可显示“关系”、预计伤害区间、预计破绽变化和合法范围，但不得显示胜率、期望值或最终结算输出
 - 所有可交互 Control 必须 `focus_mode = FOCUS_ALL`
 - 面板打开时通过 `FocusManager.PushFocus` 与 `grab_focus()` 聚焦首个可用项
 - 面板关闭时通过 `FocusManager.PopFocus` 恢复焦点
@@ -61,16 +61,16 @@
 - 招式面板刷新预算继承 Combat HUD 规则：刷新目标 `<= 1ms/frame`。
 - 资源事件只标记 dirty，不在事件回调中直接重建所有 Control。
 - 面板空闲显示期间不得产生 per-frame allocation；仅在装备列表、资源状态或目标关系变化时刷新受影响项。
-- 预览卡只读取 MartialArts / Combat 快照，不计算伤害、胜率、期望值或结算结果。
+- 预览卡只读取 MartialArts / Combat 快照，不输出胜率、期望值或最终结算结果。
 
 ## 验收标准
 
-- [ ] 玩家行动时招式面板展示 6 个装备招式和基础行动
+- [ ] 玩家行动时招式面板展示 6 个装备招式、调息和使用道具，不展示普通攻击
 - [ ] 每个招式格显示名称、体系、内息消耗、触发条件图标和一行效果摘要
 - [ ] 心法专属招式有“心法”角标
 - [ ] 内息不足、心法封印、无可用战斗道具时对应项置灰并显示原因
 - [ ] 聚焦或悬停招式时预览卡显示体系关系和反制提示
-- [ ] 预览卡不显示任何伤害预测数字
+- [ ] 预览卡不显示胜率、期望值或最终结算输出
 - [ ] 面板打开时默认聚焦第一个可用招式
 - [ ] 面板打开期间收到资源刷新事件时，交互不中断且显示最新可用状态
 
@@ -78,7 +78,7 @@
 
 - **AC-1**：面板信息完整
   - Setup：给角色装备 6 个不同招式、1 个心法专属招式并进入战斗
-  - Verify：所有格子字段可读，基础行动存在
+  - Verify：所有格子字段可读，调息和使用道具存在，普通攻击不存在
   - Pass condition：玩家无需打开额外界面即可理解每个行动的大致用途
 
 - **AC-2**：置灰逻辑
@@ -89,14 +89,14 @@
 - **AC-3**：预览卡限制
   - Setup：聚焦克制、被克、中性招式
   - Verify：预览卡显示关系和反制提示
-  - Pass condition：没有出现预测伤害、胜率、期望值等数值
+  - Pass condition：没有出现胜率、期望值或最终结算数字
 
 ## QA Test Cases
 
 **Automated test path**: `tests/integration/combat-ui/combat_ui_move_selection_panel_test.cs`
 
 Required automated coverage:
-- Panel opens during player action and shows 6 equipped moves plus Rest/Meditate, Basic Attack, and Use Item.
+- Panel opens during player action and shows 6 equipped moves plus Rest/Meditate and Use Item; it does not show Basic Attack.
 - Each move entry displays name, type icon, neixi cost, condition icon, effect summary, and Xinfa badge where applicable.
 - Insufficient neixi, sealed Xinfa, and no usable combat item disable the relevant actions and expose reason text.
 - Focus or hover updates the preview card with type relationship and counter hint.

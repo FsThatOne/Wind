@@ -224,6 +224,13 @@ public partial class BossCombatManager : Node
         return _playerMoves[moveIndex].NeiliCost <= _player.CurrentNeili;
     }
 
+    public void PlayerMeditate()
+    {
+        if (IsOver || _isResolvingTurn) return;
+
+        ResolveMeditationTurn();
+    }
+
     public int GetMoveCooldown(int moveIndex)
     {
         if (moveIndex < 0 || moveIndex >= _playerMoveCooldowns.Length) return 0;
@@ -352,6 +359,66 @@ public partial class BossCombatManager : Node
                  (wasCounter ? " [克制!]" : ""));
 
         EmitSignal(SignalName.TurnAnimating, playerMove.Name, bossMoveName, playerDamage, bossDamage, wasCounter);
+
+        _isResolvingTurn = false;
+        CheckCombatEnd();
+        if (!IsOver) StartNewTurn();
+    }
+
+    private void ResolveMeditationTurn()
+    {
+        _isResolvingTurn = true;
+        _playerLastType = null;
+
+        var bossMove = GetBossMoveFromDecision();
+        var playerNeiliBefore = _player.CurrentNeili;
+        _player.GainNeili(2);
+        var recovered = _player.CurrentNeili - playerNeiliBefore;
+
+        int bossDamage = 0;
+        if (_currentDecision!.ActionType == AIActionType.Meditate)
+        {
+            _enemy.GainNeili(2);
+        }
+        else if (_currentDecision.ActionType == AIActionType.Attack)
+        {
+            _enemy.SpendNeili(bossMove.NeiliCost);
+            bossDamage = bossMove.BaseDamage;
+            if (_currentDecision.IsPriorityStrike)
+                bossDamage = (int)(bossDamage * 1.3f);
+
+            _player.TakeDamage(bossDamage);
+            if (bossMove.GrantsNeili)
+                _enemy.GainNeili(1);
+        }
+
+        if (_currentDecision.SelectedType != null)
+        {
+            var decisionSliceType = FromFoundationType(_currentDecision.SelectedType.Value);
+            if (_bossLastType == decisionSliceType)
+                _bossConsecutiveType++;
+            else
+                _bossConsecutiveType = 1;
+            _bossLastType = decisionSliceType;
+        }
+
+        bool phaseChanged = _brain.UpdateHp(_enemy.HpRatio);
+        if (phaseChanged)
+        {
+            string phaseName = GetCurrentPhaseName();
+            GD.Print($"[BossBattle] *** 阶段转换: {phaseName} ***");
+            EmitSignal(SignalName.BossPhaseChanged, phaseName);
+        }
+
+        string bossMoveName = _currentDecision.ActionType switch
+        {
+            AIActionType.Meditate => "调息",
+            AIActionType.ChargeAnnounce => "蓄力中...",
+            _ => bossMove.Name
+        };
+
+        GD.Print($"[BossBattle] 调息(+{recovered}内息) → Boss -0 | {bossMoveName} → 玩家 -{bossDamage}");
+        EmitSignal(SignalName.TurnAnimating, "调息", bossMoveName, 0, bossDamage, false);
 
         _isResolvingTurn = false;
         CheckCombatEnd();

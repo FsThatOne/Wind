@@ -1,17 +1,17 @@
 # Systems Index: 《风止》
 
-> **Status**: Draft
+> **Status**: Designed
 > **Created**: 2026-06-02
-> **Last Updated**: 2026-06-08
+> **Last Updated**: 2026-06-16
 > **Source Concept**: design/gdd/game-concept.md
 
 ---
 
 ## Overview
 
-《风止》是一款 2D 像素武侠叙事 RPG，以"一读定生死"的 Burst+Read 回合制战斗为核心差异化体验，融合心境双轴道德系统、彗星模型感情系统和活江湖世界层。
+《风止》是一款 2D 像素武侠叙事 RPG，以"观气、取位、出招、破绽、决胜"的行气战棋战斗为核心差异化体验，融合心境双轴道德系统、彗星模型感情系统和活江湖世界层。
 
-项目需要 25 个系统，覆盖：武侠战斗（刚/柔/巧克制 + 一击决胜）、队伍管理（5 人上阵 + 同伴成长 + 板凳追赶）、深度叙事分支（对话 + 章节 + 5 结局）、角色关系（同伴独立旅程 + 误会 + 书信）、世界模拟（自然日 + 传闻 + 暗号）、以及"朦胧化"文学 UI 包装。核心循环是 **紧张（战斗 + 抉择）→ 呼吸（探索 + 关系）→ 宏观（心境演变 + 活江湖）**。
+项目需要 25 个系统，覆盖：武侠战斗（刚/柔/巧克制 + 一击决胜）、队伍管理（5 人上阵 + 同伴成长 + 板凳追赶）、深度叙事分支（对话 + 章节 + 6 结局分支 / 16 终幕演出脚本）、角色关系（同伴独立旅程 + 误会 + 书信）、世界模拟（自然日 + 传闻 + 暗号）、以及"朦胧化"文学 UI 包装。核心循环是 **紧张（战斗 + 抉择）→ 呼吸（探索 + 关系）→ 宏观（心境演变 + 活江湖）**。
 
 ---
 
@@ -20,12 +20,12 @@
 | # | System Name | Category | Priority | Status | Design Doc | Depends On |
 |---|-------------|----------|----------|--------|------------|------------|
 | 1 | 角色属性 / 功力 | Core | MVP | Designed | [character-attributes.md](character-attributes.md) | — |
-| 2 | 回合制战斗（Burst+Read） | Gameplay | MVP | Designed | [combat-system.md](combat-system.md) | 角色属性 |
+| 2 | 行气战棋战斗 | Gameplay | MVP | Designed | [combat-system.md](combat-system.md) | 角色属性 |
 | 3 | 武学组合 | Gameplay | MVP | Designed | [martial-arts-system.md](martial-arts-system.md) | 角色属性 |
-| 4 | 敌方 AI | Gameplay | MVP | Approved | [enemy-ai.md](enemy-ai.md) | 回合制战斗, 角色属性, 武学组合(软) |
+| 4 | 敌方 AI | Gameplay | MVP | Designed | [enemy-ai.md](enemy-ai.md) | 行气战棋战斗, 角色属性, 武学组合(软) |
 | 5 | 对话系统 | Narrative | MVP | Designed | [dialogue-system.md](dialogue-system.md) | — |
 | 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-dual-axis.md](mindset-dual-axis.md) | NPC 状态管理, 对话系统 |
-| 7 | 战斗 UI | UI | MVP | Designed | [combat-ui.md](combat-ui.md) | 回合制战斗, 武学组合 |
+| 7 | 战斗 UI | UI | MVP | Designed | [combat-ui.md](combat-ui.md) | 行气战棋战斗, 武学组合 |
 | 8 | 存档系统 | Persistence | MVP | Designed | [save-system.md](save-system.md) | — |
 | 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Designed | [main-narrative.md](main-narrative.md) | 对话系统, 地图/场景管理 |
 | 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Designed | [npc-state.md](npc-state.md) | — |
@@ -35,15 +35,15 @@
 | 14 | 朦胧化 UI | UI | Vertical Slice | Designed | [blurred-ui.md](blurred-ui.md) | 心境双轴, 角色属性, 感情系统 |
 | 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Designed | [item-system.md](item-system.md) | 角色属性, 武学组合 |
 | 16 | 活江湖层 | Gameplay | Alpha | Designed | [living-jianghu-layer.md](living-jianghu-layer.md) | 自然日+体力, NPC 状态管理, 主线叙事 |
-| 17 | 顿悟突破 | Gameplay | Alpha | Designed | [epiphany-breakthrough.md](epiphany-breakthrough.md) | 回合制战斗, 角色属性, 主线叙事 |
+| 17 | 顿悟突破 | Gameplay | Alpha | Designed | [epiphany-breakthrough.md](epiphany-breakthrough.md) | 行气战棋战斗, 角色属性, 主线叙事 |
 | 18 | 误会系统 | Narrative | Alpha | Designed | [misunderstanding-system.md](misunderstanding-system.md) | 感情系统, NPC 状态管理, 活江湖层 |
 | 19 | 探索 / 洞察 (inferred) | Gameplay | Alpha | Designed | [exploration-insight.md](exploration-insight.md) | 地图/场景管理, 主线叙事 |
-| 20 | CG / 演出 (inferred) | UI | Alpha | Designed | [cutscene-system.md](cutscene-system.md) | 主线叙事, 回合制战斗 |
-| 21 | 音乐 / 音效 (inferred) | Audio | Alpha | Designed | [audio-system.md](audio-system.md) | 地图/场景管理, 回合制战斗 |
+| 20 | CG / 演出 (inferred) | UI | Alpha | Designed | [cutscene-system.md](cutscene-system.md) | 主线叙事, 行气战棋战斗 |
+| 21 | 音乐 / 音效 (inferred) | Audio | Alpha | Designed | [audio-system.md](audio-system.md) | 地图/场景管理, 行气战棋战斗 |
 | 22 | 教学 / 引导 (inferred) | Meta | Full Vision | Designed | [tutorial-onboarding.md](tutorial-onboarding.md) | 几乎全部 Core + Feature |
 | 23 | 设置 / 选项 (inferred) | Meta | Full Vision | Designed | [settings-options.md](settings-options.md) | — |
 | 24 | 成就 / Steam 集成 (inferred) | Meta | Full Vision | Designed | [achievement-steam.md](achievement-steam.md) | 心境双轴, 感情系统, 主线叙事 |
-| 25 | 队伍管理 / 同伴成长 | Gameplay | Vertical Slice | Designed | [party-management.md](party-management.md) | 角色属性, 回合制战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层 |
+| 25 | 队伍管理 / 同伴成长 | Gameplay | Vertical Slice | Designed | [party-management.md](party-management.md) | 角色属性, 行气战棋战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层 |
 
 ---
 
@@ -66,7 +66,7 @@
 
 | Tier | Definition | System Count |
 |------|------------|--------------|
-| **MVP** | 核心循环可运转 — 能打一场 Burst+Read 战斗 + 做一次心境选择 + 存档读档 | 8 |
+| **MVP** | 核心循环可运转 — 能打一场行气战棋战斗 + 做一次心境选择 + 存档读档 | 8 |
 | **Vertical Slice** | "第一章：江南水乡"完整体验 — 战斗+叙事+关系+日历+朦胧化 UI+队伍管理 | 8 |
 | **Alpha** | 所有 gameplay 系统就位 — 活江湖、顿悟、误会、探索、CG、音乐 | 6 |
 | **Full Vision** | 最终润色 — 教学、设置、成就 | 3 |
@@ -79,7 +79,7 @@
 
 | 阶段 | 叙事场景 | 新增系统 | 叙事锚点 |
 |------|---------|---------|---------|
-| **序章前半** | 师门生活 → 灭门事件 | #12 地图/场景、#5 对话、#2 战斗（基础）、#13 感情系统、#10 NPC 态度 | 与师兄弟/师傅/师姐互动教学；将死之人态度死后固定 |
+| **序章前半** | 师门生活 → 灭门事件 | #12 地图/场景、#5 对话、#2 行气战棋战斗（基础）、#13 感情系统、#10 NPC 态度 | 与师兄弟/师傅/师姐互动教学；将死之人态度死后固定 |
 | **序章尾段** | 师兄归来 → 误会 → 分别 | #18 误会系统、#10 飞书/书信 | 师兄误会主角独活=内奸（对话解除）；分别时约定通信 |
 | **章外章** | 初入世间（镖局岁月） | #6 心境双轴、#11 自然日/体力、#15 物品/装备、#15 锻造/炼丹、#16 活江湖层·传闻/暗号、#25 队伍管理（基础） | 老镖师教授江湖规矩；镖局采药采矿锻造兵器/炼药；首次出现可同行角色后开放队伍配置 |
 | **第一章** | 江南 | （本阶段无新增系统首次引入——感情系统和 NPC 态度已在序章激活，彗星模型自然体验于此阶段，教学在此触发） | 首次遇见女主后感情系统教学自然触发；NPC 态度变化自然引起关注 |
@@ -101,9 +101,9 @@
 
 ### Core Layer (depends on Foundation)
 
-1. **回合制战斗** — depends on: 角色属性
+1. **行气战棋战斗** — depends on: 角色属性
 2. **武学组合** — depends on: 角色属性
-3. **敌方 AI** — depends on: 回合制战斗, 角色属性
+3. **敌方 AI** — depends on: 行气战棋战斗, 角色属性
 4. **心境双轴** — depends on: NPC 状态管理, 对话系统
 5. **主线叙事 / 章节推进** — depends on: 对话系统, 地图/场景管理
 6. **自然日 + 体力** — depends on: 角色属性, 地图/场景管理
@@ -112,18 +112,18 @@
 
 1. **感情系统（彗星模型）** — depends on: 心境双轴, NPC 状态管理, 对话系统
 2. **活江湖层** — depends on: 自然日+体力, NPC 状态管理, 主线叙事
-3. **顿悟突破** — depends on: 回合制战斗, 角色属性, 主线叙事
+3. **顿悟突破** — depends on: 行气战棋战斗, 角色属性, 主线叙事
 4. **误会系统** — depends on: 感情系统, NPC 状态管理, 活江湖层
 5. **物品 / 道具** — depends on: 角色属性, 武学组合
 6. **探索 / 洞察** — depends on: 地图/场景管理, 主线叙事
-7. **队伍管理 / 同伴成长** — depends on: 角色属性, 回合制战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层
+7. **队伍管理 / 同伴成长** — depends on: 角色属性, 行气战棋战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层
 
 ### Presentation Layer (depends on Features)
 
-1. **战斗 UI** — depends on: 回合制战斗, 武学组合
+1. **战斗 UI** — depends on: 行气战棋战斗, 武学组合
 2. **朦胧化 UI** — depends on: 心境双轴, 角色属性, 感情系统
-3. **CG / 演出** — depends on: 主线叙事, 回合制战斗
-4. **音乐 / 音效** — depends on: 地图/场景管理, 回合制战斗
+3. **CG / 演出** — depends on: 主线叙事, 行气战棋战斗
+4. **音乐 / 音效** — depends on: 地图/场景管理, 行气战棋战斗
 
 ### Polish Layer (depends on everything)
 
@@ -138,7 +138,7 @@
 | Order | System | Priority | Layer | Agent(s) | Est. Effort |
 |-------|--------|----------|-------|----------|-------------|
 | 1 | 角色属性 / 功力 | MVP | Foundation | game-designer, systems-designer | M |
-| 2 | 回合制战斗（Burst+Read） | MVP | Core | game-designer, systems-designer | L |
+| 2 | 行气战棋战斗 | MVP | Core | game-designer, systems-designer | L |
 | 3 | 武学组合 | MVP | Core | game-designer, systems-designer | M |
 | 4 | 敌方 AI | MVP | Core | game-designer, ai-programmer | M |
 | 5 | 对话系统 | MVP | Foundation | game-designer, narrative-director | M |
@@ -177,12 +177,12 @@ None found.
 
 | System | Risk Type | Risk Description | Mitigation |
 |--------|-----------|-----------------|------------|
-| 回合制战斗 | Design | Burst+Read 核心在 prototype 验证通过，但多人协同 burst + 连战体力管理仍需 GDD 阶段细化 | Paper prototype Round 2 已验证；GDD 阶段用 systems-designer 细化公式 |
-| 心境双轴 | Scope | 双轴 × 5 结局 × N 个分支 = 组合爆炸风险 | 用心境区域（而非连续值）控制分支数；每章只允许 2-3 个心境关键选择 |
+| 行气战棋战斗 | Design | 行气、棋盘取位、气机克制、破绽决胜和 5 人队伍会叠加 UI/AI/平衡复杂度 | MVP 限制小棋盘和 5 人上限；用 `combat-system.md` 的行气公式、范围模板和行动队列作为 SSoT |
+| 心境双轴 | Scope | 6 结局分支 × 伴侣状态 × N 个剧情细节 = 组合爆炸风险 | 用心境区域（而非连续值）控制分支数；善恶档位只修饰旁白色调；每章只允许 2-3 个心境关键选择 |
 | 误会系统 | Design | "玩家不知道的误解"易造成挫败感而非叙事深度 | Concept doc 已设定"误会透明度"原则——玩家能察觉误会存在，只是解法不明 |
 | 感情系统 | Scope | 彗星模型（渐远→渐近循环）+ 5 NPC 关系线 = 内容量巨大 | MVP 只做 1 条核心关系线；Vertical Slice 做 2 条 |
 | 活江湖层 | Technical | 书信/传闻/暗号/代办 = NPC 状态 × 时间 × 玩家行为的组合模拟 | 用事件表 + 规则引擎而非穷举；Alpha 阶段做，不进 MVP |
-| 敌方 AI | Design | Intent tell（亮出意图）要求 AI 行为既可读又不可预测，平衡点难找 | Prototype 验证了基本意图显示；GDD 阶段用 ai-programmer 设计多阶段 boss 行为 |
+| 敌方 AI | Design | 当前气机和行动 tell 必须既可读又不可预测，且不能退回“公开下一招意图”模型 | AI GDD 需改为行气调度棋盘 AI，用移动、气机、冷却、目标选择和可见 tell 表达规律 |
 
 ---
 
@@ -218,4 +218,5 @@ None found.
 - [x] ~~Fix 7 BLOCKING issues identified in cross-review~~ ✅ All 7 BLOCKING + 15 WARNING fixed 2026-06-07
 - [x] ~~Design #24 成就/Steam 集成 GDD (last undesigned system)~~ ✅ achievement-steam.md written 2026-06-08
 - [x] ~~Run `/design-review` on #24 成就/Steam 集成 — 5 blocking + 12 warning fixed, verdict: Designed~~
+- [x] ~~Resolve `/review-all-gdds` 2026-06-16 FAIL: sync all formal GDDs from Burst+Read to 行气驱动的轻量武侠战棋~~ ✅ Core GDD, registry, ending-count, and status metadata sync completed 2026-06-16; rerun verdict: PASS
 - [ ] Run `/gate-check pre-production` when all 25 GDDs reviewed

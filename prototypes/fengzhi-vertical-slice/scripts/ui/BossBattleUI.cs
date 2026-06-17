@@ -1,5 +1,6 @@
 // VERTICAL SLICE - Boss Battle UI
 // Extends combat display with Boss-specific info: phase, charge, counter-read
+using System.Collections.Generic;
 using Godot;
 
 namespace FengzhiSlice;
@@ -10,6 +11,8 @@ namespace FengzhiSlice;
 /// </summary>
 public partial class BossBattleUI : Control
 {
+    private const string MoveButtonGroup = "boss_battle_move_button";
+
     private Label? _intentLabel;
     private Label? _turnLabel;
     private Label? _phaseLabel;
@@ -20,6 +23,7 @@ public partial class BossBattleUI : Control
     private Label? _playerHpText;
     private Label? _enemyHpText;
     private VBoxContainer? _moveButtons;
+    private Button? _meditateButton;
     private Button? _burstButton;
     private RichTextLabel? _combatLog;
     private Label? _flashLabel;
@@ -45,6 +49,7 @@ public partial class BossBattleUI : Control
 
         if (_burstButton != null)
         {
+            _burstButton.FocusMode = FocusModeEnum.All;
             _burstButton.Pressed += OnBurstPressed;
             _burstButton.Visible = false;
         }
@@ -94,10 +99,24 @@ public partial class BossBattleUI : Control
             };
             btn.Text = $"【{TypeChar(move.Type)}】{move.Name} (内息:{move.NeiliCost} 伤害:{move.BaseDamage})";
             btn.CustomMinimumSize = new Vector2(320, 44);
+            btn.FocusMode = FocusModeEnum.All;
+            btn.AddToGroup(MoveButtonGroup);
             int idx = i;
             btn.Pressed += () => OnMoveSelected(idx);
             _moveButtons.AddChild(btn);
         }
+
+        _meditateButton = new Button
+        {
+            Name = "MeditateButton",
+            Text = "💨 调息 (恢复 2 内息)",
+            CustomMinimumSize = new Vector2(320, 44),
+            FocusMode = FocusModeEnum.All
+        };
+        _meditateButton.Pressed += OnMeditatePressed;
+        _moveButtons.AddChild(_meditateButton);
+
+        BindMoveButtonFocusLoop();
     }
 
     private void OnIntentRevealed(string intentType)
@@ -127,6 +146,7 @@ public partial class BossBattleUI : Control
 
         RefreshMoveButtonStates();
         UpdateBars();
+        EnsureMoveButtonFocus();
     }
 
     private void RefreshMoveButtonStates()
@@ -165,6 +185,104 @@ public partial class BossBattleUI : Control
             }
             i++;
         }
+
+        if (_meditateButton != null)
+        {
+            var isFullNeili = player.CurrentNeili >= player.MaxNeili;
+            _meditateButton.Disabled = false;
+            _meditateButton.Modulate = isFullNeili
+                ? new Color(0.8f, 0.9f, 1f, 0.85f)
+                : new Color(1f, 1f, 1f, 1f);
+            _meditateButton.Text = isFullNeili
+                ? "💨 调息 (内息已满，仍可稳住节奏)"
+                : "💨 调息 (恢复 2 内息)";
+        }
+
+        BindMoveButtonFocusLoop();
+    }
+
+    private void BindMoveButtonFocusLoop()
+    {
+        var buttons = GetFocusableActionButtons();
+        if (_moveButtons == null && _burstButton == null)
+            return;
+
+        foreach (var btn in GetAllActionButtons())
+        {
+            btn.FocusNeighborTop = new NodePath(string.Empty);
+            btn.FocusNeighborBottom = new NodePath(string.Empty);
+            btn.FocusPrevious = new NodePath(string.Empty);
+            btn.FocusNext = new NodePath(string.Empty);
+        }
+
+        if (buttons.Count == 0)
+            return;
+
+        for (var index = 0; index < buttons.Count; index++)
+        {
+            var current = buttons[index];
+            var up = buttons[(index - 1 + buttons.Count) % buttons.Count];
+            var down = buttons[(index + 1) % buttons.Count];
+            current.FocusNeighborTop = current.GetPathTo(up);
+            current.FocusNeighborBottom = current.GetPathTo(down);
+            current.FocusPrevious = current.FocusNeighborTop;
+            current.FocusNext = current.FocusNeighborBottom;
+        }
+    }
+
+    private void EnsureMoveButtonFocus()
+    {
+        var buttons = GetFocusableMoveButtons();
+        if (buttons.Count == 0)
+            return;
+
+        var focused = GetViewport().GuiGetFocusOwner();
+        if (focused is Button current && GetFocusableActionButtons().Contains(current))
+            return;
+
+        buttons[0].GrabFocus();
+    }
+
+    private List<Button> GetFocusableActionButtons()
+    {
+        var buttons = GetFocusableMoveButtons();
+        if (_burstButton is { Visible: true, Disabled: false })
+            buttons.Add(_burstButton);
+
+        return buttons;
+    }
+
+    private List<Button> GetFocusableMoveButtons()
+    {
+        var buttons = new List<Button>();
+        if (_moveButtons == null)
+            return buttons;
+
+        foreach (var child in _moveButtons.GetChildren())
+        {
+            if (child is Button btn && btn.Visible && !btn.Disabled)
+                buttons.Add(btn);
+        }
+
+        return buttons;
+    }
+
+    private List<Button> GetAllActionButtons()
+    {
+        var buttons = new List<Button>();
+        if (_moveButtons != null)
+        {
+            foreach (var child in _moveButtons.GetChildren())
+            {
+                if (child is Button btn)
+                    buttons.Add(btn);
+            }
+        }
+
+        if (_burstButton != null)
+            buttons.Add(_burstButton);
+
+        return buttons;
     }
 
     private void OnTurnAnimating(string playerMove, string enemyMove, int playerDmg, int enemyDmg, bool counter)
@@ -209,12 +327,18 @@ public partial class BossBattleUI : Control
         {
             _burstButton.Visible = true;
             _burstButton.Text = "⚡ 一击决胜 (内息×3)";
+            _burstButton.FocusMode = FocusModeEnum.All;
+            BindMoveButtonFocusLoop();
         }
     }
 
     private void OnBurstExecuted(int damage)
     {
-        if (_burstButton != null) _burstButton.Visible = false;
+        if (_burstButton != null)
+        {
+            _burstButton.Visible = false;
+            BindMoveButtonFocusLoop();
+        }
         AppendLog($"[color=#FFD700]=== 一击决胜！伤害 {damage} ===[/color]");
         ShowFlash("一击决胜！", "#FFD700");
         UpdateBars();
@@ -228,17 +352,27 @@ public partial class BossBattleUI : Control
     private void OnMoveSelected(int index)
     {
         if (_manager == null) return;
-        if (_moveButtons != null)
-        {
-            foreach (var child in _moveButtons.GetChildren())
-                if (child is Button btn) btn.Disabled = true;
-        }
+        DisableActionButtons();
         _manager.PlayerSelectMove(index);
+    }
+
+    private void OnMeditatePressed()
+    {
+        if (_manager == null) return;
+        DisableActionButtons();
+        _manager.PlayerMeditate();
     }
 
     private void OnBurstPressed()
     {
+        DisableActionButtons();
         _manager?.PlayerActivateBurst();
+    }
+
+    private void DisableActionButtons()
+    {
+        foreach (var btn in GetAllActionButtons())
+            btn.Disabled = true;
     }
 
     private void OnCombatOver(bool playerWon)
