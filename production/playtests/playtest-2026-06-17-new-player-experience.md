@@ -1,6 +1,6 @@
 # Playtest Report — New Player Experience
 
-**Status**: Template / Not Yet Executed  
+**Status**: Cancelled — stale target deleted  
 **Gate Coverage**: Production -> Polish playtest requirement  
 **Related Plan**: `production/playtests/playtest-plan-polish-gate-2026-06-17.md`
 
@@ -8,14 +8,41 @@
 
 ## Session Info
 
-- **Date**: [Date]
-- **Build**: [Version/Commit]
-- **Duration**: [Time played]
-- **Tester**: [Name/ID]
-- **Platform**: [PC / Steam Deck / Other]
-- **Input Method**: [KB+M / Gamepad]
+- **Date**: 2026-06-17
+- **Build**: `prototypes/fengzhi-vertical-slice` local Godot debug run
+- **Duration**: Cancelled before valid playtest
+- **Tester**: User
+- **Platform**: macOS local dev build
+- **Input Method**: KB+M
 - **Session Type**: First-time player
-- **Observer**: [Name/ID]
+- **Observer**: Agent
+
+## Test Target Limitation
+
+This session was originally started with `prototypes/fengzhi-vertical-slice` because it was the only runnable full-loop Godot target. The target was then deleted on 2026-06-17 because it used the obsolete combat model and could mislead current Production -> Polish evidence.
+
+Use this session for:
+
+- New-player flow readability.
+- Dialogue -> combat -> mindset / feedback loop comprehension.
+- General UI / onboarding confusion.
+- Emotional hook and pacing observations.
+
+Do not use this session as final evidence for:
+
+- Current Sprint 5 Combat UI contract.
+- Current enemy qi / Xingqi Tactics combat correctness.
+- Current `cu-004` / `cu-005` / `cu-008` behavior, which is covered by `prototypes/sprint5-combat-ui-harness`.
+
+Startup evidence before cancellation:
+
+- Godot 4.6.3 Mono launched without script/runtime errors.
+- Debug output includes old `Boss决策: Attack 体系:Rou`, confirming stale combat semantics.
+
+Cancellation result:
+
+- This file does not count as one of the 3 required Production -> Polish playtest reports.
+- A new current full-loop target is required before running the New Player Experience playtest.
 
 ---
 

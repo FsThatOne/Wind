@@ -5,7 +5,7 @@
 > **Started**: 2026-06-10
 > **Completed**: 2026-06-10
 > **Verdict**: PROCEED
-> **Report**: [prototypes/fengzhi-vertical-slice/REPORT.md](../prototypes/fengzhi-vertical-slice/REPORT.md)
+> **Report**: deleted with retired `prototypes/fengzhi-vertical-slice` on 2026-06-17 because the slice used the obsolete combat model
 > **Validation Question**: "玩家能否在 3-5 分钟内无引导体验 Burst+Read 战斗 + 心境选择 + 朦胧化反馈的完整循环？" → **Yes**
 
 ## Systems in Scope
@@ -529,3 +529,10 @@
   - `production/playtests/playtest-2026-06-17-difficulty-curve.md`
 - Status: templates only, not executed; these do not yet satisfy the Production -> Polish gate evidence requirement
 - Next recommended: run the three playtests, fill the observations/results/action-routing sections, then rerun `/gate-check polish`
+
+## Session Extract — retired old vertical slice 2026-06-17
+- Deleted `prototypes/fengzhi-vertical-slice` at user request because it used the obsolete Burst+Read combat model and was misleading current QA/playtest work
+- Updated `prototypes/index.md` to mark the slice as retired/deleted historical evidence
+- Cancelled `production/playtests/playtest-2026-06-17-new-player-experience.md` because it had started against the deleted stale target
+- Current runnable targets left: `prototypes/sprint5-combat-ui-harness` for Sprint 5 Combat UI targeted QA and `prototypes/burst-read-combat-concept/engine` as old concept spike only
+- Next recommended: create a new current full-loop playtest target before running New Player Experience playtest evidence for the Polish gate
