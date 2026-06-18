@@ -10,7 +10,7 @@ namespace FengZhi.Tests.Foundation.CombatUi;
 public class CombatUiMoveSelectionPanelTest
 {
     [Fact]
-    public void PlayerDecisionPanel_ShowsSixEquippedMovesAndBaseActions()
+    public void PlayerDecisionPanel_ShowsSixEquippedMovesAndAllowedBaseActions()
     {
         var presenter = new CombatUiMoveSelectionPresenter();
         var snapshot = presenter.OpenForState(
@@ -19,11 +19,11 @@ public class CombatUiMoveSelectionPanelTest
             new CombatUiMoveSelectionContext(PlayerNeixi: 9, IsXinfaSealed: false, UsableCombatItemCount: 1, RevealedEnemyMoveType: MoveType.Qiao));
 
         Assert.True(snapshot.IsOpen);
-        Assert.Equal(9, snapshot.Entries.Count);
+        Assert.Equal(8, snapshot.Entries.Count);
         Assert.Equal(6, snapshot.Entries.Count(entry => entry.ActionKind == CombatUiMoveActionKind.EquippedMove));
         Assert.Contains(snapshot.Entries, entry => entry.ActionKind == CombatUiMoveActionKind.RestMeditate && entry.DisplayName == "调息");
-        Assert.Contains(snapshot.Entries, entry => entry.ActionKind == CombatUiMoveActionKind.BasicAttack && entry.DisplayName == "普通攻击");
         Assert.Contains(snapshot.Entries, entry => entry.ActionKind == CombatUiMoveActionKind.UseItem && entry.DisplayName == "使用道具");
+        Assert.DoesNotContain(snapshot.Entries, entry => entry.ActionId == "basic_attack" || entry.DisplayName == "普通攻击");
     }
 
     [Fact]

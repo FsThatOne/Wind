@@ -552,6 +552,14 @@ requirements:
     revised: ""
     status: active
 
+  - id: TR-combat-ui-008
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗招式面板和关键提示必须支持键盘、鼠标和手柄完整操作：面板打开时默认聚焦第一个可用行动，D-pad/摇杆可上下导航所有可交互行动，导航必须在面板内循环且焦点不得逃出面板；A/确认键必须提交当前聚焦行动；反制和决胜一击行必须可通过手柄导航触达；Godot 4.6 dual-focus 下鼠标 hover 与手柄焦点必须可同时独立存在且视觉不冲突，输入模式切换后焦点高亮规则必须保持正确。"
+    created: 2026-06-15
+    revised: ""
+    status: active
+
   - id: TR-exploration-insight-001
     system: exploration-insight
     gdd: design/gdd/exploration-insight.md

@@ -5,7 +5,7 @@
 > **Started**: 2026-06-10
 > **Completed**: 2026-06-10
 > **Verdict**: PROCEED
-> **Report**: [prototypes/fengzhi-vertical-slice/REPORT.md](../prototypes/fengzhi-vertical-slice/REPORT.md)
+> **Report**: deleted with retired `prototypes/fengzhi-vertical-slice` on 2026-06-17 because the slice used the obsolete combat model
 > **Validation Question**: "玩家能否在 3-5 分钟内无引导体验 Burst+Read 战斗 + 心境选择 + 朦胧化反馈的完整循环？" → **Yes**
 
 ## Systems in Scope
@@ -417,3 +417,122 @@
 - Story: production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md — cu-005 反制与决胜行动提示
 - Tech debt logged: 1 item (manual UI walkthrough evidence pending)
 - Next recommended: production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md — blocked by S5-Preflight readiness cleanup
+
+## Session Extract — /dev-story 2026-06-15
+- Story: production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md — cu-008 双焦点与手柄导航
+- Files changed: src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs, tests/integration/combat-ui/combat_ui_dual_focus_navigation_test.cs, production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md, production/sprint-status.yaml
+- Test written: tests/integration/combat-ui/combat_ui_dual_focus_navigation_test.cs (9 tests)
+- Verification: `CombatUiDualFocusNavigationTest` passed 9/9; `CombatUiMoveSelectionPanelTest` passed 18/18; `CombatUiCounterDecisivePromptTest` passed 17/17; full `Foundation.Tests` passed 1339/1339 via SDK 8.0.421 with `DOTNET_ROOT=/usr/local/share/dotnet DOTNET_MULTILEVEL_LOOKUP=0`
+- Blockers: None
+- Next: /code-review src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs tests/integration/combat-ui/combat_ui_dual_focus_navigation_test.cs then /story-done production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md
+
+## Session Extract — /story-done 2026-06-15
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md — cu-008 双焦点与手柄导航
+- Criteria: 8/8 covered by automated contract tests; Godot keyboard fallback manually verified after `BUG-0001` fix
+- Test evidence: `CombatUiDualFocusNavigationTest|CombatUiMoveSelectionPanelTest|CombatUiCounterDecisivePromptTest` passed 45/45; vertical slice build passed 0 warnings / 0 errors; evidence video at `production/qa/evidence/media/cu-008-keyboard-dual-focus-navigation-rerun.mp4`
+- Code review: Pending — user chose to rerun before Sprint 5 close-out after vertical-slice adapter fix
+- Tech debt logged: 1 item (real physical controller D-pad / A-key and hover/focus recording pending)
+- Next recommended: Sprint 5 Must Have complete; run `/code-review` for final changed files, then `/smoke-check sprint` and `/team-qa sprint`
+
+## Session Extract — /review-all-gdds 2026-06-16
+- Verdict: FAIL
+- GDDs reviewed: 25 system GDDs + game-concept.md + systems-index.md
+- Flagged for revision: combat-system.md, character-attributes.md, combat-ui.md, enemy-ai.md, systems-index.md, game-concept.md, epiphany-breakthrough.md, npc-state.md, misunderstanding-system.md, main-narrative.md, living-jianghu-layer.md, exploration-insight.md, romance-system.md, item-system.md
+- Blocking issues: 3 — combat model drift from Burst+Read to 行气战棋; insight incorrectly affects action speed; enemy AI tell events not closed through combat/UI
+- Recommended next: rewrite combat-system.md around 行气驱动的轻量武侠战棋, then sync character-attributes.md, combat-ui.md, enemy-ai.md, systems-index.md, and game-concept.md
+- Report: design/gdd/gdd-cross-review-2026-06-16.md
+
+## Session Extract — /design-system combat-system 2026-06-16
+- Task: Rewriting combat-system.md from Burst+Read simultaneous resolution to 行气驱动的轻量武侠战棋
+- Current section: Open Questions written; combat-system.md section rewrite complete
+- File: design/gdd/combat-system.md
+- Constraints: 保留 HP/内息/破绽、刚柔巧、一击决胜；移除同步结算与基础反制按钮；行气速度只使用敏捷与明确轻功词条，不使用洞察；招式自带刚/柔/巧属性；出手后行气默认归零，明确内功/轻功词条最多可保留 30%；无普通攻击兜底，0 内息且无零消耗招式时强制调息
+
+## Session Extract — /design-sync character-attributes 2026-06-16
+- Task: 同步 `character-attributes.md` 到新版行气战棋战斗口径
+- File: design/gdd/character-attributes.md
+- Completed: 移除洞察对行气增长与行动排序的影响；删除属性系统对当前破绽、破绽阈值和破绽衰减的归属；移除 `AddStagger(amount)` 接口；0 内息且无零消耗招式时强制调息
+- Verification: `GetDiagnostics` 无报错；旧 `speed` / `AddStagger` / `base_stagger_threshold` / `stagger_decay` 有效口径已清除
+
+## Session Extract — /review-all-gdds rerun 2026-06-16
+- Verdict: PASS after inline fixes
+- GDDs reviewed: 25 system GDDs + game-concept.md + systems-index.md
+- Flagged for revision: None remaining
+- Blocking issues: None
+- Resolved since previous review: Burst+Read combat drift, insight affecting action speed, old combat action types, registry cleanup, ending-count drift, stale status metadata, and epiphany timing baseline clarification
+- Recommended next: proceed to `/gate-check pre-production` or return to Production Sprint 5 smoke/QA flow
+- Report: design/gdd/gdd-cross-review-2026-06-16-rerun.md
+
+## Session Extract — /gate-check Production to Polish 2026-06-16
+- Verdict: FAIL
+- Target transition: Production -> Polish
+- Blocking issues: Latest sprint smoke is FAIL; Sprint 5 QA sign-off missing; playtest evidence missing; Feature/Presentation scope not production-complete; cu-006/cu-007 still backlog; cu-008 manual controller/hover-focus evidence partial
+- Positive evidence: `dotnet test FengZhi.slnx` passed 1344/1344; BUG-0001 is closed; GDD cross-review rerun is PASS
+- Recommended next: rerun `/smoke-check sprint`; if PASS/PASS WITH WARNINGS, run `/team-qa sprint`, then collect playtest evidence before re-running this gate
+- Report: production/gate-checks/gate-production-to-polish-2026-06-16.md
+
+## Session Extract — /smoke-check sprint 2026-06-16
+- Verdict: PASS WITH WARNINGS
+- Automated tests: `dotnet test FengZhi.slnx` passed 1344/1344; Godot/GdUnit4 runner NOT RUN because `godot` is not on PATH
+- Manual smoke: Core stability, Sprint 5 regression, data integrity, and performance batches all confirmed PASS by user
+- Warnings: cu-006/cu-007 remain backlog with missing expected tests/evidence; cu-008 physical controller and hover/focus coexistence evidence remains partial
+- QA hand-off: Allowed with warnings; next recommended command is `/team-qa sprint`
+- Report: production/qa/smoke-2026-06-16.md
+
+## Session Extract — /team-qa sprint 2026-06-16
+- Verdict: NOT APPROVED
+- Scope: Sprint 5 Must Have close-out (`cu-004`, `cu-005`, `cu-008`); `cu-006` and `cu-007` explicitly deferred
+- Manual QA results: `cu-004` FAIL; `cu-005` FAIL; `cu-008` PASS
+- Bugs filed: `BUG-0002` for missing cu-004 basic actions / unavailable reasons / preview card; `BUG-0003` for cu-005 using old move-type counter semantics instead of enemy current inner power qi state
+- Blocking severity: `BUG-0003` is S1-Critical design-contract drift; Sprint 5 cannot close until cu-005 is rewritten against current Xingqi Tactics GDD
+- Reports: production/qa/qa-signoff-sprint-5-2026-06-16.md; production/qa/test-cases-sprint-5-must-closeout-zh-2026-06-16.md
+
+## Session Extract — Sprint 5 Combat UI harness QA 2026-06-17
+- Target: `prototypes/sprint5-combat-ui-harness` replaced stale `prototypes/fengzhi-vertical-slice` for Sprint 5 Combat UI targeted QA
+- Runtime: Godot 4.6.3 Mono launched cleanly; no script/runtime errors in debug output; project stopped after manual test
+- User manual QA: `cu-005` PASS; `cu-008` PASS
+- QA document updates: `production/qa/test-cases-sprint-5-must-closeout-zh-2026-06-16.md`, `production/qa/qa-signoff-sprint-5-2026-06-16.md`, `production/qa/evidence/cu-005-counter-and-decisive-action-prompts-evidence.md`, `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md`
+- Bug updates: `BUG-0003` marked superseded by stale target; `BUG-0002` reframed around current `cu-004` registry drift and harness re-test
+- Remaining blocker: `cu-004` still needs Foundation contract cleanup because current Combat UI output includes `BasicAttack/basic_attack`, while latest `combat_action_types` excludes ordinary attack
+- Next recommended: remove or replace `BasicAttack/basic_attack` in the current Combat UI Foundation contract, then re-run `dotnet test FengZhi.slnx` and targeted `cu-004` harness QA
+
+## Session Extract — cu-004 registry drift fix 2026-06-17
+- Fix: removed `BasicAttack/basic_attack` from the current Combat UI Foundation move selection output
+- Files updated: `src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs`, `tests/integration/combat-ui/combat_ui_move_selection_panel_test.cs`, `tests/integration/combat-ui/combat_ui_dual_focus_navigation_test.cs`, `prototypes/sprint5-combat-ui-harness/scripts/ui/Sprint5CombatUiHarnessView.cs`, `production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md`, QA sign-off / bug docs
+- Harness update: `cu-005` expected contract now treats the compatibility field as enemy current qi for this harness, avoiding stale `CONTRACT DRIFT` output after user-confirmed pass
+- Verification: harness build passed 0 warnings / 0 errors; targeted Combat UI tests passed 49/49; full `dotnet test FengZhi.slnx` passed 1344/1344
+- Remaining blocker: targeted manual `cu-004` QA still needs to be re-run in `prototypes/sprint5-combat-ui-harness` before Sprint 5 Must Have sign-off can be approved
+
+## Session Extract — Sprint 5 Must QA approved 2026-06-17
+- User manual QA: `cu-004` PASS in `prototypes/sprint5-combat-ui-harness`
+- Final Must scope results: `cu-004` PASS, `cu-005` PASS, `cu-008` PASS
+- QA sign-off updated: `production/qa/qa-signoff-sprint-5-2026-06-16.md` now `APPROVED WITH CONDITIONS`
+- Evidence added: `production/qa/evidence/cu-004-move-selection-panel-and-preview-card-evidence.md`
+- Bugs: `BUG-0002` closed after fix + harness verification; `BUG-0003` remains superseded stale-target evidence
+- Remaining conditions: `godot` CLI / GdUnit4 smoke warning remains; `cu-006` and `cu-007` remain explicitly deferred backlog scope
+- Next recommended: rerun Production -> Polish gate check with Sprint 5 QA blocker cleared
+
+## Session Extract — /gate-check Production to Polish rerun 2026-06-17
+- Verdict: FAIL
+- Report: `production/gate-checks/gate-production-to-polish-2026-06-17.md`
+- Cleared since previous gate: Sprint 5 Must QA blocker is resolved; `cu-004`, `cu-005`, `cu-008` pass harness QA; `BUG-0002` closed; full `dotnet test FengZhi.slnx` passes 1344/1344
+- Remaining blockers: no `production/playtests/` evidence; fun hypothesis not validated; Feature layer remains 6/6 Ready and Presentation layer 4/4 Ready in `production/epics/index.md`; Art Bible and key UX specs remain Draft; accessibility/platform evidence missing
+- Stage remains: `Production`
+- Minimal path to PASS: document 3 playtests, make a milestone scope decision for Feature/Presentation and `cu-006`/`cu-007`, run Art/UX review, add accessibility/controller/performance evidence
+
+## Session Extract — Polish gate playtest templates 2026-06-17
+- Created playtest plan: `production/playtests/playtest-plan-polish-gate-2026-06-17.md`
+- Created session templates:
+  - `production/playtests/playtest-2026-06-17-new-player-experience.md`
+  - `production/playtests/playtest-2026-06-17-mid-game-systems.md`
+  - `production/playtests/playtest-2026-06-17-difficulty-curve.md`
+- Status: templates only, not executed; these do not yet satisfy the Production -> Polish gate evidence requirement
+- Next recommended: run the three playtests, fill the observations/results/action-routing sections, then rerun `/gate-check polish`
+
+## Session Extract — retired old vertical slice 2026-06-17
+- Deleted `prototypes/fengzhi-vertical-slice` at user request because it used the obsolete Burst+Read combat model and was misleading current QA/playtest work
+- Updated `prototypes/index.md` to mark the slice as retired/deleted historical evidence
+- Cancelled `production/playtests/playtest-2026-06-17-new-player-experience.md` because it had started against the deleted stale target
+- Current runnable targets left: `prototypes/sprint5-combat-ui-harness` for Sprint 5 Combat UI targeted QA and `prototypes/burst-read-combat-concept/engine` as old concept spike only
+- Next recommended: create a new current full-loop playtest target before running New Player Experience playtest evidence for the Polish gate

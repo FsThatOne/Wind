@@ -27,7 +27,7 @@ already learned (and avoid making the same mistake twice).
 
 | Concept | Date | Path | Verdict | Report | Notes |
 |---|---|---|---|---|---|
-| 风止 — Full Core Loop | 2026-06-10 | `fengzhi-vertical-slice/` | **PROCEED** (carry-forward note) | [REPORT.md](./fengzhi-vertical-slice/REPORT.md) | First-run slice. 对话→战斗→心境选择→朦胧化反馈闭环验证。Carry-forward: 对话推进改为全屏点击+快捷键 |
+| 风止 — Full Core Loop | 2026-06-10 | Removed 2026-06-17 | **PROCEED** historically; **retired** | Report removed with stale prototype | First-run slice validated an old Burst+Read loop. Deleted because it used the obsolete combat model and was no longer safe as QA/playtest evidence. |
 
 ---
 

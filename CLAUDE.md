@@ -52,3 +52,8 @@ See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
 ## Context Management
 
 @.claude/docs/context-management.md
+
+## Must Follow
+1. 用中文和我沟通, 用中文编写注释, 用中文编写文档.
+2. 随时随地可以跟我头脑风暴(/brainstorm), 我会根据你的建议进行调整.
+3. 问我问题时, 选项一定要有一个你推荐的选项, 我会根据你的推荐进行判断. 最好是能简单说明推荐原因.

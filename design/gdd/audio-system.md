@@ -57,9 +57,9 @@
 
 | 战斗局势 | 音乐段落 | 触发条件 |
 |---------|---------|---------|
-| 准备 (Prep) | 低张力前奏 | 进入战斗、选择招式阶段 |
-| 交锋 (Clash) | 中等张力主旋律 | Burst 阶段开始 |
-| 优势 (Advantage) | 旋律高扬 + 节奏加快 | 连续 2 回合命中克制 |
+| 准备 (Prep) | 低张力前奏 | 进入战斗、等待行气或选择行动阶段 |
+| 交锋 (Clash) | 中等张力主旋律 | 当前角色进入行动窗口或招式结算开始 |
+| 优势 (Advantage) | 旋律高扬 + 节奏加快 | 连续 2 次气机克制命中 |
 | 劣势 (Disadvantage) | 低沉压抑 + 节奏放慢 | HP < 30% 或被连续克制 |
 | 绝境 (Desperation) | 极简音色 + 心跳节奏 | HP < 15% 且 stamina < 20% |
 | 决胜 (Finisher) | 全频爆发 + 完整主题 | 一击决胜触发 |
@@ -90,7 +90,7 @@ Ambient 轨同时叠加最多 3 层循环音：
 |--------|---------|---------|
 | P0 (最高) | 叙事关键音效（灭门、结局、顿悟触发） | 否 |
 | P1 | 战斗核心音效（一击决胜、克制命中） | 否 |
-| P2 | 战斗常规音效（普通命中、回合标记） | 是 |
+| P2 | 战斗常规音效（普通命中、行动队列推进） | 是 |
 | P3 | UI/系统音效（选择确认、书信展开） | 是 |
 | P4 (最低) | 环境 one-shot（脚步、远处鸟叫） | 是 |
 
@@ -145,8 +145,8 @@ CG/演出系统通过 `PLAY_BGM` 和 `PLAY_SFX` 步骤直接控制音频轨道�
 
 | # | 系统 | 方向 | 接口 | 说明 |
 |---|------|------|------|------|
-| 2 | 回合制战斗 | ← 接收 | `battle_state_changed(state)` | 接收战斗局势变化，驱动自适应 BGM 段落切换 |
-| 2 | 回合制战斗 | ← 接收 | `combat_sfx(sfx_id, priority)` | 播放克制命中、一击决胜等战斗音效 |
+| 2 | 行气战棋战斗 | ← 接收 | `battle_state_changed(state)` | 接收战斗局势变化，驱动自适应 BGM 段落切换 |
+| 2 | 行气战棋战斗 | ← 接收 | `combat_sfx(sfx_id, priority)` | 播放克制命中、一击决胜等战斗音效 |
 | 7 | 战斗 UI | ← 接收 | `ui_sfx(sfx_id)` | 播放招式选择、破绽爆满等 UI 音效 |
 | 5 | 对话系统 | ← 接收 | `dialogue_state(started/ended)` | 进入/退出 DIALOGUE 状态，调整音量 |
 | 5 | 对话系统 | ← 接收 | `dialogue_sfx(sfx_id)` | 选择确认、洞察暗示、书信展开等极少量 SFX |
@@ -219,7 +219,7 @@ state_attenuation 默认值：
 |------|------|------|------|
 | hp_ratio | float | 0.0 – 1.0 | 当前 HP / 最大 HP |
 | stamina_ratio | float | 0.0 – 1.0 | 当前内息 / 最大内息 |
-| advantage_streak | int | 0 – N | 连续克制命中回合数 |
+| advantage_streak | int | 0 – N | 连续气机克制命中次数 |
 | finisher_triggered | bool | — | 是否触发一击决胜 |
 
 判定逻辑（按优先级从高到低）：
@@ -227,7 +227,7 @@ state_attenuation 默认值：
 2. `hp_ratio < 0.15 AND stamina_ratio < 0.20` → **Desperation**
 3. `hp_ratio < 0.30 OR 被连续克制 >= 2` → **Disadvantage**
 4. `advantage_streak >= 2` → **Advantage**
-5. Burst 阶段进行中 → **Clash**
+5. 当前角色行动窗口或招式结算进行中 → **Clash**
 6. 否则 → **Prep**
 
 **输出**：6 种段落 enum 之一。切换仅在当前小节结束时生效。
@@ -261,7 +261,7 @@ state_attenuation 默认值：
 | 上游系统 | 接口 | 性质 |
 |---------|------|------|
 | **地图/场景管理** (#12) | `scene_audio_config(bgm_id, terrain_ambient, weather_ambient)` | 场景 BGM 和地形环境音的唯一来源。缺失则音频系统无法知道"现在在哪"。 |
-| **回合制战斗** (#2) | `battle_state_changed(state)` + `combat_sfx(sfx_id, priority)` | 自适应战斗音乐的驱动来源。缺失则战斗期间无法切换音乐段落、无法播放战斗音效。 |
+| **行气战棋战斗** (#2) | `battle_state_changed(state)` + `combat_sfx(sfx_id, priority)` | 自适应战斗音乐的驱动来源。缺失则战斗期间无法切换音乐段落、无法播放战斗音效。 |
 | **设置/选项** (#23) | `volume_changed(track, value)` | 音量持久化读写。缺失则玩家无法调节音量（硬编码默认值可工作但体验不完整）。 |
 
 ### 软依赖（增强体验但缺失不影响核心运转）

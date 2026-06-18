@@ -41,11 +41,11 @@ stories:
     name: "双焦点与手柄导航"
     file: "production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md"
     priority: must-have
-    status: blocked
+    status: done
     owner: ""
     estimate_days: 0.75
-    blocker: "cu-004, cu-005, S5-Preflight"
-    completed: ""
+    blocker: ""
+    completed: "2026-06-15"
 
   - id: "cu-006"
     name: "一击决胜演出编排"

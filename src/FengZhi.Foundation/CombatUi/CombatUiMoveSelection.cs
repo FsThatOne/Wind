@@ -12,7 +12,6 @@ public enum CombatUiMoveActionKind
 {
     EquippedMove,
     RestMeditate,
-    BasicAttack,
     UseItem,
     DecisiveStrike
 }
@@ -115,12 +114,202 @@ public sealed record CombatUiMoveSelectionSnapshot(
     int RefreshCount);
 
 /// <summary>
+/// 招式面板手柄/键盘导航方向。
+/// </summary>
+public enum CombatUiNavigationDirection
+{
+    Up,
+    Down
+}
+
+/// <summary>
+/// 单个可聚焦行动的循环导航邻居契约。
+/// </summary>
+public sealed record CombatUiNavigationNode(
+    string ActionId,
+    string UpNeighborActionId,
+    string DownNeighborActionId,
+    bool CanReceiveFocus);
+
+/// <summary>
+/// 双焦点视觉状态。手柄/键盘焦点和鼠标 hover 分离记录。
+/// </summary>
+public sealed record CombatUiDualFocusVisualState(
+    string? FocusedActionId,
+    string? HoveredActionId,
+    InputMode CurrentInputMode,
+    string FocusStyleKey,
+    string? HoverStyleKey);
+
+/// <summary>
+/// 招式面板导航快照。仅表达 UI 焦点状态，不持有战斗结算状态。
+/// </summary>
+public sealed record CombatUiNavigationSnapshot(
+    IReadOnlyList<CombatUiNavigationNode> Nodes,
+    string? FocusedActionId,
+    string? HoveredActionId,
+    InputMode CurrentInputMode,
+    bool IsFocusContained,
+    CombatUiDualFocusVisualState VisualState);
+
+/// <summary>
+/// Godot Control 层需要应用的循环焦点邻居绑定。
+/// </summary>
+public sealed record CombatUiFocusNeighborBinding(
+    string ActionId,
+    string UpNeighborActionId,
+    string DownNeighborActionId);
+
+/// <summary>
+/// 纯 C# 招式面板导航控制器。用于 D-pad 循环、确认提交和 dual-focus 状态管理。
+/// </summary>
+public sealed class CombatUiNavigationController
+{
+    private readonly List<CombatUiNavigationNode> _nodes = new();
+    private string? _focusedActionId;
+    private string? _hoveredActionId;
+    private InputMode _currentInputMode = InputMode.Keyboard;
+
+    public CombatUiNavigationSnapshot Snapshot => BuildSnapshot();
+
+    /// <summary>
+    /// 根据面板快照重建导航图，并保留仍然有效的焦点/hover 状态。
+    /// </summary>
+    public CombatUiNavigationSnapshot ApplySnapshot(CombatUiMoveSelectionSnapshot snapshot)
+    {
+        _nodes.Clear();
+        var focusableEntries = snapshot.Entries
+            .Where(entry => entry.IsEnabled)
+            .OrderBy(entry => entry.StableOrder)
+            .ToArray();
+
+        for (var index = 0; index < focusableEntries.Length; index++)
+        {
+            var current = focusableEntries[index];
+            var up = focusableEntries[(index - 1 + focusableEntries.Length) % focusableEntries.Length];
+            var down = focusableEntries[(index + 1) % focusableEntries.Length];
+            _nodes.Add(new CombatUiNavigationNode(current.ActionId, up.ActionId, down.ActionId, true));
+        }
+
+        if (!ContainsAction(_focusedActionId))
+        {
+            _focusedActionId = ContainsAction(snapshot.DefaultFocusActionId)
+                ? snapshot.DefaultFocusActionId
+                : _nodes.FirstOrDefault()?.ActionId;
+        }
+
+        if (!ContainsAction(_hoveredActionId))
+            _hoveredActionId = null;
+
+        return BuildSnapshot();
+    }
+
+    /// <summary>
+    /// 按方向移动焦点。导航图保证在面板内部循环。
+    /// </summary>
+    public CombatUiNavigationSnapshot Move(CombatUiNavigationDirection direction)
+    {
+        if (_nodes.Count == 0)
+            return BuildSnapshot();
+
+        if (!ContainsAction(_focusedActionId))
+            _focusedActionId = _nodes[0].ActionId;
+
+        var node = _nodes.First(current => current.ActionId == _focusedActionId);
+        _focusedActionId = direction == CombatUiNavigationDirection.Up
+            ? node.UpNeighborActionId
+            : node.DownNeighborActionId;
+        _currentInputMode = InputMode.Gamepad;
+        return BuildSnapshot();
+    }
+
+    /// <summary>
+    /// 记录鼠标 hover 目标。不会覆盖键盘/手柄焦点。
+    /// </summary>
+    public CombatUiNavigationSnapshot Hover(string? actionId)
+    {
+        _hoveredActionId = ContainsAction(actionId) ? actionId : null;
+        _currentInputMode = InputMode.Mouse;
+        return BuildSnapshot();
+    }
+
+    /// <summary>
+    /// 切换当前输入模式。不会丢失已选焦点或 hover 状态。
+    /// </summary>
+    public CombatUiNavigationSnapshot ChangeInputMode(InputMode inputMode)
+    {
+        _currentInputMode = inputMode;
+        return BuildSnapshot();
+    }
+
+    /// <summary>
+    /// 确认当前聚焦行动。调用方负责把行动 ID 提交给对应 Presenter。
+    /// </summary>
+    public string? ConfirmFocusedAction()
+    {
+        return ContainsAction(_focusedActionId) ? _focusedActionId : null;
+    }
+
+    /// <summary>
+    /// 以当前聚焦行动生成 MoveSelection 意图。
+    /// </summary>
+    public CombatUiMoveSelectionIntent? ConfirmFocused(
+        CombatUiMoveSelectionPresenter presenter,
+        string actorId,
+        string fallbackTargetId)
+    {
+        var actionId = ConfirmFocusedAction();
+        if (actionId is null)
+            return null;
+
+        presenter.FocusOrHover(actionId);
+        return presenter.ConfirmSelected(actorId, fallbackTargetId);
+    }
+
+    private CombatUiNavigationSnapshot BuildSnapshot()
+    {
+        return new CombatUiNavigationSnapshot(
+            _nodes.ToArray(),
+            _focusedActionId,
+            _hoveredActionId,
+            _currentInputMode,
+            IsFocusContained(),
+            BuildVisualState());
+    }
+
+    private CombatUiDualFocusVisualState BuildVisualState()
+    {
+        return new CombatUiDualFocusVisualState(
+            _focusedActionId,
+            _hoveredActionId,
+            _currentInputMode,
+            _currentInputMode switch
+            {
+                InputMode.Gamepad => "gamepad_focus",
+                InputMode.Mouse => "mouse_focus",
+                _ => "keyboard_focus"
+            },
+            _hoveredActionId is null ? null : "mouse_hover");
+    }
+
+    private bool IsFocusContained()
+    {
+        return _focusedActionId is null || ContainsAction(_focusedActionId);
+    }
+
+    private bool ContainsAction(string? actionId)
+    {
+        return actionId is not null && _nodes.Any(node => node.ActionId == actionId);
+    }
+}
+
+/// <summary>
 /// 将 MartialArts 战斗面板数据和战斗资源快照组装为 Combat UI 招式选择快照。
 /// </summary>
 public sealed class CombatUiMoveSelectionPresenter
 {
     public const int MaxEquippedMoveSlots = 6;
-    public const int BaseActionCount = 3;
+    public const int BaseActionCount = 2;
     public const int CounterNeixiThreshold = 3;
 
     private BattlePanelDisplayData _displayData = new();
@@ -268,7 +457,6 @@ public sealed class CombatUiMoveSelectionPresenter
         }
 
         result.Add(BuildBaseAction("rest_meditate", CombatUiMoveActionKind.RestMeditate, "调息", order++));
-        result.Add(BuildBaseAction("basic_attack", CombatUiMoveActionKind.BasicAttack, "普通攻击", order++));
         result.Add(BuildUseItemAction(order));
         return result;
     }
@@ -533,9 +721,11 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
 {
     private readonly Dictionary<string, CombatMoveActionSlot> _slots = new(StringComparer.Ordinal);
     private readonly List<CombatMoveActionSlot> _orderedSlots = new();
-    private readonly IFocusManager? _focusManager;
+    private readonly IFocusManager _focusManager;
     private readonly CombatUiFocusLifecycle _focusLifecycle = new();
+    private readonly CombatUiNavigationController _navigation = new();
     private CombatUiMoveSelectionSnapshot _snapshot = new(false, Array.Empty<CombatUiMoveSelectionEntry>(), null, null, null, false, 0);
+    private string? _pendingInitialFocusActionId;
 
     public CombatMoveSelectionPanel()
         : this(null)
@@ -544,7 +734,7 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
 
     public CombatMoveSelectionPanel(IFocusManager? focusManager)
     {
-        _focusManager = focusManager;
+        _focusManager = focusManager ?? new LocalFocusManager();
         Name = "CombatMoveSelectionPanel";
         MouseFilter = MouseFilterEnum.Pass;
         Visible = false;
@@ -556,9 +746,24 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
 
     public IReadOnlyList<CombatMoveActionSlot> Slots => _orderedSlots;
 
+    public CombatUiNavigationSnapshot NavigationSnapshot => _navigation.Snapshot;
+
     public string? LastFocusPushedActionId { get; private set; }
 
     public bool LastFocusPopRequested { get; private set; }
+
+    public static IReadOnlyList<CombatUiFocusNeighborBinding> BuildFocusNeighborBindings(CombatUiNavigationSnapshot navigation)
+    {
+        return navigation.Nodes
+            .Select(node => new CombatUiFocusNeighborBinding(node.ActionId, node.UpNeighborActionId, node.DownNeighborActionId))
+            .ToArray();
+    }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        GrabPendingInitialFocus();
+    }
 
     /// <summary>
     /// 应用面板快照。打开时记录焦点推入目标并请求首个可用行动聚焦。
@@ -577,11 +782,63 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         Visible = snapshot.IsOpen;
         LastFocusPopRequested = false;
         ApplySlots(snapshot.Entries);
+        _navigation.ApplySnapshot(snapshot);
+        BindFocusNeighbors(_navigation.Snapshot);
         Preview.Configure(snapshot.PreviewCard);
         if (snapshot.IsOpen && snapshot.DefaultFocusActionId is not null)
             PushInitialFocus(snapshot.DefaultFocusActionId);
 
         MarkDirty();
+    }
+
+    /// <summary>
+    /// 手柄/键盘导航到上一项。
+    /// </summary>
+    public CombatUiNavigationSnapshot NavigateUp()
+    {
+        var navigation = _navigation.Move(CombatUiNavigationDirection.Up);
+        GrabFocusedSlot(navigation.FocusedActionId);
+        MarkDirty();
+        return navigation;
+    }
+
+    /// <summary>
+    /// 手柄/键盘导航到下一项。
+    /// </summary>
+    public CombatUiNavigationSnapshot NavigateDown()
+    {
+        var navigation = _navigation.Move(CombatUiNavigationDirection.Down);
+        GrabFocusedSlot(navigation.FocusedActionId);
+        MarkDirty();
+        return navigation;
+    }
+
+    /// <summary>
+    /// 记录鼠标 hover 目标，不覆盖手柄焦点。
+    /// </summary>
+    public CombatUiNavigationSnapshot HoverAction(string? actionId)
+    {
+        var navigation = _navigation.Hover(actionId);
+        MarkDirty();
+        return navigation;
+    }
+
+    /// <summary>
+    /// 切换输入模式并保留当前焦点状态。
+    /// </summary>
+    public CombatUiNavigationSnapshot ChangeInputMode(InputMode inputMode)
+    {
+        var navigation = _navigation.ChangeInputMode(inputMode);
+        MarkDirty();
+        return navigation;
+    }
+
+    /// <summary>
+    /// 确认当前聚焦行动 ID。真实战斗命令由上层 Presenter/Adapter 提交。
+    /// </summary>
+    public string? ConfirmFocusedAction()
+    {
+        return _navigation.ConfirmFocusedAction();
     }
 
     /// <summary>
@@ -592,11 +849,12 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         Visible = false;
         LastFocusPopRequested = true;
         LastFocusPushedActionId = null;
+        _pendingInitialFocusActionId = null;
         foreach (var slot in _slots.Values)
             slot.ReleaseFocus();
         if (_focusLifecycle.TryEnd())
         {
-            _focusManager?.PopFocus();
+            _focusManager.PopFocus();
         }
 
         MarkDirty();
@@ -628,6 +886,28 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         _orderedSlots.Sort((left, right) => left.StableOrder.CompareTo(right.StableOrder));
     }
 
+    private void BindFocusNeighbors(CombatUiNavigationSnapshot navigation)
+    {
+        foreach (var binding in BuildFocusNeighborBindings(navigation))
+        {
+            if (!_slots.TryGetValue(binding.ActionId, out var slot))
+                continue;
+
+            slot.ConfigureFocusNavigation(binding.UpNeighborActionId, binding.DownNeighborActionId);
+            slot.FocusNeighborTop = ResolveFocusPath(binding.UpNeighborActionId);
+            slot.FocusNeighborBottom = ResolveFocusPath(binding.DownNeighborActionId);
+            slot.FocusPrevious = slot.FocusNeighborTop;
+            slot.FocusNext = slot.FocusNeighborBottom;
+        }
+    }
+
+    private NodePath ResolveFocusPath(string actionId)
+    {
+        return _slots.TryGetValue(actionId, out var slot)
+            ? GetPathTo(slot)
+            : new NodePath(string.Empty);
+    }
+
     private void PushInitialFocus(string actionId)
     {
         if (!_slots.TryGetValue(actionId, out var slot))
@@ -637,14 +917,71 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
             return;
 
         LastFocusPushedActionId = actionId;
-        if (_focusManager is not null)
-        {
-            _focusManager.PushFocus(slot);
+        _pendingInitialFocusActionId = actionId;
+        PushPendingInitialFocus();
+    }
+
+    private void GrabPendingInitialFocus()
+    {
+        PushPendingInitialFocus();
+    }
+
+    private void PushPendingInitialFocus()
+    {
+        if (_pendingInitialFocusActionId is null)
             return;
+
+        if (!_slots.TryGetValue(_pendingInitialFocusActionId, out var slot) || !slot.IsInsideTree())
+            return;
+
+        _focusManager.PushFocus(slot);
+        _pendingInitialFocusActionId = null;
+    }
+
+    private bool GrabFocusedSlot(string? actionId)
+    {
+        if (actionId is null || !_slots.TryGetValue(actionId, out var slot))
+            return false;
+
+        if (!slot.IsInsideTree() || !slot.IsEnabledForSelection)
+            return false;
+
+        slot.GrabFocus();
+        return true;
+    }
+
+    private sealed class LocalFocusManager : IFocusManager
+    {
+        private readonly Stack<WeakReference<Control>> _stack = new();
+
+        public InputMode CurrentMode => InputMode.Keyboard;
+
+        public void PushFocus(Control target)
+        {
+            ArgumentNullException.ThrowIfNull(target);
+            var current = target.GetViewport()?.GuiGetFocusOwner();
+            if (current is not null && current != target)
+                _stack.Push(new WeakReference<Control>(current));
+
+            target.GrabFocus();
         }
 
-        if (slot.IsInsideTree())
-            slot.GrabFocus();
+        public void PopFocus()
+        {
+            while (_stack.TryPop(out var previous))
+            {
+                if (previous.TryGetTarget(out var control) && GodotObject.IsInstanceValid(control) && control.IsInsideTree())
+                {
+                    control.GrabFocus();
+                    return;
+                }
+            }
+        }
+
+        public void ClearStack()
+        {
+            _stack.Clear();
+        }
     }
 }
 
@@ -661,6 +998,11 @@ public partial class CombatMoveActionSlot : Control
     }
 
     public static FocusModeEnum RequiredFocusMode => FocusModeEnum.All;
+
+    public static FocusModeEnum ResolveFocusMode(bool isEnabled)
+    {
+        return isEnabled ? FocusModeEnum.All : FocusModeEnum.None;
+    }
 
     public string ActionId { get; private set; } = string.Empty;
 
@@ -694,9 +1036,14 @@ public partial class CombatMoveActionSlot : Control
 
     public int StableOrder { get; private set; }
 
+    public string UpNeighborActionId { get; private set; } = string.Empty;
+
+    public string DownNeighborActionId { get; private set; } = string.Empty;
+
     public void Configure(CombatUiMoveSelectionEntry entry)
     {
         ActionId = entry.ActionId;
+        Name = ToNodeName(entry.ActionId);
         MoveId = entry.MoveId;
         ActionKind = entry.ActionKind;
         DisplayName = entry.DisplayName;
@@ -712,8 +1059,17 @@ public partial class CombatMoveActionSlot : Control
         TargetId = entry.TargetId;
         IsDecisiveStrike = entry.IsDecisiveStrike;
         StableOrder = entry.StableOrder;
+        FocusMode = ResolveFocusMode(entry.IsEnabled);
+        if (!entry.IsEnabled)
+            ReleaseFocus();
         Visible = true;
         Modulate = entry.IsEnabled ? Colors.White : new Color(1f, 1f, 1f, 0.4f);
+    }
+
+    public void ConfigureFocusNavigation(string upNeighborActionId, string downNeighborActionId)
+    {
+        UpNeighborActionId = upNeighborActionId;
+        DownNeighborActionId = downNeighborActionId;
     }
 
     public void HideForAbsentSnapshot()
@@ -723,6 +1079,14 @@ public partial class CombatMoveActionSlot : Control
         CounterPrompt = null;
         TargetId = null;
         IsDecisiveStrike = false;
+        UpNeighborActionId = string.Empty;
+        DownNeighborActionId = string.Empty;
+        FocusMode = FocusModeEnum.None;
+    }
+
+    private static string ToNodeName(string actionId)
+    {
+        return $"MoveAction_{actionId.Replace(':', '_')}";
     }
 }
 
