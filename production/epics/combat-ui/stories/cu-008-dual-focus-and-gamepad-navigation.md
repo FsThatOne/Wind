@@ -114,6 +114,14 @@ Manual evidence required:
 - Capture `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md`.
 - Include a clip showing D-pad cycle, confirm submit, focus containment, and simultaneous mouse hover/gamepad focus.
 
+**Sprint 6 升级 (cu-visual-evidence Must Have)**：
+- 把 evidence MD 升级为 **Visual Captured** 状态。
+- ≥1 段 D-pad 循环录屏（无硬件时键盘 fallback 录屏，硬件 walkthrough 走 cu-008-Gamepad-HW-Verify Nice to Have）。
+- ≥1 张鼠标 hover + 手柄/键盘焦点共存截图。
+- Sign-off：designer + qa-lead。
+- tech-debt-register 中 cu-008 Visual evidence deferred 条目改为 `Resolved`（手柄硬件部分仍为 deferred until cu-008-Gamepad-HW-Verify）。
+- Reference QA plan: `production/qa/qa-plan-sprint-6-2026-06-18.md`.
+
 ## 测试证据路径
 
 `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md`

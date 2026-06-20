@@ -142,3 +142,11 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+
+# === Local Tooling Residue (S6-Commit-Workspace 2026-06-19) ===
+.superpowers/
+._agent/
+.trae/
+
+# === Godot Scaffold (deferred to cu-006-godot-integration; defer structure decision) ===
+feng-zhi/

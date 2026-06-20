@@ -552,6 +552,22 @@ requirements:
     revised: ""
     status: active
 
+  - id: TR-combat-ui-006
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗 UI 必须通过 CombatAnimationDirector 编排一击决胜的 7 阶段演出：接收 Core 预结算结果、Engine.TimeScale 慢进至 0.2 约 0.3s、Camera2D 推进并锁定目标、播放刚/柔/巧体系专属动画入口、最大尺寸深金一击决胜伤害浮字、TimeScale 慢出恢复至 1.0、Camera 归位并恢复默认跟随；TimeScale 控制必须通过 TimeScaleController 优先级栈（决胜优先级 50），修改 TimeScale 的 Tween 必须使用 Tween.TweenProcessMode.Always 以避免自锁；Camera 控制必须通过 CameraRequestBus（决胜优先级 50），演出期间禁用 Camera smoothing 并在归位后重新启用；演出期间必须通过战斗 cinematic lock 屏蔽玩家输入且不得通过破坏 InputMap 实现；决胜演出默认不可跳过；暂停或更高优先级 TimeScale 请求释放后演出必须能继续并正确恢复，演出结束后 TimeScale、Camera、输入锁必须恢复正常。"
+    created: 2026-06-18
+    revised: ""
+    status: active
+
+  - id: TR-combat-ui-007
+    system: combat-ui
+    gdd: design/gdd/combat-ui.md
+    requirement: "战斗 UI 必须在多人战斗中提供协同与回合警戒反馈：当同一回合内两名己方角色对同一目标使用克制目标体系的招式时，UI 必须在目标头顶显示金色双拳『协同！』浮字，并与伤害数字同时可见；非同目标或非克制场景必须不出现『协同！』；UI 不得自行判定协同收益或修改战斗结算，协同成立由战斗系统事件/结算快照提供；HUD 右上角必须显示当前回合数，第 12 回合计数变橙色，第 14 回合计数变红色，颜色变化必须不影响其他 HUD 信息可读性，也不得修改战斗节奏。"
+    created: 2026-06-18
+    revised: ""
+    status: active
+
   - id: TR-combat-ui-008
     system: combat-ui
     gdd: design/gdd/combat-ui.md

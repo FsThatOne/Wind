@@ -27,10 +27,12 @@
 
 ### Should Have
 
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
-|----|------|-------------|-----------|--------------|---------------------|
-| cu-006 | 一击决胜演出编排 | godot-csharp-specialist | 1.0 | cu-005 | Decisive Strike plays the 7-phase sequence; TimeScale slows to 0.2 and restores to 1.0; Camera request and cinematic input lock recover correctly after conflicts |
-| cu-007 | 协同与回合警戒反馈 | godot-csharp-specialist | 0.5 | cu-003 | Synergy feedback appears only for valid same-target cooperative counters; turn counter displays warning colors at turns 12 and 14 without hurting HUD readability |
+> **Scope decision (2026-06-18, `/scope-check combat-ui`)**: `cu-006` 完整实现延期到下一个 Sprint；`cu-007` 在 Sprint 5 剩余窗口启动。
+
+| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria | Sprint 5 Decision |
+|----|------|-------------|-----------|--------------|---------------------|-------------------|
+| cu-006 | 一击决胜演出编排 | godot-csharp-specialist | 1.0 | cu-005 | Decisive Strike plays the 7-phase sequence; TimeScale slows to 0.2 and restores to 1.0; Camera request and cinematic input lock recover correctly after conflicts | **Defer to next sprint** — Engine Risk HIGH（TimeScale + Tween + Camera + cinematic lock）；Sprint 5 隐性 buffer 已被 harness/合同漂移修复/GDD rerun 消耗；保留可选 0.5d Spike，仅验证 Godot 4.6.3 TimeScale + Tween 自锁与 Camera 归位风险，不算 Done |
+| cu-007 | 协同与回合警戒反馈 | godot-csharp-specialist | 0.5 | cu-003 | Synergy feedback appears only for valid same-target cooperative counters; turn counter displays warning colors at turns 12 and 14 without hurting HUD readability | **Start now** — Engine Risk 偏低；依赖 `cu-001` / `cu-003` 已 Complete；不动 TimeScale / Camera |
 
 ### Nice to Have
 

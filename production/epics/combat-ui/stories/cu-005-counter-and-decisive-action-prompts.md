@@ -109,6 +109,13 @@ Manual evidence required:
 - Capture `production/qa/evidence/cu-005-counter-and-decisive-action-prompts-evidence.md`.
 - Include enabled counter, disabled counter, Decisive Strike row, and target-switch prompt refresh.
 
+**Sprint 6 升级 (cu-visual-evidence Must Have)**：
+- 把 `Foundation Captured` / `Visual evidence not yet captured` 升级为 **Visual Captured**。
+- ≥4 张截图或 1 段录屏挂在 `production/qa/evidence/media/`：反制可用（金色）、反制置灰（内息不足）、决胜行（破绽 ≥5）、多目标切换决胜刷新。
+- Sign-off：designer + qa-lead。
+- tech-debt-register 中 cu-005 Visual evidence deferred 条目改为 `Resolved`。
+- Reference QA plan: `production/qa/qa-plan-sprint-6-2026-06-18.md`.
+
 ## 测试证据路径
 
 `production/qa/evidence/cu-005-counter-and-decisive-action-prompts-evidence.md`

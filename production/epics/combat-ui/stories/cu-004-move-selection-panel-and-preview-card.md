@@ -108,6 +108,14 @@ Manual evidence required:
 - Capture `production/qa/evidence/cu-004-move-selection-panel-and-preview-card-evidence.md`.
 - Include screenshots or clips for full panel, disabled reasons, preview card, and default focus.
 
+**Sprint 6 升级 (cu-visual-evidence Must Have)**：
+- 把 `Foundation Captured` / `Visual evidence not yet captured` 升级为 **Visual Captured**。
+- ≥3 张截图或 1 段录屏挂在 `production/qa/evidence/media/`。
+- 截图覆盖：6 招式 + Rest/UseItem 完整面板、置灰原因（内息不足 / 心法封印 / 无道具）≥3 张、预览卡 3 关系（克制/同系/被克）。
+- Sign-off：designer + qa-lead。
+- tech-debt-register 中 cu-004 Visual evidence deferred 条目改为 `Resolved`。
+- Reference QA plan: `production/qa/qa-plan-sprint-6-2026-06-18.md`.
+
 ## 测试证据路径
 
 `production/qa/evidence/cu-004-move-selection-panel-and-preview-card-evidence.md`
