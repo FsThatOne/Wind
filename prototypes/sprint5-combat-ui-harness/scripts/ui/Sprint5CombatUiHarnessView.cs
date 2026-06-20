@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FengZhi.Foundation.Combat;
 using FengZhi.Foundation.CombatUi;
+using FengZhi.Foundation.CombatUi.DecisiveStrikeDirector;
 using FengZhi.Foundation.Presentation.Shared;
 using Godot;
 using Sprint5CombatUiHarness.TestData;
@@ -31,6 +33,29 @@ public partial class Sprint5CombatUiHarnessView : Control
     private VBoxContainer _currentPanel = null!;
     private VBoxContainer _expectedPanel = null!;
     private VBoxContainer _bottomPanel = null!;
+    private VBoxContainer _adapterPanel = null!;
+
+    private BattleEventBus? _adapterBus;
+    private CombatUiEventAdapter? _adapter;
+    private IReadOnlyList<Sprint5CombatUiAdapterFixture> _adapterFixtures =
+        Sprint5CombatUiAdapterFixtures.All;
+    private int _adapterFixtureIndex = -1;
+
+    // cu-006 decisive director state
+    private VBoxContainer _decisivePanel = null!;
+    private IReadOnlyList<Sprint5CombatUiDecisiveFixture> _decisiveFixtures =
+        Sprint5CombatUiDecisiveFixtures.All;
+    private int _decisiveFixtureIndex = -1;
+    private BattleEventBus? _decisiveBus;
+    private TimeScaleController? _decisiveTimeScale;
+    private CameraRequestBus? _decisiveCamera;
+    private CombatCinematicLock? _decisiveLock;
+    private CombatAnimationDirector? _decisiveDirector;
+    private IDisposable? _decisiveExternalPauseHandle;
+    private readonly List<string> _decisiveEventLog = new();
+    private readonly List<DecisiveStrikePhaseAdvancedEvent> _decisivePhaseLog = new();
+    private DecisiveStrikeStartedEvent? _decisiveStartedEvent;
+    private DecisiveStrikeCompletedEvent? _decisiveCompletedEvent;
 
     public void Initialize(IReadOnlyList<Sprint5CombatUiFixture> fixtures)
     {
@@ -94,6 +119,16 @@ public partial class Sprint5CombatUiHarnessView : Control
         _verdictLabel = TextLabel("状态：未加载");
         root.AddChild(_verdictLabel);
 
+        _adapterPanel = Column("cu-007 Round Warning / Synergy Cue");
+        _adapterPanel.CustomMinimumSize = new Vector2(0, 260);
+        _adapterPanel.SizeFlagsVertical = SizeFlags.ShrinkBegin;
+        root.AddChild(_adapterPanel);
+
+        _decisivePanel = Column("cu-006 Decisive Strike Director");
+        _decisivePanel.CustomMinimumSize = new Vector2(0, 260);
+        _decisivePanel.SizeFlagsVertical = SizeFlags.ShrinkBegin;
+        root.AddChild(_decisivePanel);
+
         root.AddChild(TextLabel("操作：左右切换 fixture，上下移动 focus，空格 / Enter 确认；鼠标悬停左侧行动可更新 preview。"));
 
         var main = new HBoxContainer
@@ -112,7 +147,12 @@ public partial class Sprint5CombatUiHarnessView : Control
         main.AddChild(_expectedPanel);
 
         _bottomPanel = Column("Navigation / Intent");
+        _bottomPanel.SizeFlagsVertical = SizeFlags.ShrinkBegin;
+        _bottomPanel.CustomMinimumSize = new Vector2(0, 140);
         root.AddChild(_bottomPanel);
+
+        SelectAdapterFixture(0);
+        SelectDecisiveFixture(0);
     }
 
     private void SelectFixture(int index)
@@ -173,6 +213,8 @@ public partial class Sprint5CombatUiHarnessView : Control
         RenderCurrentFoundation();
         RenderExpectedContract();
         RenderBottomPanel();
+        RenderAdapterPanel();
+        RenderDecisivePanel();
 
         var drift = HasContractDrift(CurrentFixture);
         _titleLabel.Text = $"Sprint 5 Combat UI Harness — {CurrentFixture.DisplayName}";
@@ -445,5 +487,297 @@ public partial class Sprint5CombatUiHarnessView : Control
     private static CombatUiMoveSelectionSnapshot EmptySnapshot()
     {
         return new CombatUiMoveSelectionSnapshot(false, Array.Empty<CombatUiMoveSelectionEntry>(), null, null, null, false, 0);
+    }
+
+    private void SelectAdapterFixture(int index)
+    {
+        if (_adapterFixtures.Count == 0)
+            return;
+
+        _adapterFixtureIndex = index;
+        GD.Print($"[cu-007] SelectAdapterFixture index={index} id={_adapterFixtures[index].Id}");
+        RebuildAdapter();
+        if (_adapterPanel is not null)
+            RenderAdapterPanel();
+    }
+
+    private void RebuildAdapter()
+    {
+        _adapter?.Dispose();
+        _adapterBus = new BattleEventBus();
+        _adapter = new CombatUiEventAdapter(_adapterBus);
+        _adapter.EnterBattle();
+
+        if (_adapterFixtureIndex < 0 || _adapterFixtureIndex >= _adapterFixtures.Count)
+            return;
+
+        var fixture = _adapterFixtures[_adapterFixtureIndex];
+        foreach (var evt in fixture.Events)
+            PublishFixtureEvent(_adapterBus, evt);
+    }
+
+    private static void PublishFixtureEvent(BattleEventBus bus, AdapterFixtureEvent evt)
+    {
+        switch (evt)
+        {
+            case RoundStartFixtureEvent rs:
+                bus.Publish(new RoundStartEvent(rs.Round));
+                break;
+            case RoundEndFixtureEvent re:
+                bus.Publish(new RoundEndEvent(re.Round));
+                break;
+            case SynergyDeclaredFixtureEvent sd:
+                bus.Publish(new SynergyDeclaredEvent(sd.Sources, sd.Target, sd.Round));
+                break;
+            case DamageDealtFixtureEvent dd:
+                bus.Publish(new DamageDealtEvent(
+                    dd.Source,
+                    dd.Target,
+                    dd.Amount,
+                    dd.IsCrit,
+                    dd.IsCounter,
+                    DamageVisualRelation.Neutral));
+                break;
+        }
+    }
+
+    private void RenderAdapterPanel()
+    {
+        Clear(_adapterPanel);
+        _adapterPanel.AddChild(Heading("cu-007 Round Warning / Synergy Cue"));
+
+        for (var index = 0; index < _adapterFixtures.Count; index++)
+        {
+            var fixtureIndex = index;
+            var fixture = _adapterFixtures[index];
+            var isSelected = index == _adapterFixtureIndex;
+            var button = new Button
+            {
+                Text = isSelected ? $"▶ {fixture.DisplayName}" : $"  {fixture.DisplayName}",
+                FocusMode = FocusModeEnum.None
+            };
+            ApplyButtonStateStyle(button, selected: isSelected, focused: false, hovered: false, disabled: false);
+            button.Pressed += () => SelectAdapterFixture(fixtureIndex);
+            _adapterPanel.AddChild(button);
+        }
+
+        if (_adapter is null || _adapterFixtureIndex < 0 || _adapterFixtureIndex >= _adapterFixtures.Count)
+        {
+            _adapterPanel.AddChild(TextLabel("尚未选择 cu-007 fixture。"));
+            return;
+        }
+
+        var current = _adapterFixtures[_adapterFixtureIndex];
+        _adapterPanel.AddChild(TextLabel(current.Description));
+
+        var snapshot = _adapter.GetSnapshot();
+        var warning = snapshot.TurnWarning;
+        var warningColor = ResolveTurnWarningColor(warning.Kind);
+        var flashSuffix = warning.ShouldFlashOnEnter ? " ⚡ flash on enter" : string.Empty;
+        _adapterPanel.AddChild(TextLabel(
+            $"TurnWarning: round={warning.RoundNumber} kind={warning.Kind} key={warning.ColorKey}{flashSuffix}",
+            warningColor));
+
+        if (snapshot.SynergyCueEntries.Count == 0)
+        {
+            _adapterPanel.AddChild(TextLabel("Synergy: 无（当前回合无协同）", new Color(0.6f, 0.6f, 0.6f)));
+        }
+        else
+        {
+            foreach (var cue in snapshot.SynergyCueEntries)
+            {
+                var sources = string.Join(" + ", cue.SourceActorIds);
+                _adapterPanel.AddChild(TextLabel(
+                    $"协同！{sources} → {cue.TargetId}（round {cue.RoundNumber}, glyph={cue.Glyph}, key={cue.ColorKey}, parallel={cue.IsParallelWithDamage}, follows={cue.FollowsTarget}, dur={cue.DurationSeconds:F2}s）",
+                    new Color(1.0f, 0.84f, 0.20f)));
+            }
+        }
+
+        _adapterPanel.AddChild(TextLabel(
+            $"State={snapshot.State}  RoundNumber={snapshot.RoundNumber}  RefreshCount={snapshot.RefreshCount}",
+            new Color(0.7f, 0.78f, 0.86f)));
+    }
+
+    private static Color ResolveTurnWarningColor(CombatUiTurnWarningKind kind) => kind switch
+    {
+        CombatUiTurnWarningKind.Critical => new Color(1.0f, 0.32f, 0.30f),
+        CombatUiTurnWarningKind.Caution => new Color(1.0f, 0.62f, 0.20f),
+        _ => new Color(0.78f, 0.86f, 0.96f)
+    };
+
+    private void SelectDecisiveFixture(int index)
+    {
+        if (_decisiveFixtures.Count == 0) return;
+        _decisiveFixtureIndex = index;
+        RebuildDirector();
+        if (_decisivePanel is not null) RenderDecisivePanel();
+    }
+
+    private void RebuildDirector()
+    {
+        _decisiveExternalPauseHandle?.Dispose();
+        _decisiveExternalPauseHandle = null;
+        _decisiveDirector?.Dispose();
+
+        _decisiveBus = new BattleEventBus();
+        _decisiveTimeScale = new TimeScaleController();
+        _decisiveCamera = new CameraRequestBus();
+        _decisiveLock = new CombatCinematicLock();
+        _decisiveDirector = new CombatAnimationDirector(
+            _decisiveBus, _decisiveTimeScale, _decisiveCamera, _decisiveLock);
+
+        _decisiveEventLog.Clear();
+        _decisivePhaseLog.Clear();
+        _decisiveStartedEvent = null;
+        _decisiveCompletedEvent = null;
+
+        _decisiveBus.Subscribe<DecisiveStrikeStartedEvent>(evt =>
+        {
+            _decisiveStartedEvent = evt;
+            _decisiveEventLog.Add($"Started src={evt.SourceId} tgt={evt.TargetId} dmg={evt.PrecomputedDamage} type={evt.MoveType}");
+        });
+        _decisiveBus.Subscribe<DecisiveStrikePhaseAdvancedEvent>(evt =>
+        {
+            _decisivePhaseLog.Add(evt);
+            _decisiveEventLog.Add($"Phase {evt.PhaseIndex} {evt.PhaseName}");
+        });
+        _decisiveBus.Subscribe<DecisiveStrikeCompletedEvent>(evt =>
+        {
+            _decisiveCompletedEvent = evt;
+            _decisiveEventLog.Add($"Completed cancelled={evt.WasCancelled}");
+        });
+
+        if (_decisiveFixtureIndex < 0 || _decisiveFixtureIndex >= _decisiveFixtures.Count) return;
+        var fixture = _decisiveFixtures[_decisiveFixtureIndex];
+        _decisiveDirector.RequestDecisiveStrike(new DecisiveStrikeRequest(
+            fixture.SourceId, fixture.TargetId, fixture.PrecomputedDamage, fixture.MoveType));
+    }
+
+    private void TickDirector(double seconds)
+    {
+        if (_decisiveDirector is null || seconds <= 0) return;
+        _decisiveDirector.Tick(seconds);
+        RenderDecisivePanel();
+    }
+
+    private void ToggleExternalPause()
+    {
+        if (_decisiveTimeScale is null) return;
+        if (_decisiveExternalPauseHandle is null)
+        {
+            _decisiveExternalPauseHandle = _decisiveTimeScale.Request(0.0, DecisiveTuning.PausePriority, "ui_pause");
+            _decisiveEventLog.Add("ExternalPause acquired (priority 100)");
+        }
+        else
+        {
+            _decisiveExternalPauseHandle.Dispose();
+            _decisiveExternalPauseHandle = null;
+            _decisiveEventLog.Add("ExternalPause released");
+        }
+        RenderDecisivePanel();
+    }
+
+    private void RenderDecisivePanel()
+    {
+        Clear(_decisivePanel);
+        _decisivePanel.AddChild(Heading("cu-006 Decisive Strike Director"));
+
+        var fixtureRow = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        for (var index = 0; index < _decisiveFixtures.Count; index++)
+        {
+            var fixtureIndex = index;
+            var fixture = _decisiveFixtures[index];
+            var isSelected = index == _decisiveFixtureIndex;
+            var button = new Button
+            {
+                Text = isSelected ? $"▶ {fixture.DisplayName}" : $"  {fixture.DisplayName}",
+                FocusMode = FocusModeEnum.None
+            };
+            ApplyButtonStateStyle(button, selected: isSelected, focused: false, hovered: false, disabled: false);
+            button.Pressed += () => SelectDecisiveFixture(fixtureIndex);
+            fixtureRow.AddChild(button);
+        }
+        _decisivePanel.AddChild(fixtureRow);
+
+        if (_decisiveDirector is null || _decisiveFixtureIndex < 0)
+        {
+            _decisivePanel.AddChild(TextLabel("尚未选择 cu-006 fixture。"));
+            return;
+        }
+
+        var current = _decisiveFixtures[_decisiveFixtureIndex];
+        _decisivePanel.AddChild(TextLabel(current.Description));
+
+        var controlRow = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        controlRow.AddChild(StepButton("Tick 0.1s", () => TickDirector(0.1)));
+        controlRow.AddChild(StepButton("Tick 0.3s", () => TickDirector(0.3)));
+        controlRow.AddChild(StepButton("Tick 1.0s", () => TickDirector(1.0)));
+        controlRow.AddChild(StepButton(
+            _decisiveExternalPauseHandle is null ? "Hold ui_pause" : "Release ui_pause",
+            ToggleExternalPause));
+        controlRow.AddChild(StepButton("Reset", () => SelectDecisiveFixture(_decisiveFixtureIndex)));
+        _decisivePanel.AddChild(controlRow);
+
+        var phase = _decisiveDirector.CurrentDecisivePhase;
+        var sequence = _decisiveDirector.CurrentSequence;
+        var paused = sequence?.IsPausedByExternalTimeScale ?? false;
+        var phaseColor = paused ? new Color(1.0f, 0.62f, 0.20f) : new Color(0.62f, 0.92f, 0.74f);
+        _decisivePanel.AddChild(TextLabel(
+            $"Phase: {phase}  Busy: {_decisiveDirector.IsBusy}  Paused: {paused}",
+            phaseColor));
+
+        var ts = _decisiveTimeScale!;
+        _decisivePanel.AddChild(TextLabel(
+            $"TimeScale: {ts.CurrentScale:F2} (priority {ts.CurrentPriority}, reason {ts.CurrentReason ?? "-"}, stack {ts.ActiveRequestCount})"));
+
+        var camera = _decisiveCamera!.ActiveRequest;
+        _decisivePanel.AddChild(camera is null
+            ? TextLabel("Camera: 默认跟随（无请求）")
+            : TextLabel($"Camera: target={camera.TargetId} zoom={camera.Zoom:F2} smoothing={(camera.DisableSmoothing ? "off" : "on")} priority={camera.Priority} reason={camera.Reason}"));
+
+        var cinematicLock = _decisiveLock!;
+        _decisivePanel.AddChild(TextLabel(
+            $"CinematicLock: locked={cinematicLock.IsLocked} reason={cinematicLock.CurrentReason ?? "-"} | combat_select_move allowed={cinematicLock.IsAllowedDuringLock("combat_select_move")} | ui_pause allowed={cinematicLock.IsAllowedDuringLock("ui_pause")}"));
+
+        if (_decisiveStartedEvent is not null)
+        {
+            var s = _decisiveStartedEvent.Value;
+            _decisivePanel.AddChild(TextLabel($"Started 事件：src={s.SourceId} tgt={s.TargetId} dmg={s.PrecomputedDamage} type={s.MoveType}", new Color(0.82f, 0.74f, 1.0f)));
+        }
+        if (_decisiveCompletedEvent is not null)
+        {
+            var c = _decisiveCompletedEvent.Value;
+            var color = c.WasCancelled ? new Color(1.0f, 0.46f, 0.40f) : new Color(0.62f, 0.92f, 0.74f);
+            _decisivePanel.AddChild(TextLabel($"Completed 事件：cancelled={c.WasCancelled}", color));
+        }
+
+        var tail = _decisiveEventLog.Count > 8 ? _decisiveEventLog.Skip(_decisiveEventLog.Count - 8) : _decisiveEventLog;
+        _decisivePanel.AddChild(TextLabel("事件日志（最近 8 条）：", new Color(0.7f, 0.78f, 0.86f)));
+        foreach (var line in tail)
+            _decisivePanel.AddChild(TextLabel($"  · {line}"));
+    }
+
+    private Button StepButton(string text, Action onPressed)
+    {
+        var button = new Button { Text = text, FocusMode = FocusModeEnum.None };
+        ApplyButtonStateStyle(button, selected: false, focused: false, hovered: false, disabled: false);
+        button.Pressed += () => onPressed();
+        return button;
+    }
+
+    public override void _ExitTree()
+    {
+        _adapter?.Dispose();
+        _adapter = null;
+        _adapterBus = null;
+
+        _decisiveExternalPauseHandle?.Dispose();
+        _decisiveExternalPauseHandle = null;
+        _decisiveDirector?.Dispose();
+        _decisiveDirector = null;
+        _decisiveTimeScale = null;
+        _decisiveCamera = null;
+        _decisiveLock = null;
+        _decisiveBus = null;
     }
 }
