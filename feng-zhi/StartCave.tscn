@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dq57hnpshsgyy"]
+[gd_scene load_steps=8 format=3 uid="uid://dq57hnpshsgyy"]
 
 [ext_resource type="Texture2D" uid="uid://c3tk627h43mvr" path="res://起始山洞.png" id="1_cv6gc"]
 [ext_resource type="Script" path="res://scripts/StartCaveGame.cs" id="2_game"]
 [ext_resource type="Script" path="res://scripts/CavePlayer.cs" id="3_player"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/protagonist/protagonist_walk_8dir_spriteframes.tres" id="4_player_frames"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_player"]
 radius = 13.0
@@ -25,12 +26,13 @@ scale = Vector2(0.59412, 0.798)
 position = Vector2(155, 474)
 script = ExtResource("3_player")
 
-[node name="Body" type="ColorRect" parent="Player"]
-offset_left = -9.0
-offset_top = -24.0
-offset_right = 9.0
-offset_bottom = 6.0
-color = Color(0.88, 0.86, 0.78, 1)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(0, -58)
+scale = Vector2(0.42, 0.42)
+sprite_frames = ExtResource("4_player_frames")
+animation = &"walk_s"
+frame = 1
+frame_progress = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_player")

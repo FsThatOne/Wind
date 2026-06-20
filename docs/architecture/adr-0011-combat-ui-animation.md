@@ -16,7 +16,7 @@ Accepted
 | **References Consulted** | `docs/engine-reference/godot/modules/ui.md`, `docs/engine-reference/godot/breaking-changes.md`, `design/gdd/combat-ui.md` |
 | **Post-Cutoff APIs Used** | Dual-focus system (4.6), SceneTreeTween process_mode 行为 |
 | **Verification Required** | 1) 验证 `Engine.TimeScale = 0.2` 时 SceneTreeTween 的 `SetProcessMode(ALWAYS)` 是否正确忽略 TimeScale; 2) 验证 Camera2D smoothing 在低 TimeScale 下的平滑行为; 3) 验证对象池 Control 节点 reparent 时焦点不泄漏 |
-| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. **[2026-06-20 verified for cu-006 scope: Engine.time_scale / Tween ALWAYS / Camera2D.position_smoothing_enabled / InputMap.get_actions — see `production/notes/spike-cu-006-godot-4.7-api-verify-2026-06-20.md`]** |
 
 ## ADR Dependencies
 

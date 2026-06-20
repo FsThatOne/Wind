@@ -95,13 +95,15 @@
 
 ## Engine Notes
 
-> **PENDING SPIKE — Godot 4.7-stable upgrade (2026-06-20)**
-> 项目 Godot pin 于 2026-06-20 从 4.6.3 升级至 4.7-stable（发布日 2026-06-18）。本 story 4 个 AC 绑定的 post-cutoff API 在 4.7 行为 **UNVERIFIED**，需在 implementation kickoff 时先执行 spike：
-> - `Engine.TimeScale` 全局行为是否仍未被 4.7 渲染管线（HDR 输出 / Glow 顺序）干扰
-> - `Tween.TweenProcessMode.Always` 在 4.7 是否仍正确忽略 TimeScale（4.6 → 4.7 Tween 内部架构若有变更需复测）
-> - `Camera2D.PositionSmoothingEnabled` 在 4.7 Control offset transforms 改动后是否仍按预期工作
-> - `InputMap.AddAction` / `EraseAction` 在 4.7 Wayland 触控 + SDL3 gamepad 路径下行为
-> spike 失败任一项 → 本 story 退回 design 阶段 + 记录 ADR-0002 / ADR-0011 Engine Compatibility 段更新；spike 通过 → 在本段补 [2026-MM-DD verified against 4.7-stable] 标记后正常进入 BUILD 阶段。
+> **[2026-06-20 verified against 4.7-stable]** — Godot 4.7 API spike PASS (4/4 verifiers).
+> - `Engine.time_scale` write/read contract holds → AC-1 / AC-6 unblocked
+> - `Tween` `process_mode = ALWAYS` + `ignore_time_scale = true` advances by wall-clock under `time_scale = 0` → AC-2 unblocked
+> - `Camera2D.position_smoothing_enabled` toggle un-broken by 4.7 Control offset transforms → AC-3 unblocked
+> - `InputMap.get_actions()` snapshot stable across cinematic-equivalent wait window → AC-4 unblocked
+>
+> Spike report: [production/notes/spike-cu-006-godot-4.7-api-verify-2026-06-20.md](../../../notes/spike-cu-006-godot-4.7-api-verify-2026-06-20.md)
+> Spike artifacts (regression baseline): [prototypes/sprint5-combat-ui-harness/scripts/spike/](../../../../prototypes/sprint5-combat-ui-harness/scripts/spike/)
+> Implementation must call `tween.set_ignore_time_scale(true)` explicitly — `process_mode` alone does NOT bypass `time_scale = 0` in 4.7.
 
 - Godot 4.7-stable `Engine.TimeScale` 是 process-level 全局缩放；本 story 唯一通过 `TimeScaleController` 写入此值
 - `Tween.TweenProcessMode.Always` 是 4.x 起的 process-mode 枚举（与 4.7-stable 一致）；任何替代 API（如 `Tween.TweenPauseMode`）都不允许
