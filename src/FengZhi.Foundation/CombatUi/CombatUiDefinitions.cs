@@ -125,6 +125,68 @@ public static class CombatUiFeedbackTuning
     public const double ResourceBarUpdateDurationSeconds = 0.25;
     public const double DamageFloatDurationSeconds = 1.2;
     public const double StaggerPulseIntervalSeconds = 0.5;
+    public const int RoundCautionThreshold = 12;
+    public const int RoundCriticalThreshold = 14;
+    public const double SynergyCueDurationSeconds = 0.9;
+}
+
+/// <summary>
+/// 回合警戒级别。仅描述视觉强度，不影响战斗节奏。
+/// </summary>
+public enum CombatUiTurnWarningKind
+{
+    Normal,
+    Caution,
+    Critical
+}
+
+/// <summary>
+/// 一击决胜演出阶段。Director 状态机按顺序推进；
+/// 数字编号与 GDD §Detailed Design / 一击决胜演出流程 一致。
+/// </summary>
+public enum DecisiveStrikePhase
+{
+    Idle = 0,
+    Phase1_PrecomputeReceived = 1,
+    Phase2_TimeScaleSlowIn = 2,
+    Phase3_CameraPushIn = 3,
+    Phase4_StyleAnimation = 4,
+    Phase5_DamageNumber = 5,
+    Phase6_TimeScaleSlowOut = 6,
+    Phase7_CameraRestore = 7,
+    Completed = 8
+}
+
+/// <summary>
+/// 协同提示展示条目。由战斗系统的协同事件投射而来，Combat UI 不重新判定。
+/// </summary>
+public sealed record CombatUiSynergyCueEntry(
+    string TargetId,
+    IReadOnlyList<string> SourceActorIds,
+    int RoundNumber,
+    string Glyph,
+    string ColorKey,
+    bool FollowsTarget,
+    bool IsParallelWithDamage,
+    double DurationSeconds);
+
+/// <summary>
+/// 回合计数 HUD 展示条目。颜色变化只为视觉警戒，不影响战斗节奏或其他 HUD 数值。
+/// </summary>
+public sealed record CombatUiTurnWarningDisplayEntry(
+    int RoundNumber,
+    CombatUiTurnWarningKind Kind,
+    string ColorKey,
+    bool ShouldFlashOnEnter)
+{
+    public static CombatUiTurnWarningDisplayEntry ForRound(int roundNumber, bool shouldFlashOnEnter)
+    {
+        if (roundNumber >= CombatUiFeedbackTuning.RoundCriticalThreshold)
+            return new CombatUiTurnWarningDisplayEntry(roundNumber, CombatUiTurnWarningKind.Critical, "turn_warning_critical_red", shouldFlashOnEnter);
+        if (roundNumber >= CombatUiFeedbackTuning.RoundCautionThreshold)
+            return new CombatUiTurnWarningDisplayEntry(roundNumber, CombatUiTurnWarningKind.Caution, "turn_warning_caution_orange", shouldFlashOnEnter);
+        return new CombatUiTurnWarningDisplayEntry(roundNumber, CombatUiTurnWarningKind.Normal, "turn_counter_default", false);
+    }
 }
 
 /// <summary>
@@ -231,5 +293,7 @@ public sealed record CombatUiSnapshot(
     IReadOnlyList<CombatUiDamageNumberDisplayEntry> DamageNumberEntries,
     IReadOnlyList<CombatUiStaggerCueEntry> StaggerCueEntries,
     IReadOnlyList<string> DecisiveStrikeTargets,
+    IReadOnlyList<CombatUiSynergyCueEntry> SynergyCueEntries,
+    CombatUiTurnWarningDisplayEntry TurnWarning,
     bool IsDirty,
     int RefreshCount);

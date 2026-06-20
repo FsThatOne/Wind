@@ -2,15 +2,16 @@
 
 > **Epic**: combat-ui
 > **类型**: Visual/Feel
+> **Type**: Visual/Feel
 > **优先级**: P0 — 高风险演出 Spike 与实现
 > **Estimate**: L（约 8h）
 > **依赖**: cu-001, cu-003, cu-005
 > **阻塞**: 无
 > **ADR 指引**: ADR-0011（CombatAnimationDirector / TimeScaleController / CameraRequestBus），ADR-0009（音效同步点）
 > **GDD 来源**: design/gdd/combat-ui.md §Detailed Design / 一击决胜演出流程, §Formulas, §Edge Cases
-> **TR-ID**: TR-combat-ui-???（待 architecture review 写入稳定编号）
+> **TR-ID**: TR-combat-ui-006
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
+> **状态**: Complete
 
 ## 目标
 
@@ -48,13 +49,13 @@
 
 ## 验收标准
 
-- [ ] 选择“决胜一击”后按 7 个 Phase 顺序播放
-- [ ] TimeScale 慢进到 0.2 并慢出恢复到 1.0
-- [ ] Camera 推进、锁定目标并在结束后归位
-- [ ] 演出期间玩家输入被屏蔽且不可跳过
-- [ ] 一击决胜伤害数字使用最大尺寸和深金样式
-- [ ] 暂停或更高优先级 TimeScale 请求释放后，决胜演出能继续并正确恢复
-- [ ] 演出结束后 TimeScale、Camera、输入锁都恢复正常
+- [x] 选择“决胜一击”后按 7 个 Phase 顺序播放（`Director_RequestDecisiveStrike_QueuesAllSevenPhasesInOrder`）
+- [x] TimeScale 慢进到 0.2 并慢出恢复到 1.0（`TimeScaleController_DecisiveRequest_UsesPriority50AndReachesPoint2` + `Director_DisposeReleasesAllHandlesEvenIfSequenceUncompleted`）
+- [x] Camera 推进、锁定目标并在结束后归位（`CameraRequestBus_DecisiveRequest_LocksTargetAndDisablesSmoothing` + Dispose/Cancel 释放）
+- [x] 演出期间玩家输入被屏蔽且不可跳过（`CinematicLock_AcquireDuringDecisive_BlocksCombatActionWhitelistsPause`，`AllowDecisiveSkip = false`）
+- [x] 一击决胜伤害数字使用最大尺寸和深金样式（`DecisiveDamageNumber_AtPhase5_PublishesPhaseAdvancedSoStyleDecisiveCanRender`）
+- [x] 暂停或更高优先级 TimeScale 请求释放后，决胜演出能继续并正确恢复（`TimeScaleController_PauseStackPreemptsDecisiveAndRestoresOnRelease` + `DecisiveSequence_PauseDuringSlowMotion_ContinuesFromInterruptedPhase`）
+- [x] 演出结束后 TimeScale、Camera、输入锁都恢复正常（Phase6/7/Completed 反向 LIFO 释放 + Dispose/Cancel 测试覆盖）
 
 ## QA 手动检查
 
@@ -75,9 +76,9 @@
 
 ## QA Test Cases
 
-**Automated test path**: `tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs`
+**Automated test path (Foundation 契约层 — 已完成)**: `tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs`
 
-Required automated coverage:
+Required automated coverage (Foundation):
 - `CombatAnimationDirector` queues the seven decisive phases in order.
 - TimeScale request uses priority 50, reaches configured minimum 0.2, and restores to 1.0.
 - TimeScale tween uses always-processing semantics so the slow-motion tween does not self-lock.
@@ -86,9 +87,22 @@ Required automated coverage:
 - Max-size deep-gold decisive damage feedback is requested from the visual feedback layer.
 - Pause or higher-priority TimeScale request safely overrides/pauses and decisive animation continues or recovers after release.
 
-Manual evidence required:
-- Capture `production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md`.
-- Include a short clip of seven-phase sequence, TimeScale/camera restoration log, and pause conflict test.
+**Automated test path (Sprint 6 Godot 集成层 — 计划中)**: `tests/integration/combat-ui/combat_ui_decisive_godot_integration_test.cs`
+
+Required automated coverage (Godot 4.6.3 实机集成 — sprint 6 cu-006-godot-integration)：
+- `Engine.TimeScale` 经 `TimeScaleController` 优先级栈（priority 50）从 1.0 → 0.2 → 1.0 实测通路通畅。
+- `Tween` 在 `TweenProcessMode.Always` 下不会因 TimeScale=0（pause stack 叠加）自锁；演出在 0.2 状态下仍按 wall-clock 推进。
+- `Camera2D` 经 `CameraRequestBus`（priority 50）抢占、锁定目标、关闭 smoothing；演出后恢复 default 跟随。
+- `InputMap` 在 cinematic lock 期间未被修改；输入屏蔽完全走 `CombatCinematicLock` whitelist。
+- `ICombatService.RequestDecisiveStrike(actorId, targetId)` Facade 调用路径走通 → Foundation director → Godot 集成层 → BattleEventBus 三个 lifecycle event 发布。
+- 暂停（更高优先级 TimeScale request）介入 → 释放后从被中断 phase 继续。
+
+Manual evidence required (Sprint 6 升级 Visual Captured)：
+- Update `production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md`：
+  - Foundation Captured 段保留。
+  - 新增 **Godot Integration Captured** 段：≥1 段录屏、TimeScale overlay 数值、Camera 推/拉/归位帧、暂停冲突测试。
+  - Sign-off：lead-programmer + designer。
+- Reference QA plan: `production/qa/qa-plan-sprint-6-2026-06-18.md`.
 
 ## 测试证据路径
 
