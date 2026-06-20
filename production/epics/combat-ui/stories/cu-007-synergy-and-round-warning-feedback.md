@@ -8,9 +8,10 @@
 > **阻塞**: 无
 > **ADR 指引**: ADR-0011（浮字与并行动画），ADR-0002（HUD 呈现）
 > **GDD 来源**: design/gdd/combat-ui.md §Detailed Design / 协同提示 / 回合计数
-> **TR-ID**: TR-combat-ui-???（待 architecture review 写入稳定编号）
+> **TR-ID**: TR-combat-ui-007
 > **Control Manifest Version**: 2026-06-10
-> **状态**: Ready
+> **状态**: Complete
+> **Last Updated**: 2026-06-18
 
 ## 目标
 
@@ -38,15 +39,17 @@
 - 回合计数来自 `TurnAdvancedEvent` 或 CombatService `CurrentTurn`
 - 回合警戒只做视觉提示，不修改战斗节奏
 - 并行动画使用 ADR-0011 的 `ParallelCommand` 思路，避免阻塞伤害反馈队列
+- Manifest rules（manifest 2026-06-10）：Presentation/CombatUi MUST NOT 自行计算协同收益或伤害；协同成立与回合数必须来自 `TurnAdvancedEvent` / 战斗结算快照；浮字与回合警戒动画使用 ADR-0011 的 `ParallelCommand`，不得阻塞主队列。
+- Performance：协同浮字复用现有伤害浮字池或同等轻量池，不在战斗循环中分配；回合计数颜色仅做 `modulate` 切换，不做逐帧更新。预期无可测性能影响（无新分配、无每帧 work）。
 
 ## 验收标准
 
-- [ ] 同回合同目标协同克制成立时显示“协同！”
-- [ ] 协同提示位置跟随目标并与伤害反馈同时可见
-- [ ] 非协同场景不会误显示“协同！”
-- [ ] HUD 右上角显示当前回合数
-- [ ] 第 12 回合变橙色，第 14 回合变红色
-- [ ] 回合颜色变化不影响其他 HUD 信息可读性
+- [x] 同回合同目标协同克制成立时显示“协同！”
+- [x] 协同提示位置跟随目标并与伤害反馈同时可见
+- [x] 非协同场景不会误显示“协同！”
+- [x] HUD 右上角显示当前回合数
+- [x] 第 12 回合变橙色，第 14 回合变红色
+- [x] 回合颜色变化不影响其他 HUD 信息可读性
 
 ## QA 手动检查
 
@@ -90,3 +93,13 @@ Manual evidence required:
 
 - Depends on: cu-001, cu-003
 - Unlocks: None
+
+## Completion Notes
+
+- **Completed**: 2026-06-18
+- **Criteria**: 6/6 通过 — 全部 AC 由 [combat_ui_synergy_round_warning_test.cs](../../../../tests/integration/combat-ui/combat_ui_synergy_round_warning_test.cs) 7 个 fact 覆盖；4 张 harness 截图捕获 Visual/Feel 表现
+- **Deviations**:
+  - OUT OF SCOPE: 在 [Combat/BattleEventBus.cs](../../../../src/FengZhi.Foundation/Combat/BattleEventBus.cs) 新增 `SynergyDeclaredEvent` 作为 UI 入站契约（避免 UI 自判收益）
+  - OUT OF SCOPE: 扩展 `prototypes/sprint5-combat-ui-harness` 加入 [Sprint5CombatUiAdapterFixtures.cs](../../../../prototypes/sprint5-combat-ui-harness/scripts/testdata/Sprint5CombatUiAdapterFixtures.cs) + cu-007 panel 用于 evidence 采集；harness move-selection pipeline 未受影响
+- **Test Evidence**: [cu-007-synergy-and-round-warning-feedback-evidence.md](../../../qa/evidence/cu-007-synergy-and-round-warning-feedback-evidence.md) — 4 张截图 + 自动化覆盖 7/7
+- **Code Review**: APPROVED (lean mode, 2026-06-18) — 3 项 INFO suggestion 已记入 [tech-debt-register.md](../../../../docs/tech-debt-register.md)（string→enum tokens、synergy dedup、harness panel 长期归属）
