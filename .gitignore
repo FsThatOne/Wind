@@ -53,10 +53,8 @@ export_presets.cfg
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
-*.csproj
-!src/**/*.csproj
-!tests/**/*.csproj
-!prototypes/**/*.csproj
+# Godot C# .csproj files are source files and should be tracked.
+# Add Unity-specific project ignores only inside a Unity workspace if needed.
 *.unityproj
 *.sln
 *.suo

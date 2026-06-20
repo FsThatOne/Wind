@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://godot47apispikelauncher"]
+
+[ext_resource type="Script" path="res://scripts/spike/godot_4_7_api_spike_launcher.gd" id="1_launcher"]
+
+[node name="Godot47ApiSpikeLauncher" type="Node"]
+script = ExtResource("1_launcher")

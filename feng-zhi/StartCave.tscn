@@ -1,0 +1,101 @@
+[gd_scene load_steps=7 format=3 uid="uid://dq57hnpshsgyy"]
+
+[ext_resource type="Texture2D" uid="uid://c3tk627h43mvr" path="res://起始山洞.png" id="1_cv6gc"]
+[ext_resource type="Script" path="res://scripts/StartCaveGame.cs" id="2_game"]
+[ext_resource type="Script" path="res://scripts/CavePlayer.cs" id="3_player"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_player"]
+radius = 13.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_table"]
+size = Vector2(88, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_default"]
+size = Vector2(96, 72)
+
+[node name="StartCave" type="Node2D" unique_id=2112748860]
+script = ExtResource("2_game")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_cv6gc")
+centered = false
+scale = Vector2(0.59412, 0.798)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(155, 474)
+script = ExtResource("3_player")
+
+[node name="Body" type="ColorRect" parent="Player"]
+offset_left = -9.0
+offset_top = -24.0
+offset_right = 9.0
+offset_bottom = 6.0
+color = Color(0.88, 0.86, 0.78, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_player")
+
+[node name="Interactions" type="Node2D" parent="."]
+
+[node name="DeskNote" type="Area2D" parent="Interactions"]
+position = Vector2(556, 315)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/DeskNote"]
+shape = SubResource("RectangleShape2D_table")
+
+[node name="TrainingMarks" type="Area2D" parent="Interactions"]
+position = Vector2(632, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/TrainingMarks"]
+shape = SubResource("RectangleShape2D_default")
+
+[node name="BirthdayWine" type="Area2D" parent="Interactions"]
+position = Vector2(984, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/BirthdayWine"]
+shape = SubResource("RectangleShape2D_default")
+
+[node name="SupplyChest" type="Area2D" parent="Interactions"]
+position = Vector2(350, 518)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/SupplyChest"]
+shape = SubResource("RectangleShape2D_default")
+
+[node name="HerbBasket" type="Area2D" parent="Interactions"]
+position = Vector2(270, 342)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/HerbBasket"]
+shape = SubResource("RectangleShape2D_default")
+
+[node name="UiLayer" type="CanvasLayer" parent="."]
+
+[node name="PromptLabel" type="Label" parent="UiLayer"]
+visible = false
+offset_left = 432.0
+offset_top = 560.0
+offset_right = 720.0
+offset_bottom = 600.0
+horizontal_alignment = 1
+text = "E 调查"
+
+[node name="InventoryLabel" type="Label" parent="UiLayer"]
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 420.0
+offset_bottom = 54.0
+text = "任务物品：未取得寿酒"
+
+[node name="MessagePanel" type="Panel" parent="UiLayer"]
+visible = false
+offset_left = 176.0
+offset_top = 470.0
+offset_right = 976.0
+offset_bottom = 625.0
+
+[node name="MessageLabel" type="Label" parent="UiLayer/MessagePanel"]
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 776.0
+offset_bottom = 132.0
+autowrap_mode = 3
+text = ""
