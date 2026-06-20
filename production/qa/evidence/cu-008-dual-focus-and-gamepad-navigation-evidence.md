@@ -14,7 +14,7 @@
 - 验证招式面板在无鼠标条件下可用 D-pad/摇杆完整导航并提交行动。
 - 验证焦点循环限制在招式面板内部，不逃逸到 HUD、暂停按钮或场景外 Control。
 - 验证反制与决胜一击行可通过手柄导航触达。
-- 验证 Godot 4.6.3 dual-focus 下鼠标 hover 与手柄 focus 可同时存在且视觉不冲突。
+- 验证 Godot 4.7-stable dual-focus 下鼠标 hover 与手柄 focus 可同时存在且视觉不冲突。
 - 验证输入模式切换后，焦点高亮规则正确且不丢失当前聚焦行动。
 
 ## 自动测试覆盖
@@ -34,7 +34,7 @@
 
 | 项目 | 记录 |
 |------|------|
-| Engine | Godot 4.6.3 |
+| Engine | Godot 4.7-stable |
 | Platform | macOS local dev build |
 | Build | Local dev build：TBD |
 | Controller | None in this recording |
@@ -160,7 +160,7 @@ Pass 条件：
 
 ## 风险与观察
 
-- Godot 4.6.3 dual-focus 是 ADR-0002 标记的 HIGH risk；自动测试只能覆盖导航状态契约，不能替代真实场景验证。
+- Godot 4.7-stable dual-focus 是 ADR-0002 标记的 HIGH risk；自动测试只能覆盖导航状态契约，不能替代真实场景验证。
 - 当前 `CombatUiNavigationController` 为纯 C# 契约层，真实 `grab_focus()` 与 hover 视觉并存必须通过 Godot 场景录制确认。
 - 若发现 hover 被手柄焦点清除，需回到 `FocusManager` / `InputModeDetector` 层修复，而不是在单个按钮内散写输入模式逻辑。
 - 2026-06-15 键盘实机录制发现：初始焦点未能落到招式面板的第一个可用行动，必须先鼠标点击第一招后才可继续键盘导航；方向键 Down 到最后一项后未循环回第一项。此问题已归档为 `BUG-0001`。

@@ -18,7 +18,7 @@ Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0001: Event Bus Architecture
 **ADR Decision Summary**: 感情数据寄存于 NPC State，`RomanceService` 只拥有规则；所有态度变化必须经 `OnAttitudeChangeRequest` 拦截器应用里程碑地板钳位，并通过 EventBus 通知跨层消费者。
 
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: Romance 核心为纯逻辑；需验证 NPC State 可在对话进行中排队态度变更。No performance impact expected — pure rule evaluation, no frame loop or rendering path involved.
 
 **Control Manifest Rules (Feature Layer)**:

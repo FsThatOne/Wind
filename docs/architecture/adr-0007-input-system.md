@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Input |
 | **Knowledge Risk** | **MEDIUM** — SDL3 gamepad driver 是 4.5+ 新增，但对游戏代码透明 |
 | **References Consulted** | `docs/engine-reference/godot/modules/input.md`, `docs/engine-reference/godot/breaking-changes.md` |
 | **Post-Cutoff APIs Used** | SDL3 gamepad driver (engine-level, transparent to game code) |
 | **Verification Required** | 验证 Steam Deck 手柄在 SDL3 下正确映射所有按键 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

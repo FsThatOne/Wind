@@ -1,6 +1,6 @@
 # Test Infrastructure
 
-**Engine**: Godot 4.6.3
+**Engine**: Godot 4.7-stable
 **Language**: C# (.NET 8+) + GDScript (混合模式)
 **Test Framework**: GdUnit4（同时支持 C# 与 GDScript）
 **CI**: `.github/workflows/tests.yml`

@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | 2D / Rendering |
 | **Knowledge Risk** | **MEDIUM** — TileMapLayer 在 4.3 替代 TileMap，4.6 新增 scene tile rotation |
 | **References Consulted** | `docs/engine-reference/godot/breaking-changes.md` (4.2→4.3: TileMapLayer replaces TileMap; 4.6: scene tile rotation) |
 | **Post-Cutoff APIs Used** | TileMapLayer scene tile rotation (4.6) |
 | **Verification Required** | 验证 C# 中 TileMapLayer 的 rotation 属性对 scene tiles 的行为 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

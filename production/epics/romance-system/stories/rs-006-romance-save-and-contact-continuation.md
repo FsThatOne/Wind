@@ -18,7 +18,7 @@
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0004: Save Encryption & Persistence Strategy
 **ADR Decision Summary**: 大部分感情数据随 NPC State 持久化，RomanceService 只保存极简全局状态如 `bonded_heroine`；`days_since_last_contact` 通过 flag day 与当前世界日续算，不在读取后重置。
 
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: 使用 .NET 标准持久化契约；不依赖 Godot-specific API。
 
 **Control Manifest Rules (Feature Layer)**:

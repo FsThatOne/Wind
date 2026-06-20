@@ -5,7 +5,7 @@
 
 ## Engine & Language
 
-- **Engine**: Godot 4.6.3
+- **Engine**: Godot 4.7-stable
 - **Language**: C# (.NET 8+, primary); C++ via GDExtension (native plugins only)
 - **Rendering**: Compatibility renderer (GL ES 3.0) — 2D 像素项目，无 3D 需求，最快启动 + 最广 GPU 兼容（含 Steam Deck）
 - **Physics**: Godot 内置 2D 物理（CharacterBody2D / Area2D 为主）

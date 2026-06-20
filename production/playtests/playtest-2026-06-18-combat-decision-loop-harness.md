@@ -15,7 +15,7 @@
 - **Build**: `prototypes/sprint5-combat-ui-harness`（当前工作树）
 - **Duration**: [填写时长]
 - **Tester**: [姓名 / ID]
-- **Platform**: macOS, Godot 4.6.3 Mono
+- **Platform**: macOS, Godot 4.7-stable Mono
 - **Input Method**: [KB+M / Gamepad]
 - **Session Type**: Targeted combat decision-loop harness
 - **Observer**: Agent

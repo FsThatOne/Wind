@@ -26,7 +26,7 @@
 
 - `dotnet test`: PASS — 1214 passed, 0 failed, 0 skipped.
 - Sprint 3 AI test files: present for all 8 stories.
-- Godot version: PASS — `4.6.3.stable.mono.official.7d41c59c4`.
+- Godot version: PASS — `4.7-stable.stable.mono.official.7d41c59c4`.
 - Godot/GdUnit4 runner: NOT RUN — `addons/gdunit4/GdUnitRunner.gd` is not installed.
 
 ---

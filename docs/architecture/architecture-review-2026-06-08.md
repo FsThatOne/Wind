@@ -1,7 +1,7 @@
 # Architecture Review Report
 
 > **Date**: 2026-06-08
-> **Engine**: Godot 4.6.3 (C# / .NET 8+)
+> **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **GDDs Reviewed**: 25
 > **ADRs Reviewed**: 10
 > **Verdict**: ⚠️ CONCERNS
@@ -118,7 +118,7 @@ Feature layer:
 | 指标 | 结果 |
 |------|------|
 | ADRs with Engine Compatibility section | **10/10** ✅ |
-| 引擎版本一致性 | 全部 Godot 4.6.3 ✅ |
+| 引擎版本一致性 | 全部 Godot 4.7-stable ✅ |
 | Deprecated API 引用 | **0** ✅ |
 | Stale Version 引用 | **0** ✅ |
 | Post-Cutoff API 冲突 | **0** ✅ |

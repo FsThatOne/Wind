@@ -44,7 +44,7 @@ Observed state in the action-menu screenshot:
 Godot MCP debug output:
 
 ```text
-Godot Engine v4.6.3.stable.mono.official.7d41c59c4
+Godot Engine v4.7-stable.stable.mono.official.7d41c59c4
 errors: []
 ```
 

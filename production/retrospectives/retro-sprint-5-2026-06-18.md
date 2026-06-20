@@ -92,7 +92,7 @@ QA / 验证：
 
 | Task | Original Sprint | Times Carried | Reason | Action |
 |------|----------------|---------------|--------|--------|
-| Godot 4.6.3 实机集成（Engine.TimeScale + Tween Always + Camera2D + InputMap 拦截） | Sprint 5 cu-006 切片 | 0 (newly deferred) | scope-check 显式拆契约层与集成层 | 列入下一 sprint Must Have；与 ICombatService Facade 同 PR 落地 |
+| Godot 4.7-stable 实机集成（Engine.TimeScale + Tween Always + Camera2D + InputMap 拦截） | Sprint 5 cu-006 切片 | 0 (newly deferred) | scope-check 显式拆契约层与集成层 | 列入下一 sprint Must Have；与 ICombatService Facade 同 PR 落地 |
 | cu-004 / cu-005 / cu-008 UI walkthrough 截图 | Sprint 5 (Visual) | 0 (deferred at completion) | 解放主开发流，但 Visual 不算真的 done | 列入下一 sprint 明确 Visual evidence 条目；或在 Sprint close-out 单 patch sprint 收尾 |
 | cu-008 真实手柄硬件验证 | Sprint 5 cu-008 | 0 (无硬件) | 没有物理手柄 | 等手柄到位后 hotfix；当前以键盘 fallback 守约 |
 | 体系专属动画美术资源（gang/rou/qiao） | Sprint 5 cu-006 | 0 (deferred) | 美术资源不在本 sprint scope | 列入美术 sprint，contract 已就位 |
@@ -129,7 +129,7 @@ QA / 验证：
 |---|--------|-------|----------|----------|
 | 1 | **立刻 commit Sprint 5 工作树**：cu-006 + cu-007 + harness 扩展 + evidence + tech-debt + sprint-status + active.md。按 `/story-done` 各自的 suggested commit 命令执行；不可继续 carry over | Dev | **High** | 在 `/sprint-plan new` 之前 |
 | 2 | 运行 `/smoke-check sprint` + `/team-qa sprint` 补齐 Sprint 5 Definition of Done（smoke 与 QA sign-off 文档），把"自动化绿"升级到"sprint 真的 done" | QA / Dev | High | 启动下一 sprint 之前 |
-| 3 | 把 cu-006 Godot 4.6.3 实机集成（Engine.TimeScale + Tween Always + Camera2D + InputMap + ICombatService Facade）作为下一 sprint Must Have；同时拉入 cu-004 / cu-005 / cu-008 / cu-006 的 Visual evidence 截图条目作为 Visual sub-tasks | Producer / Dev | High | `/sprint-plan new` 时纳入 |
+| 3 | 把 cu-006 Godot 4.7-stable 实机集成（Engine.TimeScale + Tween Always + Camera2D + InputMap + ICombatService Facade）作为下一 sprint Must Have；同时拉入 cu-004 / cu-005 / cu-008 / cu-006 的 Visual evidence 截图条目作为 Visual sub-tasks | Producer / Dev | High | `/sprint-plan new` 时纳入 |
 | 4 | 引入 commit message lint：禁止 `阶段性提交` / `init(test):` 这类无信号 commit 出现在 sprint 主干（推荐 conventional commits + scope，参照 cu-004/005 的 `feat: ...(TR-...)` 模板） | Dev | Medium | 下一 sprint 第一个 PR |
 | 5 | 把 hour-level actual effort 写进每条 `/story-done` session log（接续 Sprint 4 #4，本 sprint 仍 partial） | Producer / Dev | Medium | 下一 sprint 每个 story |
 

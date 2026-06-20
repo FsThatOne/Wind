@@ -16,7 +16,7 @@
 洞察提示不能像 HUD radar 一样同时刷屏。该 story 实现多节点同时进入范围时的近到远 stagger、玩家忽略和 linger 超时恢复，保证探索提示保留朦胧感且可再次触发。
 
 **ADR Governing Implementation**: ADR-0018: Exploration & Insight
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: N/A — no post-cutoff Godot API is required for this story. Timing and stagger behavior must be implemented through a pure C# tick/manual-clock path so unit tests can advance time deterministically; a future `_PhysicsProcess` adapter may call the same tick API but is not required here.
 
 ## Acceptance Criteria

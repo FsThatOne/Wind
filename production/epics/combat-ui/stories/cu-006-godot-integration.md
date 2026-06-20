@@ -1,4 +1,4 @@
-# Story: cu-006-godot-integration — 一击决胜 Godot 4.6.3 实机集成
+# Story: cu-006-godot-integration — 一击决胜 Godot 4.7-stable 实机集成
 
 > **Epic**: combat-ui
 > **类型**: Integration
@@ -8,7 +8,7 @@
 > **Estimate**: M（约 6h，对应 sprint plan 0.75 estimate-day）
 > **依赖**: cu-006 (Foundation 契约 — Complete)、cu-001 (CombatBattleEventAdapter)、cu-005 (Counter / Decisive prompts)
 > **阻塞**: 无（Foundation 8 fact 已 Complete；待开发即可）
-> **ADR 指引**: ADR-0002（Godot 4.6.3 / dual-focus / FocusManager）、ADR-0011（CombatAnimationDirector / TimeScaleController / CameraRequestBus / CombatCinematicLock）、ADR-0009（音效同步点）
+> **ADR 指引**: ADR-0002（Godot 4.7-stable / dual-focus / FocusManager）、ADR-0011（CombatAnimationDirector / TimeScaleController / CameraRequestBus / CombatCinematicLock）、ADR-0009（音效同步点）
 > **GDD 来源**: design/gdd/combat-ui.md §Detailed Design 6 一击决胜演出流程 (L106-122)、§Formulas F2 TimeScale 插值 (L214-232)、§Edge Cases (L233-251)、§Acceptance Criteria AC-5
 > **TR-ID**: TR-combat-ui-006（沿用 cu-006 Foundation；本 story 是该 TR 的 Sprint 6 实机集成增量）
 > **Control Manifest Version**: 2026-06-10
@@ -17,7 +17,7 @@
 
 ## 目标
 
-把 cu-006 Foundation 契约（已锁的 8 fact）从 in-memory test double 切到 **Godot 4.6.3 实机 API**，验证 `Engine.TimeScale` / `Tween.TweenProcessMode.Always` / `Camera2D` / `InputMap` 四个高 Engine Risk 点在实机仍守约；同时把 `ICombatService` Facade `RequestDecisiveStrike` 暴露给 cu-001 / cu-005 调用方，关闭 combat-ui Presentation epic 的最后实机门槛。
+把 cu-006 Foundation 契约（已锁的 8 fact）从 in-memory test double 切到 **Godot 4.7-stable 实机 API**，验证 `Engine.TimeScale` / `Tween.TweenProcessMode.Always` / `Camera2D` / `InputMap` 四个高 Engine Risk 点在实机仍守约；同时把 `ICombatService` Facade `RequestDecisiveStrike` 暴露给 cu-001 / cu-005 调用方，关闭 combat-ui Presentation epic 的最后实机门槛。
 
 ## 范围
 
@@ -62,7 +62,7 @@
 
 **Automated test path**: `tests/integration/combat-ui/combat_ui_decisive_godot_integration_test.cs`（**新增** — 与 Foundation 文件 `combat_ui_decisive_animation_director_test.cs` 并存；Foundation 8 fact 不动）
 
-**Required automated coverage**（Godot 4.6.3 实机集成）：
+**Required automated coverage**（Godot 4.7-stable 实机集成）：
 - `Engine_TimeScale_DecisiveRequest_LerpsTo0_2AndRestoresTo1_0`
 - `Tween_AlwaysMode_UnderTimeScaleZero_StillAdvancesByWallClock`
 - `Camera2D_DecisiveRequest_LocksTargetDisablesSmoothingAndRestoresAfterCompleted`
@@ -95,8 +95,16 @@
 
 ## Engine Notes
 
-- Godot 4.6.3 `Engine.TimeScale` 是 process-level 全局缩放；本 story 唯一通过 `TimeScaleController` 写入此值
-- `Tween.TweenProcessMode.Always` 是 4.x 起的 process-mode 枚举（与 4.6.3 一致）；任何替代 API（如 `Tween.TweenPauseMode`）都不允许
+> **PENDING SPIKE — Godot 4.7-stable upgrade (2026-06-20)**
+> 项目 Godot pin 于 2026-06-20 从 4.6.3 升级至 4.7-stable（发布日 2026-06-18）。本 story 4 个 AC 绑定的 post-cutoff API 在 4.7 行为 **UNVERIFIED**，需在 implementation kickoff 时先执行 spike：
+> - `Engine.TimeScale` 全局行为是否仍未被 4.7 渲染管线（HDR 输出 / Glow 顺序）干扰
+> - `Tween.TweenProcessMode.Always` 在 4.7 是否仍正确忽略 TimeScale（4.6 → 4.7 Tween 内部架构若有变更需复测）
+> - `Camera2D.PositionSmoothingEnabled` 在 4.7 Control offset transforms 改动后是否仍按预期工作
+> - `InputMap.AddAction` / `EraseAction` 在 4.7 Wayland 触控 + SDL3 gamepad 路径下行为
+> spike 失败任一项 → 本 story 退回 design 阶段 + 记录 ADR-0002 / ADR-0011 Engine Compatibility 段更新；spike 通过 → 在本段补 [2026-MM-DD verified against 4.7-stable] 标记后正常进入 BUILD 阶段。
+
+- Godot 4.7-stable `Engine.TimeScale` 是 process-level 全局缩放；本 story 唯一通过 `TimeScaleController` 写入此值
+- `Tween.TweenProcessMode.Always` 是 4.x 起的 process-mode 枚举（与 4.7-stable 一致）；任何替代 API（如 `Tween.TweenPauseMode`）都不允许
 - `Camera2D.PositionSmoothingEnabled` 命名为 4.x 风格；不要使用 3.x 的 `smoothing_enabled` 字符串
 - `InputMap` 写 API（`AddAction` / `EraseAction`）在演出全程禁止调用
 - 集成 test 必须以 Godot 实机 scene runner 启动（不能仅用 in-memory mock）

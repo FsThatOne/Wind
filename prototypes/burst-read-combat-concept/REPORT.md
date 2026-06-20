@@ -197,7 +197,7 @@ Burst+Read 战斗的**核心哲学**被 paper prototype 验证：
 
 ## Engine Spike Findings (2026-06-02)
 
-> **Path**: Engine (Godot 4.6.3 + C# / .NET 10)
+> **Path**: Engine (Godot 4.7-stable + C# / .NET 10)
 > **Scope**: 1v1 placeholder spike (主角 3 招 vs 李无双 3 招), 全代码生成 UI, 无美术资产
 > **One-shot success**: ✓ 首次编译运行通过, 0 iteration rounds
 
@@ -222,7 +222,7 @@ Paper prototype 验证了**决策深度**，Engine spike 验证了**交互节奏
 两者结合给出完整的 PROCEED 信号：
 
 - ✅ 核心 feel 成立 —— intent tell + 反制 + 一击决胜的时机感都通过
-- ✅ Godot 4.6.3 + C# 技术栈**首次编译运行通过**，stack 可行性确认
+- ✅ Godot 4.7-stable + C# 技术栈**首次编译运行通过**，stack 可行性确认
 - ⚠️ 克制倍率需调整（从 3:1 降至 ~2:1），留给战斗 GDD
 - ⚠️ 视觉/音效/动画是 production 阶段工作，spike 的 placeholder UI 符合预期
 

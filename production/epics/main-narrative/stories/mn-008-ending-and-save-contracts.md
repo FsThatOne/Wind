@@ -11,7 +11,7 @@
 
 **GDD**: `design/gdd/main-narrative.md`
 **Governing ADRs**: ADR-0005: Dialogue Data Format; ADR-0001: Event Bus Architecture
-**Engine**: Godot 4.6.3 / C# .NET 8 | **Risk**: LOW/HIGH mixed
+**Engine**: Godot 4.7-stable / C# .NET 8 | **Risk**: LOW/HIGH mixed
 
 **Control Manifest Rules**:
 - Required: Core 对话/叙事数据使用 YAML 图节点格式。

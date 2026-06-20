@@ -54,6 +54,9 @@ export_presets.cfg
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
 *.csproj
+!src/**/*.csproj
+!tests/**/*.csproj
+!prototypes/**/*.csproj
 *.unityproj
 *.sln
 *.suo
@@ -148,5 +151,8 @@ $RECYCLE.BIN/
 ._agent/
 .trae/
 
-# === Godot Scaffold (deferred to cu-006-godot-integration; defer structure decision) ===
-feng-zhi/
+# === Godot Project ===
+# Keep project files, .import metadata, scenes, scripts, and source assets tracked.
+# Generated editor/import caches stay ignored by the general .godot/ rule above.
+feng-zhi/.godot/
+feng-zhi/android/

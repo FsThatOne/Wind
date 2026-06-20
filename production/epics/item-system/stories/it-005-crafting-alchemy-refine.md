@@ -14,7 +14,7 @@
 制作系统负责把材料转化为丹药或装备，并限制精炼不会成为无限强化循环。
 
 **ADR Governing Implementation**: ADR-0003: Data Configuration Format
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 
 ## Acceptance Criteria
 

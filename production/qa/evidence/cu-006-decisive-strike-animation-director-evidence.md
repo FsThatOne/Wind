@@ -13,7 +13,7 @@
 - [x] AC-5：CinematicLock 屏蔽战斗输入 + 白名单 ui_pause / ui_system_back — `CinematicLock_AcquireDuringDecisive_BlocksCombatActionWhitelistsPause`
 - [x] AC-6：Phase5 浮字使用 Decisive 样式 — `DecisiveDamageNumber_AtPhase5_PublishesPhaseAdvancedSoStyleDecisiveCanRender`
 - [x] AC-7：Dispose / Cancel 反向释放所有 handle — `Director_DisposeReleasesAllHandlesEvenIfSequenceUncompleted`
-- [ ] **手动验证（deferred）**：Godot 4.6.3 `Engine.TimeScale` + `Tween(TweenProcessMode.Always)` + Camera2D 实机集成的 7 阶段演出录屏、暂停冲突手动复现、Phase4 体系专属动画接入
+- [ ] **手动验证（deferred）**：Godot 4.7-stable `Engine.TimeScale` + `Tween(TweenProcessMode.Always)` + Camera2D 实机集成的 7 阶段演出录屏、暂停冲突手动复现、Phase4 体系专属动画接入
 
 ## Capture Targets — Foundation 自动化
 

@@ -1,7 +1,7 @@
 # Architecture Traceability Index
 
 > **Last Updated**: 2026-06-08
-> **Engine**: Godot 4.6.3 (C# / .NET 8+)
+> **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **Source**: `/architecture-review` full mode
 
 ---

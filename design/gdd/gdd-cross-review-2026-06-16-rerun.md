@@ -3,7 +3,7 @@
 **Date**: 2026-06-16  
 **Mode**: full rerun after Xingqi Tactics GDD sync  
 **Verdict**: PASS  
-**Engine Context**: Godot 4.6.3 + C# (.NET 8+)  
+**Engine Context**: Godot 4.7-stable + C# (.NET 8+)  
 
 ---
 

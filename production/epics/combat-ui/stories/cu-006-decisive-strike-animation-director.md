@@ -15,7 +15,7 @@
 
 ## 目标
 
-实现一击决胜 7 阶段演出，让玩家选择“决胜一击”后进入慢动作、推镜、体系专属动画、最大伤害浮字和恢复流程，并验证 TimeScale/Tween/Camera 的 Godot 4.6.3 风险点。
+实现一击决胜 7 阶段演出，让玩家选择“决胜一击”后进入慢动作、推镜、体系专属动画、最大伤害浮字和恢复流程，并验证 TimeScale/Tween/Camera 的 Godot 4.7-stable 风险点。
 
 ## 范围
 
@@ -45,7 +45,7 @@
 - 演出期间禁用 Camera smoothing，归位后重新启用
 - 输入屏蔽应使用战斗 cinematic lock，不得通过破坏 InputMap 实现
 - 决胜演出默认不可跳过；未来如开放跳过，必须由 tuning knob 控制
-- 必须为 Godot 4.6.3 的 TimeScale + Tween 行为留下手动验证证据
+- 必须为 Godot 4.7-stable 的 TimeScale + Tween 行为留下手动验证证据
 
 ## 验收标准
 
@@ -89,7 +89,7 @@ Required automated coverage (Foundation):
 
 **Automated test path (Sprint 6 Godot 集成层 — 计划中)**: `tests/integration/combat-ui/combat_ui_decisive_godot_integration_test.cs`
 
-Required automated coverage (Godot 4.6.3 实机集成 — sprint 6 cu-006-godot-integration)：
+Required automated coverage (Godot 4.7-stable 实机集成 — sprint 6 cu-006-godot-integration)：
 - `Engine.TimeScale` 经 `TimeScaleController` 优先级栈（priority 50）从 1.0 → 0.2 → 1.0 实测通路通畅。
 - `Tween` 在 `TweenProcessMode.Always` 下不会因 TimeScale=0（pause stack 叠加）自锁；演出在 0.2 状态下仍按 wall-clock 推进。
 - `Camera2D` 经 `CameraRequestBus`（priority 50）抢占、锁定目标、关闭 smoothing；演出后恢复 default 跟随。

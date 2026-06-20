@@ -41,7 +41,7 @@
 - UI 层不得重新计算伤害、破绽、反制结果或意图识破结果，只消费 Core/Combat 和 MartialArts 提供的快照
 - `WorldIntentLayer` 使用 CanvasLayer WorldUi 层级语义；`HUDLayer` 使用 Hud 层级语义
 - 所有实时刷新通过 `_dirty + _Process` 合批，不允许直接在事件回调中做大量 UI 重建
-- Engine 风险：Godot 4.6.3 dual-focus 与 SceneTreeTween 相关行为需在后续交互/演出 story 中留证据
+- Engine 风险：Godot 4.7-stable dual-focus 与 SceneTreeTween 相关行为需在后续交互/演出 story 中留证据
 
 ## 验收标准
 

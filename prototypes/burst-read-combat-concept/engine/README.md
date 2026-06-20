@@ -1,6 +1,6 @@
 <!--
 PROTOTYPE - NOT FOR PRODUCTION
-Burst+Read Engine spike · Godot 4.6.3 + C# (.NET 8)
+Burst+Read Engine spike · Godot 4.7-stable + C# (.NET 8)
 Date: 2026-06-02
 -->
 

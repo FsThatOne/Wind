@@ -60,7 +60,7 @@
 
 ## Engine Notes
 
-- Godot 4.6.3 dual-focus 行为必须保留：键盘/手柄焦点切换不得清除鼠标 hover 高亮，hover 也不得抢占手柄焦点。
+- Godot 4.7-stable dual-focus 行为必须保留：键盘/手柄焦点切换不得清除鼠标 hover 高亮，hover 也不得抢占手柄焦点。
 - “决胜一击”行必须是可聚焦 Control，并参与与普通招式相同的导航顺序；打开面板时默认焦点仍遵守第一个可用行动规则。
 - 使用 `grab_focus()` 时必须受 FocusManager 生命周期保护，避免目标切换或资源刷新重复压栈。
 - 若后续接入 SceneTreeTween 或 TimeScale 演出，演出编排属于 `cu-006`，本 story 只产出提示与行动意图。

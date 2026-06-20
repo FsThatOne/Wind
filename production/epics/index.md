@@ -1,7 +1,7 @@
 # Epics Index
 
 > **Last Updated**: 2026-06-13
-> **Engine**: Godot 4.6.3 (C# / .NET 8+)
+> **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **Source**: `/create-epics layer: foundation`, `/create-epics dialogue-system save-system`, `/create-epics layer: core`, `/create-epics layer: feature`, `/create-epics layer: presentation`
 > **状态同步**: 2026-06-11 已根据 EPIC/story 文件、实现证据和 Core 层补齐结果同步状态
 

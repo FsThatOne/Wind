@@ -16,7 +16,7 @@
 玩家选择追查后，探索系统必须播放叙事独白并按 discovery_type 分派副作用。Sprint 4 优先验证主线叙事 Clue 与暗号 CodePhrase 两条关键集成路径，其他 reward type 保留同一分派接口供后续扩展。
 
 **ADR Governing Implementation**: ADR-0018: Exploration & Insight; ADR-0014: Living Jianghu Layer
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: N/A — no post-cutoff Godot API is required for this story. Reward dispatch should remain pure C# / Port-Adapter logic so integration tests can verify Narrative and CodePhrase side effects without loading Godot scenes. A future scene adapter may call `DiscoveryDispatcher.OnPlayerInvestigate(nodeId)` from an interaction input path, but this story should not depend on `_Process`, UI nodes, or real scene timing.
 
 ## Acceptance Criteria

@@ -5,7 +5,7 @@ Each agent owns a specific domain, enforcing separation of concerns and quality.
 
 ## Technology Stack
 
-- **Engine**: Godot 4.6.3
+- **Engine**: Godot 4.7-stable
 - **Language**: C# (.NET 8+, primary), C++ via GDExtension (native plugins only)
 - **Version Control**: Git with trunk-based development
 - **Build System**: .NET SDK + Godot Export Templates

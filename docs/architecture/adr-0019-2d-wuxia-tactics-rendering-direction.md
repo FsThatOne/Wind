@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | 2D Rendering, TileMapLayer, Lighting, VFX |
 | **Knowledge Risk** | **HIGH** — Godot 4.6 在 LLM 训练截止后发布；渲染后端、Glow、Shader Baker、TileMapLayer 等信息必须以本地 engine-reference 为准 |
 | **References Consulted** | `docs/engine-reference/godot/VERSION.md`, `docs/engine-reference/godot/modules/rendering.md`, ADR-0010, `design/art/art-bible.md`, `design/gdd/game-concept.md` |
 | **Post-Cutoff APIs Used** | TileMapLayer, Godot 4.6 2D Canvas/渲染设置；不依赖实验性 3D/HD-2D 管线 |
 | **Verification Required** | 1) 验证 TileMapLayer 多层场景在目标分辨率下的可读性; 2) 验证 CanvasModulate + PointLight2D + 2D shader 的昼夜/灯光效果; 3) 验证移动端兼容目标下的 shader/VFX 预算 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

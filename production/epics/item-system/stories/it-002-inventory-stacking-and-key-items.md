@@ -14,7 +14,7 @@
 背包是物品系统的运行时核心。它需要支持无限容量、有限堆叠、自动溢出新堆叠、关键物品不可丢弃/出售，并接收战斗、探索和叙事奖励。
 
 **ADR Governing Implementation**: N/A — 纯运行时 POCO 背包规则
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 
 ## Acceptance Criteria
 

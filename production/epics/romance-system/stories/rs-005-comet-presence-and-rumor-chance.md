@@ -18,7 +18,7 @@
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0003: Data Configuration Format
 **ADR Decision Summary**: `CometPresenceTracker` 追踪暗号、书信、传闻和偶遇计数，并按 `0.3 + same_region 0.4 + absence>7 0.2` 计算传闻概率，结果 Clamp 到 `[0, 0.8]`。调参数据遵循 YAML 配置规范。
 
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: 纯逻辑概率计算；无 post-cutoff API。
 
 **Control Manifest Rules (Feature Layer)**:

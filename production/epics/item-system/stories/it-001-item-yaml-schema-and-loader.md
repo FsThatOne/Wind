@@ -14,7 +14,7 @@
 物品系统必须先拥有稳定的静态数据契约，供背包、装备、消耗品、经济和叙事奖励统一查询。
 
 **ADR Governing Implementation**: ADR-0003: Data Configuration Format
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 
 ## Acceptance Criteria
 

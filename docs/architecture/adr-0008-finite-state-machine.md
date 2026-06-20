@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Core / Shared Infrastructure |
 | **Knowledge Risk** | LOW — 纯 C# 实现，不依赖引擎特定 API |
 | **References Consulted** | None needed (pure C# pattern) |
 | **Post-Cutoff APIs Used** | None |
 | **Verification Required** | None |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

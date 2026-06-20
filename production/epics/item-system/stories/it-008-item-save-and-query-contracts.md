@@ -15,7 +15,7 @@
 物品运行时状态需要被存档系统序列化恢复，并向战斗、主线叙事、自然日、武学和 UI 提供稳定查询接口。
 
 **ADR Governing Implementation**: ADR-0004: Save System Architecture / ADR-0001: Event Bus Architecture
-**Engine**: Godot 4.6.3 | **Risk**: MEDIUM
+**Engine**: Godot 4.7-stable | **Risk**: MEDIUM
 
 ## Acceptance Criteria
 

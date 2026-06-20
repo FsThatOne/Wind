@@ -369,7 +369,7 @@
 ## Next Steps
 
 - [x] Game concept approved（与开发者共同设计完成）
-- [x] **Run `/setup-engine`** —— **(2026-06-02 完成)** 选定 Godot 4.6.3 + C# (.NET 8+)
+- [x] **Run `/setup-engine`** —— **(2026-06-02 完成)** 选定 Godot 4.7-stable + C# (.NET 8+)
 - [x] **Run `/prototype` for the original combat loop** —— **(2026-06-02 完成 Paper path)** 历史 Burst+Read 原型结论已被 2026-06-16 行气战棋方向取代
 - [x] (完成) Round 2 Paper prototype —— **(2026-06-02)** 作为历史学习保留，不再作为正式战斗口径
 - [x] (完成) Engine spike —— **(2026-06-02)** 作为历史学习保留，不再作为正式战斗口径

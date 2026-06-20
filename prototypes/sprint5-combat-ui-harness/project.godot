@@ -10,7 +10,7 @@ config_version=5
 config/name="Sprint 5 Combat UI Harness"
 config/description="Sprint 5 Combat UI QA harness for cu-004, cu-005, and cu-008"
 run/main_scene="res://scenes/Sprint5CombatUiHarness.tscn"
-config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 
 [display]
 

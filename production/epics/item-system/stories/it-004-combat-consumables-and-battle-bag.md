@@ -14,7 +14,7 @@
 战斗道具是 Burst+Read 的保守选择：可以续命，但必须消耗当前回合行动机会，不能同时出招、调息或反制。
 
 **ADR Governing Implementation**: ADR-0001: Event Bus Architecture / ADR-0003: Data Configuration Format
-**Engine**: Godot 4.6.3 | **Risk**: MEDIUM
+**Engine**: Godot 4.7-stable | **Risk**: MEDIUM
 
 ## Acceptance Criteria
 

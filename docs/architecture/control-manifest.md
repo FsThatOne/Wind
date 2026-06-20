@@ -1,6 +1,6 @@
 # Control Manifest
 
-> **Engine**: Godot 4.6.3 (C# / .NET 8+)
+> **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **Last Updated**: 2026-06-10
 > **Manifest Version**: 2026-06-10
 > **ADRs Covered**: ADR-0001 ~ ADR-0018 (全部 18 个 Accepted)
@@ -434,7 +434,7 @@ Source: `.claude/docs/technical-preferences.md`
 
 - **YamlDotNet** (NuGet) — YAML 1.2 解析/序列化，配置数据加载 — source: ADR-0003 + technical-preferences.md
 
-### Forbidden APIs (Godot 4.6.3)
+### Forbidden APIs (Godot 4.7-stable)
 
 > Source: `docs/engine-reference/godot/deprecated-apis.md`
 

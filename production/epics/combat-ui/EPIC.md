@@ -56,7 +56,7 @@ This epic is complete when:
 - All stories are implemented, reviewed, and closed via `/story-done`
 - All acceptance criteria from `design/gdd/combat-ui.md` are verified
 - Interaction stories have manual evidence or UI automation where practical
-- TimeScale, camera priority, object pool and dual-focus behavior are validated on Godot 4.6.3
+- TimeScale, camera priority, object pool and dual-focus behavior are validated on Godot 4.7-stable
 - Combat UI does not compute gameplay outcomes or display forbidden damage prediction numbers
 
 ## Next Step

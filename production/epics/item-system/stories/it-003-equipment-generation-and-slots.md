@@ -14,7 +14,7 @@
 装备是轻量个性化与叙事锚点，不应成为刷数值核心。系统必须稳定生成基础属性、词条和装备槽占用，并防止同一实例被多个角色同时装备。
 
 **ADR Governing Implementation**: ADR-0003: Data Configuration Format
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 
 ## Acceptance Criteria
 

@@ -160,7 +160,7 @@ All hooks fail gracefully if optional tools are missing — nothing breaks, you 
 
    Or jump directly to a specific skill if you already know what you need:
    - `/brainstorm` — explore game ideas from scratch
-   - `/setup-engine godot 4.6` — configure your engine if you already know
+   - `/setup-engine godot 4.7` — configure your engine if you already know
    - `/project-stage-detect` — analyze an existing project
 
 ## Upgrading

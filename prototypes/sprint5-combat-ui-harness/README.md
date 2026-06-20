@@ -27,7 +27,7 @@
 
 ## 启动
 
-使用 Godot 4.6.3 打开：
+使用 Godot 4.7-stable 打开：
 
 ```text
 prototypes/sprint5-combat-ui-harness

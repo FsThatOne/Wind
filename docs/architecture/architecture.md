@@ -1,7 +1,7 @@
 # 《风止》Master Architecture Document
 
 > **Status**: Draft — Pending TD Sign-off
-> **Engine**: Godot 4.6.3 (C# / .NET 8+)
+> **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **Created**: 2026-06-08
 > **Source**: 25 GDDs × 575+ Technical Requirements
 

@@ -1,6 +1,8 @@
 # Godot — Breaking Changes
 
-Last verified: 2026-06-02 | Engine: Godot 4.6.3
+Last verified: 2026-06-02 | Engine: Godot 4.7-stable
+
+> **STALE — Engine pin upgraded 4.6.3 → 4.7-stable on 2026-06-20.** This page was last verified on 2026-06-02 against 4.6.3 and has NOT been refreshed for 4.7 changes. All 4.5/4.6 entries below remain historically accurate; verify any 4.7-specific API decisions against live `godot-docs` before implementation. Pending: `/setup-engine godot 4.7` refresh sweep.
 
 Changes between Godot versions, focused on post-LLM-cutoff changes (4.4+).
 

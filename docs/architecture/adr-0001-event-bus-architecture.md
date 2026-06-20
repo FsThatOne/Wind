@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Core / Scripting |
 | **Knowledge Risk** | HIGH — 4.5+ Signal delegate patterns post-cutoff |
 | **References Consulted** | `docs/engine-reference/godot/current-best-practices.md`, `docs/engine-reference/godot/breaking-changes.md` |
 | **Post-Cutoff APIs Used** | `[Signal] delegate` C# event syntax (4.5+ recommended pattern) |
 | **Verification Required** | Verify `[Signal] delegate` works correctly with generic EventBus Autoload; verify GC behavior of event subscriptions on scene unload |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 
@@ -34,7 +35,7 @@ Accepted
 
 ### Constraints
 
-- Godot 4.6 C# (.NET 8+) 环境
+- Godot 4.7-stable C# (.NET 8+) 环境
 - 25 个系统、7 条关键数据流路径需要事件驱动
 - 必须支持类型安全（避免 string-based 连接）
 - 必须处理节点生命周期（场景切换时自动清理订阅）

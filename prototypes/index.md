@@ -19,7 +19,7 @@ already learned (and avoid making the same mistake twice).
 
 | Concept | Date | Path | Verdict | Report | Notes |
 |---|---|---|---|---|---|
-| Burst+Read Engine Feel | 2026-06-02 | Engine (Godot 4.6.3 + C#) | **PROCEED** | [REPORT.md Engine Spike Findings](./burst-read-combat-concept/REPORT.md) | 4/4 feel 问题通过；克制倍率需从 3:1 调至 ~2:1 |
+| Burst+Read Engine Feel | 2026-06-02 | Engine (Godot 4.7-stable + C#) | **PROCEED** | [REPORT.md Engine Spike Findings](./burst-read-combat-concept/REPORT.md) | 4/4 feel 问题通过；克制倍率需从 3:1 调至 ~2:1 |
 
 ---
 

@@ -18,7 +18,7 @@
 | 项目 | 记录 |
 |------|------|
 | Target | `prototypes/sprint5-combat-ui-harness` |
-| Engine | Godot 4.6.3 Mono |
+| Engine | Godot 4.7-stable Mono |
 | Platform | macOS local dev build |
 | Input | Mouse + keyboard |
 | Fixture | `DefaultAvailable`, `InsufficientNeixi`, `NoCombatItem` |

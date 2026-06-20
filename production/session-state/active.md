@@ -490,7 +490,7 @@
 
 ## Session Extract — Sprint 5 Combat UI harness QA 2026-06-17
 - Target: `prototypes/sprint5-combat-ui-harness` replaced stale `prototypes/fengzhi-vertical-slice` for Sprint 5 Combat UI targeted QA
-- Runtime: Godot 4.6.3 Mono launched cleanly; no script/runtime errors in debug output; project stopped after manual test
+- Runtime: Godot 4.7-stable Mono launched cleanly; no script/runtime errors in debug output; project stopped after manual test
 - User manual QA: `cu-005` PASS; `cu-008` PASS
 - QA document updates: `production/qa/test-cases-sprint-5-must-closeout-zh-2026-06-16.md`, `production/qa/qa-signoff-sprint-5-2026-06-16.md`, `production/qa/evidence/cu-005-counter-and-decisive-action-prompts-evidence.md`, `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md`
 - Bug updates: `BUG-0003` marked superseded by stale target; `BUG-0002` reframed around current `cu-004` registry drift and harness re-test
@@ -612,7 +612,7 @@
 - Verdict: COMPLETE WITH NOTES (lean review mode)
 - Story: production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md — 一击决胜演出编排 (Status → Complete)
 - AC: 7/7 通过 — 全部由 tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs 8 个 fact 覆盖（Director_RequestDecisiveStrike_QueuesAllSevenPhasesInOrder / TimeScaleController_DecisiveRequest_UsesPriority50AndReachesPoint2 / TimeScaleController_PauseStackPreemptsDecisiveAndRestoresOnRelease / DecisiveSequence_PauseDuringSlowMotion_ContinuesFromInterruptedPhase / CameraRequestBus_DecisiveRequest_LocksTargetAndDisablesSmoothing / CinematicLock_AcquireDuringDecisive_BlocksCombatActionWhitelistsPause / DecisiveDamageNumber_AtPhase5_PublishesPhaseAdvancedSoStyleDecisiveCanRender / Director_DisposeReleasesAllHandlesEvenIfSequenceUncompleted）
-- Evidence: production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md (Foundation Captured 2026-06-18 — 自动化 8/8 + harness panel 就位；Godot 4.6.3 Engine.TimeScale + Tween + Camera2D 实机录屏 deferred 到下一 sprint，与 ICombatService Facade 一同落地)
+- Evidence: production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md (Foundation Captured 2026-06-18 — 自动化 8/8 + harness panel 就位；Godot 4.7-stable Engine.TimeScale + Tween + Camera2D 实机录屏 deferred 到下一 sprint，与 ICombatService Facade 一同落地)
 - Code review: APPROVED with NOTES (lean mode, 已先跑 /code-review 2026-06-18) — 3 NOTE：N1 防御性死代码、N2 OnExternalScaleChanged Idle 短路冗余、N3 RequestDecisiveStrike 并发 throw + CancelCurrent 路径未独立断言；不阻塞 done
 - Tech debt logged: 6 items (docs/tech-debt-register.md — 2 项 OUT OF SCOPE deviation + 1 项 Deferred 实机集成 + 3 项 code review NOTE)
 - Sprint status: production/sprint-status.yaml cu-006 → done (2026-06-18)；Sprint 5 should-have 全部完成（cu-006/cu-007 done），must-have 早已 done

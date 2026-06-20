@@ -16,7 +16,7 @@
 探索/洞察系统需要先建立稳定的数据模型、状态机和场景注册表，供后续距离检测、奖励分派和存档恢复复用。该 story 不实现视觉提示渲染，只保证当前场景的 InsightNode 生命周期可被逻辑层稳定查询。
 
 **ADR Governing Implementation**: ADR-0018: Exploration & Insight
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: N/A — no post-cutoff engine API is required for registry-only logic. Godot `Resource` compatibility follows ADR-0018, and scene lifecycle integration is limited to explicit `OnSceneLoaded` / `OnSceneUnloaded` calls rather than engine-specific callbacks in this story.
 
 ## Acceptance Criteria

@@ -398,7 +398,7 @@ input_devices:
 ### 6.2 Godot Accessibility Hooks
 
 **Required**:
-- **Godot 4.6.3 Native Accessibility**: 启用 `display/window/accessibility/enabled` (project settings)
+- **Godot 4.7-stable Native Accessibility**: 启用 `display/window/accessibility/enabled` (project settings)
 - **Control 节点 a11y 元数据**: 所有可交互 Control 节点必须设置:
   - `accessibility_name`（可读名称）
   - `accessibility_description`（操作说明）

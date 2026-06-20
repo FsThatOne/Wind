@@ -6,7 +6,7 @@ version: 1.0
 author: Art Director
 created: 2026-06-09
 last_updated: 2026-06-11
-engine: Godot 4.6.3
+engine: Godot 4.7-stable
 render_pipeline: 2D Canvas + TileMapLayer + CanvasModulate
 target_platforms: PC (Steam), Steam Deck
 ---

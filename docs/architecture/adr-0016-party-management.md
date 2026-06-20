@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Character Data, Deployment Logic, Growth Settlement |
 | **Knowledge Risk** | **LOW** — 纯逻辑/数据系统，不依赖引擎特定渲染或实验性 API |
 | **References Consulted** | `design/gdd/party-management.md`, ADR-0001, ADR-0003, ADR-0004, ADR-0008, ADR-0014 |
 | **Post-Cutoff APIs Used** | 无 |
 | **Verification Required** | 1) 验证 GrowthSettlementEngine 与 Save System 的序列化兼容; 2) 验证 CatchupCalculator 在极端 party_average 下不溢出 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 
