@@ -533,3 +533,51 @@ public interface ICombatService
 - [ADR-0009](adr-0009-dynamic-audio.md) — 决胜演出音效与动画同步触发点
 - [ADR-0013](adr-0013-cutscene-system.md) — Cutscene 通过 `SuspendLogic()` 在战斗中插剧情
 - [ADR-0017](adr-0017-epiphany-breakthrough.md) — Epiphany 战斗触发路径依赖本 facade 状态查询
+
+## 实机集成（cu-006 BUILD, 2026-06-20）
+
+> 本节追加于 cu-006 BUILD 落地后；ADR 状态保持 Accepted。原始决策不变，下面只描述实机绑定层。
+
+### 实机绑定 Bridge
+
+| Bridge | 路径 | 职责 |
+|---|---|---|
+| `TimeScaleEngineBridge` | [src/FengZhi.Foundation/CombatUi/GodotIntegration/TimeScaleEngineBridge.cs](../../src/FengZhi.Foundation/CombatUi/GodotIntegration/TimeScaleEngineBridge.cs) | 订阅 `TimeScaleController.ScaleChanged`，把 controller 输出投到 `Engine.TimeScale`；Dispose 时归还 1.0 |
+| `CameraRequestBusBridge` | [src/FengZhi.Foundation/CombatUi/GodotIntegration/CameraRequestBusBridge.cs](../../src/FengZhi.Foundation/CombatUi/GodotIntegration/CameraRequestBusBridge.cs) | 订阅 `CameraRequestBus.ActiveRequestChanged`，把 zoom / disableSmoothing / target 投到 `Camera2D` 节点；释放时恢复 default |
+| `CombatCinematicLockInputFilter` | [src/FengZhi.Foundation/CombatUi/GodotIntegration/CombatCinematicLockInputFilter.cs](../../src/FengZhi.Foundation/CombatUi/GodotIntegration/CombatCinematicLockInputFilter.cs) | 静态 `ShouldConsume(InputEvent, CombatCinematicLock)`；只读 `InputMap.GetActions()` / `EventIsAction()`；不写 InputMap |
+
+### Facade 层
+
+| 类型 | 路径 | 角色 |
+|---|---|---|
+| `ICombatService` | [src/FengZhi.Foundation/CombatUi/ICombatService.cs](../../src/FengZhi.Foundation/CombatUi/ICombatService.cs) | 单方法 `void RequestDecisiveStrike(string actorId, string targetId)`，cu-001 / cu-005 唯一入口 |
+| `CombatService` | [src/FengZhi.Foundation/CombatUi/CombatService.cs](../../src/FengZhi.Foundation/CombatUi/CombatService.cs) | 注入 `(CombatAnimationDirector, IDecisiveContextProvider)`；不持有 `BattleInstance` |
+| `IDecisiveContextProvider` | [src/FengZhi.Foundation/CombatUi/IDecisiveContextProvider.cs](../../src/FengZhi.Foundation/CombatUi/IDecisiveContextProvider.cs) | `GetContext(actorId, targetId) → DecisiveStrikeRequest`；BattleFacade 不耦合 |
+| `InMemoryDecisiveContextProvider` | [src/FengZhi.Foundation/CombatUi/InMemoryDecisiveContextProvider.cs](../../src/FengZhi.Foundation/CombatUi/InMemoryDecisiveContextProvider.cs) | 测试 + cu-005 BUILD 临时实现；cu-005 BUILD 时再换 BattleInstance-aware 实现 |
+
+> **Foundation 不动原则**：不修改 `BattleFacade`，避免污染 Foundation 1359 测试基线。
+
+### 实机硬约束
+
+1. **Tween Always 模式**：任何驱动 `Engine.TimeScale` 的 Tween 必须设 `SetProcessMode(TweenProcessMode.Always)` **且** `set_ignore_time_scale(true)`（4.7 验证：`process_mode = ALWAYS` 单独不足以绕过 `time_scale = 0`）。
+2. **InputMap 只读**：`AddAction` / `EraseAction` 在演出全程禁止；过滤层只走 `GetActions()` + `EventIsAction()`。集成测试中临时注册测试 action 是例外（test-only，try/finally 中 erase）。
+3. **Filter any-allowed 语义**（cu-006 BUILD 修订）：`CombatCinematicLockInputFilter.ShouldConsume` 当 lock 锁定时遍历所有命中事件的 action，**任一命中 action 在白名单即放行**；只有当至少有一个命中且全部都不在白名单时才 consume。
+   - **背景**：初版 first-match 在键位多映射场景下错误屏蔽白名单 action。例如 `Key.Escape` 同时映射 Godot 内置 `ui_cancel` 与项目 `ui_pause`，`ui_cancel` 不在白名单则 first-match 直接 consume，pause 永远无法通过——即使白名单中明确包含 `ui_pause`。
+   - **修订**：改为 any-allowed 语义，与白名单契约（"白名单内的 action 必须放行"）匹配；通过 cu-006 AC4 集成测试锁定。
+4. **Camera2D PositionSmoothingEnabled 必经 Bridge**：演出期间 `false`，归位 `true`；不允许在 Camera 节点直接写。
+5. **决胜不可跳过**：`AllowDecisiveSkip = false`（GDD 默认）；Filter 与 Director 在演出途中均忽略所有非白名单输入。
+
+### 6 条 AC 集成测试
+
+测试套：[prototypes/sprint5-combat-ui-harness/scripts/tests/cu006/CombatUiDecisiveGodotIntegrationTest.cs](../../prototypes/sprint5-combat-ui-harness/scripts/tests/cu006/CombatUiDecisiveGodotIntegrationTest.cs)
+入口脚本：`./prototypes/sprint5-combat-ui-harness/scripts/run_godot_tests.sh cu006`（headless，quit code = 失败数）
+基线：cu006 6/6 PASS + smoke 2/2 PASS + Foundation 1359/1359 PASS（2026-06-20）。
+
+| AC | 测试方法 | 验证点 |
+|---|---|---|
+| AC1 | `cu006.ac1.time_scale_bridge_writes_engine_time_scale_and_dispose_restores` | TimeScale 1.0 → 0.2 → 0 → 0.2 → 1.0；Dispose 还原 |
+| AC2 | `cu006.ac2.director_tick_publishes_seven_phase_advanced_events` | 7 次 PhaseAdvanced + Completed |
+| AC3 | `cu006.ac3.camera_bridge_applies_and_restores_smoothing_zoom_position` | Camera2D smoothing/zoom/position 三态 |
+| AC4 | `cu006.ac4.lock_filter_blocks_combat_actions_allows_ui_pause` | any-allowed filter 语义验证 |
+| AC5 | `cu006.ac5.director_two_sequential_decisive_strikes_run_serialized` | 串行决胜 + 并发请求抛 InvalidOperationException |
+| AC6 | `cu006.ac6.combat_service_request_decisive_strike_end_to_end_releases_all_side_effects` | ICombatService 端到端 + 全部副作用归位 |

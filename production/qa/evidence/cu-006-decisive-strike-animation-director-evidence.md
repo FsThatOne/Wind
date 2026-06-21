@@ -2,7 +2,7 @@
 
 > **Story**: [cu-006-decisive-strike-animation-director.md](../../epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md)
 > **TR-ID**: TR-combat-ui-006
-> **Status**: Foundation Captured (2026-06-18) — 自动化 8/8 + harness panel 就位；Godot 实机 TimeScale/Tween/Camera2D 验证 deferred 到下一 sprint
+> **Status**: Foundation Captured (2026-06-18) + Godot Integration Captured (2026-06-20) — Foundation 自动化 8/8 + harness panel 就位 + Godot 实机集成 6/6 AC（cu-006-godot-integration BUILD, 2026-06-20）；视觉 artifact pending designer 录屏。
 
 ## Capture Checklist
 
@@ -44,3 +44,15 @@
 - Godot 集成层（deferred）：修改 `Engine.TimeScale` 的 `Tween` 必须 `SetProcessMode(TweenProcessMode.Always)` 防自锁；Camera2D 集成层订阅 `CameraRequestBus.ActiveRequestChanged` 把 zoom/disableSmoothing 投射到节点；`CombatCinematicLock.IsAllowedDuringLock` 在 InputMap 拦截层调用，**不**触碰 InputMap 配置
 - ADR-0009 音效同步：`DecisiveStrikePhaseAdvancedEvent` 是音效系统的挂载点；UI 不直接拥有音频逻辑
 - 截图采集：harness `cu-006 Decisive Strike Director` panel 实时显示 Phase / TimeScale / Camera / CinematicLock / 事件日志，可直接截图覆盖 7 阶段 + 暂停冲突
+
+## Godot Integration Captured (2026-06-20)
+
+> 经 cu-006-godot-integration BUILD（Sprint 6）落地，原 Foundation Captured 段保持只读；本节是实机集成增量。
+
+- 自动化覆盖（Godot 4.7-stable 实机）：[CombatUiDecisiveGodotIntegrationTest.cs](../../../prototypes/sprint5-combat-ui-harness/scripts/tests/cu006/CombatUiDecisiveGodotIntegrationTest.cs) — cu006 6/6 PASS（headless quit code 0）+ smoke 2/2 PASS + Foundation 1359/1359 PASS（不退步）
+- 入口脚本：`./prototypes/sprint5-combat-ui-harness/scripts/run_godot_tests.sh cu006`
+- Bridge 三件：`TimeScaleEngineBridge` / `CameraRequestBusBridge` / `CombatCinematicLockInputFilter`（路径见 ADR-0011 §实机集成）
+- Facade：`ICombatService.RequestDecisiveStrike(actorId, targetId)` + `IDecisiveContextProvider`（Foundation 不动原则；BattleFacade 不耦合）
+- **Filter 语义修订**：`CombatCinematicLockInputFilter.ShouldConsume` 初版 first-match → any-allowed（任一命中 action 在白名单即放行）。背景：`Key.Escape` 同映射 Godot 内置 `ui_cancel` + 项目 `ui_pause` 时 first-match 错误屏蔽白名单。详见 [ADR-0011 §实机集成（cu-006 BUILD, 2026-06-20）](../../../docs/architecture/adr-0011-combat-ui-animation.md) 硬约束 #3。
+- BUILD evidence note：[build-cu-006-godot-integration-evidence-2026-06-20.md](../../notes/build-cu-006-godot-integration-evidence-2026-06-20.md)
+- Sign-off：lead-programmer __pending__ / designer __pending__（自动化基线已绿；视觉 artifact 待录屏后补齐 + 双签字）

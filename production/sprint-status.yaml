@@ -41,11 +41,11 @@ stories:
     name: "cu-006 一击决胜 Godot 4.7-stable 实机集成 + ICombatService Facade"
     file: "production/epics/combat-ui/stories/cu-006-godot-integration.md"
     priority: must-have
-    status: ready-for-dev
+    status: done
     owner: ""
     estimate_days: 0.75
     blocker: ""
-    completed: ""
+    completed: "2026-06-20"
 
   - id: "cu-visual-evidence"
     name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence"

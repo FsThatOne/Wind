@@ -34,6 +34,8 @@
 ### cu-006-godot-integration — Visual/Feel + Integration (Mixed)
 **Test file path**: `tests/integration/combat-ui/combat_ui_decisive_godot_integration_test.cs`（**新增** — 与现有 `combat_ui_decisive_animation_director_test.cs` 并存；Foundation 契约层不动，仅加 Godot bridge 集成层）
 
+> **2026-06-20 BUILD 完成**：实际落地路径走自研 Godot scene runner（`prototypes/sprint5-combat-ui-harness/scripts/tests/cu006/CombatUiDecisiveGodotIntegrationTest.cs`，自研 runner 决议 D1 — GdUnit4-Net 4.7 兼容性未定），覆盖 6 条 AC（cu006.ac1..ac6）；6/6 PASS（headless quit code 0）+ smoke 2/2 PASS + Foundation 1359/1359 PASS。Filter `ShouldConsume` 语义在 BUILD 中由 first-match 改为 any-allowed（详见 ADR-0011 §实机集成 cu-006 BUILD）。Visual evidence：[build-cu-006-godot-integration-evidence-2026-06-20.md](../notes/build-cu-006-godot-integration-evidence-2026-06-20.md)。
+
 **What to test**（GDD F2 + AC-5 + cu-006 story §技术说明）：
 - `Engine.TimeScale` 经 `TimeScaleController` 优先级栈（priority 50）从 1.0 → `decisive_timescale_min` 0.2（slow_in 0.3s）→ hold ≥ 1.0s → 0.2 → 1.0（slow_out 0.3s）实测一致
 - `Tween` 在 `TweenProcessMode.Always` 下不会因 TimeScale=0（pause stack 叠加）自锁；在 0.2 状态下仍按 wall-clock 推进

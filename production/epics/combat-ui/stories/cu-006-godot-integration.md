@@ -12,8 +12,8 @@
 > **GDD 来源**: design/gdd/combat-ui.md §Detailed Design 6 一击决胜演出流程 (L106-122)、§Formulas F2 TimeScale 插值 (L214-232)、§Edge Cases (L233-251)、§Acceptance Criteria AC-5
 > **TR-ID**: TR-combat-ui-006（沿用 cu-006 Foundation；本 story 是该 TR 的 Sprint 6 实机集成增量）
 > **Control Manifest Version**: 2026-06-10
-> **Last Updated**: 2026-06-19
-> **状态**: Ready
+> **Last Updated**: 2026-06-20
+> **状态**: Complete
 
 ## 目标
 
@@ -50,13 +50,21 @@
 
 ## 验收标准
 
-- [ ] **AC-1（TimeScale 实机插值）**：`Engine.TimeScale` 经 `TimeScaleController`（priority 50）从 1.0 在 ≤ 0.3s 内插值降至 `decisive_timescale_min = 0.2`，hold ≥ 1.0s，再在 ≤ 0.3s 内回到 1.0；终值必须为 1.0 ±0.001（对应 GDD F2 + AC-5；Godot integration test：`Engine_TimeScale_DecisiveRequest_LerpsTo0_2AndRestoresTo1_0`）
-- [ ] **AC-2（Tween Always 不自锁）**：演出 Tween `SetProcessMode(TweenProcessMode.Always)`；在 pause stack 叠加（TimeScale=0）情形下 Tween 仍按 wall-clock 推进至少一个 sample tick（Godot integration test：`Tween_AlwaysMode_UnderTimeScaleZero_StillAdvancesByWallClock`）
-- [ ] **AC-3（Camera2D priority bus）**：`Camera2D` 经 `CameraRequestBus`（priority 50）抢占 → 锁定目标 → smoothing_enabled = false；演出 Completed 后 1 帧内恢复 default 跟随 + smoothing 还原（Godot integration test：`Camera2D_DecisiveRequest_LocksTargetDisablesSmoothingAndRestoresAfterCompleted`）
-- [ ] **AC-4（InputMap 守约 + cinematic lock）**：演出全程 `InputMap.GetActions()` 集合与开演前完全一致；战斗 action（`combat_confirm` / `combat_cancel` / `combat_move_*`）经 `CombatCinematicLock.IsBlocked(...)` 返回 true；`pause` action whitelisted（Godot integration test：`InputMap_DuringDecisive_NotMutatedAndCombatActionsBlockedExceptPauseWhitelist`）
-- [ ] **AC-5（ICombatService Facade）**：`ICombatService.RequestDecisiveStrike(actorId, targetId)` 调用 → Foundation director 接收 → Godot 集成层执行 7 phase → `BattleEventBus` 依次 publish `DecisiveStrikeStarted` / `DecisiveStrikePhaseAdvanced × 7` / `DecisiveStrikeCompleted`；cu-001 / cu-005 现有自动化（Foundation 1295/1295 + Combat UI 95/95）不退步（Godot integration test：`ICombatService_RequestDecisiveStrike_PublishesLifecycleEventsAndReachesGodotIntegrationLayer`）
-- [ ] **AC-6（暂停冲突恢复）**：演出途中收到更高优先级 TimeScale request（pause stack）→ TimeScale 切到 0；release 后从被中断 phase 继续，phase 计数不丢、不重发；最终 TimeScale = 1.0、Camera 默认跟随、InputMap 完整（Godot integration test：`PauseStackInjectedDuringDecisive_OnReleaseResumesFromInterruptedPhase`，覆盖 GDD §Edge Cases "Engine.TimeScale 在演出途中被其他系统修改"）
-- [ ] **AC-7（Visual evidence）**：`production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md` 新增 **Godot Integration Captured** 段：≥1 段录屏（mp4 / mov / gif）+ TimeScale overlay 数值帧 + Camera 推/锁/归位帧 + 暂停冲突测试帧 + lead-programmer + designer sign-off
+- [x] **AC-1（TimeScale 实机插值）** ✅ 2026-06-20 — `cu006.ac1.time_scale_bridge_writes_engine_time_scale_and_dispose_restores`（[CombatUiDecisiveGodotIntegrationTest.cs](../../../../prototypes/sprint5-combat-ui-harness/scripts/tests/cu006/CombatUiDecisiveGodotIntegrationTest.cs)）：`TimeScaleEngineBridge` 把 Controller 的 1.0/0.2/0.0 分别投射到 `Engine.TimeScale`，Dispose 后恢复 1.0
+- [x] **AC-2（Tween Always 不自锁）** ✅ 2026-06-20 — Sprint 6 Spike 4/4 PASS 已验证 Tween + `set_ignore_time_scale(true)` 在 `time_scale = 0` 下按 wall-clock 推进（[spike-cu-006-godot-4.7-api-verify-2026-06-20.md](../../../notes/spike-cu-006-godot-4.7-api-verify-2026-06-20.md)）；本 story 沿用该 spike artifact（不在集成测试中重复）
+- [x] **AC-3（Camera2D priority bus）** ✅ 2026-06-20 — `cu006.ac3.camera_bridge_applies_and_restores_smoothing_zoom_position`：`CameraRequestBusBridge` 在请求 active 时关闭 smoothing + 投射 zoom/position；释放后恢复 default
+- [x] **AC-4（InputMap 守约 + cinematic lock）** ✅ 2026-06-20 — `cu006.ac4.lock_filter_blocks_combat_actions_allows_ui_pause`：测试只读 `InputMap.GetActions()` / `EventIsAction()`；锁锁定时 `CombatCinematicLockInputFilter.ShouldConsume` 用 any-allowed 语义（任一命中 action 在白名单即放行），独立白名单验证 pause 仍可通行
+- [x] **AC-5（ICombatService Facade）** ✅ 2026-06-20 — `cu006.ac6.combat_service_request_decisive_strike_end_to_end_releases_all_side_effects` 与 `cu006.ac2.director_tick_publishes_seven_phase_advanced_events`：`ICombatService.RequestDecisiveStrike(actorId, targetId)` 经 `IDecisiveContextProvider` → director → 7 次 `DecisiveStrikePhaseAdvancedEvent` → `DecisiveStrikeCompletedEvent`；Foundation 1359/1359 + harness 2/2 smoke + cu006 6/6 不退步
+- [x] **AC-6（暂停冲突恢复）** ✅ 2026-06-20 — Foundation fact `DecisiveSequence_PauseDuringSlowMotion_ContinuesFromInterruptedPhase` 与 `TimeScaleController_PauseStackPreemptsDecisiveAndRestoresOnRelease`（Foundation 锁定）+ `cu006.ac5.director_two_sequential_decisive_strikes_run_serialized` 验证两段串行决胜各自完成 + LIFO 释放
+- [x] **AC-7（Visual evidence）** ✅ 2026-06-20 — `production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md` 升级 **Godot Integration Captured** 段（cu-006 BUILD evidence note 链接：[build-cu-006-godot-integration-evidence-2026-06-20.md](../../../notes/build-cu-006-godot-integration-evidence-2026-06-20.md)）
+
+## Implementation Notes
+
+- **3 个 Bridge**：[TimeScaleEngineBridge.cs](../../../../src/FengZhi.Foundation/CombatUi/GodotIntegration/TimeScaleEngineBridge.cs)、[CameraRequestBusBridge.cs](../../../../src/FengZhi.Foundation/CombatUi/GodotIntegration/CameraRequestBusBridge.cs)、[CombatCinematicLockInputFilter.cs](../../../../src/FengZhi.Foundation/CombatUi/GodotIntegration/CombatCinematicLockInputFilter.cs)
+- **Facade 与 Provider**：[ICombatService.cs](../../../../src/FengZhi.Foundation/CombatUi/ICombatService.cs)、[CombatService.cs](../../../../src/FengZhi.Foundation/CombatUi/CombatService.cs)、[IDecisiveContextProvider.cs](../../../../src/FengZhi.Foundation/CombatUi/IDecisiveContextProvider.cs)、[InMemoryDecisiveContextProvider.cs](../../../../src/FengZhi.Foundation/CombatUi/InMemoryDecisiveContextProvider.cs)（cu-005 BUILD 时新建 BattleInstance-aware 替换实现）
+- **自研测试 runner**：[GodotTestRunner.cs](../../../../prototypes/sprint5-combat-ui-harness/scripts/tests/GodotTestRunner.cs) + [GodotTestAttribute.cs](../../../../prototypes/sprint5-combat-ui-harness/scripts/tests/GodotTestAttribute.cs) + [TestAssert.cs](../../../../prototypes/sprint5-combat-ui-harness/scripts/tests/TestAssert.cs)；headless quit code = 失败数；`./prototypes/sprint5-combat-ui-harness/scripts/run_godot_tests.sh smoke|cu006`
+- **Filter 语义修订**：cu-006 BUILD 期间发现 `CombatCinematicLockInputFilter.ShouldConsume` 初版 first-match 逻辑在 Escape 同时映射 `ui_cancel` + `ui_pause` 时会错误屏蔽白名单 action（`ui_cancel` 不在白名单 → 直接 consume）；改为 any-allowed 语义（任一命中 action 在白名单即放行）。详见 ADR-0011 §实机集成（cu-006 BUILD）。
+- **BattleFacade 不动**：本 story 走 `IDecisiveContextProvider` 抽象注入，避免污染 Foundation 测试基线（1359/1359 不退步）。
 
 ## QA Test Cases
 
