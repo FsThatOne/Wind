@@ -636,3 +636,21 @@
 <!-- SMOKE RUN: 2026-06-22 | Sprint: Sprint 5 全作用域 close-out | Verdict: PASS | Report: production/qa/smoke-2026-06-22-sprint-5.md -->
 
 <!-- QA RUN: 2026-06-22 | Sprint: Sprint 5 全作用域 close-out | Verdict: APPROVED WITH CONDITIONS | Report: production/qa/qa-signoff-sprint-5-2026-06-22.md -->
+
+## Session Extract — S6-Effort-Tracking 2026-06-22
+Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 /story-done 必须落 Effort 段）：
+
+| Task ID | Estimate (h) | Actual (h) | Variance | Notes |
+|---------|-------------|------------|----------|-------|
+| S6-Commit-Workspace      | 2.0 | 1.5 | -25% | — |
+| S6-Sprint5-DoD           | 4.0 | 3.0 | -25% | — |
+| cu-006-godot-integration | 6.0 | 7.0 | +17% | Godot 实机 Tween/InputMap 调试超出 buffer |
+| S6-Commit-Lint           | 2.0 | 2.5 | +25% | — |
+| S6-Combat-UI-Epic-Close  | 4.0 | 0.5 | -88% | 纯文档 close-out；预估明显高估 |
+| EI-Debt-Triage           | 4.0 | 0.6 | -85% | 纯文档分级；预估按 spike 估，实际只做 desk review |
+| S6-Effort-Tracking       | 2.0 | 0.5 | -75% | 模板补丁 + 回填，无代码改动 |
+
+观察：
+- 文档类 task 估算长期高估 60%+，下个 sprint 起 doc-only task 默认 ≤0.25d / 2h。
+- 唯一正方差是 Godot 实机集成 (cu-006-godot-integration)，与 Sprint 5 retro Action #5 中"engine integration 仍是估算最大不确定来源"一致。
+- 待回填：cu-visual-evidence / S6-Next-Presentation-Cut / cu-008-Gamepad-HW-Verify（done 时再补 actual_hours）。

@@ -33,7 +33,7 @@
 |----|------|-------------|-----------|--------------|---------------------|
 | S6-Combat-UI-Epic-Close | 关闭 combat-ui EPIC：cu-001..008 全 Complete + 实机验证后，更新 `production/epics/combat-ui/EPIC.md` status: Ready → Done，更新 `production/epics/index.md` Presentation 行 | Producer / Dev | 0.5 | cu-visual-evidence | EPIC.md status: Done；index.md Presentation 行更新；`/scope-check combat-ui` 无新条目 |
 | EI-Debt-Triage | Sprint 4 retro Action #3 carryover：扫描 5 条 Exploration boundary-contract tech debt，决定哪条必须在 Presentation integration 前还掉 | Dev / QA | 0.5 | retro Action #3 (Sprint 4) | `docs/tech-debt-register.md` 5 条 EI 条目各加 priority + 决策（pay-down / accept / defer）；产出 `production/notes/exploration-debt-triage-2026-06-XX.md` |
-| S6-Effort-Tracking | retro Action #5：在每条 `/story-done` session log 模板中强制 hour-level actual effort；本 sprint 每个 story 必须落实 | Producer | 0.25 | retro Action #5 | story-done 模板更新；本 sprint 收尾时所有 story session log 含 estimate + actual hours 对照 |
+| S6-Effort-Tracking | retro Action #5：在 `/story-done` SKILL 模板中强制 hour-level estimate / actual / variance；sprint-status.yaml 增加 `estimate_hours` + `actual_hours` 字段；本 sprint 已 done 的 task 全部回填 actual hours | Producer | 0.25 | retro Action #5 | (1) `.claude/skills/story-done/SKILL.md` + `.agents/skills/story-done/SKILL.md` Phase 6/7 含 Effort 段；(2) `production/sprint-status.yaml` 每个 task 含 `estimate_hours` + `actual_hours`（done task 必须有值）；(3) `production/session-state/active.md` 含 Sprint 6 effort 对照段 |
 
 **Should Have 小计**：≈1.25 estimate-days
 
@@ -82,12 +82,13 @@
 - [ ] **combat-ui EPIC 8/8 stories Done + 实机验证 + EPIC.md status: Done**
 - [ ] **工作树干净** — `git status` 无 untracked / modified residue
 - [ ] Code reviewed and merged
-- [ ] hour-level actual effort 写入每条 `/story-done` session log
+- [ ] hour-level actual effort 写入每条 `/story-done` session log（含 estimate vs actual 对照）
 
 ## Process Notes
 
 - **Review mode**: `lean` — director gates 仅 PHASE-GATE 触发；PR-SPRINT 跳过；code review 仍由 dev/QA 自主触发
 - **scope-check 拆层化**：本 sprint 沿用 Sprint 5 cu-006 的 "Foundation 契约 + Godot 实机" 双层模式作为高 Engine Risk Visual story 的默认起手式
 - **commit gate**：S6-Commit-Workspace 在 sprint 启动当天闭合；之后每个 story `/story-done` 后立即 commit，不再积压
+- **effort gate**：本 sprint 起每个 `/story-done` 必须落 Effort 段（estimate / actual / variance）；sprint 关账前必须补齐所有 task 的 actual hours，否则 DoD 不闭合（接 retro Action #5）
 
 > **Scope check**: 本 sprint 的所有 Must Have 都源自 Sprint 5 retro Action Items + combat-ui EPIC DoD；Should Have / Nice to Have 是 Presentation cutoff 后的衔接动作。如后续追加超出本表的 stories，请运行 `/scope-check combat-ui` 或 `/scope-check exploration-insight`。

@@ -315,6 +315,12 @@ Before updating any files, present the full report:
 - Extra files touched: [list] — [note whether valid or scope creep]
 
 ### Verdict: COMPLETE / COMPLETE WITH NOTES / BLOCKED
+
+### Effort
+- **Estimate**: [X.XX hours] (from story `Estimate:` field; default conversion 1d = 8h if days are stated)
+- **Actual**: [Y.YY hours] (sum of /dev-story + /code-review + /story-done sessions; record in 0.25h increments)
+- **Variance**: [+/- Z%]
+- **Notes**: [omit if |variance| ≤ 30%; otherwise one line on root cause — scope creep / surprise blocker / underestimate]
 ```
 
 **Verdict definitions:**
@@ -352,6 +358,7 @@ If "Fix first": stop here and list what the user flagged. Do not write any files
 **Deviations**: [None] or [list of advisory deviations]
 **Test Evidence**: [Logic: test file at path | Visual/Feel: evidence doc at path | None required (Config/Data)]
 **Code Review**: [Pending / Complete / Skipped]
+**Effort**: estimate [X.XX] h / actual [Y.YY] h (variance [±Z%])
 ```
 
 4. If the user chose "Close and log tech debt": append each advisory deviation to `docs/tech-debt-register.md` in this format:
@@ -363,6 +370,7 @@ If "Fix first": stop here and list what the user flagged. Do not write any files
 5. **Update `production/sprint-status.yaml`** (if it exists):
    - Find the entry matching this story's file path or ID
    - Set `status: done` and `completed: [today's date]`
+   - Set `actual_hours: [Y.YY]` (from the Effort section above; if entry has `estimate_hours`, leave it untouched)
    - Update the top-level `updated` field
    - This is a silent update — no extra approval needed (already approved in step above)
 
@@ -385,6 +393,7 @@ After updating the story file, silently append to
     - Verdict: [COMPLETE / COMPLETE WITH NOTES / BLOCKED]
     - Story: [story file path] — [story title]
     - Tech debt logged: [N items, or "None"]
+    - Effort: estimate [X.XX] h / actual [Y.YY] h (variance [±Z%])
     - Next recommended: [next ready story title and path, or "None identified"]
 
 If `active.md` does not exist, create it with this block as the initial content.
