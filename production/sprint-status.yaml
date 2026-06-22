@@ -47,13 +47,14 @@ stories:
     name: "VS 主场景骨架 (江南 explore + 战斗 + outcome 转场)"
     file: "production/sprints/sprint-7.md"
     priority: must-have
-    status: backlog
+    status: in-progress
     owner: ""
     estimate_days: 2.0
     estimate_hours: 16.0
-    actual_hours: null
-    blocker: "depends on S7-VS-Scope-Spike"
+    actual_hours: 2.0
+    blocker: ""
     completed: ""
+    note: "Skeleton landed 2026-06-22: feng-zhi/scenes/vs/{jiangnan_riverside,battle_jiangnan_bandit,battle_outcome_jiangnan}.tscn + feng-zhi/scripts/vs/Jiangnan{FlowController,RiversideGame,BattleGame,OutcomeGame}.cs + JiangnanFlow autoload. dotnet build clean (0 warn / 0 err). Pending: 实机 Godot 编辑器 smoke 加载验证。"
 
   - id: "S7-VS-Combat-Loop"
     name: "Lite Xingqi: 1v1 战斗，复用 BattlePhase 包装观气→出招→破绽→决胜"
