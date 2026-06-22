@@ -71,8 +71,8 @@ production/                  Sprint / 里程碑 / Gate / QA 证据 / 会话状�
 ```bash
 dotnet restore                                       # 还原 .NET 依赖
 scripts/dev/launch-godot.sh                          # 在编辑器中打开 feng-zhi 主工程
-scripts/dev/launch-godot.sh sprint5-harness          # 切到 sprint5-combat-ui-harness
 scripts/dev/launch-godot.sh feng-zhi --run           # 直接运行（替代 F5）
+scripts/dev/launch-godot.sh path/to/project          # 任意 project.godot 目录
 scripts/dev/launch-godot.sh --list                   # 查看已知 project 别名
 ```
 

@@ -6,21 +6,22 @@
 # LaunchServices. We use `open -a` instead.
 #
 # Usage:
-#   scripts/dev/launch-godot.sh [project] [--editor|--run] [--no-check]
+#   scripts/dev/launch-godot.sh [project] [--editor|--run]
 #   scripts/dev/launch-godot.sh --list
 #   scripts/dev/launch-godot.sh -h | --help
 #
 # project aliases:
 #   feng-zhi             -> feng-zhi/                                      (default)
-#   sprint5-harness      -> prototypes/sprint5-combat-ui-harness/
-#   burst-read-concept   -> prototypes/burst-read-combat-concept/engine/
 #   <path>               -> any directory containing project.godot
+#
+# Note: on macOS, `open -a` is idempotent for a given .app bundle — calling the
+# script twice for the same project just activates the existing window rather
+# than launching a second instance, so no dedup is needed.
 #
 # Exit codes:
 #   0  launched ok
 #   1  Godot.app not found
 #   2  project path has no project.godot
-#   3  same project already running (use --no-check to bypass)
 
 set -euo pipefail
 
@@ -31,8 +32,6 @@ GODOT_APP="${GODOT_BIN:-/Applications/Godot_mono.app}"
 resolve_project() {
   case "$1" in
     feng-zhi)            echo "$REPO_ROOT/feng-zhi" ;;
-    sprint5-harness)     echo "$REPO_ROOT/prototypes/sprint5-combat-ui-harness" ;;
-    burst-read-concept)  echo "$REPO_ROOT/prototypes/burst-read-combat-concept/engine" ;;
     /*)                  echo "$1" ;;
     *)                   echo "$REPO_ROOT/$1" ;;
   esac
@@ -47,15 +46,14 @@ list_projects() {
   cat <<EOF
 known project aliases:
   feng-zhi             -> $REPO_ROOT/feng-zhi
-  sprint5-harness      -> $REPO_ROOT/prototypes/sprint5-combat-ui-harness
-  burst-read-concept   -> $REPO_ROOT/prototypes/burst-read-combat-concept/engine
+
+(any other path may be passed directly: scripts/dev/launch-godot.sh path/to/project)
 EOF
   exit 0
 }
 
 PROJECT_ARG="feng-zhi"
 MODE="--editor"
-SKIP_CHECK=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -63,7 +61,6 @@ while [[ $# -gt 0 ]]; do
     --list)           list_projects ;;
     --editor)         MODE="--editor"; shift ;;
     --run)            MODE="--run"; shift ;;
-    --no-check)       SKIP_CHECK=1; shift ;;
     -*)               echo "unknown flag: $1" >&2; exit 64 ;;
     *)                PROJECT_ARG="$1"; shift ;;
   esac
@@ -80,13 +77,6 @@ if [[ ! -f "$PROJECT_DIR/project.godot" ]]; then
   echo "error: $PROJECT_DIR has no project.godot" >&2
   echo "       run '$0 --list' to see known aliases" >&2
   exit 2
-fi
-
-if [[ "$SKIP_CHECK" -eq 0 ]]; then
-  if pgrep -f "Godot.*MacOS/Godot.* --path $PROJECT_DIR" >/dev/null 2>&1; then
-    echo "info: Godot already running for $PROJECT_DIR (use --no-check to launch another instance)" >&2
-    exit 3
-  fi
 fi
 
 ARGS=(--path "$PROJECT_DIR")
