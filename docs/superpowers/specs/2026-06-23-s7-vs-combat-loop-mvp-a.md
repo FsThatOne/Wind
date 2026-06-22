@@ -37,7 +37,8 @@
 - **新建** `feng-zhi/scripts/vs/JiangnanBanditFixture.cs` — `BattleConfig` + 主角 `CharacterLoadout` (2 招) + 小贼 `CharacterLoadout` (2 招) + `ScriptedAI` (Fierce personality)
 - **新建** `feng-zhi/scripts/vs/VsBattleLoopController.cs` — 事件驱动战斗 runtime（包 `BattleInstance.AdvancePhase` + 发布 `BattleEventBus` 事件 + 收集 `CombatUiMoveSelectionIntent` → `BattleAction` 转换 + 等待玩家输入）
 - **新建** `feng-zhi/scripts/vs/VsCombatUiBinder.cs` — `CombatUiEventAdapter.GetSnapshot()` → `CombatHudPanel.ApplyIntentSummary` / `ApplyResourceSnapshot` 的 `_Process` 绑定器
-- **改造** `feng-zhi/scripts/vs/JiangnanBattleGame.cs` — 移除 Win/Lose 占位按钮；构建 `BattleFacade` + bus + `CombatUiRoot.EnterBattle(bus)`；挂载 `CombatMoveSelectionPanel` + `CombatHudPanel`；订阅 `BattleEndEvent` → 调 `flow.GoToOutcome(result)`
+- **改造** `feng-zhi/scripts/vs/JiangnanBattleGame.cs` — 移除 Win/Lose 占位按钮；构建 `BattleFacade` + bus + `CombatUiRoot.EnterBattle(bus)` （保留 adapter snapshot 链路）；订阅 `BattleEndEvent` → 调 `flow.GoToOutcome(result)`
+  - **2026-06-22 23:55 范围微调**：`CombatMoveSelectionPanel` 与 `CombatHudPanel` 直接 mount **推到 `cu-visual-evidence` 子任务**（cu-004 evidence 录制时一并集成，那时已有 BattlePanelDisplayData 链路准备）。MVP-A 改用 **2 个简单 Godot Button + 2 个 HP/Neixi Label**，binder 直接读 `adapter.GetSnapshot()` 应用到自有 label。复用率：从 spike §2.2 假设的 75% → 实际 ~50%（CombatUiEventAdapter + CombatUiRoot + bus 仍保留）。理由：MoveSelectionPanel 需 `MartialArtsUIService.GetBattlePanelDisplay(CharacterLoadout)` 完整链路，超出 MVP-A 1.5d 范围；2 按钮足以验证「全循环可玩」。
 - **改造** `feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn` — 删 `PlaceholderPanel`；占位 ColorRect 背景保留；CanvasLayer 下挂 `CombatUiRoot` 与 `CombatMoveSelectionPanel` 节点（程序化创建即可）
 - **扩展** `feng-zhi/scripts/vs/JiangnanFlowController.cs` — `GoToOutcome` 增加 `BattleResult` 参数；新增 `LastBattleResult` 属性
 - **改造** `feng-zhi/scripts/vs/JiangnanOutcomeGame.cs` — 读 `LastBattleResult`，区分胜/负展示文案

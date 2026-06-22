@@ -1,3 +1,4 @@
+using FengZhi.Foundation.Combat;
 using Godot;
 
 namespace FengZhi.Vs;
@@ -16,6 +17,7 @@ namespace FengZhi.Vs;
 /// </summary>
 public partial class JiangnanOutcomeGame : Node2D
 {
+	private Label _resultTitleLabel = null!;
 	private Button _spareButton = null!;
 	private Button _defeatButton = null!;
 	private Button _continueButton = null!;
@@ -24,6 +26,7 @@ public partial class JiangnanOutcomeGame : Node2D
 
 	public override void _Ready()
 	{
+		_resultTitleLabel = GetNode<Label>("UiLayer/ChoicePanel/TitleLabel");
 		_spareButton = GetNode<Button>("UiLayer/ChoicePanel/SpareButton");
 		_defeatButton = GetNode<Button>("UiLayer/ChoicePanel/DefeatButton");
 		_continueButton = GetNode<Button>("UiLayer/BlurredPanel/ContinueButton");
@@ -33,11 +36,22 @@ public partial class JiangnanOutcomeGame : Node2D
 		_blurredPanel.Visible = false;
 		_continueButton.Visible = false;
 
+		var flow = GetNodeOrNull<JiangnanFlowController>("/root/JiangnanFlow");
+		var battleResult = flow?.LastBattleResult ?? BattleResult.InProgress;
+		_resultTitleLabel.Text = battleResult switch
+		{
+			BattleResult.Victory => "你制服了江湖小贼。如何处置？",
+			BattleResult.Defeat => "你被小贼击倒在地……江湖路远，是放下还是再战？",
+			BattleResult.NarrowDefeat => "两败俱伤。你与小贼都喘息着——",
+			BattleResult.Draw => "战局僵持，江南雾起，小贼退去。",
+			_ => "战斗结束。你如何处置对手？",
+		};
+
 		_spareButton.Pressed += () => HandleChoice(JiangnanFlowController.MindsetChoice.Spare);
 		_defeatButton.Pressed += () => HandleChoice(JiangnanFlowController.MindsetChoice.Defeat);
 		_continueButton.Pressed += ReturnToExplore;
 
-		GD.Print("[JiangnanOutcome] Ready.");
+		GD.Print($"[JiangnanOutcome] Ready. BattleResult = {battleResult}");
 	}
 
 	private void HandleChoice(JiangnanFlowController.MindsetChoice choice)

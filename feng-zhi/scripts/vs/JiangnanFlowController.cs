@@ -1,3 +1,4 @@
+using FengZhi.Foundation.Combat;
 using Godot;
 
 namespace FengZhi.Vs;
@@ -49,6 +50,9 @@ public partial class JiangnanFlowController : Node
 	public MindsetChoice LastMindsetChoice { get; private set; } = MindsetChoice.None;
 	public bool HasCompletedBattleOnce { get; private set; }
 
+	/// <summary>上一场战斗结果（仅 outcome scene 期间有意义）。</summary>
+	public BattleResult LastBattleResult { get; private set; } = BattleResult.InProgress;
+
 	public override void _Ready()
 	{
 		GD.Print("[JiangnanFlow] Boot. Awaiting first scene transition.");
@@ -70,11 +74,17 @@ public partial class JiangnanFlowController : Node
 		GetTree().ChangeSceneToFile(BattleJiangnanScenePath);
 	}
 
-	public void GoToOutcome()
+	/// <summary>
+	/// 战斗结束后进入 outcome scene。
+	/// </summary>
+	/// <param name="result">战斗结果；BattleResult.InProgress 视为占位（旧 placeholder 调用兼容）。</param>
+	public void GoToOutcome(BattleResult result = BattleResult.InProgress)
 	{
 		LogTransition(CurrentPhase, Phase.Outcome);
 		CurrentPhase = Phase.Outcome;
 		HasCompletedBattleOnce = true;
+		LastBattleResult = result;
+		GD.Print($"[JiangnanFlow] LastBattleResult = {result}");
 		EmitSignal(SignalName.PhaseChanged, (int)CurrentPhase);
 		GetTree().ChangeSceneToFile(OutcomeJiangnanScenePath);
 	}
