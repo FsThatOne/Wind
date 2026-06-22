@@ -24,6 +24,10 @@ window/canvas_textures/default_texture_filter=1
 
 project/assembly_name="FengZhi"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/scene_markup_tool/plugin.cfg")
+
 [input]
 
 move_left={

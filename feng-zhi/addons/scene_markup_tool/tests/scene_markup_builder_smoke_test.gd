@@ -8,6 +8,7 @@ func _init() -> void:
 	failed = _test_walkable_navigation_polygon() or failed
 	failed = _test_occluder_uv_for_scaled_uncentered_background() or failed
 	failed = _test_invalid_polygon_does_not_create_nodes() or failed
+	failed = _test_incrementing_names() or failed
 	quit(1 if failed else 0)
 
 func _test_layers_and_collision() -> bool:
@@ -118,6 +119,23 @@ func _test_invalid_polygon_does_not_create_nodes() -> bool:
 	ok = ok and not occluder_scene_root.has_node("SceneMarkupRoot")
 	occluder_scene_root.free()
 	return _report("invalid polygon rejection", ok)
+
+func _test_incrementing_names() -> bool:
+	var scene_root: Node2D = Node2D.new()
+	scene_root.name = "SmokeScene"
+	var points: PackedVector2Array = PackedVector2Array([
+		Vector2(0, 0),
+		Vector2(32, 0),
+		Vector2(32, 32),
+		Vector2(0, 32),
+	])
+
+	var first: StaticBody2D = Builder.create_collision(scene_root, points)
+	var second: StaticBody2D = Builder.create_collision(scene_root, points)
+	var ok: bool = first.name == "Collision_001"
+	ok = ok and second.name == "Collision_002"
+	scene_root.free()
+	return _report("incrementing names", ok)
 
 func _report(label: String, ok: bool) -> bool:
 	if ok:

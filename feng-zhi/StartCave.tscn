@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://c3tk627h43mvr" path="res://起始山洞.png" id="1_cv6gc"]
 [ext_resource type="Script" uid="uid://ba18jmqmjkaeh" path="res://scripts/StartCaveGame.cs" id="2_game"]
 [ext_resource type="Script" uid="uid://be7ndon7kitpg" path="res://scripts/CavePlayer.cs" id="3_player"]
-[ext_resource type="SpriteFrames" uid="uid://bfa3f21usr4mb" path="res://assets/characters/protagonist/protagonist_walk_8dir_spriteframes.tres" id="4_player_frames"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dvfh"]
 size = Vector2(53, 19)
@@ -27,10 +26,9 @@ position = Vector2(155, 474)
 script = ExtResource("3_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=2021240824]
-position = Vector2(1.9073486e-06, -78.00002)
+position = Vector2(-15, -155.00002)
 scale = Vector2(0.60375, 0.6969812)
-sprite_frames = ExtResource("4_player_frames")
-animation = &"walk_nw"
+animation = &""
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=99466050]
 position = Vector2(0, -16)
@@ -72,7 +70,6 @@ shape = SubResource("RectangleShape2D_default")
 [node name="UiLayer" type="CanvasLayer" parent="." unique_id=973147632]
 
 [node name="PromptLabel" type="Label" parent="UiLayer" unique_id=901776715]
-visible = false
 offset_left = 432.0
 offset_top = 560.0
 offset_right = 720.0
@@ -88,7 +85,6 @@ offset_bottom = 54.0
 text = "任务物品：未取得寿酒"
 
 [node name="MessagePanel" type="Panel" parent="UiLayer" unique_id=667677775]
-visible = false
 offset_left = 176.0
 offset_top = 470.0
 offset_right = 976.0

@@ -20,6 +20,9 @@ func _exit_tree() -> void:
 func _get_plugin_name() -> String:
 	return "Scene Markup Tool"
 
+func _handles(object: Object) -> bool:
+	return object is CanvasItem
+
 func _forward_canvas_gui_input(event: InputEvent) -> bool:
 	if _dock == null:
 		return false
