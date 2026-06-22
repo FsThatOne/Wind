@@ -632,3 +632,7 @@
 - Files updated: docs/architecture/adr-0019-2d-wuxia-tactics-rendering-direction.md, docs/architecture/adr-0020-pure-2d-wuxia-rendering-direction.md, docs/architecture/architecture-review-2026-06-22.md (新), docs/architecture/traceability-index.md, docs/consistency-failures.md, design/art/art-bible.md, design/gdd/game-concept.md, design/gdd/item-system.md, design/gdd/map-scene-management.md, design/gdd/systems-index.md (#12 → Needs Revision), production/epics/combat-system/EPIC.md
 - Top ADR gaps: None
 - Report: docs/architecture/architecture-review-2026-06-22.md
+
+<!-- SMOKE RUN: 2026-06-22 | Sprint: Sprint 5 全作用域 close-out | Verdict: PASS | Report: production/qa/smoke-2026-06-22-sprint-5.md -->
+
+<!-- QA RUN: 2026-06-22 | Sprint: Sprint 5 全作用域 close-out | Verdict: APPROVED WITH CONDITIONS | Report: production/qa/qa-signoff-sprint-5-2026-06-22.md -->

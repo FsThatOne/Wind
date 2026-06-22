@@ -14,7 +14,7 @@ goal: "Combat UI Hardening & Presentation Cutoff — close cu-006 Godot 4.7-stab
 start: "2026-06-19"
 end: "2026-07-03"
 generated: "2026-06-18"
-updated: "2026-06-21"
+updated: "2026-06-22"
 
 stories:
   - id: "S6-Commit-Workspace"
@@ -31,11 +31,11 @@ stories:
     name: "运行 /smoke-check sprint 5 + /team-qa sprint 5"
     file: "production/sprints/sprint-6.md"
     priority: must-have
-    status: ready-for-dev
+    status: done
     owner: ""
     estimate_days: 0.5
     blocker: ""
-    completed: ""
+    completed: "2026-06-22"
 
   - id: "cu-006-godot-integration"
     name: "cu-006 一击决胜 Godot 4.7-stable 实机集成 + ICombatService Facade"
