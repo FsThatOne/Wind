@@ -16,14 +16,14 @@
 
 | ID | Task | Owner | Est. Days | Dependencies | Acceptance Criteria |
 |---|---|---|---|---|---|
-| S7-VS-Scope-Spike | VS 范围决策 spike：(a) 第一章·江南场景结构与剧情节拍；(b) 判定 combat-system epic（done）是否兼容行气战棋（观/动）或需要 partial 重写；(c) 输出 VS scope document + 风险表 | Architect / Designer / Producer | 1.0d | — | `docs/superpowers/specs/2026-06-23-vs-scope-spike.md` 含：场景骨架图、combat 复用率评估（≥%/ 重写 plan）、5-10 分钟可玩性目标、out-of-scope 列表；Day 1 完成 |
+| ~~S7-VS-Scope-Spike~~ | **Done 2026-06-22** — VS 范围决策 spike，输出 [`docs/superpowers/specs/2026-06-23-vs-scope-spike.md`](../../docs/superpowers/specs/2026-06-23-vs-scope-spike.md)。**Verdict: Option B · Lite Xingqi VS**（combat-system 复用率 75%，**0 个新 cb-* story**，sprint 节省 0.75d 进 buffer） | Architect / Designer / Producer | ~~1.0d~~ → 0.5d actual | — | spike doc 已落盘；user sign-off pending |
 | S7-Day1-Smoke-Startup | qa-tester Day 1 手工实机启动 StartCave / 主战斗 scene 确认（cleanup commit 后基线确认） | QA | 0.25d | — | `production/qa/evidence/s7-day1-smoke-2026-06-23.md` 含截图 + 操作记录；记入 active.md；gate Condition §2 / W2 闭环 |
 | S7-VS-Foundation-Scene | VS 主场景骨架（Godot 4.7 + scene-markup-tool addon）：1 个江南探索场景 + 1 个战斗场景 + 转场逻辑 | Gameplay-Programmer / Tools-Programmer | 2.0d | S7-VS-Scope-Spike done | StartCave 类 entry → 江南 explore scene → trigger → 战斗 scene → outcome scene 闭环；scene-markup-tool 标注可交互元素；scenes 在 4.7 编辑器无 import error |
-| S7-VS-Combat-Loop | 行气战棋（观/动两阶段）在 VS 内跑通 1 场完整战斗，复用 combat-system / martial-arts-system / enemy-ai 已 done epic（或按 spike 输出做必要 partial 重写） | Gameplay-Programmer | 2.0d | S7-VS-Scope-Spike done, S7-VS-Foundation-Scene done | 1 场 1v1 战斗在 VS 战斗 scene 中可完整进入 → 观 → 动 → 一击决胜或正常结算 → 退出；Foundation 1367 测试无回归 |
-| S7-VS-Outcome-Feedback | 战后心境双轴位移 + 朦胧化战后面板（mindset-dual-axis + blurred-ui 集成）in VS | Gameplay-Programmer / UI-Programmer | 1.0d | S7-VS-Combat-Loop done | 战斗结束触发 mindset 位移事件 → 朦胧化战后面板渲染 → 返回 explore scene；事件链路在 active.md 留 trace |
+| S7-VS-Combat-Loop | **Lite Xingqi**：1 场 1v1 战斗，复用现有 BattlePhase 包装"观气→出招→破绽→决胜"语言，**0 个新 cb-* story**。主要工作 = fixture 配置 + UI 文案语义调整 + 转场 wiring | Gameplay-Programmer | ~~2.0d~~ → 1.5d | S7-VS-Foundation-Scene done | 1 场 1v1 战斗在 VS 战斗 scene 中可完整进入 → 观气 → 出招 → 破绽 → 决胜/普通结算 → 退出；Foundation 1367 测试无回归；spike §3 Out-of-Scope 项严格不实现 |
+| S7-VS-Outcome-Feedback | 战后心境双轴位移 + 朦胧化战后面板（mindset-dual-axis + blurred-ui partial 实现 1 个面板）in VS | Gameplay-Programmer / UI-Programmer | ~~1.0d~~ → 1.25d | S7-VS-Combat-Loop done | 战斗结束触发 mindset 位移事件 → 朦胧化战后面板渲染（partial 实现）→ 返回 explore scene；事件链路在 active.md 留 trace |
 | cu-visual-evidence | 4 份 visual evidence 在 VS 上录制（cu-004 招式面板 / cu-005 反制+决胜提示 / cu-006 一击决胜 / cu-008 双焦点）；4 份 evidence MD 段 `(Sprint 7 carryover — Pending)` → `Visual Captured` + designer 与 qa-lead 双签 | Designer / QA / Dev | 0.75d | S7-VS-Combat-Loop done | 每份 evidence MD ≥1 段录屏 + ≥3 张关键截图；素材挂 `production/qa/evidence/media/`；4 份 status 升级为 `Visual Captured`；gate C-VS / C-PLAYTEST §Condition 1 闭环 |
 
-**Total Must-Have**: 7.0d
+**Total Must-Have**: ~~7.0d~~ → **6.25d**（spike Day 1 完成后调整，节省 0.75d 进 buffer）
 
 ### Should Have
 
@@ -71,7 +71,9 @@
 
 | Risk | Probability | Impact | Mitigation |
 |---|---|---|---|
-| combat-system epic（done）是基于 Burst+Read，行气战棋需要 partial 重写 | **High** | High | Day 1 S7-VS-Scope-Spike 量化复用率；若 < 50% 需 spike 报告中拆出新 story 并申请 scope 调整（/scope-check combat-system） |
+| ~~combat-system epic（done）是基于 Burst+Read，行气战棋需要 partial 重写~~ | ~~High~~ | ~~High~~ | **Resolved by spike (2026-06-22)** — code 是 mechanism-neutral 回合制框架，复用率 75%；选 Option B Lite Xingqi VS，**0 个新 cb-* story**。详见 [vs-scope-spike doc](../../docs/superpowers/specs/2026-06-23-vs-scope-spike.md) §2-3 |
+| Lite VS playtest 反馈"没行气感"（行气条 / 棋盘 OOS） | Medium | Medium | 接受为 Sprint 8 输入；不是 Sprint 7 fail 信号；若必加，则 Sprint 8 拆 cb-011 行气条 + cb-012 棋盘 |
+| `blurred-ui` epic Ready 但 unstarted，VS 需 partial 实现 1 个战后面板 | High | Medium | S7-VS-Outcome-Feedback +0.25d；不展开 blurred-ui epic 全部 stories |
 | VS spike 范围失控（1 章扩到多章 / 多 loop） | Medium | High | 严格限：1 江南场景 + 1 战斗场景 + 1 outcome；超出立即 /scope-check |
 | VS 不可玩（prove-or-pivot 决策点） | Medium | Critical | Playtest 失败 → Sprint 8 不开新 epic，先 brainstorm + ADR pivot |
 | Visual evidence 录制要现场设计 capture flow（harness 已删） | Medium | Medium | scene-markup-tool 加入 capture overlay；cu-006 7-phase 验证用 Godot 内 debug overlay 不依赖 harness |

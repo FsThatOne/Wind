@@ -21,13 +21,15 @@ stories:
     name: "VS 范围决策 spike (combat 复用率 + 江南场景骨架)"
     file: "production/sprints/sprint-7.md"
     priority: must-have
-    status: ready-for-dev
+    status: done
     owner: ""
     estimate_days: 1.0
     estimate_hours: 8.0
-    actual_hours: null
+    actual_hours: 4.0
     blocker: ""
-    completed: ""
+    completed: "2026-06-22"
+    deliverable: "docs/superpowers/specs/2026-06-23-vs-scope-spike.md"
+    verdict: "Option B · Lite Xingqi VS (combat 复用率 75%, 0 new cb-* story)"
 
   - id: "S7-Day1-Smoke-Startup"
     name: "Day 1 手工实机启动确认 (gate Condition §2 / W2)"
@@ -54,28 +56,30 @@ stories:
     completed: ""
 
   - id: "S7-VS-Combat-Loop"
-    name: "行气战棋 (观/动) 在 VS 内跑通 1 场战斗"
+    name: "Lite Xingqi: 1v1 战斗，复用 BattlePhase 包装观气→出招→破绽→决胜"
     file: "production/sprints/sprint-7.md"
     priority: must-have
     status: backlog
     owner: ""
-    estimate_days: 2.0
-    estimate_hours: 16.0
+    estimate_days: 1.5
+    estimate_hours: 12.0
     actual_hours: null
-    blocker: "depends on S7-VS-Scope-Spike + S7-VS-Foundation-Scene"
+    blocker: "depends on S7-VS-Foundation-Scene"
     completed: ""
+    note: "Re-estimated 2026-06-22 from 2.0d → 1.5d per vs-scope-spike §7 (75% combat reuse, 0 new cb-* story)"
 
   - id: "S7-VS-Outcome-Feedback"
-    name: "战后心境双轴位移 + 朦胧化战后面板 (mindset-dual-axis + blurred-ui 集成)"
+    name: "战后心境位移 + 朦胧化战后面板 (mindset-dual-axis + blurred-ui partial)"
     file: "production/sprints/sprint-7.md"
     priority: must-have
     status: backlog
     owner: ""
-    estimate_days: 1.0
-    estimate_hours: 8.0
+    estimate_days: 1.25
+    estimate_hours: 10.0
     actual_hours: null
     blocker: "depends on S7-VS-Combat-Loop"
     completed: ""
+    note: "Re-estimated 2026-06-22 from 1.0d → 1.25d per vs-scope-spike §7 (含 blurred-ui partial 1 个面板)"
 
   - id: "cu-visual-evidence"
     name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence — 在 VS 上录制"
