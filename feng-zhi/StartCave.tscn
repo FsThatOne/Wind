@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c3tk627h43mvr" path="res://起始山洞.png" id="1_cv6gc"]
 [ext_resource type="Script" uid="uid://ba18jmqmjkaeh" path="res://scripts/StartCaveGame.cs" id="2_game"]
 [ext_resource type="Script" uid="uid://be7ndon7kitpg" path="res://scripts/CavePlayer.cs" id="3_player"]
+[ext_resource type="SpriteFrames" uid="uid://b8mc2haranim8" path="res://assets/character/main_character.tres" id="4_frames"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dvfh"]
 size = Vector2(53, 19)
@@ -28,7 +29,8 @@ script = ExtResource("3_player")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=2021240824]
 position = Vector2(-15, -155.00002)
 scale = Vector2(0.60375, 0.6969812)
-animation = &""
+sprite_frames = ExtResource("4_frames")
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=99466050]
 position = Vector2(0, -16)
@@ -97,3 +99,12 @@ offset_top = 18.0
 offset_right = 776.0
 offset_bottom = 132.0
 autowrap_mode = 3
+
+[node name="SceneMarkupRoot" type="Node2D" parent="." unique_id=2049980799]
+
+[node name="Collisions" type="Node2D" parent="SceneMarkupRoot" unique_id=672133579]
+
+[node name="Collision_001" type="StaticBody2D" parent="SceneMarkupRoot/Collisions" unique_id=607947714]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SceneMarkupRoot/Collisions/Collision_001" unique_id=507148648]
+polygon = PackedVector2Array(50.82898, 171.89488, 50.394073, 167.54588, 66.92023, 166.6761, 73.443695, 168.4157, 73.443695, 178.41835, 78.662476, 181.89754, 79.09738, 187.11632, 79.09738, 194.9445, 79.09738, 202.77266, 79.09738, 204.94716, 87.36044, 226.25719, 76.92288, 237.12965, 71.7041, 237.56456, 55.177948, 227.12697, 41.696106, 219.29881, 41.696106, 204.07735, 43.000793, 185.37672, 50.394073, 181.46263, 50.394073, 175.37407)

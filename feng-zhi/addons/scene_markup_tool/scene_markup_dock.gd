@@ -23,12 +23,14 @@ var _mode: MarkupMode = MarkupMode.COLLISION
 var _current_points: PackedVector2Array = PackedVector2Array()
 var _show_helpers: bool = true
 var _z_preset: String = "前景中"
+var _anti_mistap_enabled: bool = true
 
 var _background_label: Label = null
 var _status_label: Label = null
 var _mode_options: OptionButton = null
 var _z_options: OptionButton = null
 var _helper_check: CheckBox = null
+var _anti_mistap_check: CheckBox = null
 
 func setup(editor_interface: EditorInterface, undo_redo: EditorUndoRedoManager, plugin: EditorPlugin) -> void:
 	_editor_interface = editor_interface
@@ -43,7 +45,15 @@ func forward_canvas_gui_input(event: InputEvent) -> bool:
 
 	if event is InputEventMouseButton and event.pressed:
 		var mouse_event: InputEventMouseButton = event as InputEventMouseButton
+		var with_cmd: bool = mouse_event.is_command_or_control_pressed()
+
+		if mouse_event.button_index == MOUSE_BUTTON_RIGHT and with_cmd:
+			return _undo_last_point()
+
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT:
+			if _anti_mistap_enabled and not with_cmd:
+				_set_status("防误触已开启，请按住 Cmd/Ctrl + 左键 添加点。")
+				return true
 			_current_points.append(_get_canvas_mouse_position(mouse_event.position))
 			_set_status("已添加 %d 个点。" % _current_points.size())
 			_request_overlay_update()
@@ -51,8 +61,12 @@ func forward_canvas_gui_input(event: InputEvent) -> bool:
 		if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
 			return _complete_polygon()
 
-	if event is InputEventKey and event.pressed and not event.echo:
+	if event is InputEventKey and event.pressed:
 		var key_event: InputEventKey = event as InputEventKey
+		if key_event.keycode == KEY_BACKSPACE:
+			return _undo_last_point()
+		if key_event.echo:
+			return false
 		if key_event.keycode == KEY_ENTER or key_event.keycode == KEY_KP_ENTER:
 			return _complete_polygon()
 		if key_event.keycode == KEY_ESCAPE:
@@ -105,9 +119,15 @@ func _build_ui() -> void:
 	_helper_check.toggled.connect(_on_helper_toggled)
 	add_child(_helper_check)
 
+	_anti_mistap_check = CheckBox.new()
+	_anti_mistap_check.text = "启用防误触（Cmd+左键 加点）"
+	_anti_mistap_check.button_pressed = true
+	_anti_mistap_check.toggled.connect(_on_anti_mistap_toggled)
+	add_child(_anti_mistap_check)
+
 	var hint: Label = Label.new()
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hint.text = "左键逐点圈选，右键或回车闭合，Esc 取消当前圈选。"
+	hint.text = "Cmd+左键 加点（防误触开启时），右键闭合，Cmd+右键 / Backspace 撤回上一个点，回车闭合，Esc 取消。"
 	add_child(hint)
 
 	_status_label = Label.new()
@@ -135,6 +155,10 @@ func _on_z_selected(index: int) -> void:
 func _on_helper_toggled(enabled: bool) -> void:
 	_show_helpers = enabled
 	_request_overlay_update()
+
+func _on_anti_mistap_toggled(enabled: bool) -> void:
+	_anti_mistap_enabled = enabled
+	_set_status("防误触：%s。" % ("已开启" if enabled else "已关闭"))
 
 func _set_status(message: String) -> void:
 	if _status_label != null:
@@ -264,3 +288,12 @@ func _create_markup_node(scene_root: Node, points: PackedVector2Array) -> Node:
 		MarkupMode.OCCLUDER:
 			return Builder.create_occluder(scene_root, _background, points, int(Z_PRESETS[_z_preset]))
 	return null
+
+func _undo_last_point() -> bool:
+	if _current_points.is_empty():
+		_set_status("没有可撤回的点。")
+		return false
+	_current_points.remove_at(_current_points.size() - 1)
+	_set_status("已撤回一个点，剩余 %d 个。" % _current_points.size())
+	_request_overlay_update()
+	return true

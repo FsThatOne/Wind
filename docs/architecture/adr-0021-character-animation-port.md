@@ -7,7 +7,7 @@ Accepted
 2026-06-22
 
 ## Last Verified
-2026-06-22
+2026-06-22 (扩展点 1 落地 + feng-zhi CavePlayer 迁移 + 实机走查通过)
 
 ## Summary
 
@@ -197,7 +197,7 @@ combat-ui.md、exploration-insight.md、cutscene-system.md、living-jianghu-laye
 |---|---|
 | 1 (已完成) | Port + 类型 + Fake + Adapter + 8 单元测试 |
 | 2 | Sprint 5/6 新增战斗角色场景一律使用 `AnimatedSprite2DAnimator`，作为教科书示例 |
-| 3 | 引入 `EightDirectionAnimatedSprite2DAnimator`（兄弟接口路径），迁移 `CavePlayer.cs` |
+| 3 ✅ (2026-06-22) | 引入 `EightDirectionAnimatedSprite2DAnimator`（兄弟接口路径），迁移 `CavePlayer.cs`；feng-zhi 项目加 `<ProjectReference>` 接通 Foundation；32 帧 PNG 落到 `feng-zhi/assets/character/main_character_16bit_8dir/`；SpriteFrames 资源 `main_character.tres` 含 idle + 8 方向 walk_* |
 | 4 | 评估 Skeleton2D / DragonBones / Spine，按需新增 Adapter；接口本体保持不变 |
 
 ## Validation Criteria
@@ -205,7 +205,7 @@ combat-ui.md、exploration-insight.md、cutscene-system.md、living-jianghu-laye
 1. ✅ `FakeCharacterAnimator` 8 单元测试全绿（Foundation 1367/1367）
 2. ⏳ `AnimatedSprite2DAnimator` 集成测试随 Sprint 5/6 首个消费方落地（覆盖 Play 4 状态 + Finished + Stop + Facing）
 3. ⏳ Lint 守护脚本：扫描 `src/`、`feng-zhi/scripts/`、`prototypes/*/scripts/` 下新增的 `using.*AnimatedSprite2D`，仅允许列入白名单的 Adapter 与 `CavePlayer.cs` 待迁移特例
-4. ⏳ 8 方向兄弟接口扩展时不破坏现有 `ICharacterAnimator` 契约（`AnimatedSprite2DAnimator` 测试无变化）
+4. ✅ (2026-06-22) 8 方向兄弟接口 `IDirectionalCharacterAnimator` 扩展无破坏现有 `ICharacterAnimator` 契约（Foundation 1378/1378 PASS，原 1367 + 8 方向新增 11）；feng-zhi 实机走查方向键 8 向切换 + 报错 `There is no animation with name ''.` 消失
 
 ## Related Decisions
 
