@@ -22,7 +22,7 @@
 | S6-Commit-Workspace | commit Sprint 5 工作树（cu-006 / cu-007 / harness 扩展 / evidence MD / tech-debt-register / sprint-status.yaml / active.md），按 `/story-done` suggested commits 分批提交 | Dev | 0.25 | Sprint 5 retro Action #1 | `git status` 干净；4 条提交对应 cu-006 / cu-007 / harness / 状态文件；commit message 符合 conventional commits 模板 |
 | S6-Sprint5-DoD | 运行 `/smoke-check sprint 5` + `/team-qa sprint 5`，产出 `production/qa/smoke-2026-06-19-sprint-5.md` 与 `production/qa/qa-signoff-sprint-5-*.md` | QA / Dev | 0.5 | S6-Commit-Workspace；retro Action #2 | smoke PASS / team-qa APPROVED 或 APPROVED WITH CONDITIONS；Sprint 5 DoD 中 Smoke check passed + QA sign-off report 两条真正闭合 |
 | cu-006-godot-integration | cu-006 一击决胜在 Godot 4.7-stable 实机集成：`Engine.TimeScale` 接管 + `Tween.TweenProcessMode.Always` + `Camera2D` priority bus + `InputMap` block；同时暴露 `ICombatService` Facade 给 cu-001 / cu-005 调用 | godot-csharp-specialist | 0.75 | cu-006 Foundation；retro Action #3 | 7-phase choreography 在 Godot 实机走通；TimeScale 0.4 → 0.0 → 1.0 实测；CameraRequestBus 高优先级抢占；输入封锁恢复正常；ICombatService Facade `RequestDecisiveStrike` 可被外部调用并接入 BattleEventBus |
-| cu-visual-evidence | cu-004 招式面板 / cu-005 反制+决胜提示 / cu-006 一击决胜实机录屏 / cu-008 双焦点 — 4 份 manual evidence MD（含截图或录屏） | QA / Dev | 0.75 | cu-006-godot-integration | 4 份 evidence MD 各含 ≥3 张截图或 1 段录屏；evidence 文件挂在 `production/qa/evidence/cu-00X-*.md` 并把原 `Foundation Captured` 升级为 `Visual Captured` |
+| cu-visual-evidence | **[Carryover → Sprint 7]** cu-004 招式面板 / cu-005 反制+决胜提示 / cu-006 一击决胜实机录屏 / cu-008 双焦点 — 4 份 manual evidence MD（含截图或录屏） | QA / Dev | 0.75 | cu-006-godot-integration | **2026-06-22 决策**：harness 已删除，且 Sprint 7 ADR-0020 全循环 VS 会同步产出新的 visual baseline；本项 carryover 到 Sprint 7，与 VS 重建合并出新 evidence。详见 §Carryover to Next Sprint。 |
 | S6-Commit-Lint | 引入 commit message lint：禁止 `阶段性提交` / `init(test):` 等无信号 commit；推荐 conventional commits + scope；落 `.gitmessage` 模板 + manual lint script | Dev | 0.25 | retro Action #4 | `.gitmessage` 模板 + lint script 落仓；`docs/git-workflow.md`（或 CONTRIBUTING.md）记录 commit 规范；Sprint 6 首个 PR 强制走规范 |
 
 **Must Have 小计**：≈2.5 estimate-days
@@ -43,6 +43,12 @@
 |----|------|-------------|-----------|--------------|---------------------|
 | S6-Next-Presentation-Cut | 拆分下一 Presentation 系统 stories（候选：audio-system / blurred-ui，先选有 ADR 覆盖的） | game-designer | 1.0 | S6-Combat-UI-Epic-Close | 一个 Ready epic 拆出 ≥4 stories，符合 story readiness 模板 |
 | cu-008-Gamepad-HW-Verify | 手柄硬件实机走查（如手柄到位） | QA | 0.5 | 手柄硬件 | hardware screenshot + `production/qa/evidence/cu-008-gamepad-hw.md` |
+
+## Carryover to Next Sprint (Sprint 7)
+
+| Task | Reason | New Owner | Linked Concern |
+|------|--------|-----------|----------------|
+| cu-visual-evidence | (1) `prototypes/sprint5-combat-ui-harness/` 已在 commit `c8d8c14` 主动删除（与 burst-read spike / 134 个旧 protagonist 资产同清理），原计划的 fixture 录屏路径失效；(2) Sprint 7 第一优先级 = ADR-0020 全循环 VS 重建（gate-tech-setup-to-pre-production-2026-06-22 §C-VS），新 VS 会同步产出 visual baseline，cu-004/005/006/008 visual evidence 应在新 VS 上录制以代表当前架构。 | QA / Dev (Sprint 7) | gate §C-VS, §C-PLAYTEST |
 
 ## Carryover from Previous Sprint
 
@@ -79,7 +85,7 @@
 - [ ] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint 6`)
 - [ ] **Sprint 5 Definition of Done 真正闭合**（S6-Sprint5-DoD 产出 smoke + team-qa 文档）
 - [ ] No S1 or S2 bugs in delivered features
-- [ ] **combat-ui EPIC 8/8 stories Done + 实机验证 + EPIC.md status: Done**
+- [x] **combat-ui EPIC 8/8 stories Done + 实机验证 + EPIC.md status: Done**（2026-06-22 S6-Combat-UI-Epic-Close done；cu-visual-evidence Visual baseline carryover 到 Sprint 7，详见 §Carryover to Next Sprint）
 - [ ] **工作树干净** — `git status` 无 untracked / modified residue
 - [ ] Code reviewed and merged
 - [ ] hour-level actual effort 写入每条 `/story-done` session log（含 estimate vs actual 对照）

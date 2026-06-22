@@ -51,7 +51,9 @@
 
 ---
 
-## Visual Captured (Sprint 6 — Pending)
+## Visual Captured (Sprint 7 carryover — Pending)
+
+> **2026-06-22 改派**：原计划 Sprint 6 在 `prototypes/sprint5-combat-ui-harness` 上录屏。harness 已于 commit `c8d8c14` 主动删除（与 burst-read spike / 134 个旧 protagonist 资产同清理）。本段 visual evidence 推迟到 Sprint 7 的 ADR-0020 全循环 VS 重建上录制，确保 evidence 代表当前架构（纯 2D 武侠 + 行气战棋）。原 Foundation Captured 段保持只读。
 
 > 本段为 Sprint 6 `cu-visual-evidence` story 的模板占位；待 designer 录屏 / 截图后填入并切换为 Visual Captured。
 

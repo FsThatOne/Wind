@@ -654,3 +654,17 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
 - 文档类 task 估算长期高估 60%+，下个 sprint 起 doc-only task 默认 ≤0.25d / 2h。
 - 唯一正方差是 Godot 实机集成 (cu-006-godot-integration)，与 Sprint 5 retro Action #5 中"engine integration 仍是估算最大不确定来源"一致。
 - 待回填：cu-visual-evidence / S6-Next-Presentation-Cut / cu-008-Gamepad-HW-Verify（done 时再补 actual_hours）。
+
+## Session Extract — cu-visual-evidence Carryover Decision 2026-06-22
+
+- **决策**：cu-visual-evidence (must-have, ready-for-dev) **carryover 到 Sprint 7**，不在 Sprint 6 完成。
+- **原因**：
+  1. `prototypes/sprint5-combat-ui-harness/` 已在 commit `c8d8c14` 主动删除（与 burst-read-combat-concept spike / 134 个旧 protagonist 资产同清理）；原计划的 4 个 fixture (`decisive_gang` / `decisive_rou` / `decisive_qiao` / `decisive_pause_conflict`) 录屏路径已断。
+  2. Sprint 7 第一优先级 = ADR-0020 全循环 Vertical Slice 重建（见 `production/gate-checks/gate-tech-setup-to-pre-production-2026-06-22.md` §C-VS / §C-PLAYTEST）。新 VS 会同步产出代表当前架构（纯 2D 武侠 + 行气战棋）的 visual baseline。
+  3. 在已删除的 spike 上录屏 = 在过时架构上拍 evidence；与 Sprint 7 VS 合并出新 evidence = 一次到位、不重复劳动。
+- **影响文件**：
+  - `production/sprint-status.yaml` — cu-visual-evidence status: ready-for-dev → backlog；加 `carryover_to_sprint: 7`；blocker 字段填决策理由
+  - `production/sprints/sprint-6.md` — Must Have 表 cu-visual-evidence 行加 `[Carryover → Sprint 7]` 标记；新增 §Carryover to Next Sprint；DoD `combat-ui EPIC 8/8` checkbox 标 done with note
+  - `production/qa/evidence/cu-{004,005,006,008}-*.md` — 4 份 Visual Captured 段标题 `(Sprint 6 — Pending)` → `(Sprint 7 carryover — Pending)`，并加改派说明
+- **Sprint 6 关账影响**：Must Have 4/5 完成（其余 4 项 done + cu-visual-evidence carryover），Should Have 3/3 done。可继续走 `/smoke-check sprint 6` → `/team-qa sprint 6` → `/retrospective sprint 6` 闭环。
+- **Sprint 7 启动锚点**：retrospective 输出 + 本决策 → Sprint 7 plan 必须包含「ADR-0020 全循环 VS 重建 + cu-visual-evidence 4 份 evidence 在新 VS 上录制」。

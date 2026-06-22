@@ -57,13 +57,14 @@ stories:
     name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence"
     file: "production/sprints/sprint-6.md"
     priority: must-have
-    status: ready-for-dev
+    status: backlog
     owner: ""
     estimate_days: 0.75
     estimate_hours: 6.0
     actual_hours: null
-    blocker: ""
+    blocker: "Carryover → Sprint 7：harness 已于 c8d8c14 删除（与 burst-read spike 等过时 spike 同清理），Sprint 7 ADR-0020 全循环 VS 重建会同步产出新的 visual baseline，避免在两套 spike 上重复录屏。"
     completed: ""
+    carryover_to_sprint: 7
 
   - id: "S6-Commit-Lint"
     name: "Commit message lint + .gitmessage 模板"
