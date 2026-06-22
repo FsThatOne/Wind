@@ -1,7 +1,7 @@
-# Claude Code Game Studios -- Game Studio Agent Architecture
+# 《风止》 — Claude Code 协作配置
 
-Indie game development managed through 49 coordinated Claude Code subagents.
-Each agent owns a specific domain, enforcing separation of concerns and quality.
+《风止》（FengZhi）是一款 2D 像素武侠 RPG，由个人 + 一组协调的 Claude Code subagent
+共同开发。每个 agent 拥有专属领域，强制分层与质量门控。项目概览见 [README.md](README.md)。
 
 ## Technology Stack
 
