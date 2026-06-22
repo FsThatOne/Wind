@@ -2,7 +2,7 @@
 
 > **Status**: Designed
 > **Created**: 2026-06-02
-> **Last Updated**: 2026-06-16
+> **Last Updated**: 2026-06-22
 > **Source Concept**: design/gdd/game-concept.md
 
 ---
@@ -30,7 +30,7 @@
 | 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Designed | [main-narrative.md](main-narrative.md) | 对话系统, 地图/场景管理 |
 | 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Designed | [npc-state.md](npc-state.md) | — |
 | 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Designed | [natural-day-stamina.md](natural-day-stamina.md) | 角色属性, 地图/场景管理 |
-| 12 | 地图 / 场景管理 | Core | Vertical Slice | Needs Revision | [map-scene-management.md](map-scene-management.md) | — |
+| 12 | 地图 / 场景管理 | Core | Vertical Slice | Designed | [map-scene-management.md](map-scene-management.md) | — |
 | 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Designed | [romance-system.md](romance-system.md) | 心境双轴, NPC 状态管理, 对话系统 |
 | 14 | 朦胧化 UI | UI | Vertical Slice | Designed | [blurred-ui.md](blurred-ui.md) | 心境双轴, 角色属性, 感情系统 |
 | 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Designed | [item-system.md](item-system.md) | 角色属性, 武学组合 |
