@@ -59,7 +59,8 @@ _全部原"无 ADR"系统已覆盖。剩余 Partial 系统仅依赖基础设施 
 |---|---|---|---|
 | `LockMode` 共享枚举 | ADR-0013 §GameStateLock | ADR-0014, ADR-0017, ADR-0018 | Foundation 层 enum，修改需同步所有引用方 |
 | `ICombatService` Facade | ADR-0011 §ICombatService 接口契约 | ADR-0013 (Cutscene SuspendLogic), ADR-0017 (Epiphany 状态查询) | Combat 模块对外稳定接口 |
-| Flag Namespace Registry | ADR-0014 §Flag Namespace Registry | 全部使用 `IFlagService` 的系统 | 强前缀命名规范，10 个前缀已分配 |
+| `Flag Namespace Registry` | ADR-0014 §Flag Namespace Registry | 全部使用 `IFlagService` 的系统 | 强前缀命名规范，10 个前缀已分配 |
+| `ICharacterAnimator` 角色动画端口 | ADR-0021 | ADR-0011, ADR-0013, ADR-0014, ADR-0017, ADR-0018 | Foundation 层 Port，所有角色动画后端必须以 Adapter 形式落到 `Animation/GodotIntegration/` |
 
 ---
 
@@ -140,6 +141,7 @@ None — first review run.
 | 2026-06-08 | 60% fully covered | Minor 缺口补齐：MI-1 (ADR-0011 ICombatService 接口契约) + MI-2 (LockMode 共享 enum 在 ADR-0013/0014/0017/0018 标注) + MI-3 (ADR-0014 Flag Namespace Registry，10 个前缀正式分配；ADR-0015/0017 同步前缀)；ADR-0011~0018 状态升级为 Accepted |
 | 2026-06-11 | 60% fully covered | +ADR-0019 2D Wuxia Tactics Rendering Direction（伪 2.5D / 《逸剑风云决》方向）；状态 Accepted |
 | 2026-06-22 | 60% fully covered | ADR-0019 → **Superseded** by ADR-0020 (Pure 2D Wuxia Rendering Direction / 《大侠立志传》方向)；ADR-0020 状态 Accepted；#12 地图/场景 与 #2 回合制战斗 同步追加 ADR-0020 引用；art-bible / game-concept / item-system / EPIC.md 同步；详见 [架构评审 2026-06-22](architecture-review-2026-06-22.md) |
+| 2026-06-22 | 60% fully covered | +ADR-0021 Character Animation Port (`ICharacterAnimator` 全局 Port + Adapter)；Cross-ADR Conventions 表新增 `ICharacterAnimator` 角色动画端口一行；状态 Accepted |
 
 ---
 

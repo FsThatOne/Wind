@@ -6,6 +6,16 @@ Last verified: 2026-06-02 | Engine: Godot 4.7-stable
 
 Changes between Godot versions, focused on post-LLM-cutoff changes (4.4+).
 
+## 4.6 → 4.7 (2026 — POST-CUTOFF, HIGH RISK)
+
+> Entries below are confirmed against 4.7-stable as encountered in-project. The
+> full `/setup-engine godot 4.7` refresh sweep is still pending; treat this section
+> as additive — absence of an entry does not imply "no change".
+
+| Subsystem | Change | Details |
+|-----------|--------|---------|
+| 2D / Animation | `SpriteFrames.SetAnimationLoop(name, bool)` deprecated | Replaced by `SpriteFrames.SetAnimationLoopMode(name, LoopMode)`. Old method emits CS0618 obsolete warning under .NET. Enum `SpriteFrames.LoopMode` values: `None` (no loop), `Linear` (forward loop, equivalent to old `loop=true`), `Pingpong` (forward+reverse). Migration in C#: `frames.SetAnimationLoop(name, true)` → `frames.SetAnimationLoopMode(name, SpriteFrames.LoopMode.Linear)`; `false` → `LoopMode.None`. Verified 2026-06-22 via reflection probe and adopted by `AnimatedSprite2DAnimator` (ADR-0021). |
+
 ## 4.5 → 4.6 (Jan 2026 — POST-CUTOFF, HIGH RISK)
 
 | Subsystem | Change | Details |
