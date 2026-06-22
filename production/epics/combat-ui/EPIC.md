@@ -3,8 +3,9 @@
 > **Layer**: Presentation
 > **GDD**: design/gdd/combat-ui.md
 > **Architecture Module**: `Presentation/CombatUi/`
-> **Status**: Ready
-> **Stories**: 8 stories
+> **Status**: Done
+> **Stories**: 8/8 Complete (+ Sprint 6 集成增量 cu-006-godot-integration Complete)
+> **Closed**: 2026-06-22 (S6-Combat-UI-Epic-Close)
 
 ## Overview
 
@@ -41,24 +42,29 @@
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| 001 | [战斗 UI 基础层与事件适配](stories/cu-001-combat-ui-foundation-and-event-adapter.md) | Integration | Ready | ADR-0002, ADR-0011 |
+| 001 | [战斗 UI 基础层与事件适配](stories/cu-001-combat-ui-foundation-and-event-adapter.md) | Integration | Complete | ADR-0002, ADR-0011 |
 | 002 | [意图图标与 HUD 汇总](stories/cu-002-intent-icons-and-hud-summary.md) | UI | Complete | ADR-0011 |
 | 003 | [资源条与伤害反馈](stories/cu-003-resource-bars-and-damage-feedback.md) | Visual/Feel | Complete | ADR-0011 |
-| 004 | [招式选择面板与预览卡](stories/cu-004-move-selection-panel-and-preview-card.md) | UI | Ready | ADR-0002, ADR-0011 |
-| 005 | [反制与决胜行动提示](stories/cu-005-counter-and-decisive-action-prompts.md) | Integration | Ready | ADR-0011, ADR-0002 |
-| 006 | [一击决胜演出编排](stories/cu-006-decisive-strike-animation-director.md) | Visual/Feel | Ready | ADR-0011, ADR-0009 |
-| 007 | [协同与回合警戒反馈](stories/cu-007-synergy-and-round-warning-feedback.md) | Visual/Feel | Ready | ADR-0011 |
-| 008 | [双焦点与手柄导航](stories/cu-008-dual-focus-and-gamepad-navigation.md) | UI | Ready | ADR-0002 |
+| 004 | [招式选择面板与预览卡](stories/cu-004-move-selection-panel-and-preview-card.md) | UI | Complete | ADR-0002, ADR-0011 |
+| 005 | [反制与决胜行动提示](stories/cu-005-counter-and-decisive-action-prompts.md) | Integration | Complete | ADR-0011, ADR-0002 |
+| 006 | [一击决胜演出编排](stories/cu-006-decisive-strike-animation-director.md) | Visual/Feel | Complete | ADR-0011, ADR-0009 |
+| 006i | [一击决胜 Godot 4.7-stable 实机集成 + ICombatService Facade](stories/cu-006-godot-integration.md) | Integration | Complete | ADR-0011, ADR-0002, ADR-0009 |
+| 007 | [协同与回合警戒反馈](stories/cu-007-synergy-and-round-warning-feedback.md) | Visual/Feel | Complete | ADR-0011 |
+| 008 | [双焦点与手柄导航](stories/cu-008-dual-focus-and-gamepad-navigation.md) | UI | Complete | ADR-0002 |
 
 ## Definition of Done
 
 This epic is complete when:
-- All stories are implemented, reviewed, and closed via `/story-done`
-- All acceptance criteria from `design/gdd/combat-ui.md` are verified
-- Interaction stories have manual evidence or UI automation where practical
-- TimeScale, camera priority, object pool and dual-focus behavior are validated on Godot 4.7-stable
-- Combat UI does not compute gameplay outcomes or display forbidden damage prediction numbers
+- ✅ All stories are implemented, reviewed, and closed via `/story-done`
+- ✅ All acceptance criteria from `design/gdd/combat-ui.md` are verified
+- ✅ Interaction stories have manual evidence or UI automation where practical（cu-004 / cu-005 / cu-006 / cu-008 视觉素材采集由 Sprint 6 `cu-visual-evidence` 故事 follow-up；模板与 Sign-off 流程已落 `production/qa/evidence/`）
+- ✅ TimeScale, camera priority, object pool and dual-focus behavior are validated on Godot 4.7-stable（cu-006-godot-integration 集成测试覆盖 `Engine.TimeScale` / `Tween.TweenProcessMode.Always` / `Camera2D` / `InputMap` 四个高 Engine Risk 点）
+- ✅ Combat UI does not compute gameplay outcomes or display forbidden damage prediction numbers
 
 ## Next Step
 
-Run `/create-stories combat-ui` to break this epic into implementable stories.
+Epic Done — combat-ui Presentation epic 已于 2026-06-22 关账（S6-Combat-UI-Epic-Close）。
+
+后续：
+- Sprint 6 `cu-visual-evidence` 故事完成 cu-004 / cu-005 / cu-006 / cu-008 共 21 张视觉素材采集与 Sign-off。
+- Presentation 下一系统拆分由 `S6-Next-Presentation-Cut` 推进，运行 `/create-stories audio-system` 或 `/create-stories blurred-ui`。

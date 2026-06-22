@@ -71,11 +71,11 @@ stories:
     name: "关闭 combat-ui EPIC + 更新 epics/index.md"
     file: "production/epics/combat-ui/EPIC.md"
     priority: should-have
-    status: backlog
+    status: done
     owner: ""
     estimate_days: 0.5
     blocker: ""
-    completed: ""
+    completed: "2026-06-22"
 
   - id: "EI-Debt-Triage"
     name: "Exploration boundary-contract tech debt triage"

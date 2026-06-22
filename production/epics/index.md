@@ -1,9 +1,9 @@
 # Epics Index
 
-> **Last Updated**: 2026-06-13
+> **Last Updated**: 2026-06-22
 > **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **Source**: `/create-epics layer: foundation`, `/create-epics dialogue-system save-system`, `/create-epics layer: core`, `/create-epics layer: feature`, `/create-epics layer: presentation`
-> **状态同步**: 2026-06-11 已根据 EPIC/story 文件、实现证据和 Core 层补齐结果同步状态
+> **状态同步**: 2026-06-22 同步 combat-ui epic 关账（S6-Combat-UI-Epic-Close）
 
 ---
 
@@ -49,7 +49,7 @@
 
 | Epic | Layer | System | GDD | Stories | Status |
 |------|-------|--------|-----|---------|--------|
-| [combat-ui](combat-ui/EPIC.md) | Presentation | 战斗 UI | combat-ui.md | 8 stories | Ready |
+| [combat-ui](combat-ui/EPIC.md) | Presentation | 战斗 UI | combat-ui.md | 8/8 Complete | Done |
 | [blurred-ui](blurred-ui/EPIC.md) | Presentation | 朦胧化 UI | blurred-ui.md | Not yet created | Ready |
 | [cutscene-system](cutscene-system/EPIC.md) | Presentation | CG / 演出 | cutscene-system.md | Not yet created | Ready |
 | [audio-system](audio-system/EPIC.md) | Presentation | 音乐 / 音效 | audio-system.md | Not yet created | Ready |
@@ -64,8 +64,8 @@
 | Core | 7 | 0 | 0 | 7 |
 | Platform | 1 | 0 | 0 | 1 |
 | Feature | 6 | 6 | 0 | 0 |
-| Presentation | 4 | 4 | 0 | 0 |
-| **Total** | **22** | **10** | **0** | **12** |
+| Presentation | 4 | 3 | 0 | 1 |
+| **Total** | **22** | **9** | **0** | **13** |
 
 ## 下一步
 
