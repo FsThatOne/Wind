@@ -1,0 +1,25 @@
+production/retrospectives/retro-sprint-4-2026-06-14.md
+  s_51180bfa56a412::t_adaff305e8ab85 130
+production/retrospectives/retro-sprint-5-2026-06-18.md
+  s_51180bfa56a412::t_7ba1e701ea1a33 120
+production/sprint-status.yaml
+  s_51180bfa56a412::t_1851dd58c47727 84,88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "08144036733917fa59ccbad22370ab2063f71042",
+  "prompts": {},
+  "sessions": {
+    "s_51180bfa56a412": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a38af356157a98654a2d2aa",
+        "model": "openrouter-2o__dev"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
