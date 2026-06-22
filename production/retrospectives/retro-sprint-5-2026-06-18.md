@@ -117,7 +117,7 @@ QA / 验证：
 |-------------|--------|-------|
 | #1 Godot headless `--log-file` 约定 | Done | S5-SmokeLog 落定本 sprint smoke 约定；后续保持 |
 | #2 Story readiness 元数据完整性 | Done | cu-004..008 所有 story 在 `/dev-story` 前补齐 Estimate / Out of Scope / Control Manifest / Engine Notes / Performance Notes / TR-ID（S5-Preflight 完成） |
-| #3 Triage Exploration tech debt | Not Started | EI-Debt-Triage 未拉入本 sprint；本 sprint 全力推 cu-* — 仍是 Action Item |
+| #3 Triage Exploration tech debt | **Closed 2026-06-22** | Sprint 6 `EI-Debt-Triage` 完成 7 条 EI 条目分级；输出 [`production/notes/exploration-debt-triage-2026-06-22.md`](../notes/exploration-debt-triage-2026-06-22.md)（2 条 P1 + 1 条 P2 圈定为 Insight Presentation epic 启动前必还） |
 | #4 每 story 记录 actual effort | Partial | cu-* session log 含 estimate-day 与 fact 数；hour-level 数据仍未常态化 |
 | #5 sprint 结束前 commit/shelve 工作树 | **Recurring failure** | 本 sprint 同样 11 modified + 9 untracked 在 staging zone — Action Item 升级 |
 

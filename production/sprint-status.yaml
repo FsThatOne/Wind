@@ -81,11 +81,11 @@ stories:
     name: "Exploration boundary-contract tech debt triage"
     file: "docs/tech-debt-register.md"
     priority: should-have
-    status: backlog
+    status: done
     owner: ""
     estimate_days: 0.5
     blocker: ""
-    completed: ""
+    completed: "2026-06-22"
 
   - id: "S6-Effort-Tracking"
     name: "/story-done session log 强制 hour-level effort"
