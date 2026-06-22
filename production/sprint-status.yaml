@@ -14,7 +14,7 @@ goal: "Combat UI Hardening & Presentation Cutoff — close cu-006 Godot 4.7-stab
 start: "2026-06-19"
 end: "2026-07-03"
 generated: "2026-06-18"
-updated: "2026-06-20"
+updated: "2026-06-21"
 
 stories:
   - id: "S6-Commit-Workspace"
@@ -61,11 +61,11 @@ stories:
     name: "Commit message lint + .gitmessage 模板"
     file: "production/sprints/sprint-6.md"
     priority: must-have
-    status: ready-for-dev
+    status: done
     owner: ""
     estimate_days: 0.25
     blocker: ""
-    completed: ""
+    completed: "2026-06-21"
 
   - id: "S6-Combat-UI-Epic-Close"
     name: "关闭 combat-ui EPIC + 更新 epics/index.md"
