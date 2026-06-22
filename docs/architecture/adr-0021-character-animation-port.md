@@ -1,13 +1,17 @@
 # ADR-0021: Character Animation Port (Project-Wide)
 
 ## Status
-Accepted
+Accepted (Partially Superseded by [ADR-0022](adr-0022-isometric-projection-and-iso4-animator.md) — §扩展点 1)
 
 ## Date
 2026-06-22
 
 ## Last Verified
 2026-06-22 (扩展点 1 落地 + feng-zhi CavePlayer 迁移 + 实机走查通过)
+
+## Superseded Sections
+- §扩展点 1 (8 方向序列帧子接口 / `EightDirection` enum / `EightDirectionAnimatedSprite2DAnimator` / 32-frame asset spec) — 由 ADR-0022 替换为 4 斜向 `Iso4Direction` + `IIso4CharacterAnimator` + `Iso4AnimatedSprite2DAnimator` + 16-frame asset spec
+- 主端口 `ICharacterAnimator` + `Facing` 2 向契约、§扩展点 2（骨骼动画）等其他全部章节 **保持有效**
 
 ## Summary
 
@@ -121,6 +125,8 @@ public interface ICharacterAnimator
 ### 5. 已知扩展点（**本 ADR 不实现，仅锁定方向**）
 
 #### 扩展点 1：8 方向序列帧（`CavePlayer.cs` 类场景）
+
+> **⚠️ Superseded by [ADR-0022](adr-0022-isometric-projection-and-iso4-animator.md)** — 全项目从「方格 + 8 向」pivot 至「isometric diamond + 4 斜向」，本节技术路线作废。新路线为 `Iso4Direction { NE, SE, SW, NW }` + `IIso4CharacterAnimator` + `Iso4AnimatedSprite2DAnimator`，16-frame asset spec。以下文字保留作历史决策记录。
 
 `Facing` 仅 2 向不足以覆盖 8 方向行走 + 朝向迟滞 + 帧相位保持的需求。处置：
 

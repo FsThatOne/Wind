@@ -22,7 +22,7 @@
 | # | System | Layer | GDD | ADR(s) | Status |
 |---|--------|-------|-----|--------|--------|
 | 1 | 角色属性/功力 | Foundation | character-attributes.md | ADR-0003 | ⚠️ |
-| 2 | 回合制战斗 | Core | combat-system.md | ADR-0001, ADR-0008, ADR-0020 (战棋可读性) | ⚠️ |
+| 2 | 回合制战斗 | Core | combat-system.md | ADR-0001, ADR-0008, ADR-0020 (战棋可读性), ADR-0022 (iso 投影 + 4 斜向) | ⚠️ |
 | 3 | 武学组合 | Core | martial-arts-system.md | ADR-0003 | ⚠️ |
 | 4 | 敌方 AI | Core | enemy-ai.md | ADR-0003 | ⚠️ |
 | 5 | 对话系统 | Core | dialogue-system.md | ADR-0005 | ✅ |
@@ -32,7 +32,7 @@
 | 9 | 主线叙事 | Core | main-narrative.md | ADR-0005 | ⚠️ |
 | 10 | NPC 状态 | Foundation | npc-state.md | ADR-0001, ADR-0008 | ✅ |
 | 11 | 自然日+体力 | Foundation | natural-day-stamina.md | ADR-0001, ADR-0003 | ⚠️ |
-| 12 | 地图/场景 | Foundation | map-scene-management.md | ADR-0006, ADR-0010, ADR-0020 | ✅ |
+| 12 | 地图/场景 | Foundation | map-scene-management.md | ADR-0006, ADR-0010, ADR-0020, ADR-0022 (iso TileMapLayer) | ✅ |
 | 13 | 感情系统 | Feature | romance-system.md | ADR-0001, ADR-0008, ADR-0014, ADR-0015 | ✅ |
 | 14 | 朦胧化 UI | Presentation | blurred-ui.md | ADR-0002 | ✅ |
 | 15 | 物品/道具 | Core | item-system.md | ADR-0003 | ⚠️ |
@@ -142,6 +142,7 @@ None — first review run.
 | 2026-06-11 | 60% fully covered | +ADR-0019 2D Wuxia Tactics Rendering Direction（伪 2.5D / 《逸剑风云决》方向）；状态 Accepted |
 | 2026-06-22 | 60% fully covered | ADR-0019 → **Superseded** by ADR-0020 (Pure 2D Wuxia Rendering Direction / 《大侠立志传》方向)；ADR-0020 状态 Accepted；#12 地图/场景 与 #2 回合制战斗 同步追加 ADR-0020 引用；art-bible / game-concept / item-system / EPIC.md 同步；详见 [架构评审 2026-06-22](architecture-review-2026-06-22.md) |
 | 2026-06-22 | 60% fully covered | +ADR-0021 Character Animation Port (`ICharacterAnimator` 全局 Port + Adapter)；Cross-ADR Conventions 表新增 `ICharacterAnimator` 角色动画端口一行；状态 Accepted |
+| 2026-06-22 | 60% fully covered | +ADR-0022 Isometric Diamond Projection & 4-Directional Character Animator（菱形 tile 投影 + `Iso4Direction` + `IIso4CharacterAnimator`）；ADR-0021 §扩展点 1 标 Partially Superseded；#2 回合制战斗 / #12 地图/场景 同步追加 ADR-0022 引用；ADR-0010 层级规范表追加 iso tile_shape 列；combat-system.md §战棋空间规则 + art-bible.md Reference Board 同步；状态 Accepted |
 
 ---
 

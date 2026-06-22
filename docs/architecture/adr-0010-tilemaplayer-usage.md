@@ -41,13 +41,15 @@ Accepted
 
 每个场景包含以下 TileMapLayer 节点（从下到上）：
 
-| 层名 | Z-Index | 用途 |
-|------|---------|------|
-| `Ground` | 0 | 地面基底（泥土、石板、水面） |
-| `Terrain` | 1 | 地形装饰（草丛、碎石、花） |
-| `Structures` | 2 | 建筑、墙壁、家具 |
-| `Overlay` | 3 | 屋顶、树冠（遮挡玩家） |
-| `Collision` | — | 碰撞层（不可见，仅物理） |
+| 层名 | Z-Index | 用途 | tile_shape (ADR-0022) |
+|------|---------|------|----------------------|
+| `Ground` | 0 | 地面基底（泥土、石板、水面） | Isometric (DiamondDown, 128×64) |
+| `Terrain` | 1 | 地形装饰（草丛、碎石、花） | Isometric (同上) |
+| `Structures` | 2 | 建筑、墙壁、家具 | Isometric (同上) |
+| `Overlay` | 3 | 屋顶、树冠（遮挡玩家） | Isometric (同上) |
+| `Collision` | — | 碰撞层（不可见，仅物理） | Isometric (同上) |
+
+> **ADR-0022 增量**：所有 TileMapLayer 的 `tile_shape = Isometric`、`tile_layout = DiamondDown`、`tile_size = 128×64`、`y_sort_enabled = true`、`y_sort_origin = tile 中心`。详见 [ADR-0022 §4](adr-0022-isometric-projection-and-iso4-animator.md#L132)。
 
 ### 光照变体管理
 

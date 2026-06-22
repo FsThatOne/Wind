@@ -51,9 +51,10 @@
 
 **2. 战棋空间规则**
 
-- 棋盘为方格。
+- 棋盘几何：**isometric diamond 投影**（菱形 tile，2:1 宽高比）。详见 [ADR-0022](../../docs/architecture/adr-0022-isometric-projection-and-iso4-animator.md)。
+- 逻辑坐标仍是 `(int X, int Y)` 方格；渲染层投影为屏幕菱形。
 - 每个角色占据 1 格。
-- 角色有朝向：上、下、左、右。
+- 角色朝向 4 斜方向：屏幕 NE / SE / SW / NW（对应逻辑 X+ / Y+ / X- / Y-）。
 - 不做高低差。
 - 不做 ZOC。
 - 障碍物只影响移动与部分招式视线/路径，不引入复杂地形高度。

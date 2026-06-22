@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-22 (S7-Animator-Directional-Port added)"
+updated: "2026-06-22 (S7-Iso-Pivot-Foundation added — ADR-0022 isometric pivot)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -75,6 +75,19 @@ stories:
     verdict: "PASS — Owner 实机验证 explore→battle→outcome→explore 全链路；autoload JiangnanFlow 状态保持；心境分支文案切换正常。Lite Xingqi 范围内 Combat-Loop 集成留给下一 story。"
     note: "Re-estimated 2.0d → 0.31d actual：placeholder 骨架比预估快 6.4x。下次同类 placeholder story 估时建议下调到 0.5d。"
 
+  - id: "S7-Iso-Pivot-Foundation"
+    name: "ADR-0022: Isometric Diamond Projection + 4 斜向 Animator 落地（Foundation + feng-zhi/StartCave）"
+    file: "production/sprints/sprint-7-iso-pivot-foundation.md"
+    priority: must-have
+    status: ready-for-dev
+    owner: ""
+    estimate_days: 1.0
+    estimate_hours: 8.0
+    actual_hours: null
+    blocker: ""
+    completed: ""
+    note: "全项目从「方格 + 8 向」pivot 至「isometric diamond + 4 斜向」。ADR-0022 已 Accepted；本 story 落地 Foundation 层 IsoProjection / Iso4Direction / IIso4CharacterAnimator + Iso4AnimatedSprite2DAnimator + Fake，删除旧 8 向代码与 11 单测，重建 main_character.tres，切换 StartCave.tscn 到 isometric TileMapLayer。Blocks S7-VS-Combat-Loop / cu-visual-evidence / S7-VS-Outcome-Feedback。"
+
   - id: "S7-VS-Combat-Loop"
     name: "Lite Xingqi: 1v1 战斗，复用 BattlePhase 包装观气→出招→破绽→决胜"
     file: "production/sprints/sprint-7.md"
@@ -84,9 +97,9 @@ stories:
     estimate_days: 1.5
     estimate_hours: 12.0
     actual_hours: null
-    blocker: "depends on S7-VS-Foundation-Scene"
+    blocker: "depends on S7-VS-Foundation-Scene + S7-Iso-Pivot-Foundation (ADR-0022 iso pivot)"
     completed: ""
-    note: "Re-estimated 2026-06-22 from 2.0d → 1.5d per vs-scope-spike §7 (75% combat reuse, 0 new cb-* story)"
+    note: "Re-estimated 2026-06-22 from 2.0d → 1.5d per vs-scope-spike §7 (75% combat reuse, 0 new cb-* story). 2026-06-22 加 blocker S7-Iso-Pivot-Foundation：iso 投影 + 4 斜向必须先行落地。"
 
   - id: "S7-VS-Outcome-Feedback"
     name: "战后心境位移 + 朦胧化战后面板 (mindset-dual-axis + blurred-ui partial)"

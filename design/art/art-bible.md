@@ -34,7 +34,7 @@ target_platforms: PC (Steam), Steam Deck
 | Reference | Medium | What We're Taking |
 |-----------|--------|-------------------|
 | 《大神 (Ōkami)》 | Game | 水墨渲染 Shader 风格、笔触式粒子特效、环境与角色的色彩分层 |
-| 《大侠立志传》 | Game | 纯 2D 武侠表现、Q 版 sprite 探索 + 立绘对话双轨、2D 战棋格的清晰可读性、自由江湖氛围 |
+| 《大侠立志传》 | Game | 纯 2D 武侠表现、Q 版 sprite 探索 + 立绘对话双轨、**isometric diamond 战棋格的清晰可读性**（详见 [ADR-0022](../../docs/architecture/adr-0022-isometric-projection-and-iso4-animator.md)）、自由江湖氛围 |
 | 《十三机兵防卫圈》 | Game | 叙事驱动 UI、极简 HUD 在情绪场景中的消隐方式 |
 | 《只狼》 | Game | 武侠动作的动势捕捉、环境氛围光影、危险感传达 |
 | 《Hades》 | Game | Contextual HUD、浓烈色彩与暗背景的对比、角色肖像画风格 |
