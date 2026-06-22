@@ -9,121 +9,97 @@
 #   done           ↔  Complete
 #   blocked        ↔  Blocked
 
-sprint: 6
-goal: "Combat UI Hardening & Presentation Cutoff — close cu-006 Godot 4.7-stable integration, deliver cu-004/005/006/008 Visual evidence, finish Sprint 5 DoD (smoke + team-qa), and burn down the 5 retrospective Action Items."
-start: "2026-06-19"
-end: "2026-07-03"
-generated: "2026-06-18"
+sprint: 7
+goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→combat→outcome 完整循环，验证「纯 2D 武侠 + 行气战棋（观/动）」在 Godot 4.7-stable 工作树可玩；同步在新 VS 上录制 cu-004/005/006/008 共 4 份 Visual evidence。本 sprint 是 Production 阶段首个 prove-or-pivot 决策点。"
+start: "2026-06-23"
+end: "2026-07-06"
+generated: "2026-06-22"
 updated: "2026-06-22"
 
 stories:
-  - id: "S6-Commit-Workspace"
-    name: "commit Sprint 5 工作树"
-    file: "production/sprints/sprint-6.md"
+  - id: "S7-VS-Scope-Spike"
+    name: "VS 范围决策 spike (combat 复用率 + 江南场景骨架)"
+    file: "production/sprints/sprint-7.md"
     priority: must-have
-    status: done
-    owner: ""
-    estimate_days: 0.25
-    estimate_hours: 2.0
-    actual_hours: 1.5
-    blocker: ""
-    completed: "2026-06-20"
-
-  - id: "S6-Sprint5-DoD"
-    name: "运行 /smoke-check sprint 5 + /team-qa sprint 5"
-    file: "production/sprints/sprint-6.md"
-    priority: must-have
-    status: done
-    owner: ""
-    estimate_days: 0.5
-    estimate_hours: 4.0
-    actual_hours: 3.0
-    blocker: ""
-    completed: "2026-06-22"
-
-  - id: "cu-006-godot-integration"
-    name: "cu-006 一击决胜 Godot 4.7-stable 实机集成 + ICombatService Facade"
-    file: "production/epics/combat-ui/stories/cu-006-godot-integration.md"
-    priority: must-have
-    status: done
-    owner: ""
-    estimate_days: 0.75
-    estimate_hours: 6.0
-    actual_hours: 7.0
-    blocker: ""
-    completed: "2026-06-20"
-
-  - id: "cu-visual-evidence"
-    name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence"
-    file: "production/sprints/sprint-6.md"
-    priority: must-have
-    status: backlog
-    owner: ""
-    estimate_days: 0.75
-    estimate_hours: 6.0
-    actual_hours: null
-    blocker: "Carryover → Sprint 7：harness 已于 c8d8c14 删除（与 burst-read spike 等过时 spike 同清理），Sprint 7 ADR-0020 全循环 VS 重建会同步产出新的 visual baseline，避免在两套 spike 上重复录屏。"
-    completed: ""
-    carryover_to_sprint: 7
-
-  - id: "S6-Commit-Lint"
-    name: "Commit message lint + .gitmessage 模板"
-    file: "production/sprints/sprint-6.md"
-    priority: must-have
-    status: done
-    owner: ""
-    estimate_days: 0.25
-    estimate_hours: 2.0
-    actual_hours: 2.5
-    blocker: ""
-    completed: "2026-06-21"
-
-  - id: "S6-Combat-UI-Epic-Close"
-    name: "关闭 combat-ui EPIC + 更新 epics/index.md"
-    file: "production/epics/combat-ui/EPIC.md"
-    priority: should-have
-    status: done
-    owner: ""
-    estimate_days: 0.5
-    estimate_hours: 4.0
-    actual_hours: 0.5
-    blocker: ""
-    completed: "2026-06-22"
-
-  - id: "EI-Debt-Triage"
-    name: "Exploration boundary-contract tech debt triage"
-    file: "docs/tech-debt-register.md"
-    priority: should-have
-    status: done
-    owner: ""
-    estimate_days: 0.5
-    estimate_hours: 4.0
-    actual_hours: 0.6
-    blocker: ""
-    completed: "2026-06-22"
-
-  - id: "S6-Effort-Tracking"
-    name: "/story-done session log 强制 hour-level effort"
-    file: "production/sprints/sprint-6.md"
-    priority: should-have
-    status: done
-    owner: ""
-    estimate_days: 0.25
-    estimate_hours: 2.0
-    actual_hours: 0.5
-    blocker: ""
-    completed: "2026-06-22"
-
-  - id: "S6-Next-Presentation-Cut"
-    name: "拆分下一 Presentation 系统 stories (audio-system / blurred-ui)"
-    file: "production/sprints/sprint-6.md"
-    priority: nice-to-have
-    status: backlog
+    status: ready-for-dev
     owner: ""
     estimate_days: 1.0
     estimate_hours: 8.0
     actual_hours: null
     blocker: ""
+    completed: ""
+
+  - id: "S7-Day1-Smoke-Startup"
+    name: "Day 1 手工实机启动确认 (gate Condition §2 / W2)"
+    file: "production/sprints/sprint-7.md"
+    priority: must-have
+    status: ready-for-dev
+    owner: ""
+    estimate_days: 0.25
+    estimate_hours: 2.0
+    actual_hours: null
+    blocker: ""
+    completed: ""
+
+  - id: "S7-VS-Foundation-Scene"
+    name: "VS 主场景骨架 (江南 explore + 战斗 + outcome 转场)"
+    file: "production/sprints/sprint-7.md"
+    priority: must-have
+    status: backlog
+    owner: ""
+    estimate_days: 2.0
+    estimate_hours: 16.0
+    actual_hours: null
+    blocker: "depends on S7-VS-Scope-Spike"
+    completed: ""
+
+  - id: "S7-VS-Combat-Loop"
+    name: "行气战棋 (观/动) 在 VS 内跑通 1 场战斗"
+    file: "production/sprints/sprint-7.md"
+    priority: must-have
+    status: backlog
+    owner: ""
+    estimate_days: 2.0
+    estimate_hours: 16.0
+    actual_hours: null
+    blocker: "depends on S7-VS-Scope-Spike + S7-VS-Foundation-Scene"
+    completed: ""
+
+  - id: "S7-VS-Outcome-Feedback"
+    name: "战后心境双轴位移 + 朦胧化战后面板 (mindset-dual-axis + blurred-ui 集成)"
+    file: "production/sprints/sprint-7.md"
+    priority: must-have
+    status: backlog
+    owner: ""
+    estimate_days: 1.0
+    estimate_hours: 8.0
+    actual_hours: null
+    blocker: "depends on S7-VS-Combat-Loop"
+    completed: ""
+
+  - id: "cu-visual-evidence"
+    name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence — 在 VS 上录制"
+    file: "production/sprints/sprint-7.md"
+    priority: must-have
+    status: backlog
+    owner: ""
+    estimate_days: 0.75
+    estimate_hours: 6.0
+    actual_hours: null
+    blocker: "Carryover from Sprint 6 (commit 9b1b9b2). Depends on S7-VS-Combat-Loop done."
+    completed: ""
+    carryover_from_sprint: 6
+
+  - id: "S7-VS-Playtest-Session"
+    name: "1 次新玩家试玩 session + 反馈报告 (gate §C-PLAYTEST)"
+    file: "production/sprints/sprint-7.md"
+    priority: should-have
+    status: backlog
+    owner: ""
+    estimate_days: 0.5
+    estimate_hours: 4.0
+    actual_hours: null
+    blocker: "depends on cu-visual-evidence done"
     completed: ""
 
   - id: "cu-008-Gamepad-HW-Verify"
@@ -135,5 +111,6 @@ stories:
     estimate_days: 0.5
     estimate_hours: 4.0
     actual_hours: null
-    blocker: ""
+    blocker: "Steam Deck 硬件未到 — Sprint 8 显式 借测/购入 决策"
     completed: ""
+    carryover_from_sprint: 6
