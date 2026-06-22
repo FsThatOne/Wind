@@ -128,7 +128,7 @@ QA / 验证：
 | # | Action | Owner | Priority | Deadline |
 |---|--------|-------|----------|----------|
 | 1 | **立刻 commit Sprint 5 工作树**：cu-006 + cu-007 + harness 扩展 + evidence + tech-debt + sprint-status + active.md。按 `/story-done` 各自的 suggested commit 命令执行；不可继续 carry over | Dev | **High** | 在 `/sprint-plan new` 之前 |
-| 2 | 运行 `/smoke-check sprint` + `/team-qa sprint` 补齐 Sprint 5 Definition of Done（smoke 与 QA sign-off 文档），把"自动化绿"升级到"sprint 真的 done" | QA / Dev | High | 启动下一 sprint 之前 |
+| 2 | **[Done 2026-06-22]** 运行 `/smoke-check sprint` + `/team-qa sprint` 补齐 Sprint 5 Definition of Done（smoke 与 QA sign-off 文档），把"自动化绿"升级到"sprint 真的 done"。— 闭合证据：[smoke-2026-06-22-sprint-5.md](../qa/smoke-2026-06-22-sprint-5.md) verdict PASS + [qa-signoff-sprint-5-2026-06-22.md](../qa/qa-signoff-sprint-5-2026-06-22.md) verdict APPROVED WITH CONDITIONS（驱动 story：Sprint 6 S6-Sprint5-DoD） | QA / Dev | High | 启动下一 sprint 之前 |
 | 3 | 把 cu-006 Godot 4.7-stable 实机集成（Engine.TimeScale + Tween Always + Camera2D + InputMap + ICombatService Facade）作为下一 sprint Must Have；同时拉入 cu-004 / cu-005 / cu-008 / cu-006 的 Visual evidence 截图条目作为 Visual sub-tasks | Producer / Dev | High | `/sprint-plan new` 时纳入 |
 | 4 | 引入 commit message lint：禁止 `阶段性提交` / `init(test):` 这类无信号 commit 出现在 sprint 主干（推荐 conventional commits + scope，参照 cu-004/005 的 `feat: ...(TR-...)` 模板） | Dev | Medium | 下一 sprint 第一个 PR |
 | 5 | 把 hour-level actual effort 写进每条 `/story-done` session log（接续 Sprint 4 #4，本 sprint 仍 partial） | Producer / Dev | Medium | 下一 sprint 每个 story |

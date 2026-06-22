@@ -34,7 +34,7 @@ target_platforms: PC (Steam), Steam Deck
 | Reference | Medium | What We're Taking |
 |-----------|--------|-------------------|
 | 《大神 (Ōkami)》 | Game | 水墨渲染 Shader 风格、笔触式粒子特效、环境与角色的色彩分层 |
-| 《逸剑风云决》 | Game | 2D 武侠战棋视角、伪 2.5D 场景层次、清晰的地图可读性与江湖氛围 |
+| 《大侠立志传》 | Game | 纯 2D 武侠表现、Q 版 sprite 探索 + 立绘对话双轨、2D 战棋格的清晰可读性、自由江湖氛围 |
 | 《十三机兵防卫圈》 | Game | 叙事驱动 UI、极简 HUD 在情绪场景中的消隐方式 |
 | 《只狼》 | Game | 武侠动作的动势捕捉、环境氛围光影、危险感传达 |
 | 《Hades》 | Game | Contextual HUD、浓烈色彩与暗背景的对比、角色肖像画风格 |
@@ -88,12 +88,13 @@ target_platforms: PC (Steam), Steam Deck
 
 ### Rendering Style
 
-**2D 武侠战棋 + 水墨伪 2.5D (Stylized 2D Wuxia Tactics)**
+**纯 2D 武侠战棋 + 立绘 / Sprite 双轨制 (Pure 2D Wuxia, Daxia-Lizhi-Zhuan Style)**
 
-- 视觉目标参考《逸剑风云决》这类“像素 + 场景融合观感”的呈现方式，但本项目仍以 2D 战棋地图为制作主轴；我们不以《歧路旅人》式 HD-2D 的完整技术标准、体积光和高成本景深为目标。
-- 场景使用 Godot 2D Canvas、TileMapLayer 多层结构、CanvasModulate 色调和局部 2D 光效；不以 Forward+ 3D/PBR 管线作为主制作路线。
-- 角色使用 2D sprite / sprite sheet / cutout animation，保留武侠动作的起势、爆发、收式；必要时用轻量描边或阴影增强战棋视角可读性。
-- 远景通过分层背景、云雾贴图、遮挡层、色调递减和缓慢视差表现"远山淡影"，避免重 3D 场景资产需求。
+- 视觉目标参考《大侠立志传》式的纯 2D 武侠呈现：场景由手绘 tileset + 分层 2D 背景构成，角色为 Q 版 sprite + 高头身立绘双轨；不追求伪 2.5D / HD-2D / 任何 3D 化构图（详见 [ADR-0020](../../docs/architecture/adr-0020-pure-2d-wuxia-rendering-direction.md)）。
+- 场景使用 Godot 2D Canvas、TileMapLayer 多层结构、CanvasModulate 整体色调；**不**使用动态 2D 光照（PointLight2D / DirectionalLight2D）作为常规氛围手段；**不**使用 Forward+ 3D / PBR 管线。
+- 角色双轨：探索 / 战斗使用 Q 版 sprite（3–4 头身），对话 / 关键演出使用高头身立绘（6.5–7.5 头身）+ 多表情切换；两者不混用。
+- 空间深度通过**美术构图**表现（透视消失点 + 大小关系 + 色调递减 + 远近 tileset 分层），**不**通过多层视差或动态光照表现；阴影由 tileset 直接画进贴图。
+- 远景雾、云、雪、落叶使用循环滚动的 2D sprite 或 GPUParticles2D，避免任何"伪 3D 体积感"。
 - 所有战斗场景必须先满足格子、移动范围、攻击范围、角色朝向、遮挡关系的可读性，再叠加美术氛围。
 
 ### Proportions
@@ -112,7 +113,7 @@ target_platforms: PC (Steam), Steam Deck
 |----------|-------------|-----------|
 | 战斗格内角色 | 高 — 朝向、阵营、武器、状态可读 | 2D Sprite + 描边/投影 |
 | 当前交互层 | 中高 — 可通行、可交互、可遮挡清楚 | TileMapLayer + scene tile |
-| 背景层 | 中低 — 氛围、区域识别、空间深度 | 分层 2D 背景 + 视差 |
+| 背景层 | 中低 — 氛围、区域识别、空间深度 | 分层 2D 背景（无视差） |
 | 极远景 | 意象 — 水墨远山/云雾 | 2D 纹理层/Shader |
 
 ### Visual Hierarchy (引导视线优先级)
@@ -369,3 +370,4 @@ sfx_ui_confirm_01.ogg
 |------|------|--------|------|
 | 2026-06-09 | 1.0 | AI (art-director) | 全文创建 |
 | 2026-06-11 | 1.1 | Codex | 明确视觉目标参考《逸剑风云决》的像素与场景融合观感；移除主 3D/PBR 与《歧路旅人》式 HD-2D 完整标准假设 |
+| 2026-06-22 | 1.2 | Cursor | 视觉参考目标变更为《大侠立志传》纯 2D 路线（详见 [ADR-0020](../../docs/architecture/adr-0020-pure-2d-wuxia-rendering-direction.md)）：Reference Board 替换《逸剑风云决》→《大侠立志传》；渲染风格段移除伪 2.5D / 多层视差 / 动态 2D 光照表述；LOD 背景层移除"视差"；明确立绘 / Sprite 双轨制 |

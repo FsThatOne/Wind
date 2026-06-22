@@ -5,7 +5,20 @@ namespace FengZhi;
 public partial class CavePlayer : CharacterBody2D
 {
     private const float Speed = 220.0f;
-    private const float CardinalThreshold = 0.35f;
+    private const float DirectionSectorRadians = Mathf.Pi / 4.0f;
+    private const float DirectionHysteresisRadians = Mathf.Pi / 18.0f;
+
+    private static readonly StringName[] DirectionAnimations =
+    {
+        "walk_e",
+        "walk_se",
+        "walk_s",
+        "walk_sw",
+        "walk_w",
+        "walk_nw",
+        "walk_n",
+        "walk_ne"
+    };
 
     private AnimatedSprite2D _sprite = null!;
     private StringName _currentAnimation = "walk_s";
@@ -14,8 +27,7 @@ public partial class CavePlayer : CharacterBody2D
     {
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _sprite.Animation = _currentAnimation;
-        _sprite.Frame = 1;
-        _sprite.Stop();
+        _sprite.SetFrameAndProgress(1, 0.0f);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -33,17 +45,21 @@ public partial class CavePlayer : CharacterBody2D
         {
             if (_sprite.IsPlaying())
             {
-                _sprite.Stop();
+                _sprite.Pause();
             }
 
             return;
         }
 
-        var nextAnimation = GetAnimationName(direction);
+        var nextAnimation = GetAnimationName(direction, _currentAnimation);
         if (_currentAnimation != nextAnimation)
         {
+            var frame = _sprite.Frame;
+            var frameProgress = _sprite.FrameProgress;
+
             _currentAnimation = nextAnimation;
             _sprite.Play(_currentAnimation);
+            PreserveWalkCyclePhase(frame, frameProgress);
             return;
         }
 
@@ -53,25 +69,64 @@ public partial class CavePlayer : CharacterBody2D
         }
     }
 
-    private static StringName GetAnimationName(Vector2 direction)
+    private void PreserveWalkCyclePhase(int frame, float frameProgress)
     {
-        var horizontal = direction.X;
-        var vertical = direction.Y;
-        var hasHorizontal = Mathf.Abs(horizontal) >= CardinalThreshold;
-        var hasVertical = Mathf.Abs(vertical) >= CardinalThreshold;
-
-        if (hasVertical && hasHorizontal)
+        var frameCount = _sprite.SpriteFrames?.GetFrameCount(_currentAnimation) ?? 0;
+        if (frameCount <= 0)
         {
-            return vertical < 0.0f
-                ? horizontal < 0.0f ? "walk_nw" : "walk_ne"
-                : horizontal < 0.0f ? "walk_sw" : "walk_se";
+            return;
         }
 
-        if (hasVertical)
+        _sprite.SetFrameAndProgress(Mathf.PosMod(frame, frameCount), frameProgress);
+    }
+
+    private static StringName GetAnimationName(Vector2 direction, StringName currentAnimation)
+    {
+        var angle = Mathf.Atan2(direction.Y, direction.X);
+        var sector = GetSector(angle);
+        var currentSector = GetSector(currentAnimation);
+
+        if (currentSector >= 0 && currentSector != sector)
         {
-            return vertical < 0.0f ? "walk_n" : "walk_s";
+            var currentCenter = GetSectorCenter(currentSector);
+            var distanceFromCurrent = Mathf.Abs(NormalizeAngle(angle - currentCenter));
+            if (distanceFromCurrent <= DirectionSectorRadians * 0.5f + DirectionHysteresisRadians)
+            {
+                sector = currentSector;
+            }
         }
 
-        return horizontal < 0.0f ? "walk_w" : "walk_e";
+        return DirectionAnimations[sector];
+    }
+
+    private static int GetSector(float angle)
+    {
+        var rounded = Mathf.RoundToInt(angle / DirectionSectorRadians);
+        return Mathf.PosMod(rounded, DirectionAnimations.Length);
+    }
+
+    private static int GetSector(StringName animation)
+    {
+        for (var i = 0; i < DirectionAnimations.Length; i++)
+        {
+            if (DirectionAnimations[i] == animation)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private static float GetSectorCenter(int sector)
+    {
+        return NormalizeAngle(sector * DirectionSectorRadians);
+    }
+
+    private static float NormalizeAngle(float angle)
+    {
+        var twoPi = Mathf.Pi * 2.0f;
+        angle = Mathf.PosMod(angle + Mathf.Pi, twoPi);
+        return angle - Mathf.Pi;
     }
 }

@@ -539,7 +539,7 @@ locked → known → unlocked
 
 - Godot 场景树（SceneTree）— 场景加载/卸载
 - Godot 资源异步加载（ResourceLoader）— 预加载机制
-- 着色器/环境资源（Environment/WorldEnvironment）— 色调和光照控制
+- `CanvasModulate` + 2D shader / `ColorRect` overlay — 色调和光照控制（详见 [ADR-0010](../../docs/architecture/adr-0010-tilemaplayer-usage.md) §光照变体管理、[ADR-0020](../../docs/architecture/adr-0020-pure-2d-wuxia-rendering-direction.md) §D2；纯 2D 项目不使用 `Environment` / `WorldEnvironment` 等 3D 节点）
 
 ## Tuning Knobs
 

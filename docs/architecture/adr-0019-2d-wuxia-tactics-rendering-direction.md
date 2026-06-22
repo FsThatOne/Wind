@@ -1,10 +1,12 @@
 # ADR-0019: 2D Wuxia Tactics Rendering Direction
 
 ## Status
-Accepted
+Superseded by [ADR-0020](adr-0020-pure-2d-wuxia-rendering-direction.md)
+
+> **2026-06-22 Update**: 项目美术参考目标由《逸剑风云决》（伪 HD-2D / 伪 2.5D 路线）变更为《大侠立志传》（纯 2D 路线）。本 ADR 中关于"伪 2.5D 江湖氛围""多层视差""PointLight2D 局部光"等表述不再代表当前决策，新决策请参见 ADR-0020。本 ADR 保留作为历史记录，不再用于指导新资产生产。
 
 ## Date
-2026-06-11
+2026-06-11 (Superseded 2026-06-22)
 
 ## Engine Compatibility
 

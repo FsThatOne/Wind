@@ -1,25 +1,23 @@
-# Protagonist Movement Sprite
+# Protagonist Walk 8-Direction Sprite Sheet
 
-Source portrait: `/Users/bytedance/Downloads/主角.png`
-
-Generated asset for the pseudo-2.5D pixel wuxia prototype.
+Generated protagonist walking assets for Godot 4.7.
 
 ## Files
 
-- `protagonist_walk_8dir_source.png` - original generated sheet with chroma-key background.
-- `protagonist_walk_8dir.png` - transparent 8-direction spritesheet.
-- `protagonist_walk_8dir_spriteframes.tres` - Godot `SpriteFrames` resource for `AnimatedSprite2D`.
-- `frames/` - 32 sliced transparent frame PNGs.
+- `protagonist_walk_8dir_source.png` - green-background inspection sheet.
+- `protagonist_walk_8dir.png` - transparent runtime sheet.
+- `protagonist_walk_8dir_spriteframes.tres` - Godot `SpriteFrames` resource.
+- `frames/walk_<direction>_<frame>.png` - individual frame PNGs.
 
-## Sheet Layout
+## Layout
 
-- Sheet size: `888x1776`
-- Grid: `4 columns x 8 rows`
-- Cell size: `222x222`
-- Frame count: `32`
-- Animation speed: `8 FPS`
+- Sheet size: `2560x1696`
+- Cell size: `320x212`
+- Directions: `s`, `se`, `e`, `ne`, `n`, `nw`, `w`, `sw`
+- Frames per direction: `8`
+- Animation speed: `10 FPS`
 
-Direction rows, top to bottom:
+Rows are ordered top-to-bottom as:
 
 1. `walk_s`
 2. `walk_se`
@@ -30,36 +28,10 @@ Direction rows, top to bottom:
 7. `walk_w`
 8. `walk_sw`
 
-Frame columns, left to right:
+## Regeneration Notes
 
-1. step A
-2. neutral
-3. step B
-4. neutral
+The accepted source candidate is `/Users/bytedance/.codex/generated_images/019ee2f0-1cd2-7f40-97f4-092cfecdac57/ig_0c1f18b5dee02044016a3663025f4481918a8b25eac04d63ba.png`. The final sheet was rebuilt by detecting each row's foreground components, assigning connected components to the nearest character body, dropping tiny orphan specks, scaling all frames uniformly by `1.42`, and centering each foreground bounding box in a stable `320x212` canvas. This avoids horizontal bleed from neighboring source columns while preserving the protagonist's in-game visual size.
 
-## Godot Usage
+The canonical frame order in `frames/walk_<direction>_00..07.png` is the playback order. Earlier working files used the generated order `0,1,5,6,4,2,7,3` only inside `SpriteFrames`; the PNG contents have now been reordered so filename order and animation order match.
 
-Use `protagonist_walk_8dir_spriteframes.tres` with an `AnimatedSprite2D`.
-
-Suggested node setup:
-
-```text
-CharacterBody2D
-└── AnimatedSprite2D
-    sprite_frames = res://assets/characters/protagonist/protagonist_walk_8dir_spriteframes.tres
-```
-
-The project already uses nearest-neighbor canvas texture filtering in `project.godot`,
-which is the desired import behavior for pixel art.
-
-If Godot reimports these PNGs, keep:
-
-- Filter: nearest / disabled
-- Mipmaps: disabled
-- Compression: lossless
-- Alpha border fix: enabled
-
-## Notes
-
-The source image was generated at `887x1774`, then padded to `888x1776` so the
-sheet divides cleanly into a `4x8` grid. The character pixels were not scaled.
+The candidate provides independent `s`, `se`, `e`, `ne`, `n`, `w`, and `sw` rows. Most `nw` frames are derived from `ne` because the candidate does not contain an independent northwest row; `walk_nw_00.png` uses the unmirrored `walk_ne_00.png` orientation to stay consistent with the rest of the `nw` cycle. The final runtime PNGs have transparent backgrounds, no magenta outline, no baked shadow, and visible feet.

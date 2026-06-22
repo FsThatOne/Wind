@@ -176,3 +176,55 @@ Pass 条件：
 - QA：TBD
 - UX：TBD
 - 日期：TBD
+
+---
+
+## Visual Captured (Sprint 6 — Pending)
+
+> 本段为 Sprint 6 `cu-visual-evidence` story 的模板占位；待 designer 录屏 / 截图后填入并切换为 Visual Captured。Sprint 5 keyboard fallback 录屏 `cu-008-keyboard-dual-focus-navigation-rerun.mp4` 保留为既有覆盖；本段补主手柄 D-pad 录屏 + dual-focus 截图。真实手柄硬件 walkthrough 不在本 story 范围（走 cu-008-Gamepad-HW-Verify）。
+
+### Metadata
+
+| 项 | 值 |
+|---|---|
+| Capture date | TBD |
+| Captured by | TBD（designer 名 / 工号） |
+| Engine | Godot 4.7-stable Mono |
+| Build | TBD（local dev / commit hash） |
+| Platform | TBD（macOS / Windows / Linux） |
+| Recording tool | TBD（macOS Screen Recording / OBS / etc.） |
+| Harness | `prototypes/sprint5-combat-ui-harness` |
+| Fixture used | Combat move selection panel during player decision phase（含反制可用 + 决胜行可见场景） |
+| Input device | TBD（D-pad / Xbox / DualSense；无硬件时复用 keyboard fallback） |
+
+### Required Shots（per qa-plan-sprint-6 §cu-visual-evidence — hover+focus 1 张 + D-pad 循环录屏）
+
+| # | 类型 | 内容 | 文件 | 状态 |
+|---|---|---|---|---|
+| 1 | 截图 | 鼠标 hover + 手柄 focus 共存 — hover 高亮在 A 招式格、gamepad focus 高亮在 C 招式格，两种视觉状态同时可见且清晰可区分 | `production/qa/evidence/media/cu-008-hover-focus-coexist.png` | TBD |
+| 2 | 录屏 | D-pad 循环 — 从默认聚焦第一行动开始，连续 D-pad Down 经过所有可交互行动（含反制 + ▶ 决胜一击）、最后一项循环回第一项；再连续 D-pad Up 反向循环 | `production/qa/evidence/media/cu-008-dual-focus-navigation.mp4` | TBD |
+| 3 | 录屏（fallback / 已存） | 键盘方向键 fallback — `BUG-0001` 修复复录，覆盖 keyboard 首尾循环 | [`production/qa/evidence/media/cu-008-keyboard-dual-focus-navigation-rerun.mp4`](./media/cu-008-keyboard-dual-focus-navigation-rerun.mp4) | PASS（Sprint 5 已录） |
+
+### Capture Checklist
+
+- [ ] ≥1 张 hover+focus 共存截图（必备 #1）
+- [ ] ≥1 段 D-pad 循环录屏（必备 #2，无硬件时显式标注 keyboard fallback 复用 #3，并在签字段注明）
+- [ ] 所有素材挂在 `production/qa/evidence/media/` 下并被本文件相对引用
+- [ ] 文件名使用 kebab-case；视频 ≥ 1280×720 30fps；截图 ≥ 1280×720
+- [ ] 验证点：鼠标 hover 与手柄 focus 可同时存在，两种视觉状态清晰可区分，互不清除（覆盖 cu-008 GDD dual-focus AC + Sprint 5 ADR-0002 HIGH risk）
+- [ ] 验证点：A/确认键提交的是当前手柄焦点行动，而不是鼠标 hover 行动
+- [ ] 验证点：焦点不会逃出招式面板（HUD / 暂停按钮 / 装饰节点不抢焦点）
+- [ ] 验证点：D-pad 首尾循环稳定（最后一项 Down → 第一项；第一项 Up → 最后一项）
+- [ ] 验证点：反制行 + ▶ 决胜一击行均可通过 D-pad 触达
+- [ ] header `证据状态` 字段升级为 `Visual Captured`
+- [ ] story 文件 `production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md` 内 `Foundation Captured` / `Visual evidence not yet captured` 升级为 `Visual Captured`
+- [ ] tech-debt-register 中 cu-008 Visual evidence deferred 条目改为 `Resolved`
+- [ ] 真实手柄硬件 walkthrough（D-pad / A 键 / B 键 / Steam Deck）属于 cu-008-Gamepad-HW-Verify story 范围，本 story **不**阻塞硬件录屏
+
+### Sign-off
+
+| 角色 | 姓名 | 日期 | 签字 |
+|---|---|---|---|
+| Designer | TBD | TBD | __pending__ |
+| QA Lead | TBD | TBD | __pending__ |
+| UX | TBD | TBD | __pending__ |

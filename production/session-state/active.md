@@ -620,3 +620,15 @@
 - Suggested commit: git add src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector src/FengZhi.Foundation/Combat/BattleEventBus.cs src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs prototypes/sprint5-combat-ui-harness/scripts/testdata/Sprint5CombatUiDecisiveFixtures.cs prototypes/sprint5-combat-ui-harness/scripts/ui/Sprint5CombatUiHarnessView.cs production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md docs/tech-debt-register.md production/sprint-status.yaml production/session-state/active.md && git commit -m "feat(combat-ui): cu-006 decisive strike animation director (Foundation)"
 
 <!-- QA-PLAN: 2026-06-18 | System: sprint-6 | Plan written: production/qa/qa-plan-sprint-6-2026-06-18.md -->
+
+## Session Extract — /architecture-review 2026-06-22
+- Verdict: PASS WITH MINOR CONCERNS
+- Mode: full (delta review w.r.t. 2026-06-08 baseline)
+- Requirements: 25 systems total — 15 covered, 10 partial, 0 gaps (unchanged from baseline)
+- ADR changes: ADR-0019 → Superseded by ADR-0020 (Pure 2D Wuxia Rendering Direction, 《大侠立志传》方向)
+- Cross-ADR conflicts: 1 found and fixed during review (ADR-0020 vs ADR-0010 TileMapLayer 层级 schema — additive Background 节点 + 沿用 ADR-0010 五层)
+- New TR-IDs registered: None (ADR-0020 不引入新 GDD 需求)
+- GDD revision flags: map-scene-management.md (Flag 1 fixed in-place: WorldEnvironment → CanvasModulate; Flag 2 pre-existing low-priority 216 估算偏差仍待 design-review)
+- Files updated: docs/architecture/adr-0019-2d-wuxia-tactics-rendering-direction.md, docs/architecture/adr-0020-pure-2d-wuxia-rendering-direction.md, docs/architecture/architecture-review-2026-06-22.md (新), docs/architecture/traceability-index.md, docs/consistency-failures.md, design/art/art-bible.md, design/gdd/game-concept.md, design/gdd/item-system.md, design/gdd/map-scene-management.md, design/gdd/systems-index.md (#12 → Needs Revision), production/epics/combat-system/EPIC.md
+- Top ADR gaps: None
+- Report: docs/architecture/architecture-review-2026-06-22.md

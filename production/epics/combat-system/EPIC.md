@@ -16,7 +16,8 @@
 |-----|-----------------|-------------|
 | ADR-0001: Event Bus Architecture | 战斗结算后通过 `TurnResolvedEvent`、`BattleEndedEvent` 等事件通知 UI、AI、顿悟和其他系统 | HIGH |
 | ADR-0008: Finite State Machine | 战斗阶段管理使用可测试的强类型 FSM | LOW |
-| ADR-0019: 2D Wuxia Tactics Rendering Direction | 战棋可读性、多人站位、招式范围和意图表达作为战斗视觉最高优先级 | MEDIUM |
+| ADR-0020: Pure 2D Wuxia Rendering Direction | 战棋可读性、多人站位、招式范围和意图表达作为战斗视觉最高优先级（纯 2D 路线，Q 版 sprite + 立绘双轨制） | MEDIUM |
+| ~~ADR-0019: 2D Wuxia Tactics Rendering Direction~~ | Superseded by ADR-0020（伪 2.5D / 《逸剑风云决》方向已废止，仅保留历史） | — |
 
 ## GDD Requirements
 
@@ -27,7 +28,7 @@
 | 刚 / 柔 / 巧循环克制与破绽累积 | ⚠️ GDD 覆盖，需在 stories 中细化验证 |
 | 行动列表：出招、反制、决胜一击、调息、普通攻击、使用道具、切换内功、顿悟相关行动 | ⚠️ GDD 覆盖，需在 stories 中细化验证 |
 | 速度用于演出顺序，逻辑结算保持同时发生 | ADR-0008 ✅ / ⚠️ 需实现层验证 |
-| 战棋移动、行动力、定身、再动和可移动范围 | ADR-0019 ✅ / ⚠️ 需 Presentation 证据验证 |
+| 战棋移动、行动力、定身、再动和可移动范围 | ADR-0020 ✅ / ⚠️ 需 Presentation 证据验证 |
 | 战斗事件发布、战斗结束、心境战斗标记和战后系统联动 | ADR-0001 ✅ |
 | 与武学、敌方 AI、物品、顿悟、存档、战斗 UI 的接口边界 | ⚠️ GDD 覆盖，需在 stories 中细化验证 |
 

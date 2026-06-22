@@ -72,9 +72,9 @@
 - [ ] All tasks pass acceptance criteria
 - [ ] QA plan exists (`production/qa/qa-plan-sprint-5-*.md`)
 - [ ] All Logic/Integration stories have passing unit/integration tests
-- [ ] UI/Visual stories have evidence docs in `production/qa/evidence/`
-- [ ] Smoke check passed (`/smoke-check sprint`)
-- [ ] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint`)
+- [x] UI/Visual stories have evidence docs in `production/qa/evidence/`（cu-004 / cu-005 / cu-006 / cu-007 / cu-008 evidence MD 全在；视觉素材待 Sprint 6 `cu-visual-evidence` story 录屏）
+- [x] Smoke check passed (`/smoke-check sprint`) — [smoke-2026-06-22-sprint-5.md](../qa/smoke-2026-06-22-sprint-5.md) verdict PASS（dotnet 1359/1359 + Godot smoke 2/2 + cu006 6/6）
+- [x] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint`) — [qa-signoff-sprint-5-2026-06-22.md](../qa/qa-signoff-sprint-5-2026-06-22.md) verdict APPROVED WITH CONDITIONS（4 条 Conditions 已记录，无 S1/S2 open）
 - [ ] No S1 or S2 bugs in delivered features
 - [ ] Design documents updated for any deviations
 - [ ] Code reviewed and merged
