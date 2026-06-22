@@ -69,10 +69,15 @@ production/                  Sprint / 里程碑 / Gate / QA 证据 / 会话状�
 ### 启动
 
 ```bash
-dotnet restore                                  # 还原 .NET 依赖
-godot --path feng-zhi --editor                  # 在 Godot 编辑器中打开
-godot --path feng-zhi feng-zhi/StartCave.tscn   # 直接运行起始山洞
+dotnet restore                                       # 还原 .NET 依赖
+scripts/dev/launch-godot.sh                          # 在编辑器中打开 feng-zhi 主工程
+scripts/dev/launch-godot.sh sprint5-harness          # 切到 sprint5-combat-ui-harness
+scripts/dev/launch-godot.sh feng-zhi --run           # 直接运行（替代 F5）
+scripts/dev/launch-godot.sh --list                   # 查看已知 project 别名
 ```
+
+> macOS 上请走 `scripts/dev/launch-godot.sh`（兼容 `Godot_mono.app`，绕开 mcp_godot v0.1.1 的 LaunchServices 启动 bug）。
+> 其它平台或自定义 Godot 路径：`GODOT_BIN=/path/to/Godot.app scripts/dev/launch-godot.sh ...`。
 
 ### 测试
 
