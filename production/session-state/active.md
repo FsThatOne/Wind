@@ -637,6 +637,8 @@
 
 <!-- SMOKE RUN: 2026-06-22 | Sprint: Sprint 6 close-out | Verdict: PASS WITH WARNINGS | Report: production/qa/smoke-2026-06-22-sprint-6.md -->
 
+<!-- QA RUN: 2026-06-22 | Sprint: Sprint 6 close-out | Verdict: APPROVED WITH CONDITIONS | Report: production/qa/qa-signoff-sprint-6-2026-06-22.md -->
+
 <!-- QA RUN: 2026-06-22 | Sprint: Sprint 5 全作用域 close-out | Verdict: APPROVED WITH CONDITIONS | Report: production/qa/qa-signoff-sprint-5-2026-06-22.md -->
 
 ## Session Extract — S6-Effort-Tracking 2026-06-22

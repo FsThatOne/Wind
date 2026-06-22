@@ -81,8 +81,8 @@
 - [ ] 所有 tasks 通过验收标准
 - [ ] QA plan exists (`production/qa/qa-plan-sprint-6.md`)
 - [ ] All Logic/Integration stories 通过单元/集成测试
-- [ ] Smoke check passed (`/smoke-check sprint 6`)
-- [ ] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint 6`)
+- [x] Smoke check passed (`/smoke-check sprint 6`) — 2026-06-22 PASS WITH WARNINGS（`production/qa/smoke-2026-06-22-sprint-6.md`）
+- [x] QA sign-off report: APPROVED or APPROVED WITH CONDITIONS (`/team-qa sprint 6`) — 2026-06-22 APPROVED WITH CONDITIONS（`production/qa/qa-signoff-sprint-6-2026-06-22.md`）
 - [ ] **Sprint 5 Definition of Done 真正闭合**（S6-Sprint5-DoD 产出 smoke + team-qa 文档）
 - [ ] No S1 or S2 bugs in delivered features
 - [x] **combat-ui EPIC 8/8 stories Done + 实机验证 + EPIC.md status: Done**（2026-06-22 S6-Combat-UI-Epic-Close done；cu-visual-evidence Visual baseline carryover 到 Sprint 7，详见 §Carryover to Next Sprint）
