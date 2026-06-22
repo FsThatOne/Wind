@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Character Progression, Combat Integration, State Machine |
 | **Knowledge Risk** | **LOW** — 纯逻辑系统，概率计算与状态管理不依赖引擎特定 API |
 | **References Consulted** | `design/gdd/epiphany-breakthrough.md`, ADR-0001 (EventBus), ADR-0003 (Data Schema), ADR-0004 (Save), ADR-0008 (FSM) |
 | **Post-Cutoff APIs Used** | 无 |
 | **Verification Required** | 1) 验证凝神状态与战斗系统暂停/恢复的交互无死锁; 2) 验证境界突破串联演出时序不冲突 ADR-0013 CutsceneQueue |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

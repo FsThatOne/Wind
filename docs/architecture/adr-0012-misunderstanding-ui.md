@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | UI Presentation, Shader Effects, Audio Cues |
 | **Knowledge Risk** | **HIGH** — 依赖 ADR-0002 dual-focus 体系；ShaderMaterial 动态 uniform 更新行为需验证 |
 | **References Consulted** | `docs/engine-reference/godot/modules/ui.md`, `design/gdd/misunderstanding-system.md`, `design/gdd/blurred-ui.md` |
 | **Post-Cutoff APIs Used** | Dual-focus system (4.6), Recursive Control disable (4.5) |
 | **Verification Required** | 1) 验证 ShaderMaterial uniform 动态更新在 Control 节点上的每帧性能; 2) 验证 CanvasModulate 色调叠加与朦胧化 UI 色调偏移的交互行为; 3) 验证 AudioStreamPlayer 低频循环在场景切换时正确释放 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

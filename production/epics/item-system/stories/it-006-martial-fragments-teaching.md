@@ -14,7 +14,7 @@
 残卷和秘籍是物品系统与武学成长的桥梁。玩家未学会时只能自学，已学会后可以消耗残卷传授给同伴。
 
 **ADR Governing Implementation**: ADR-0001: Event Bus Architecture / ADR-0003: Data Configuration Format
-**Engine**: Godot 4.6.3 | **Risk**: MEDIUM
+**Engine**: Godot 4.7-stable | **Risk**: MEDIUM
 
 ## Acceptance Criteria
 

@@ -14,7 +14,7 @@
 经济层保持轻量：银两是唯一通货，普通商店固定价格，黑市支持以物易物，拍卖会按事件触发。
 
 **ADR Governing Implementation**: ADR-0003: Data Configuration Format
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 
 ## Acceptance Criteria
 

@@ -53,7 +53,8 @@ export_presets.cfg
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
-*.csproj
+# Godot C# .csproj files are source files and should be tracked.
+# Add Unity-specific project ignores only inside a Unity workspace if needed.
 *.unityproj
 *.sln
 *.suo
@@ -142,3 +143,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
+
+# === Local Tooling Residue (S6-Commit-Workspace 2026-06-19) ===
+.superpowers/
+._agent/
+.trae/
+
+# === Godot Project ===
+# Keep project files, .import metadata, scenes, scripts, and source assets tracked.
+# Generated editor/import caches stay ignored by the general .godot/ rule above.
+feng-zhi/.godot/
+feng-zhi/android/

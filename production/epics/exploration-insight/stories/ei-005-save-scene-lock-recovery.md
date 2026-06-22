@@ -15,7 +15,7 @@
 洞察发现历史必须随存档恢复，但 DETECTED/IGNORED 是瞬态提示状态，不能污染存档。战斗、对话或其他 LockMode >= Partial 的流程出现时，探索提示必须暂停并隐藏；锁释放后如果玩家仍在范围内，检测应恢复。
 
 **ADR Governing Implementation**: ADR-0018: Exploration & Insight; ADR-0004: Save Encryption; ADR-0006: Scene Loading Strategy
-**Engine**: Godot 4.6.3 | **Risk**: LOW / MEDIUM for scene-lock timing
+**Engine**: Godot 4.7-stable | **Risk**: LOW / MEDIUM for scene-lock timing
 
 ## Acceptance Criteria
 

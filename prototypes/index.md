@@ -10,8 +10,8 @@ already learned (and avoid making the same mistake twice).
 
 | Concept | Date | Path | Verdict | Report | Notes |
 |---|---|---|---|---|---|
-| Burst+Read Combat (Round 1) | 2026-06-02 | Paper | **PROCEED with refinements** | [REPORT.md](./burst-read-combat-concept/REPORT.md) | 核心循环成立；6 项 build/balance 修订留待 GDD |
-| Burst+Read Combat (Round 2) | 2026-06-02 | Paper | **PROCEED + 3 项新发现** | [rules-v0.2-diff.md](./burst-read-combat-concept/rules-v0.2-diff.md) · [play-log-v0.2.md](./burst-read-combat-concept/play-log-v0.2.md) | 3 项核心修正方向都奏效；新发现 3 项 design issues 留待战斗 GDD |
+| Burst+Read Combat (Round 1) | 2026-06-02 | Removed 2026-06-22 | **PROCEED with refinements**（历史） | Report removed with stale prototype | 核心循环成立；战斗模型已被「行气战棋（观/动）」彻底 supersede，spike 文物清理 |
+| Burst+Read Combat (Round 2) | 2026-06-02 | Removed 2026-06-22 | **PROCEED + 3 项新发现**（历史） | Report removed with stale prototype | 3 项核心修正方向都奏效；后被 Xingqi 战棋方向取代，文物清理 |
 
 ---
 
@@ -19,7 +19,7 @@ already learned (and avoid making the same mistake twice).
 
 | Concept | Date | Path | Verdict | Report | Notes |
 |---|---|---|---|---|---|
-| Burst+Read Engine Feel | 2026-06-02 | Engine (Godot 4.6.3 + C#) | **PROCEED** | [REPORT.md Engine Spike Findings](./burst-read-combat-concept/REPORT.md) | 4/4 feel 问题通过；克制倍率需从 3:1 调至 ~2:1 |
+| Burst+Read Engine Feel | 2026-06-02 | Removed 2026-06-22 | **PROCEED**（历史） | Report removed with stale prototype | Feel 问题验证通过；同样因战斗模型 supersede 一并清理 |
 
 ---
 

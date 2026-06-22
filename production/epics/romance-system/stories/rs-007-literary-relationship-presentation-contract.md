@@ -18,7 +18,7 @@
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0002: UI Framework & Dual-Focus Adaptation
 **ADR Decision Summary**: 感情系统绝不向玩家暴露数值，UI 只能消费文学化关系描述和回忆片段；具体面板应基于 Godot Control + `BaseUiPanel`，但本 story 只定义 Feature 层展示查询契约。
 
-**Engine**: Godot 4.6.3 | **Risk**: HIGH
+**Engine**: Godot 4.7-stable | **Risk**: HIGH
 **Engine Notes**: UI 实现受 Godot 4.6 dual-focus 影响；本 story 的 Feature 查询契约为低风险，最终 UI evidence 需在 Presentation 层验证。
 
 **Control Manifest Rules (Feature Layer)**:

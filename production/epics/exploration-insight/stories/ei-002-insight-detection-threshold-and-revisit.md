@@ -16,7 +16,7 @@
 该 story 实现探索洞察的核心门槛规则：玩家进入 detection_radius 后，系统实时评估 prerequisite 和 `player.insight >= node.insight_threshold`。洞察不足时不出现任何提示；洞察提升后重访同一位置可以重新发现。
 
 **ADR Governing Implementation**: ADR-0018: Exploration & Insight
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: N/A — no post-cutoff Godot API is required for the core detection rule. The detection logic should be implemented as a pure C# service that can be called from a future `_PhysicsProcess` adapter; this story must not depend on engine callbacks to remain unit-testable.
 
 ## Acceptance Criteria

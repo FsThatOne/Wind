@@ -12,7 +12,7 @@ related:
   - design/gdd/combat-ui.md
   - design/gdd/dialogue-system.md
   - design/gdd/settings-options.md
-engine: Godot 4.6.3
+engine: Godot 4.7-stable
 ---
 
 # 交互模式库 (Interaction Pattern Library) — v1.0
@@ -117,7 +117,7 @@ engine: Godot 4.6.3
 | Reduce Motion | `a11y §2.5` | 取消 scale 动画 |
 | 100% 键盘/手柄可达 | `a11y §3.2` | focus_mode = ALL |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: Button (继承 BaseButton)
@@ -187,7 +187,7 @@ engine: Godot 4.6.3
 | 焦点可见 (`a11y §3.2`) | focus ring |
 | 48dp 触摸目标 (`a11y §3.3`) | min_size |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: CheckButton (内建 Toggle 样式)
@@ -231,7 +231,7 @@ engine: Godot 4.6.3
 | 焦点可见 (`a11y §3.2`) | 滑块 focus ring |
 | 48dp 触摸目标 (`a11y §3.3`) | 滑块有效区域扩展至 48dp |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: HSlider
@@ -273,7 +273,7 @@ engine: Godot 4.6.3
 | 焦点可见 (`a11y §3.2`) | 每项 focus ring |
 | Focus Trap | 展开时焦点限定在列表内 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: OptionButton
@@ -314,7 +314,7 @@ engine: Godot 4.6.3
 | Hover = Focus 视觉一致 | 鼠标 hover 与手柄 focus 同样高亮 |
 | 48dp 可触区域 (`a11y §3.3`) | 行高 56dp ≥ 48dp |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: ItemList / VBoxContainer + 自定义 ListItemControl
@@ -373,7 +373,7 @@ engine: Godot 4.6.3
 | Reduce Motion | `a11y §2.5` | 参照 Section 6 替代表 |
 | 遮罩不完全遮盖背景 (认知) | `a11y §4.2` | 60% alpha 保留空间感 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: AcceptDialog / 自定义 Control
@@ -426,7 +426,7 @@ engine: Godot 4.6.3
 | 遮罩不可关闭 | — | 强制用户明确选择 |
 | 难度锁定提示 | `a11y §4.5` | "无法修改"显式警告 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: ConfirmationDialog / 自定义继承 Modal
@@ -488,7 +488,7 @@ engine: Godot 4.6.3
 | 生存时间充足 (`a11y §4.2`) | ≥4s |
 | Reduce Motion (`a11y §2.5`) | 无滑入动画 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # CanvasLayer: 93 (高于 Modal 92，确保可见)
@@ -533,7 +533,7 @@ engine: Godot 4.6.3
 | 对比度 (`a11y §2.2`) | 深色背景保证 ≥4.5:1 |
 | 不遮挡触发元素 | 位置计算避开 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: Control.tooltip_text (内建) 或自定义 RichTooltip
@@ -575,7 +575,7 @@ engine: Godot 4.6.3
 | 焦点可见 (`a11y §3.2`) | Tab focus ring |
 | 当前 Tab 状态标识 | 视觉 + aria-selected |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: TabContainer / TabBar + 自定义内容切换
@@ -647,7 +647,7 @@ engine: Godot 4.6.3
 | 对比度 ≥4.5:1 | `a11y §2.2` | token/surface-dialogue 深色保证 |
 | 暂停 (认知) | `a11y §4.2` | 对话等待确认，不自动前进（除非 Auto 模式） |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: Control (自定义 DialogueBox.tscn)
@@ -718,7 +718,7 @@ engine: Godot 4.6.3
 | 文字说明 (`a11y §2.3`) | 图标 + 文字双轨 |
 | 对比度 (`a11y §2.2`) | pill 背景保证可读 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # InteractionArea (Area2D/3D) → 进入时 show prompt
@@ -763,7 +763,7 @@ engine: Godot 4.6.3
 | 焦点可见 (`a11y §3.2`) | focus ring |
 | 网格导航 (`a11y §3.2`) | focus_neighbor 四方向 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: TextureButton / Control
@@ -807,7 +807,7 @@ engine: Godot 4.6.3
 | Glyph 自适应 (`a11y §6.1`) | Steam Input |
 | Reduce Motion (`a11y §2.5`) | 无 scale 弹出 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: TextureButton
@@ -865,7 +865,7 @@ engine: Godot 4.6.3
 | Reduce Motion | `a11y §2.5` | ghost 条取消追赶动画，即时跳至目标 |
 | 对比度 | `a11y §2.2` | 填充色与背景 ≥3:1 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: Control (自定义 ResourceBar.tscn)
@@ -933,7 +933,7 @@ engine: Godot 4.6.3
 | 数值化模式 | `a11y §4.3` | 精确百分比附加信息 |
 | 可读性 | `a11y §2.2` | 描边保证对比度 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 基类: Label / RichTextLabel (动态实例化)
@@ -1043,7 +1043,7 @@ Modal 关闭:
 | 首焦点自动设置 | `a11y §3.2` | 避免用户"盲导航" |
 | 输入方式无缝切换 | `a11y §3.3 (Steam Deck)` | 50ms debounce |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 核心 API:
@@ -1129,7 +1129,7 @@ Cancel Stack:
 - Cancel 成功: `ui_back` (soft pop)
 - Cancel 被屏蔽 (锁定期间): `ui_deny` (buzz)
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # CancelStack (Autoload 单例):
@@ -1183,7 +1183,7 @@ Cancel Stack:
 | 滑入/滑出 | 即时 alpha 淡入淡出 (Fast 100ms) |
 | 交叉淡入淡出 | 即时切换 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # ScreenManager (Autoload 单例):
@@ -1241,7 +1241,7 @@ Cancel Stack:
 | 加载时间 (`a11y` 性能约束) | ≤10s Deck / ≤5s PC SSD |
 | 文字可读 | 对比度 ≥4.5:1 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 全屏: CanvasLayer 94 + ColorRect + AnimatedSprite2D
@@ -1272,7 +1272,7 @@ Cancel Stack:
 | 文字说明清晰 (`a11y §4.2`) | 明确告知"为什么空" + "下一步" |
 | CTA 可聚焦 (`a11y §3.2`) | 首焦点设在 CTA 按钮 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 通用 EmptyState.tscn (可复用):
@@ -1306,7 +1306,7 @@ Cancel Stack:
 | 首焦点 | "重试"按钮 |
 | 描述清晰 (`a11y §4.2`) | 非技术用语 + 明确建议 |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 复用 EmptyState.tscn 布局 + 错误主题覆写
@@ -1376,7 +1376,7 @@ Cancel Stack:
 | AnimationPlayer 同屏 | ≤2 个 (UI 层) | CanvasLayer 90-95 限定 |
 | UI 动画总帧预算 | ≤2ms/frame | 16.6ms 帧预算中 UI 占比 ≤12% |
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # 全局动画工具类 (建议):
@@ -1462,7 +1462,7 @@ Cancel Stack:
 4. **Reduce Motion 不影响音效**：动画可关，音效保留（除非用户关闭 UI 音效通道）
 5. **无障碍音效视觉化**（`a11y §5.3`）：可选开启"音效 → 屏幕闪烁/图标"映射
 
-#### Implementation Notes (Godot 4.6.3)
+#### Implementation Notes (Godot 4.7-stable)
 
 ```gdscript
 # AudioManager (Autoload 单例):

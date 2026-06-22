@@ -1,0 +1,55 @@
+# <type>(<scope>): <subject>
+#
+# Body (optional, wrap at 72 chars):
+#
+#
+# Footer (optional — refs / TR-ID / breaking changes):
+#
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# Conventional Commits — 本仓库规范（权威源：docs/git-workflow.md）
+#
+# type 白名单（必须英文）:
+#   feat     新功能
+#   fix      bug 修复
+#   docs     文档（GDD / ADR / story / qa-plan / README ...）
+#   test     测试代码
+#   chore    杂项（构建 / 依赖 / 工具 / 配置）
+#   refactor 不改外部行为的代码改动
+#   perf     性能优化
+#   build    构建系统 / 外部依赖（dotnet / godot / scripts/build/）
+#   ci       CI 配置 / 流水线
+#
+# scope（选填）:
+#   - 模块名 / epic id / system 名（中文 / 英文均可）
+#   - 例：combat-ui / 战斗UI / cu-006 / tooling / adr-0011 / sprint-6
+#
+# subject（必填）:
+#   - 中文 / 英文均可（仅 type 关键字必须英文）
+#   - 推荐 ≤ 72 字符（>72 仅警告，不拒绝）
+#   - 不要句号结尾（仅警告）
+#   - 推荐附 (TR-xxx-NNN) 后缀关联 traceability，但不强制
+#
+# 示例:
+#   feat(combat-ui): cu-006 godot integration (TR-combat-ui-006)
+#   feat(战斗UI): cu-006 godot 集成
+#   fix: correct timescale stack restore order
+#   docs(adr-0011): 实机集成段落补全
+#   test(combat-ui): add cu-006 godot smoke harness
+#   chore(tooling): introduce commit-msg lint script
+#
+# 拒绝示例（lint 会 exit 1）:
+#   阶段性提交
+#   init(test):
+#   <空消息>
+#   🚀
+#
+# 启用模板（仓库本地一次）:
+#   git config commit.template .gitmessage
+#
+# 手动校验:
+#   bash scripts/git/commit-msg-lint.sh -m "feat(x): hi"
+#   git log -1 --pretty=%B | bash scripts/git/commit-msg-lint.sh
+#
+# 完整文档: docs/git-workflow.md
+# ─────────────────────────────────────────────────────────────────────────────

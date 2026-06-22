@@ -62,10 +62,10 @@
 
 ## Engine Notes
 
-- Godot 4.6.3 dual-focus 属于 post-cutoff 高风险 API 行为，必须通过手动 evidence 验证并记录。
+- Godot 4.7-stable dual-focus 属于 post-cutoff 高风险 API 行为，必须通过手动 evidence 验证并记录。
 - `grab_focus()` 必须受 FocusManager 生命周期保护，且不得清除当前鼠标 hover 高亮。
 - 鼠标 hover 与手柄焦点需要维护独立视觉状态；输入模式切换只改变样式优先级，不得丢失 selected/focused action。
-- `focus_neighbor_top/bottom` 或等效 API 的循环设置必须在 Godot 4.6.3 下验证，避免面板动态刷新后邻居引用失效。
+- `focus_neighbor_top/bottom` 或等效 API 的循环设置必须在 Godot 4.7-stable 下验证，避免面板动态刷新后邻居引用失效。
 - 自动测试可覆盖导航图和状态契约；真实手柄、Steam Deck 或 Godot scene 中的 dual-focus 表现必须由 `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md` 留证。
 
 ## 验收标准
@@ -113,6 +113,14 @@ Required automated coverage:
 Manual evidence required:
 - Capture `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md`.
 - Include a clip showing D-pad cycle, confirm submit, focus containment, and simultaneous mouse hover/gamepad focus.
+
+**Sprint 6 升级 (cu-visual-evidence Must Have)**：
+- 把 evidence MD 升级为 **Visual Captured** 状态。
+- ≥1 段 D-pad 循环录屏（无硬件时键盘 fallback 录屏，硬件 walkthrough 走 cu-008-Gamepad-HW-Verify Nice to Have）。
+- ≥1 张鼠标 hover + 手柄/键盘焦点共存截图。
+- Sign-off：designer + qa-lead。
+- tech-debt-register 中 cu-008 Visual evidence deferred 条目改为 `Resolved`（手柄硬件部分仍为 deferred until cu-008-Gamepad-HW-Verify）。
+- Reference QA plan: `production/qa/qa-plan-sprint-6-2026-06-18.md`.
 
 ## 测试证据路径
 

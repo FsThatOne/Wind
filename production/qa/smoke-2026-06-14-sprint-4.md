@@ -2,7 +2,7 @@
 
 **Date**: 2026-06-14
 **Sprint**: Sprint 4 — Exploration Insight
-**Engine**: Godot 4.6.3 mono
+**Engine**: Godot 4.7-stable mono
 **QA Plan**: `production/qa/qa-plan-sprint-4-2026-06-14.md`
 **Argument**: sprint
 
@@ -14,7 +14,7 @@
 - CI configured: yes, `.github/workflows/tests.yml`
 - Smoke checklist: found at `tests/smoke/critical-paths.md`
 - Godot executable: `/Applications/Godot.app/Contents/MacOS/Godot`
-- Godot version: `4.6.3.stable.mono.official.7d41c59c4`
+- Godot version: `4.7-stable.stable.mono.official.7d41c59c4`
 - Canonical Sprint 4 automated runner: `dotnet test`
 
 ---
@@ -53,7 +53,7 @@ Retry command passed by directing the log to a writable explicit path:
 Observed output:
 
 ```text
-Godot Engine v4.6.3.stable.mono.official.7d41c59c4 - https://godotengine.org
+Godot Engine v4.7-stable.stable.mono.official.7d41c59c4 - https://godotengine.org
 [BossBattle] === 铁冠道人 Boss 战 Prototype ===
 [BossBattle] Foundation EnemyBrain 4阶段 AI 已加载
 [BossBattle] === 第 1 回合 ===

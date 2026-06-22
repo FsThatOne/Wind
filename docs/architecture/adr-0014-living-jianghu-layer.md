@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | World Simulation, Rule Engine, Scheduling |
 | **Knowledge Risk** | **LOW** — 纯逻辑调度，不依赖引擎特定 API；唯一引擎触点是 Autoload 生命周期和信号连接 |
 | **References Consulted** | `design/gdd/living-jianghu-layer.md`, ADR-0001 (EventBus), ADR-0003 (Data Schema), ADR-0004 (Save System) |
 | **Post-Cutoff APIs Used** | 无 |
 | **Verification Required** | 1) 验证每日 Tick 在大事件表（200+ 条目）下的扫描性能 ≤ 1ms; 2) 验证 Flag 系统跨存档读写隔离 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

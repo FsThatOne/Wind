@@ -2,7 +2,7 @@
 
 > **Status**: Designed
 > **Created**: 2026-06-02
-> **Last Updated**: 2026-06-16
+> **Last Updated**: 2026-06-22
 > **Source Concept**: design/gdd/game-concept.md
 
 ---

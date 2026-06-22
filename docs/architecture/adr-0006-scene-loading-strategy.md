@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Foundation / Scene Management |
 | **Knowledge Risk** | LOW — ResourceLoader async API 稳定自 4.0+ |
 | **References Consulted** | `docs/engine-reference/godot/current-best-practices.md`, `docs/engine-reference/godot/breaking-changes.md` |
 | **Post-Cutoff APIs Used** | None (ResourceLoader API unchanged) |
 | **Verification Required** | 验证 C# 中 ResourceLoader.LoadThreadedRequest/GetStatus 的绑定正确性 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

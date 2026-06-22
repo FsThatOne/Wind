@@ -18,7 +18,7 @@ Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at
 **ADR Governing Implementation**: ADR-0015: Romance System; ADR-0001: Event Bus Architecture
 **ADR Decision Summary**: 结缘必须全局互斥，且采用 TryBond → AwaitingChoice → ConfirmBond 三步流程；拒绝结缘必须设置 `romance_bond_declined_{npcId}` flag 防止同一节点重复触发。
 
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: 纯逻辑 + 跨系统事件；不依赖 post-cutoff Godot API。
 
 **Control Manifest Rules (Feature Layer)**:

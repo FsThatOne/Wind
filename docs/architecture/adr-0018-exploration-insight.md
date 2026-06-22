@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Scene Interaction, Spatial Detection, Discovery Pipeline |
 | **Knowledge Risk** | **LOW** — 使用 Godot Area2D 触发器和标准距离查询，无实验性 API |
 | **References Consulted** | `design/gdd/exploration-insight.md`, ADR-0001 (EventBus), ADR-0003 (Data Schema), ADR-0004 (Save), ADR-0006 (Scene Loading), ADR-0014 (ConditionEvaluator) |
 | **Post-Cutoff APIs Used** | 无 |
 | **Verification Required** | 1) 验证 Area2D 触发器在场景切换时的正确清理; 2) 验证多节点排队的协程调度不与战斗/对话锁冲突 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

@@ -60,7 +60,7 @@
 
 ## Engine Notes
 
-- Godot 4.6.3 dual-focus 行为必须保留：键盘/手柄焦点切换不得清除鼠标 hover 高亮，hover 也不得抢占手柄焦点。
+- Godot 4.7-stable dual-focus 行为必须保留：键盘/手柄焦点切换不得清除鼠标 hover 高亮，hover 也不得抢占手柄焦点。
 - “决胜一击”行必须是可聚焦 Control，并参与与普通招式相同的导航顺序；打开面板时默认焦点仍遵守第一个可用行动规则。
 - 使用 `grab_focus()` 时必须受 FocusManager 生命周期保护，避免目标切换或资源刷新重复压栈。
 - 若后续接入 SceneTreeTween 或 TimeScale 演出，演出编排属于 `cu-006`，本 story 只产出提示与行动意图。
@@ -108,6 +108,13 @@ Required automated coverage:
 Manual evidence required:
 - Capture `production/qa/evidence/cu-005-counter-and-decisive-action-prompts-evidence.md`.
 - Include enabled counter, disabled counter, Decisive Strike row, and target-switch prompt refresh.
+
+**Sprint 6 升级 (cu-visual-evidence Must Have)**：
+- 把 `Foundation Captured` / `Visual evidence not yet captured` 升级为 **Visual Captured**。
+- ≥4 张截图或 1 段录屏挂在 `production/qa/evidence/media/`：反制可用（金色）、反制置灰（内息不足）、决胜行（破绽 ≥5）、多目标切换决胜刷新。
+- Sign-off：designer + qa-lead。
+- tech-debt-register 中 cu-005 Visual evidence deferred 条目改为 `Resolved`。
+- Reference QA plan: `production/qa/qa-plan-sprint-6-2026-06-18.md`.
 
 ## 测试证据路径
 

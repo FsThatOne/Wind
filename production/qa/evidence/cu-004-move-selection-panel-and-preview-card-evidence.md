@@ -18,7 +18,7 @@
 | 项目 | 记录 |
 |------|------|
 | Target | `prototypes/sprint5-combat-ui-harness` |
-| Engine | Godot 4.6.3 Mono |
+| Engine | Godot 4.7-stable Mono |
 | Platform | macOS local dev build |
 | Input | Mouse + keyboard |
 | Fixture | `DefaultAvailable`, `InsufficientNeixi`, `NoCombatItem` |
@@ -53,3 +53,50 @@
 当前结论：**PASS VIA HARNESS**。
 
 `cu-004` 不再阻塞 Sprint 5 Must Have close-out。旧 `BUG-0002` 可关闭为 stale target + fixed + verified。
+
+---
+
+## Visual Captured (Sprint 6 — Pending)
+
+> 本段为 Sprint 6 `cu-visual-evidence` story 的模板占位；待 designer 录屏 / 截图后填入并切换为 Visual Captured。
+
+### Metadata
+
+| 项 | 值 |
+|---|---|
+| Capture date | TBD |
+| Captured by | TBD（designer 名 / 工号） |
+| Engine | Godot 4.7-stable Mono |
+| Build | TBD（local dev / commit hash） |
+| Platform | TBD（macOS / Windows / Linux） |
+| Recording tool | TBD（macOS Screen Recording / OBS / etc.） |
+| Harness | `prototypes/sprint5-combat-ui-harness` |
+| Fixture used | `DefaultAvailable` / `InsufficientNeixi` / `NoCombatItem` |
+
+### Required Shots（per qa-plan-sprint-6 §cu-visual-evidence）
+
+| # | 类型 | 内容 | 文件 | 状态 |
+|---|---|---|---|---|
+| 1 | 截图 | 招式选择面板 — 6 个装备招式 + `调息` + `使用道具` 全部可见 | `production/qa/evidence/media/cu-004-move-panel-all-actions.png` | TBD |
+| 2 | 截图 | 置灰原因 ① — 内息不足（fixture: `InsufficientNeixi`） | `production/qa/evidence/media/cu-004-disabled-neixi-shortage.png` | TBD |
+| 3 | 截图 | 置灰原因 ② — 道具未配备（fixture: `NoCombatItem`） | `production/qa/evidence/media/cu-004-disabled-no-combat-item.png` | TBD |
+| 4 | 截图 | 置灰原因 ③ — 招式冷却 / 不可用（fixture: TBD） | `production/qa/evidence/media/cu-004-disabled-other.png` | TBD |
+| 5 | 截图 | 预览卡关系 — 克制（玩家招克制敌方公开招） | `production/qa/evidence/media/cu-004-preview-counter.png` | TBD |
+| 6 | 截图 | 预览卡关系 — 同系（同体系招式） | `production/qa/evidence/media/cu-004-preview-same-element.png` | TBD |
+| 7 | 截图 | 预览卡关系 — 被克（玩家招被敌方招克制） | `production/qa/evidence/media/cu-004-preview-countered.png` | TBD |
+
+### Capture Checklist
+
+- [ ] 截图 ≥ 3 张（必备：#1 + 至少 2 个 disabled + 至少 2 个 preview 关系）
+- [ ] 所有截图挂在 `production/qa/evidence/media/` 下并被本文件相对引用
+- [ ] 文件名使用 kebab-case；分辨率 ≥ 1280×720
+- [ ] header `证据状态` 字段升级为 `Visual Captured`
+- [ ] story 文件 `production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md` 内 `Foundation Captured` / `Visual evidence not yet captured` 升级为 `Visual Captured`
+- [ ] tech-debt-register 中 cu-004 Visual evidence deferred 条目改为 `Resolved`
+
+### Sign-off
+
+| 角色 | 姓名 | 日期 | 签字 |
+|---|---|---|---|
+| Designer | TBD | TBD | __pending__ |
+| QA Lead | TBD | TBD | __pending__ |

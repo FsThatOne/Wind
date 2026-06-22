@@ -11,7 +11,7 @@
 
 **GDD**: `design/gdd/mindset-dual-axis.md`
 **Governing ADRs**: ADR-0001: Event Bus Architecture
-**Engine**: Godot 4.6.3 / C# .NET 8 | **Risk**: HIGH
+**Engine**: Godot 4.7-stable / C# .NET 8 | **Risk**: HIGH
 
 **Control Manifest Rules**:
 - Required: 跨层通知必须走 `EventBus.Publish<T>()`。

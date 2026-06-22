@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Cutscene Playback, Game State Management, Resource Loading |
 | **Knowledge Risk** | **MEDIUM** — ResourceLoader 异步加载 + SceneTreeTween 程序化动画为成熟 API；需验证多 CanvasLayer 叠加 Z-order 行为 |
 | **References Consulted** | `design/gdd/cutscene-system.md`, `docs/engine-reference/godot/modules/ui.md`, ADR-0001 (EventBus), ADR-0002 (UI Framework), ADR-0009 (Audio), ADR-0011 (Combat UI Animation) |
 | **Post-Cutoff APIs Used** | ResourceLoader.LoadThreadedRequest (4.x async), SceneTreeTween process mode |
 | **Verification Required** | 1) 验证 ResourceLoader.LoadThreadedRequest 在 FULL 锁定下的行为; 2) 验证 CanvasLayer(100) 遮罩下方 UI 的输入屏蔽效果; 3) 验证 SceneTreeTween 在 Engine.TimeScale=0 时 SetProcessMode(ALWAYS) 的跳过恢复动画 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

@@ -17,6 +17,7 @@ public sealed class CombatUiEventAdapter : IDisposable
     private readonly Action<StaggerChangedEvent> _onStaggerChanged;
     private readonly Action<NeixiChangedEvent> _onNeixiChanged;
     private readonly Action<DecisiveStrikeAvailableEvent> _onDecisiveStrikeAvailable;
+    private readonly Action<SynergyDeclaredEvent> _onSynergyDeclared;
     private readonly Action<RoundEndEvent> _onRoundEnd;
     private readonly Action<BattleEndEvent> _onBattleEnd;
     private readonly List<CombatUiIntentEntry> _intentEntries = new();
@@ -30,12 +31,16 @@ public sealed class CombatUiEventAdapter : IDisposable
     private readonly List<CombatUiNeixiEntry> _neixiEntries = new();
     private readonly List<CombatUiDamageNumberDisplayEntry> _damageNumberEntries = new();
     private readonly List<CombatUiStaggerCueEntry> _staggerCueEntries = new();
+    private readonly List<CombatUiSynergyCueEntry> _synergyCueEntries = new();
     private readonly List<string> _decisiveStrikeTargets = new();
     private int _damageNumberSequence;
     private bool _subscribed;
     private bool _disposed;
     private bool _isDirty;
     private int _refreshCount;
+    private CombatUiTurnWarningDisplayEntry _turnWarning =
+        CombatUiTurnWarningDisplayEntry.ForRound(0, false);
+    private CombatUiTurnWarningKind _previousTurnWarningKind = CombatUiTurnWarningKind.Normal;
 
     public CombatUiEventAdapter(BattleEventBus eventBus)
     {
@@ -46,6 +51,7 @@ public sealed class CombatUiEventAdapter : IDisposable
         _onStaggerChanged = HandleStaggerChanged;
         _onNeixiChanged = HandleNeixiChanged;
         _onDecisiveStrikeAvailable = HandleDecisiveStrikeAvailable;
+        _onSynergyDeclared = HandleSynergyDeclared;
         _onRoundEnd = HandleRoundEnd;
         _onBattleEnd = HandleBattleEnd;
 
@@ -157,6 +163,7 @@ public sealed class CombatUiEventAdapter : IDisposable
         _eventBus.Subscribe(_onStaggerChanged);
         _eventBus.Subscribe(_onNeixiChanged);
         _eventBus.Subscribe(_onDecisiveStrikeAvailable);
+        _eventBus.Subscribe(_onSynergyDeclared);
         _eventBus.Subscribe(_onRoundEnd);
         _eventBus.Subscribe(_onBattleEnd);
         _subscribed = true;
@@ -197,6 +204,7 @@ public sealed class CombatUiEventAdapter : IDisposable
         _eventBus.Unsubscribe(_onStaggerChanged);
         _eventBus.Unsubscribe(_onNeixiChanged);
         _eventBus.Unsubscribe(_onDecisiveStrikeAvailable);
+        _eventBus.Unsubscribe(_onSynergyDeclared);
         _eventBus.Unsubscribe(_onRoundEnd);
         _eventBus.Unsubscribe(_onBattleEnd);
         _subscribed = false;
@@ -220,6 +228,8 @@ public sealed class CombatUiEventAdapter : IDisposable
             _damageNumberEntries.ToArray(),
             _staggerCueEntries.ToArray(),
             _decisiveStrikeTargets.ToArray(),
+            _synergyCueEntries.ToArray(),
+            _turnWarning,
             _isDirty,
             _refreshCount);
     }
@@ -239,7 +249,9 @@ public sealed class CombatUiEventAdapter : IDisposable
         _neixiEntries.Clear();
         _damageNumberEntries.Clear();
         _staggerCueEntries.Clear();
+        _synergyCueEntries.Clear();
         _decisiveStrikeTargets.Clear();
+        UpdateTurnWarning(evt.RoundNumber);
         MarkDirty();
     }
 
@@ -407,10 +419,50 @@ public sealed class CombatUiEventAdapter : IDisposable
         MarkDirty();
     }
 
+    private void HandleSynergyDeclared(SynergyDeclaredEvent evt)
+    {
+        if (string.IsNullOrWhiteSpace(evt.TargetId))
+            return;
+        if (evt.SourceActorIds is null || evt.SourceActorIds.Count < 2)
+            return;
+
+        var sources = evt.SourceActorIds
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .ToArray();
+        if (sources.Length < 2)
+            return;
+
+        _synergyCueEntries.Add(new CombatUiSynergyCueEntry(
+            evt.TargetId,
+            sources,
+            evt.RoundNumber,
+            "synergy_double_fist",
+            "synergy_gold",
+            true,
+            true,
+            CombatUiFeedbackTuning.SynergyCueDurationSeconds));
+        State = CombatUiState.Resolving;
+        MarkDirty();
+    }
+
+    private void UpdateTurnWarning(int roundNumber)
+    {
+        var next = CombatUiTurnWarningDisplayEntry.ForRound(
+            roundNumber,
+            shouldFlashOnEnter: false);
+        var shouldFlash = next.Kind != CombatUiTurnWarningKind.Normal
+            && next.Kind != _previousTurnWarningKind;
+        _turnWarning = shouldFlash
+            ? next with { ShouldFlashOnEnter = true }
+            : next;
+        _previousTurnWarningKind = next.Kind;
+    }
+
     private void HandleRoundEnd(RoundEndEvent evt)
     {
         RoundNumber = evt.RoundNumber;
         State = CombatUiState.RoundEnd;
+        UpdateTurnWarning(evt.RoundNumber);
         MarkDirty();
     }
 

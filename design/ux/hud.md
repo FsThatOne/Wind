@@ -1,11 +1,20 @@
 ---
 title: HUD Design — 战斗与探索
 project: 风止 (Wind Stops)
-status: Draft
+status: Needs Revision
 version: 1.0
 author: UX Lead
 created: 2026-06-09
-last_updated: 2026-06-09
+last_updated: 2026-06-22
+revision_note: |
+  2026-06-22 — 战斗模型已从 Burst+Read 同步结算迁移到行气战棋（见 design/gdd/combat-system.md）。
+  本次仅完成「阶段名」词汇级对齐（旧 Read/Burst 命名 → 新「观 / Stance」「动 / Strike」命名）。
+  以下机制名 / 资源名仍引用旧模型，待 game-designer + ux-designer 重写：
+  - "气势 (Burst 蓄力)" 资源命名（行气战棋下用「内息」，无气势 Burst）
+  - "Burst 倒计时"（行气战棋非同步结算，无倒计时机制）
+  - "(Burst+PlayerTurn)" 行动面板触发条件
+  - §4.7 ASCII 布局图按旧模型绘制
+  完整重写归入 Pre-Production VS sprint 范围。
 platform_targets: PC (Steam), Steam Deck
 accessibility_tier: Standard (WCAG 2.1 AA)
 related:
@@ -44,8 +53,8 @@ style_reference: design/art/art-bible.md § HUD Visual Language (待创建)
 
 信息按"当前是否影响决策"动态显现：
 - **探索态**：HUD 近乎隐形（仅保留交互提示 + 心境指示器边缘微光）
-- **战斗态 (Read 阶段)**：关键资源 + 阶段指示器显现，招式面板待命
-- **战斗态 (Burst 阶段)**：全 HUD 激活，行动面板前置，倒计时可见
+- **战斗态 (观 / Stance)**：关键资源 + 阶段指示器显现，招式面板待命
+- **战斗态 (动 / Strike)**：全 HUD 激活，行动面板前置，倒计时可见
 - **演出锁定**：HUD 全部隐藏（ADR-0013 LockMode.Full），仅保留字幕
 
 **The Rule of Necessity**：
@@ -87,8 +96,8 @@ style_reference: design/art/art-bible.md § HUD Visual Language (待创建)
 | **敌方 HP** | | ✓ | | | 战斗中目标锁定时显示；探索态隐藏 |
 | **敌方状态效果** | | ✓ | | | 战斗中目标锁定时显示 |
 | **己方状态效果** | | ✓ | | | 有 Buff/Debuff 时显示，消失后 2s 隐藏 |
-| **回合阶段 (Burst/Read)** | | ✓ | | | 仅战斗态显示 |
-| **行动指令面板** | | ✓ | | | 仅 Burst 阶段玩家回合显示 |
+| **回合阶段 (动/观)** | | ✓ | | | 仅战斗态显示 |
+| **行动指令面板** | | ✓ | | | 仅 动 (Strike) 阶段玩家回合显示 |
 | **心境 (Mood 双轴)** | ✓ (微弱) | | | | 始终以某种形式存在（探索=边缘微光；战斗=更明确） |
 | **伤害数字** | | ✓ | | | 仅数值化模式下战斗内显示 |
 | **伤害反馈 (朦胧化)** | | | | ✓ | 默认通过画面震动/动作幅度传达 |
@@ -262,14 +271,14 @@ style_reference: design/art/art-bible.md § HUD Visual Language (待创建)
 
 ---
 
-### 4.4 Turn Order / Phase Indicator (Burst / Read)
+### 4.4 Turn Order / Phase Indicator (动 / 观)
 
 **布局**：Zone TC，水平居中。
 
 | 状态 | 视觉表现 |
 |------|---------|
-| Read 阶段 | 柔和墨色标签 "观" + 水墨涟漪动画（Cinematic 600ms loop） |
-| Burst 阶段 | 明亮标签 "动" + 墨点爆裂 (Fast 100ms 入场) |
+| 观 (Stance) 阶段 | 柔和墨色标签 "观" + 水墨涟漪动画（Cinematic 600ms loop） |
+| 动 (Strike) 阶段 | 明亮标签 "动" + 墨点爆裂 (Fast 100ms 入场) |
 | 阶段切换 | "观"→"动": 墨滴坠落过渡 (Normal 200ms)；"动"→"观": 水面归平 (Slow 400ms) |
 | Burst 倒计时 | 朦胧化：圆弧收缩（无数字）；数值化：圆弧 + 秒数 "{t}s" |
 | Reduce Motion | 墨点爆裂→简单颜色切换 (Instant)；涟漪→静态边框 |
@@ -282,7 +291,7 @@ style_reference: design/art/art-bible.md § HUD Visual Language (待创建)
 
 **引用**: [Pattern: 3.4 Ability/Skill Icon](interaction-patterns.md#34-abilityskill-icon)
 
-**布局**：Zone BR，仅在 Burst 阶段 + 玩家回合时显示。
+**布局**：Zone BR，仅在 动 (Strike) 阶段 + 玩家回合时显示。
 
 | 属性 | 规格 |
 |------|------|
@@ -486,8 +495,8 @@ style_reference: design/art/art-bible.md § HUD Visual Language (待创建)
 **引用**: [Pattern: 4.1 Focus Management](interaction-patterns.md#41-focus-management)
 
 - 战斗 HUD 非 Modal——不实现 Focus Trap（玩家可自由切换系统菜单）
-- Burst 阶段行动面板出现时自动 `grab_focus()`
-- Read 阶段无可聚焦 HUD 元素（焦点回归游戏世界）
+- 动 (Strike) 阶段行动面板出现时自动 `grab_focus()`
+- 观 (Stance) 阶段无可聚焦 HUD 元素（焦点回归游戏世界）
 - Tab 键：循环聚焦 己方状态图标 → 敌方状态图标（查看 Tooltip）
 - 手柄 Focus：LB/RB 切换目标；方向键操作行动面板
 
@@ -556,7 +565,7 @@ style_reference: design/art/art-bible.md § HUD Visual Language (待创建)
 |---|------|------|------|
 | Q1 | 心境指示器的具体视觉形态（水墨圆/双轴雷达/抽象粒子）？ | 待 Art Bible | — |
 | Q2 | 敌方 Resource Bar 显示在头顶还是屏幕固定位置？ | 待原型验证 | — |
-| Q3 | Burst 阶段倒计时是否显示精确秒数还是仅进度条？ | 已决定 | 朦胧化=圆弧；数值化=圆弧+秒数 (§4.4) |
+| Q3 | 动 (Strike) 阶段倒计时是否显示精确秒数还是仅进度条？ | 已决定 | 朦胧化=圆弧；数值化=圆弧+秒数 (§4.4) |
 | Q4 | 多敌人战斗时状态图标溢出如何处理（折叠 vs 滚动 vs 优先级裁切）？ | 已决定 | "+N" 折叠 (§4.7) |
 | Q5 | 战斗内是否允许暂停菜单？（影响 HUD Focus 规则） | 待 GDD 确认 | — |
 | Q6 | 心境对战斗增益的视觉反馈形式？ | 待 Combat GDD | — |

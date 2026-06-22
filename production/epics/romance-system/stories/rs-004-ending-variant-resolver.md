@@ -18,7 +18,7 @@ Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at
 **ADR Governing Implementation**: ADR-0015: Romance System
 **ADR Decision Summary**: `EndingResolver` 负责读取心境区域、善恶值和 `bonded_heroine`，先处理 morality ≤ -30 的魔道 override，否则输出 zone × companion/farewell/solo × narrator tone 的稳定结局变体。
 
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: 纯逻辑解析；无 Godot-specific API。
 
 **Control Manifest Rules (Feature Layer)**:

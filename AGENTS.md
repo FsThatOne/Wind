@@ -1,11 +1,11 @@
-# Codex Game Studios -- Game Studio Agent Architecture
+# 《风止》 — Codex 协作配置
 
-Indie game development managed through 49 coordinated Codex subagents.
-Each agent owns a specific domain, enforcing separation of concerns and quality.
+《风止》（FengZhi）是一款 2D 像素武侠 RPG，由个人 + 一组协调的 Codex subagent
+共同开发。每个 agent 拥有专属领域，强制分层与质量门控。项目概览见 [README.md](README.md)。
 
 ## Technology Stack
 
-- **Engine**: Godot 4.6.3
+- **Engine**: Godot 4.7-stable
 - **Language**: C# (.NET 8+, primary), C++ via GDExtension (native plugins only)
 - **Version Control**: Git with trunk-based development
 - **Build System**: .NET SDK + Godot Export Templates

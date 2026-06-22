@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Platform / Persistence |
 | **Knowledge Risk** | LOW — 使用 .NET 标准加密库，不依赖 Godot-specific API |
 | **References Consulted** | `docs/engine-reference/godot/breaking-changes.md` (FileAccess.store_* return bool change in 4.4) |
 | **Post-Cutoff APIs Used** | `FileAccess.store_*` 返回 bool (4.4+，需处理返回值) |
 | **Verification Required** | 验证 FileAccess.StoreBuffer() 在 C# 绑定中的返回类型 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

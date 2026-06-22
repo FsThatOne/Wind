@@ -18,7 +18,7 @@ Requirement text lives in `docs/architecture/tr-registry.yaml` — read fresh at
 **ADR Governing Implementation**: ADR-0015: Romance System
 **ADR Decision Summary**: `MilestoneRegistry` 管理里程碑顺序、门槛和 `force_break`；里程碑按 Acquainted → Trust → Crisis → Heart → Bond 解锁，`force_break` 是唯一可无视地板与顺序的覆写操作。
 
-**Engine**: Godot 4.6.3 | **Risk**: LOW
+**Engine**: Godot 4.7-stable | **Risk**: LOW
 **Engine Notes**: 纯 C# 逻辑；需验证 `force_break` 在任何里程碑组合下覆写正确。
 
 **Control Manifest Rules (Feature Layer)**:

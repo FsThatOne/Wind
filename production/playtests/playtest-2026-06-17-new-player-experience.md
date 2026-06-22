@@ -36,7 +36,7 @@ Do not use this session as final evidence for:
 
 Startup evidence before cancellation:
 
-- Godot 4.6.3 Mono launched without script/runtime errors.
+- Godot 4.7-stable Mono launched without script/runtime errors.
 - Debug output includes old `Boss决策: Attack 体系:Rou`, confirming stale combat semantics.
 
 Cancellation result:

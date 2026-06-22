@@ -91,6 +91,45 @@ public readonly record struct NeixiChangedEvent(string ActorId, int NewValue);
 
 public readonly record struct DecisiveStrikeAvailableEvent(string TargetId);
 
+/// <summary>
+/// 协同声明事件。由战斗结算/服务层在判定多人对同一目标使用克制体系招式时发布；
+/// Combat UI 仅订阅该事件，不自行重新判定协同收益。
+/// </summary>
+public readonly record struct SynergyDeclaredEvent(
+    IReadOnlyList<string> SourceActorIds,
+    string TargetId,
+    int RoundNumber);
+
+/// <summary>
+/// 一击决胜演出开始事件。由 Combat UI 的 CombatAnimationDirector 发布，
+/// 让音效（ADR-0009）与体系动画层挂载，不暴露 director 句柄。
+/// </summary>
+public readonly record struct DecisiveStrikeStartedEvent(
+    string SourceId,
+    string TargetId,
+    int PrecomputedDamage,
+    MoveType MoveType);
+
+/// <summary>
+/// 一击决胜演出阶段推进事件。每进入一个阶段发布一次；
+/// 浮字层订阅 Phase5 触发深金最大尺寸样式。
+/// </summary>
+public readonly record struct DecisiveStrikePhaseAdvancedEvent(
+    string SourceId,
+    string TargetId,
+    int PhaseIndex,
+    string PhaseName,
+    MoveType MoveType);
+
+/// <summary>
+/// 一击决胜演出完成事件。Phase 7 结束、CinematicLock 释放后发布；
+/// 战斗系统据此恢复正常回合推进。
+/// </summary>
+public readonly record struct DecisiveStrikeCompletedEvent(
+    string SourceId,
+    string TargetId,
+    bool WasCancelled);
+
 public readonly record struct BattleEndEvent(BattleResult Result);
 
 public readonly record struct RoundEndEvent(int RoundNumber);

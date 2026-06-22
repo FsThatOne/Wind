@@ -10,12 +10,13 @@ Accepted
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot 4.6.3 |
+| **Engine** | Godot 4.7-stable |
 | **Domain** | Relationship State, Rule Evaluation, Narrative Branching |
 | **Knowledge Risk** | **LOW** — 纯逻辑系统，不依赖引擎特定 API；数据寄存于 NPC State 系统 |
 | **References Consulted** | `design/gdd/romance-system.md`, ADR-0001 (EventBus), ADR-0003 (Data Schema), ADR-0008 (FSM/NPC State) |
 | **Post-Cutoff APIs Used** | 无 |
 | **Verification Required** | 1) 验证 NPC State 系统可在对话进行中排队态度变更; 2) 验证 force_break 在任何里程碑组合下的覆写正确性 |
+| **4.7 Re-verification (2026-06-20)** | Engine pin upgraded 4.6.3 → 4.7-stable. Re-verify all post-cutoff APIs above against Godot 4.7-stable; flag any regressions or behavior changes in next `/architecture-review`. |
 
 ## ADR Dependencies
 

@@ -127,7 +127,7 @@ Actual hour-level variance is still not tracked consistently across all stories,
 |---|--------|-------|----------|----------|
 | 1 | Update local smoke convention to always pass explicit `--log-file` for Godot headless runs, or configure the default `user://logs` path so it no longer crashes. | Dev/QA | High | Before next `/smoke-check sprint` |
 | 2 | Before the next integration-heavy story, add readiness sections for Estimate, Out of Scope, Control Manifest Rules, Engine Notes, and Performance Notes before `/dev-story`. | Producer/Dev | High | Before next story implementation |
-| 3 | Triage Exploration tech debt and choose which boundary-contract item must be paid down before Presentation integration. | Dev/QA | High | Before UI/Presentation sprint planning |
+| 3 | Triage Exploration tech debt and choose which boundary-contract item must be paid down before Presentation integration. | Dev/QA | High | Before UI/Presentation sprint planning — **Closed 2026-06-22** by Sprint 6 `EI-Debt-Triage` (output: [`production/notes/exploration-debt-triage-2026-06-22.md`](../notes/exploration-debt-triage-2026-06-22.md); 2 P1 + 1 P2 items must-pay-down before Insight Presentation epic kickoff) |
 | 4 | Record actual effort consistently in every story completion note, not just later sprint stories. | Producer/Dev | Medium | During next sprint |
 | 5 | Commit or intentionally shelve Sprint 4 artifacts before starting the next sprint to preserve a clean audit baseline. | Dev | Medium | Before next `/sprint-plan new` |
 

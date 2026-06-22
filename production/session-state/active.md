@@ -490,7 +490,7 @@
 
 ## Session Extract — Sprint 5 Combat UI harness QA 2026-06-17
 - Target: `prototypes/sprint5-combat-ui-harness` replaced stale `prototypes/fengzhi-vertical-slice` for Sprint 5 Combat UI targeted QA
-- Runtime: Godot 4.6.3 Mono launched cleanly; no script/runtime errors in debug output; project stopped after manual test
+- Runtime: Godot 4.7-stable Mono launched cleanly; no script/runtime errors in debug output; project stopped after manual test
 - User manual QA: `cu-005` PASS; `cu-008` PASS
 - QA document updates: `production/qa/test-cases-sprint-5-must-closeout-zh-2026-06-16.md`, `production/qa/qa-signoff-sprint-5-2026-06-16.md`, `production/qa/evidence/cu-005-counter-and-decisive-action-prompts-evidence.md`, `production/qa/evidence/cu-008-dual-focus-and-gamepad-navigation-evidence.md`
 - Bug updates: `BUG-0003` marked superseded by stale target; `BUG-0002` reframed around current `cu-004` registry drift and harness re-test
@@ -536,3 +536,121 @@
 - Cancelled `production/playtests/playtest-2026-06-17-new-player-experience.md` because it had started against the deleted stale target
 - Current runnable targets left: `prototypes/sprint5-combat-ui-harness` for Sprint 5 Combat UI targeted QA and `prototypes/burst-read-combat-concept/engine` as old concept spike only
 - Next recommended: create a new current full-loop playtest target before running New Player Experience playtest evidence for the Polish gate
+
+## Session Extract — Combat Decision Loop harness visual check 2026-06-18
+- Target: `prototypes/sprint5-combat-ui-harness`
+- Scope: harness visual state check for fixture selection and action submenu selection/focus/hover markers
+- Result: PASS by user confirmation after screenshot review
+- Evidence: `production/qa/evidence/sprint5-harness-highlight-and-selection-evidence.md`
+- Screenshots:
+  - `production/qa/evidence/media/sprint5-harness-highlight-check-2026-06-18-godot.png`
+  - `production/qa/evidence/media/sprint5-harness-left-menu-highlight-check-2026-06-18-godot.png`
+- Confirmed: left fixture menu updates selected row with blue highlight and `▶`; action submenu displays selected/focus/hover states; Godot debug output had no errors
+- Limitation: this is harness UI evidence only, not a full Production -> Polish playtest report
+- Next recommended: run targeted `DecisionLoopBalanced`, `DecisionLoopResourcePressure`, and `DecisionLoopDecisiveWindow` playtest observations, then record them under `production/playtests/`
+
+## Session Extract — Combat Decision Loop harness targeted playtest 2026-06-18
+- Target: `prototypes/sprint5-combat-ui-harness`
+- Scope: targeted playtest of three harness fixtures: `DecisionLoopBalanced`, `DecisionLoopResourcePressure`, `DecisionLoopDecisiveWindow`
+- Result: PASS by user manual play; harness decision loop is readable and exposes contract drift surface as designed
+- Evidence: `production/playtests/playtest-2026-06-18-combat-decision-loop-harness.md`
+- Decision: skip Combat-side unit tests for now; lock current Foundation contract via existing Combat UI tests instead of adding new ones
+- Polish gate impact: this counts only as harness-scope playtest evidence; Production -> Polish gate still needs a real New Player Experience playtest, a Mid-Game Systems playtest, and a Difficulty Curve playtest plus Art Bible / UX review sign-off and accessibility/controller/performance evidence
+- Next recommended: pick one of (a) make a milestone scope decision for Feature/Presentation and `cu-006`/`cu-007`, (b) build a current full-loop playtest target to replace the deleted slice, or (c) advance Art Bible / UX review to clear the documentation half of the Polish gate
+
+## Session Extract — /dev-story cu-007 2026-06-18
+- Story: production/epics/combat-ui/stories/cu-007-synergy-and-round-warning-feedback.md — 协同与回合警戒反馈
+- Files changed:
+  - src/FengZhi.Foundation/Combat/BattleEventBus.cs (added SynergyDeclaredEvent DTO)
+  - src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs (added CombatUiTurnWarningKind + CombatUiSynergyCueEntry + CombatUiTurnWarningDisplayEntry; extended CombatUiSnapshot with SynergyCueEntries + TurnWarning; added round threshold + synergy duration tuning)
+  - src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs (subscribed to SynergyDeclaredEvent; added HandleSynergyDeclared; added UpdateTurnWarning called from RoundStart/RoundEnd; cleared synergy buffer on RoundStart)
+- Tests added: tests/integration/combat-ui/combat_ui_synergy_round_warning_test.cs (7 facts, all green)
+- Evidence template: production/qa/evidence/cu-007-synergy-and-round-warning-feedback-evidence.md (awaiting Visual/Feel capture)
+- Suite status: 87/87 CombatUi tests pass, full solution build clean
+- Out-of-scope deviation: added SynergyDeclaredEvent into Combat/BattleEventBus.cs as the boundary input contract — necessary so UI does not self-judge synergy; flagged here for /story-done review
+- Out-of-scope deviation #2 (2026-06-18): extended sprint5-combat-ui-harness for evidence capture — added prototypes/sprint5-combat-ui-harness/scripts/testdata/Sprint5CombatUiAdapterFixtures.cs (4 cu-007 fixtures: synergy_gold / no_synergy_baseline / round_12_caution / round_14_critical) and a "cu-007 Round Warning / Synergy Cue" panel in Sprint5CombatUiHarnessView.cs that owns its own BattleEventBus + CombatUiEventAdapter; harness move-selection pipeline untouched; flagged here for /story-done review
+- Code review: APPROVED (verdict 2026-06-18) — 4 changed files reviewed; 3 INFO suggestions (string→enum tokens, synergy dedup, evidence pending); no required changes
+- Next: capture 4 evidence screenshots from the new harness panel (synergy_gold / no_synergy_baseline / round_12_caution / round_14_critical) into production/qa/evidence/media/cu-007-*.png, fill in the evidence MD, then /story-done
+
+## Session Extract — /story-done cu-007 2026-06-18
+- Verdict: COMPLETE WITH NOTES (lean review mode)
+- Story: production/epics/combat-ui/stories/cu-007-synergy-and-round-warning-feedback.md — 协同与回合警戒反馈 (Status → Complete)
+- AC: 6/6 通过 — 全部由 tests/integration/combat-ui/combat_ui_synergy_round_warning_test.cs 7 个 fact 覆盖；4 张 harness 截图就位
+- Evidence: production/qa/evidence/cu-007-synergy-and-round-warning-feedback-evidence.md + media/cu-007-{synergy-gold-double-fist,no-synergy-baseline,round-12-caution-orange,round-14-critical-red}.png
+- Code review: APPROVED (lean mode, 已先跑 /code-review)
+- Tech debt logged: 5 items (docs/tech-debt-register.md — 2 项 OUT OF SCOPE deviation + 3 项 INFO suggestion: string→enum tokens、synergy dedup、evidence sign-off 表)
+- Sprint status: production/sprint-status.yaml cu-007 → done (2026-06-18)
+- Next recommended: cu-006 一击决胜演出编排（should-have，blocker=cu-005 已 done，可解锁）；或 sprint-status 检查 must-have 是否全部完成以触发 sprint close-out
+- Suggested commit: git add src/FengZhi.Foundation/Combat/BattleEventBus.cs src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs src/FengZhi.Foundation/CombatUi/CombatUiEventAdapter.cs tests/integration/combat-ui/combat_ui_synergy_round_warning_test.cs prototypes/sprint5-combat-ui-harness/scripts/testdata/Sprint5CombatUiAdapterFixtures.cs prototypes/sprint5-combat-ui-harness/scripts/ui/Sprint5CombatUiHarnessView.cs production/qa/evidence/cu-007-synergy-and-round-warning-feedback-evidence.md production/qa/evidence/media/cu-007-*.png production/epics/combat-ui/stories/cu-007-synergy-and-round-warning-feedback.md docs/tech-debt-register.md production/sprint-status.yaml production/session-state/active.md && git commit -m "feat(combat-ui): cu-007 synergy and round warning feedback"
+
+## Session Extract — /dev-story cu-006 2026-06-18
+- Story: production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md — 一击决胜演出编排
+- Plan: .trae/documents/cu-006-decisive-strike-animation-director-plan.md (approved)
+- Files added (Foundation):
+  - src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/DecisiveTuning.cs (调参常量集中地：TimeScale 0.2/1.0、慢进/慢出/推镜/动画/浮字/恢复时长、3 档优先级、镜头缩放、PauseDetectionThreshold)
+  - src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/CombatCinematicLock.cs (输入锁数值契约 + 白名单 {ui_pause, ui_system_back} + LIFO IDisposable handle)
+  - src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/TimeScaleController.cs (优先级栈 + ScaleChanged event + IDisposable handle)
+  - src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/CameraRequestBus.cs (优先级栈 + ActiveRequestChanged event + IDisposable handle + zoom / disable smoothing)
+  - src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/AnimationCommand.cs (IAnimationCommand + AnimationCommandContext + DecisiveStrikeRequest)
+  - src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/DecisiveStrikeSequence.cs (7 阶段状态机 + 反向 LIFO 释放 + 暂停互斥)
+  - src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/CombatAnimationDirector.cs (串行命令队列 + RequestDecisiveStrike + Tick + Cancel + Dispose)
+- Files modified (Foundation):
+  - src/FengZhi.Foundation/Combat/BattleEventBus.cs (added DecisiveStrikeStartedEvent / DecisiveStrikePhaseAdvancedEvent / DecisiveStrikeCompletedEvent — 3 个 record struct，作为音效与体系动画层的挂载点)
+  - src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs (added DecisiveStrikePhase 枚举 9 值)
+- Tests added: tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs (8 facts, all green) — 覆盖 AC-1..AC-7 + 通用回滚
+- Files modified (Harness):
+  - prototypes/sprint5-combat-ui-harness/scripts/testdata/Sprint5CombatUiDecisiveFixtures.cs (4 fixtures: decisive_gang / decisive_rou / decisive_qiao / decisive_pause_conflict)
+  - prototypes/sprint5-combat-ui-harness/scripts/ui/Sprint5CombatUiHarnessView.cs (cu-006 panel: 4 fixture 按钮 + Tick 0.1/0.3/1.0s 步进 + Hold/Release ui_pause + Reset + 数值面板 + 事件日志 + _ExitTree 反向 dispose)
+- Evidence template: production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md (Foundation Captured；实机 TimeScale/Tween/Camera2D 录屏 deferred)
+- Suite status: 95/95 CombatUi tests pass (87 + 8); dotnet build FengZhi.slnx 0 错误（4 旧 warning 与 cu-006 无关）；dotnet build prototypes/sprint5-combat-ui-harness/Sprint5CombatUiHarness.csproj 0 错误 0 警告
+- Out-of-scope deviation #1 (2026-06-18): added 3 decisive lifecycle events (Started / PhaseAdvanced / Completed) into Combat/BattleEventBus.cs as the audio + style-animation mounting contract — necessary so director does not expose a handle to other systems; 沿用 cu-007 SynergyDeclaredEvent 模式；flagged here for /story-done review
+- Out-of-scope deviation #2 (2026-06-18): extended sprint5-combat-ui-harness for evidence capture — added Sprint5CombatUiDecisiveFixtures (4 fixtures) + cu-006 Decisive Strike Director panel that owns its own BattleEventBus + 4 controllers + director (与 cu-007 panel 同模式，move-selection pipeline 不动)；flagged here for /story-done review
+- Deferred (next sprint): Godot Node 实机集成（修改 Engine.TimeScale 的 Tween 必须 SetProcessMode(TweenProcessMode.Always) 防自锁；Camera2D 订阅 CameraRequestBus.ActiveRequestChanged 投射 zoom/smoothing；InputMap 拦截层调用 CombatCinematicLock.IsAllowedDuringLock）；ICombatService 决胜入口 Facade；体系专属动画美术资源
+- Next: /code-review src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector/*.cs src/FengZhi.Foundation/Combat/BattleEventBus.cs src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs；then 按 cu-006 fixture 截图 4 张 harness 证据并补到 production/qa/evidence/media/cu-006-*.png；then /story-done production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md
+
+## Session Extract — /story-done cu-006 2026-06-18
+- Verdict: COMPLETE WITH NOTES (lean review mode)
+- Story: production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md — 一击决胜演出编排 (Status → Complete)
+- AC: 7/7 通过 — 全部由 tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs 8 个 fact 覆盖（Director_RequestDecisiveStrike_QueuesAllSevenPhasesInOrder / TimeScaleController_DecisiveRequest_UsesPriority50AndReachesPoint2 / TimeScaleController_PauseStackPreemptsDecisiveAndRestoresOnRelease / DecisiveSequence_PauseDuringSlowMotion_ContinuesFromInterruptedPhase / CameraRequestBus_DecisiveRequest_LocksTargetAndDisablesSmoothing / CinematicLock_AcquireDuringDecisive_BlocksCombatActionWhitelistsPause / DecisiveDamageNumber_AtPhase5_PublishesPhaseAdvancedSoStyleDecisiveCanRender / Director_DisposeReleasesAllHandlesEvenIfSequenceUncompleted）
+- Evidence: production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md (Foundation Captured 2026-06-18 — 自动化 8/8 + harness panel 就位；Godot 4.7-stable Engine.TimeScale + Tween + Camera2D 实机录屏 deferred 到下一 sprint，与 ICombatService Facade 一同落地)
+- Code review: APPROVED with NOTES (lean mode, 已先跑 /code-review 2026-06-18) — 3 NOTE：N1 防御性死代码、N2 OnExternalScaleChanged Idle 短路冗余、N3 RequestDecisiveStrike 并发 throw + CancelCurrent 路径未独立断言；不阻塞 done
+- Tech debt logged: 6 items (docs/tech-debt-register.md — 2 项 OUT OF SCOPE deviation + 1 项 Deferred 实机集成 + 3 项 code review NOTE)
+- Sprint status: production/sprint-status.yaml cu-006 → done (2026-06-18)；Sprint 5 should-have 全部完成（cu-006/cu-007 done），must-have 早已 done
+- Next recommended: 跑 /sprint-status 看 sprint close-out 是否就绪；或 /gate-check 看是否可以推进到下一阶段；体系专属动画美术 + Godot 实机集成留到下一 sprint
+- Suggested commit: git add src/FengZhi.Foundation/CombatUi/DecisiveStrikeDirector src/FengZhi.Foundation/Combat/BattleEventBus.cs src/FengZhi.Foundation/CombatUi/CombatUiDefinitions.cs tests/integration/combat-ui/combat_ui_decisive_animation_director_test.cs prototypes/sprint5-combat-ui-harness/scripts/testdata/Sprint5CombatUiDecisiveFixtures.cs prototypes/sprint5-combat-ui-harness/scripts/ui/Sprint5CombatUiHarnessView.cs production/qa/evidence/cu-006-decisive-strike-animation-director-evidence.md production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md docs/tech-debt-register.md production/sprint-status.yaml production/session-state/active.md && git commit -m "feat(combat-ui): cu-006 decisive strike animation director (Foundation)"
+
+<!-- QA-PLAN: 2026-06-18 | System: sprint-6 | Plan written: production/qa/qa-plan-sprint-6-2026-06-18.md -->
+
+## Session Extract — /architecture-review 2026-06-22
+- Verdict: PASS WITH MINOR CONCERNS
+- Mode: full (delta review w.r.t. 2026-06-08 baseline)
+- Requirements: 25 systems total — 15 covered, 10 partial, 0 gaps (unchanged from baseline)
+- ADR changes: ADR-0019 → Superseded by ADR-0020 (Pure 2D Wuxia Rendering Direction, 《大侠立志传》方向)
+- Cross-ADR conflicts: 1 found and fixed during review (ADR-0020 vs ADR-0010 TileMapLayer 层级 schema — additive Background 节点 + 沿用 ADR-0010 五层)
+- New TR-IDs registered: None (ADR-0020 不引入新 GDD 需求)
+- GDD revision flags: map-scene-management.md (Flag 1 fixed in-place: WorldEnvironment → CanvasModulate; Flag 2 pre-existing low-priority 216 估算偏差仍待 design-review)
+- Files updated: docs/architecture/adr-0019-2d-wuxia-tactics-rendering-direction.md, docs/architecture/adr-0020-pure-2d-wuxia-rendering-direction.md, docs/architecture/architecture-review-2026-06-22.md (新), docs/architecture/traceability-index.md, docs/consistency-failures.md, design/art/art-bible.md, design/gdd/game-concept.md, design/gdd/item-system.md, design/gdd/map-scene-management.md, design/gdd/systems-index.md (#12 → Needs Revision), production/epics/combat-system/EPIC.md
+- Top ADR gaps: None
+- Report: docs/architecture/architecture-review-2026-06-22.md
+
+<!-- SMOKE RUN: 2026-06-22 | Sprint: Sprint 5 全作用域 close-out | Verdict: PASS | Report: production/qa/smoke-2026-06-22-sprint-5.md -->
+
+<!-- QA RUN: 2026-06-22 | Sprint: Sprint 5 全作用域 close-out | Verdict: APPROVED WITH CONDITIONS | Report: production/qa/qa-signoff-sprint-5-2026-06-22.md -->
+
+## Session Extract — S6-Effort-Tracking 2026-06-22
+Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 /story-done 必须落 Effort 段）：
+
+| Task ID | Estimate (h) | Actual (h) | Variance | Notes |
+|---------|-------------|------------|----------|-------|
+| S6-Commit-Workspace      | 2.0 | 1.5 | -25% | — |
+| S6-Sprint5-DoD           | 4.0 | 3.0 | -25% | — |
+| cu-006-godot-integration | 6.0 | 7.0 | +17% | Godot 实机 Tween/InputMap 调试超出 buffer |
+| S6-Commit-Lint           | 2.0 | 2.5 | +25% | — |
+| S6-Combat-UI-Epic-Close  | 4.0 | 0.5 | -88% | 纯文档 close-out；预估明显高估 |
+| EI-Debt-Triage           | 4.0 | 0.6 | -85% | 纯文档分级；预估按 spike 估，实际只做 desk review |
+| S6-Effort-Tracking       | 2.0 | 0.5 | -75% | 模板补丁 + 回填，无代码改动 |
+
+观察：
+- 文档类 task 估算长期高估 60%+，下个 sprint 起 doc-only task 默认 ≤0.25d / 2h。
+- 唯一正方差是 Godot 实机集成 (cu-006-godot-integration)，与 Sprint 5 retro Action #5 中"engine integration 仍是估算最大不确定来源"一致。
+- 待回填：cu-visual-evidence / S6-Next-Presentation-Cut / cu-008-Gamepad-HW-Verify（done 时再补 actual_hours）。

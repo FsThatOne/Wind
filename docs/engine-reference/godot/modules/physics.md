@@ -1,6 +1,8 @@
 # Godot Physics — Quick Reference
 
-Last verified: 2026-02-12 | Engine: Godot 4.6
+Last verified: 2026-02-12 | Engine: Godot 4.7-stable
+
+> **STALE — Engine pin upgraded 4.6.3 → 4.7-stable on 2026-06-20.** This module page was last verified on 2026-02-12 against 4.6 and has NOT been refreshed for 4.7 changes. Treat all 4.5/4.6 entries below as historically accurate; verify any API decisions against live `godot-docs` for 4.7 before implementation. Pending: `/setup-engine godot 4.7` refresh sweep.
 
 ## What Changed Since ~4.3 (LLM Cutoff)
 
