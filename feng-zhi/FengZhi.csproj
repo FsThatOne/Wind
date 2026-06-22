@@ -4,4 +4,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>FengZhi</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../src/FengZhi.Foundation/FengZhi.Foundation.csproj" />
+  </ItemGroup>
 </Project>

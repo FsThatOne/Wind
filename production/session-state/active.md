@@ -672,3 +672,35 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
   - `production/qa/evidence/cu-{004,005,006,008}-*.md` — 4 份 Visual Captured 段标题 `(Sprint 6 — Pending)` → `(Sprint 7 carryover — Pending)`，并加改派说明
 - **Sprint 6 关账影响**：Must Have 4/5 完成（其余 4 项 done + cu-visual-evidence carryover），Should Have 3/3 done。可继续走 `/smoke-check sprint 6` → `/team-qa sprint 6` → `/retrospective sprint 6` 闭环。
 - **Sprint 7 启动锚点**：retrospective 输出 + 本决策 → Sprint 7 plan 必须包含「ADR-0020 全循环 VS 重建 + cu-visual-evidence 4 份 evidence 在新 VS 上录制」。
+
+## Session Extract — S7 Day 1 双 story 闭环 2026-06-22
+
+- **完成 story**：
+  - `S7-VS-Foundation-Scene` (must-have, 2.0d est → 2.5h actual, **-84% variance**)
+  - `S7-Day1-Smoke-Startup` (must-have, 0.25d est → 0.5h actual, **-75% variance**)
+- **commits**：
+  - `5c07433` feat(vs): 江南骨架 (explore/battle/outcome) + autoload
+  - `0c2d2f5` chore(qa): S7-Day1-Smoke evidence CLI Pre-flight baseline
+- **交付**：
+  - `feng-zhi/scenes/vs/{jiangnan_riverside,battle_jiangnan_bandit,battle_outcome_jiangnan}.tscn` (placeholder, ColorRect + Button)
+  - `feng-zhi/scripts/vs/Jiangnan{FlowController,RiversideGame,BattleGame,OutcomeGame}.cs`
+  - `feng-zhi/project.godot` 注册 `JiangnanFlow` autoload (`*res://scripts/vs/JiangnanFlowController.cs`)
+  - `production/qa/evidence/s7-day1-smoke-2026-06-23.md` (Pre-flight + Sign-off PASS)
+- **验证链**：
+  1. `dotnet build feng-zhi`：0 warn / 0 err
+  2. `godot --headless --import`：唯一 ERROR 来自 `StartCave.tscn` `AnimatedSprite2D` 空 default animation (cosmetic, pre-existing)
+  3. `godot --headless --quit-after 60 <each VS scene>`：autoload Boot + `_Ready()` 全部触发
+  4. **Owner 实机**：StartCave Play + VS loop (explore→battle→outcome→explore) 全 PASS；心境分支文案切换正常
+- **关键决策**：
+  - 跳过 Area2D + CavePlayer 移动链路（CavePlayer 依赖 8dir AnimatedSprite2D + SpriteFrames，骨架阶段不值得复刻）
+  - 战斗 scene 仅暴露胜负 hook；BattleFacade 集成留给 S7-VS-Combat-Loop（1.5d）
+  - blurred-ui 用半透明 Panel 代替（与 spike `partial: blurred-ui 1 panel` 一致）
+  - Pre-flight CLI 校验 + owner sign-off 替代 media 录屏（gate W2 接受 owner sign-off）
+- **gate / retro 影响**：
+  - gate W2 (Sprint 7 Day 1 manual startup baseline) **闭环**
+  - Sprint 6 retro Action #2 (Day 1 manual smoke baseline) **闭环**
+  - Sprint 6 retro Action #3 (estimate calibration, doc-only ≤2h) 反向暴露：**placeholder scene story 也严重高估 (16h est → 2.5h actual, -84%)**，下次 placeholder/skeleton story 估时应 ≤0.5d
+- **下一步**：
+  - 推进 `S7-VS-Combat-Loop` (1.5d, must-have)：在 `battle_jiangnan_bandit.tscn` 里接 `BattleFacade` + `CombatUiHud` + `MoveSelectionPanel` + `DecisiveStrikeDirector`，包装为"观气→出招→破绽→决胜"语言层
+  - 完成后串联 `S7-VS-Outcome-Feedback` (1.25d) 与 `cu-visual-evidence` (0.75d carryover)
+- **Sprint 7 progress**：3/8 stories done (Spike + Foundation + Smoke)；剩余 must-have 3 项 (Combat-Loop / Outcome-Feedback / cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。可用 capacity 余 ≈ 7.5d / 总 10d。

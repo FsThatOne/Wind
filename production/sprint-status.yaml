@@ -35,26 +35,30 @@ stories:
     name: "Day 1 手工实机启动确认 (gate Condition §2 / W2)"
     file: "production/sprints/sprint-7.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
+    status: done
+    owner: "user"
     estimate_days: 0.25
     estimate_hours: 2.0
-    actual_hours: null
+    actual_hours: 0.5
     blocker: ""
-    completed: ""
+    completed: "2026-06-22"
+    deliverable: "production/qa/evidence/s7-day1-smoke-2026-06-23.md"
+    verdict: "PASS — Step 1-5 全部通过；gate W2 闭环；唯一 P2 headless ERROR (StartCave AnimatedSprite2D 空 default animation) 实机 Play 不阻塞，归入 Sprint 8 tech-debt"
 
   - id: "S7-VS-Foundation-Scene"
     name: "VS 主场景骨架 (江南 explore + 战斗 + outcome 转场)"
     file: "production/sprints/sprint-7.md"
     priority: must-have
-    status: in-progress
-    owner: ""
+    status: done
+    owner: "user"
     estimate_days: 2.0
     estimate_hours: 16.0
-    actual_hours: 2.0
+    actual_hours: 2.5
     blocker: ""
-    completed: ""
-    note: "Skeleton landed 2026-06-22: feng-zhi/scenes/vs/{jiangnan_riverside,battle_jiangnan_bandit,battle_outcome_jiangnan}.tscn + feng-zhi/scripts/vs/Jiangnan{FlowController,RiversideGame,BattleGame,OutcomeGame}.cs + JiangnanFlow autoload. dotnet build clean (0 warn / 0 err). Pending: 实机 Godot 编辑器 smoke 加载验证。"
+    completed: "2026-06-22"
+    deliverable: "feng-zhi/scenes/vs/*.tscn + feng-zhi/scripts/vs/*.cs (commit 5c07433)"
+    verdict: "PASS — Owner 实机验证 explore→battle→outcome→explore 全链路；autoload JiangnanFlow 状态保持；心境分支文案切换正常。Lite Xingqi 范围内 Combat-Loop 集成留给下一 story。"
+    note: "Re-estimated 2.0d → 0.31d actual：placeholder 骨架比预估快 6.4x。下次同类 placeholder story 估时建议下调到 0.5d。"
 
   - id: "S7-VS-Combat-Loop"
     name: "Lite Xingqi: 1v1 战斗，复用 BattlePhase 包装观气→出招→破绽→决胜"

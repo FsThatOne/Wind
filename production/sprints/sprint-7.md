@@ -123,6 +123,14 @@
 - **关联 gate**: `production/gate-checks/gate-tech-setup-to-pre-production-2026-06-22.md` §C-VS / §C-PLAYTEST 是本 sprint 主要驱动
 - **active.md trace**: 每个 Must-Have story 完成后必须在 active.md 留 `Session Extract` 段，含 effort hours + key decisions
 
+## Progress Log
+
+| Date | Story | Status | Actual | Verdict / Note |
+|---|---|---|---|---|
+| 2026-06-22 | S7-VS-Scope-Spike | done | 4.0h (vs 8h) | Option B · Lite Xingqi VS（combat 复用率 75%, 0 new cb-*）。`docs/superpowers/specs/2026-06-23-vs-scope-spike.md` |
+| 2026-06-22 | S7-VS-Foundation-Scene | done | 2.5h (vs 16h) | Code-first placeholder 骨架 (3 scene + 4 script + autoload). headless 通过, owner 实机 PASS. commit 5c07433. **重大估时偏差：placeholder story 估时下次需下调到 0.5d** |
+| 2026-06-22 | S7-Day1-Smoke-Startup | done | 0.5h (vs 2h) | Owner 实机 Step 1-5 全 PASS；gate W2 闭环。`production/qa/evidence/s7-day1-smoke-2026-06-23.md` |
+
 ## Linked Artifacts
 
 - `production/retrospectives/retro-sprint-6-2026-06-22.md` — Sprint 7 Action Items 来源
