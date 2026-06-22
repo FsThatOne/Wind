@@ -46,3 +46,8 @@ Columns are frames `00..03` for each loop.
 - `edge_touch_frames` is empty for idle, walk, and run.
 - `run-8dir-raw.png` was rejected because some frames touched cell edges.
 - `run-8dir-raw-v2.png` is the accepted running source.
+- Direction correction applied after visual QC:
+  - `ne` uses a deterministic per-frame horizontal mirror of `nw`.
+  - `se` uses a deterministic per-frame horizontal mirror of `sw`.
+  - Frame order is preserved.
+  - This fixes the raw generated sheets repeating east-facing poses in the diagonal east rows.

@@ -5,7 +5,16 @@
     "width": 128,
     "height": 128
   },
-  "directions": ["s", "sw", "w", "nw", "n", "ne", "e", "se"],
+  "directions": [
+    "s",
+    "sw",
+    "w",
+    "nw",
+    "n",
+    "ne",
+    "e",
+    "se"
+  ],
   "animations": {
     "idle": {
       "sheet": "idle/sheet-transparent.png",
@@ -40,6 +49,18 @@
     "walk_edge_touch_frames": [],
     "run_edge_touch_frames": [],
     "accepted_run_source": "raw/run-8dir-raw-v2.png",
-    "rejected_run_source": "raw/run-8dir-raw.png"
+    "rejected_run_source": "raw/run-8dir-raw.png",
+    "direction_correction": {
+      "method": "deterministic_per_frame_horizontal_mirror",
+      "walk": {
+        "ne": "mirror_each_frame(nw)",
+        "se": "mirror_each_frame(sw)"
+      },
+      "run": {
+        "ne": "mirror_each_frame(nw)",
+        "se": "mirror_each_frame(sw)"
+      },
+      "frame_order": "preserved"
+    }
   }
 }

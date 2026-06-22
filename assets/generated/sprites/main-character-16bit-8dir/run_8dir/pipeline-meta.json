@@ -1207,5 +1207,12 @@
       ]
     }
   ],
-  "edge_touch_frames": []
+  "edge_touch_frames": [],
+  "direction_correction": {
+    "method": "deterministic_per_frame_horizontal_mirror",
+    "ne_source": "nw",
+    "se_source": "sw",
+    "reason": "raw generated sheet repeated east-facing poses for diagonal east rows",
+    "frame_order": "preserved"
+  }
 }
