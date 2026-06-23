@@ -72,7 +72,7 @@ ADR-0021 §扩展点 1 为探索场景（CavePlayer）额外引入了 8 方向�
 - **R2** 引入 4 斜方向枚举 `Iso4Direction { NE, SE, SW, NW }` 与子接口 `IIso4CharacterAnimator`
 - **R3** 至少一个真实 Adapter `Iso4AnimatedSprite2DAnimator` + Fake `FakeIso4CharacterAnimator`
 - **R4** 输入：WASD 默认映射 W=NW / A=SW / S=SE / D=NE；可在 InputMap 重映射
-- **R5** TileMapLayer `tile_shape = Isometric`，单 tile 几何参数公开为常量（`TileWidth = 128 / TileHeight = 64` 暂定，后续 spike 校准）
+- **R5** TileMapLayer `tile_shape = Isometric`，单 tile 几何参数公开为常量（`TileWidth = 64 / TileHeight = 32`）
 
 ## Decision
 
@@ -93,8 +93,8 @@ ADR-0021 §扩展点 1 为探索场景（CavePlayer）额外引入了 8 方向�
 // FengZhi.Foundation.Geometry.IsoProjection
 public static class IsoProjection
 {
-    public const float TileWidth = 128f;
-    public const float TileHeight = 64f;
+    public const float TileWidth = 64f;
+    public const float TileHeight = 32f;
 
     public static Vector2 CartToScreen(Vector2 cart) => new(
         (cart.X - cart.Y) * TileWidth  * 0.5f,
@@ -118,14 +118,20 @@ public interface IIso4CharacterAnimator : ICharacterAnimator
 }
 ```
 
-方向选区（cart 空间，atan2 后等分 4 区间，含 ±15° 迟滞抑制抖动）：
+方向选区（cart 空间，atan2 后等分 4 区间，含 ±15° 迟滞抑制抖动）。
+**Sector 中心对齐 §3 WASD cart 对角向量**（W=(-1,-1) → 中心 -3π/4 → NW），
+使 WASD 输入落在 sector **内部**而非边界；boundary 在 cart 卡式半轴 (0, ±π/2)：
 
-| atan2(y, x) 区间 | Iso4Direction | 屏幕方向 |
-|---|---|---|
-| [-3π/4, -π/4) | NE | ↗ |
-| [-π/4, π/4)   | SE | ↘ |
-| [π/4, 3π/4)   | SW | ↙ |
-| [3π/4, π] ∪ [-π, -3π/4) | NW | ↖ |
+| atan2(y, x) 区间 | Iso4Direction | 屏幕方向 | WASD 中心 |
+|---|---|---|---|
+| [-π, -π/2)    | NW | ↖ | W cart (-1, -1)，atan2 = -3π/4 |
+| [-π/2, 0)     | NE | ↗ | D cart (+1, -1)，atan2 = -π/4 |
+| [0, π/2)      | SE | ↘ | S cart (+1, +1)，atan2 = +π/4 |
+| [π/2, π]      | SW | ↙ | A cart (-1, +1)，atan2 = +3π/4 |
+
+> **Erratum 2026-06-23**：原稿区间表 sector 边界设在 cart 对角（±π/4 / ±3π/4），
+> 与 §3 WASD 期望冲突（W 落 NE 而非 NW）。本表为修订后版本，由
+> `Iso4AnimatedSprite2DAnimator` / `FakeIso4CharacterAnimator` 实现兜底验证。
 
 Adapter 内部动画名约定：`walk_ne` / `walk_se` / `walk_sw` / `walk_nw`（+ `idle` 兜底）。
 
@@ -149,9 +155,11 @@ ADR-0010 五层结构沿用；每层 TileMapLayer 节点的属性：
 |---|---|---|
 | `tile_shape` | `Square` | `Isometric` |
 | `tile_layout` | n/a | `DiamondDown` |
-| `tile_size` | 32×32 暂定 | `128×64`（W/H 比 2:1） |
+| `tile_size` | 32×32 暂定 | `64×32`（W/H 比 2:1） |
 | `y_sort_enabled` | false | **true**（让 sprite 按 y 自动深度排序） |
 | `y_sort_origin` | 0 | tile 中心 |
+
+> **2026-06-23 校准**：经 64×32 与 128×64 可视化对比后，当前默认 isometric tile 规格改为 64×32。该尺寸用于 Sprint 7 iso foundation、后山涯洞试制 tileset 与 Tiled 分层地图，以优先验证探索可读性、碰撞、逻辑标记和角色脚底对齐。128×64 保留为后续高清/正式战棋镜头的重制候选，不作为当前默认规格。
 
 `Background` 节点（ADR-0020 D1 追加项）保持 `Sprite2D`，但 `y_sort_origin` 应设为远低于战棋面，避免被遮挡。
 
