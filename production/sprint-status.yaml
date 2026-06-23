@@ -107,16 +107,16 @@ stories:
 
   - id: "S7-VS-Outcome-Feedback"
     name: "战后心境位移 + 朦胧化战后面板 (mindset-dual-axis + blurred-ui partial)"
-    file: "production/sprints/sprint-7.md"
+    file: "docs/superpowers/specs/2026-06-23-s7-vs-outcome-feedback.md"
     priority: must-have
-    status: backlog
-    owner: ""
+    status: in-progress
+    owner: "agent"
     estimate_days: 1.25
     estimate_hours: 10.0
     actual_hours: null
-    blocker: "depends on S7-VS-Combat-Loop"
+    blocker: ""
     completed: ""
-    note: "Re-estimated 2026-06-22 from 1.0d → 1.25d per vs-scope-spike §7 (含 blurred-ui partial 1 个面板)"
+    note: "Re-estimated 2026-06-22 from 1.0d → 1.25d per vs-scope-spike §7 (含 blurred-ui partial 1 个面板)。2026-06-23 09:30 spec 草稿落档 (AC1)，owner sign-off A · 8 subtasks 顺推。位移数值定为 Spare → Morality+5 + Resolve+2；Defeat → Morality-5 + Resolve-2。朦胧化用 modulate + StyleBoxFlat（不上 ShaderMaterial）。"
 
   - id: "cu-visual-evidence"
     name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence — 在 VS 上录制"
