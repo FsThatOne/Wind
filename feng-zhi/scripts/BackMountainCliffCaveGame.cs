@@ -25,13 +25,45 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 	private readonly Vector2 _origin = new(576f, 96f);
 	private readonly Dictionary<string, Marker> _markers = new();
+	private readonly HashSet<Vector2I> _groundTiles = new();
+	private readonly HashSet<Vector2I> _blockedTiles = new();
+	private static readonly HashSet<string> EnabledStructures = new(StringComparer.Ordinal)
+	{
+		"wine_jars_group",
+		"wine_jar_single",
+		"storage_shelf",
+		"rest_mat",
+		"small_stool",
+		"sister_mark",
+		"oil_lamp_dim",
+	};
+	private static readonly Dictionary<string, float> StructureScales = new(StringComparer.Ordinal)
+	{
+		["wine_jars_group"] = 0.24f,
+		["wine_jar_single"] = 0.26f,
+		["storage_shelf"] = 0.28f,
+		["rest_mat"] = 0.22f,
+		["small_stool"] = 0.22f,
+		["sister_mark"] = 0.20f,
+		["oil_lamp_dim"] = 0.20f,
+	};
+	private static readonly Dictionary<string, Vector2I> StructureTileOverrides = new(StringComparer.Ordinal)
+	{
+		["storage_shelf"] = new Vector2I(6, 4),
+		["wine_jars_group"] = new Vector2I(4, 7),
+		["wine_jar_single"] = new Vector2I(5, 7),
+		["oil_lamp_dim"] = new Vector2I(10, 8),
+		["sister_mark"] = new Vector2I(13, 8),
+		["small_stool"] = new Vector2I(11, 10),
+		["rest_mat"] = new Vector2I(12, 11),
+	};
 
 	private Node2D _mapRoot = null!;
 	private Node2D _tiles = null!;
 	private Node2D _structures = null!;
 	private Node2D _collision = null!;
 	private Node2D _logicMarkers = null!;
-	private CharacterBody2D _player = null!;
+	private CavePlayer _player = null!;
 	private ColorRect _backgroundTint = null!;
 	private Label _statusLabel = null!;
 	private Label _promptLabel = null!;
@@ -49,7 +81,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 		_structures = GetNode<Node2D>("MapRoot/Structures");
 		_collision = GetNode<Node2D>("MapRoot/Collision");
 		_logicMarkers = GetNode<Node2D>("MapRoot/LogicMarkers");
-		_player = GetNode<CharacterBody2D>("Player");
+		_player = GetNode<CavePlayer>("Player");
 		_backgroundTint = GetNode<ColorRect>("BackgroundTint");
 		_statusLabel = GetNode<Label>("UiLayer/StatusLabel");
 		_promptLabel = GetNode<Label>("UiLayer/PromptLabel");
@@ -66,6 +98,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 	public override void _Process(double delta)
 	{
 		_player.ZIndex = 1000 + Mathf.RoundToInt(_player.Position.Y);
+		UpdatePlayerTileMarker();
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -88,6 +121,20 @@ public partial class BackMountainCliffCaveGame : Node2D
 		{
 			LoadVariant(_variant == "day" ? "night" : "day", repositionPlayer: false);
 		}
+
+		if (@event is InputEventMouseButton mouse &&
+			mouse.Pressed &&
+			mouse.ButtonIndex == MouseButton.Left &&
+			!_messagePanel.Visible)
+		{
+			var clickedTile = ScreenToTile(GetGlobalMousePosition());
+			var currentTile = ScreenToTile(_player.Position);
+			var path = FindPath(currentTile, clickedTile);
+			if (path is { Count: > 0 })
+			{
+				_player.SetTilePath(path);
+			}
+		}
 	}
 
 	private void LoadVariant(string variant, bool repositionPlayer)
@@ -95,6 +142,8 @@ public partial class BackMountainCliffCaveGame : Node2D
 		_variant = variant;
 		_focusedArea = null;
 		_markers.Clear();
+		_groundTiles.Clear();
+		_blockedTiles.Clear();
 		ClearChildren(_tiles);
 		ClearChildren(_structures);
 		ClearChildren(_collision);
@@ -111,7 +160,11 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 		if (repositionPlayer && _markers.TryGetValue("exit_to_back_mountain", out var exit))
 		{
-			_player.Position = TileToScreen(exit.TileX, exit.TileY) + new Vector2(0f, -8f);
+			ConfigurePlayerTileMovement(new Vector2I(exit.TileX, exit.TileY));
+		}
+		else
+		{
+			ConfigurePlayerTileMovement(ScreenToTile(_player.Position));
 		}
 
 		var isNight = variant == "night";
@@ -137,6 +190,11 @@ public partial class BackMountainCliffCaveGame : Node2D
 					if (gid == 0)
 					{
 						continue;
+					}
+
+					if (layerName == "Ground")
+					{
+						_groundTiles.Add(new Vector2I(x, y));
 					}
 
 					var tileId = gid - 1;
@@ -165,6 +223,12 @@ public partial class BackMountainCliffCaveGame : Node2D
 		var group = FindObjectGroup(root, "Structures");
 		foreach (var obj in group.Elements("object"))
 		{
+			var name = obj.Attribute("name")?.Value ?? "prop";
+			if (!EnabledStructures.Contains(name))
+			{
+				continue;
+			}
+
 			var props = ReadProperties(obj);
 			if (!props.TryGetValue("image", out var image) ||
 				!props.TryGetValue("tile_x", out var tileXText) ||
@@ -175,15 +239,25 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 			var tileX = ParseInt(tileXText);
 			var tileY = ParseInt(tileYText);
+			if (StructureTileOverrides.TryGetValue(name, out var overrideTile))
+			{
+				tileX = overrideTile.X;
+				tileY = overrideTile.Y;
+			}
+
 			var texture = LoadTexture($"{AssetRoot}/props/{System.IO.Path.GetFileName(image)}");
 			var size = texture.GetSize();
+			var scale = StructureScales.TryGetValue(name, out var configuredScale)
+				? configuredScale
+				: 0.25f;
 			var anchor = TileToScreen(tileX, tileY);
 			var sprite = new Sprite2D
 			{
-				Name = obj.Attribute("name")?.Value ?? "prop",
+				Name = name,
 				Texture = texture,
 				Centered = false,
-				Position = anchor - new Vector2(size.X / 2f, size.Y - TileHeight / 2f),
+				Scale = new Vector2(scale, scale),
+				Position = anchor - new Vector2(size.X * scale / 2f, size.Y * scale - TileHeight / 2f),
 				ZIndex = 700 + tileY * 10 + tileX,
 			};
 			_structures.AddChild(sprite);
@@ -198,12 +272,13 @@ public partial class BackMountainCliffCaveGame : Node2D
 		{
 			for (var x = 0; x < MapWidth; x++)
 			{
-				if (gids[y * MapWidth + x] == 0)
-				{
-					continue;
-				}
+					if (gids[y * MapWidth + x] == 0)
+					{
+						continue;
+					}
 
-				var body = new StaticBody2D
+					_blockedTiles.Add(new Vector2I(x, y));
+					var body = new StaticBody2D
 				{
 					Name = $"Block_{x}_{y}",
 					Position = TileToScreen(x, y),
@@ -260,6 +335,91 @@ public partial class BackMountainCliffCaveGame : Node2D
 			area.BodyExited += body => OnInteractionExited(area, body);
 			_logicMarkers.AddChild(area);
 		}
+	}
+
+	private void ConfigurePlayerTileMovement(Vector2I tile)
+	{
+		if (!IsWalkableTile(tile) && _markers.TryGetValue("exit_to_back_mountain", out var exit))
+		{
+			tile = new Vector2I(exit.TileX, exit.TileY);
+		}
+
+		_player.ConfigureTileMovement(
+			tile,
+			nextTile => TileToScreen(nextTile.X, nextTile.Y),
+			IsWalkableTile);
+		_markers["player_tile"] = new Marker("player_tile", "runtime", tile.X, tile.Y);
+	}
+
+	private List<Vector2I>? FindPath(Vector2I start, Vector2I goal)
+	{
+		if (!IsWalkableTile(start) || !IsWalkableTile(goal))
+		{
+			return null;
+		}
+
+		var queue = new Queue<Vector2I>();
+		var cameFrom = new Dictionary<Vector2I, Vector2I>();
+		queue.Enqueue(start);
+		cameFrom[start] = start;
+
+		while (queue.Count > 0)
+		{
+			var current = queue.Dequeue();
+			if (current == goal)
+			{
+				return ReconstructPath(cameFrom, start, goal);
+			}
+
+			foreach (var next in Neighbors(current))
+			{
+				if (cameFrom.ContainsKey(next) || !IsWalkableTile(next))
+				{
+					continue;
+				}
+
+				cameFrom[next] = current;
+				queue.Enqueue(next);
+			}
+		}
+
+		return null;
+	}
+
+	private static List<Vector2I> ReconstructPath(
+		IReadOnlyDictionary<Vector2I, Vector2I> cameFrom,
+		Vector2I start,
+		Vector2I goal)
+	{
+		var path = new List<Vector2I>();
+		var current = goal;
+		while (current != start)
+		{
+			path.Add(current);
+			current = cameFrom[current];
+		}
+
+		path.Add(start);
+		path.Reverse();
+		return path;
+	}
+
+	private static IEnumerable<Vector2I> Neighbors(Vector2I tile)
+	{
+		yield return tile + new Vector2I(1, 0);
+		yield return tile + new Vector2I(-1, 0);
+		yield return tile + new Vector2I(0, 1);
+		yield return tile + new Vector2I(0, -1);
+	}
+
+	private bool IsWalkableTile(Vector2I tile)
+	{
+		return tile.X >= 0 &&
+			tile.Y >= 0 &&
+			tile.X < MapWidth &&
+			tile.Y < MapHeight &&
+			_groundTiles.Contains(tile) &&
+			!_blockedTiles.Contains(tile);
 	}
 
 	private void OnInteractionEntered(Area2D area, Node2D body)
@@ -347,7 +507,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 			return;
 		}
 
-		_promptLabel.Text = "E / 空格 调查    N 切换日夜";
+		_promptLabel.Text = "左键移动    E / 空格 调查    N 切换日夜";
 		_promptLabel.Visible = true;
 	}
 
@@ -358,11 +518,23 @@ public partial class BackMountainCliffCaveGame : Node2D
 			: "任务物品：未取得寿酒";
 	}
 
+	private void UpdatePlayerTileMarker()
+	{
+		var tile = ScreenToTile(_player.Position);
+		_markers["player_tile"] = new Marker("player_tile", "runtime", tile.X, tile.Y);
+	}
+
 	private Vector2 TileToScreen(int x, int y)
 	{
 		return new Vector2(
 			_origin.X + (x - y) * TileWidth / 2f,
 			_origin.Y + (x + y) * TileHeight / 2f);
+	}
+
+	private Vector2I ScreenToTile(Vector2 worldPosition)
+	{
+		var cart = FengZhi.Foundation.Geometry.IsoProjection.ScreenToCart(worldPosition - _origin);
+		return new Vector2I(Mathf.RoundToInt(cart.X), Mathf.RoundToInt(cart.Y));
 	}
 
 	private static XElement LoadTmx(string resPath)

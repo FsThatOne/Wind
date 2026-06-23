@@ -4,6 +4,7 @@ from __future__ import annotations
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -78,6 +79,17 @@ def validate_tmx(path: Path) -> None:
         fail(f"{path.name} missing markers: {sorted(missing)}")
 
 
+def validate_tileset_alpha(path: Path) -> None:
+    require(path)
+    with Image.open(path) as image:
+        if image.mode != "RGBA":
+            fail(f"{path.name} must be RGBA")
+        alpha = image.getchannel("A")
+        transparent = sum(1 for value in alpha.getdata() if value == 0)
+        if transparent == 0:
+            fail(f"{path.name} has no transparent diamond outside area")
+
+
 def main() -> None:
     require(SCENE_PATH)
     require(SCRIPT_PATH)
@@ -109,11 +121,48 @@ def main() -> None:
         "BuildStructures",
         "BuildCollision",
         "BuildLogicMarkers",
+        "ConfigureTileMovement",
+        "SetTilePath",
+        "FindPath",
+        "ScreenToTile",
+        "InputEventMouseButton",
+        "EnabledStructures",
+        "StructureScales",
+        "StructureTileOverrides",
     ]:
         if snippet not in script:
             fail(f"script missing {snippet}")
 
-    require(ASSET_ROOT / "tilesets/cliff_cave_ground_tiles.png")
+    player_script = (GODOT_ROOT / "scripts/CavePlayer.cs").read_text(encoding="utf-8")
+    for snippet in [
+        "ConfigureTileMovement",
+        "SetTilePath",
+        "TryStartTileStep",
+        "MoveAlongTilePath",
+        "SnapToCurrentTile",
+        "AlignSpriteFeetToOrigin",
+        "RefreshTileMoveActionOrder",
+        "FaceBlockedTileMove",
+        "TileMoveActionToDirection",
+        "IsTileMoveActionPressed",
+        "_pressedTileMoveActions",
+        "Input.IsActionJustPressed",
+        "Vector2I",
+        "TileMoveAction.Up => new Vector2I(0, -1)",
+        "TileMoveAction.Down => new Vector2I(0, 1)",
+        "TileMoveAction.Left => new Vector2I(-1, 0)",
+        "TileMoveAction.Right => new Vector2I(1, 0)",
+    ]:
+        if snippet not in player_script:
+            fail(f"CavePlayer.cs missing {snippet}")
+    if "direction += new Vector2I" in player_script:
+        fail("CavePlayer.cs still combines tile directions and can create diagonal movement")
+    if "FaceBlockedTileMove(direction);" not in player_script:
+        fail("CavePlayer.cs does not face the requested direction when a tile move is blocked")
+    if "position = Vector2(0, -74)" in scene:
+        fail("BackMountainCliffCave.tscn still hardcodes the old sprite foot offset")
+
+    validate_tileset_alpha(ASSET_ROOT / "tilesets/cliff_cave_ground_tiles.png")
     require(ASSET_ROOT / "maps/cliff_cave_ground_tiles.tsx")
     for name in REQUIRED_PROPS:
         require(ASSET_ROOT / "props" / name)
