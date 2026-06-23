@@ -48,6 +48,8 @@ public partial class JiangnanBattleGame : Node2D
 		_lightButton = GetNode<Button>("UiLayer/CombatPanel/ActionsPanel/LightButton");
 		_heavyButton = GetNode<Button>("UiLayer/CombatPanel/ActionsPanel/HeavyButton");
 
+		PaintIsoBoard();
+
 		_lightButton.Pressed += () => OnPlayerAttackPressed(useHeavy: false);
 		_heavyButton.Pressed += () => OnPlayerAttackPressed(useHeavy: true);
 
@@ -186,5 +188,34 @@ public partial class JiangnanBattleGame : Node2D
 		_adapter?.Dispose();
 		_bus?.ClearAll();
 		base._ExitTree();
+	}
+
+	private void PaintIsoBoard()
+	{
+		var tileMap = GetNodeOrNull<TileMapLayer>("IsoBoard/TileMap");
+		if (tileMap == null || tileMap.TileSet == null)
+		{
+			return;
+		}
+
+		var dryStone = new Vector2I(0, 0);
+		var wornPath = new Vector2I(1, 2);
+		var mossMarked = new Vector2I(3, 0);
+		var darkRear = new Vector2I(3, 3);
+		var source = 0;
+
+		for (int x = -1; x <= 3; x++)
+		{
+			for (int y = -1; y <= 3; y++)
+			{
+				Vector2I atlas;
+				if (x == 1 && y == 1) atlas = mossMarked;
+				else if ((x == -1 && y == 3) || (x == 3 && y == -1)) atlas = darkRear;
+				else if (x + y == 2) atlas = wornPath;
+				else atlas = dryStone;
+
+				tileMap.SetCell(new Vector2I(x, y), source, atlas);
+			}
+		}
 	}
 }

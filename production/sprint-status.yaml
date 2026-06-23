@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-22 (S7-Iso-Pivot-Foundation added — ADR-0022 isometric pivot)"
+updated: "2026-06-22 (battle iso 蒙皮 done @ cu-visual-evidence A 路线 + S8-Explore-TileMap-Adoption backlog added)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -132,6 +132,7 @@ stories:
     blocker: "Carryover from Sprint 6 (commit 9b1b9b2). Depends on S7-VS-Combat-Loop done."
     completed: ""
     carryover_from_sprint: 6
+    note: "2026-06-22 follow-up A 路线 done：battle_jiangnan_bandit.tscn 已用 cliff_cave_ground_tiles.tres (新建 Godot TileSet 资源 + 64×32 isometric, 24 atlas tiles) 铺 5×5 战棋格 + PlayerSprite/BanditSprite 落格 + y_sort_enabled。feng-zhi build 0 err / 0 warn；mcp_godot run_project headless OK ([JiangnanBattle] Ready. Battle started.)。explore 场景同步迁移见 sprint-8-explore-tilemap-adoption.md。"
 
   - id: "S7-VS-Playtest-Session"
     name: "1 次新玩家试玩 session + 反馈报告 (gate §C-PLAYTEST)"
@@ -157,3 +158,17 @@ stories:
     blocker: "Steam Deck 硬件未到 — Sprint 8 显式 借测/购入 决策"
     completed: ""
     carryover_from_sprint: 6
+
+  - id: "S8-Explore-TileMap-Adoption"
+    name: "explore 场景从散落 Sprite2D 迁移到 iso TileMapLayer，复用 cliff_cave_ground_tiles.tres"
+    file: "production/sprints/sprint-8-explore-tilemap-adoption.md"
+    priority: must-have
+    status: backlog
+    owner: ""
+    estimate_days: 1.6
+    estimate_hours: 13.0
+    actual_hours: null
+    blocker: "Sprint 8 候选 — 依赖 S7-Iso-Pivot-Foundation done (已 done) + battle iso 蒙皮 done (A 路线已 done)"
+    completed: ""
+    sprint_candidate: 8
+    note: "S7-Iso-Pivot-Foundation §AC8 (标 N/A) 的承接 story；A 路线 (battle scene) 已落地，本 story 是对称的 explore 落地。.tmx → Godot TileMapLayer 翻译 + CavePlayer iso 坐标 + Props y_sort + 视觉证据 + 文档同步，7 个 AC，13.0h ≈ 1.6d。"
