@@ -48,31 +48,92 @@ offset_bottom = 170.0
 text = "重伤他 — 心境向「狠」位移"
 
 [node name="BlurredPanel" type="Panel" parent="UiLayer"]
-offset_left = 200.0
-offset_top = 200.0
-offset_right = 950.0
-offset_bottom = 480.0
-self_modulate = Color(1, 1, 1, 0.5)
+offset_left = 160.0
+offset_top = 120.0
+offset_right = 992.0
+offset_bottom = 560.0
 
-[node name="OverlayLabel" type="Label" parent="UiLayer/BlurredPanel"]
+[node name="ZoneNameLabel" type="Label" parent="UiLayer/BlurredPanel"]
 offset_left = 24.0
 offset_top = 16.0
-offset_right = 720.0
-offset_bottom = 60.0
-text = "[朦胧化面板 占位 — blurred-ui partial 集成]"
+offset_right = 808.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 24
+text = "—"
+horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="MindsetLabel" type="Label" parent="UiLayer/BlurredPanel"]
+[node name="ResolveBeforeLabel" type="Label" parent="UiLayer/BlurredPanel"]
 offset_left = 24.0
 offset_top = 80.0
-offset_right = 720.0
-offset_bottom = 160.0
-text = "心境未位移"
+offset_right = 808.0
+offset_bottom = 116.0
+theme_override_font_sizes/font_size = 16
+text = "—"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ResolveArrowLabel" type="Label" parent="UiLayer/BlurredPanel"]
+offset_left = 24.0
+offset_top = 120.0
+offset_right = 808.0
+offset_bottom = 144.0
+theme_override_font_sizes/font_size = 16
+text = "▼"
+horizontal_alignment = 1
+
+[node name="ResolveAfterLabel" type="Label" parent="UiLayer/BlurredPanel"]
+offset_left = 24.0
+offset_top = 148.0
+offset_right = 808.0
+offset_bottom = 184.0
+theme_override_font_sizes/font_size = 16
+text = "—"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="WorldlyBeforeLabel" type="Label" parent="UiLayer/BlurredPanel"]
+offset_left = 24.0
+offset_top = 208.0
+offset_right = 808.0
+offset_bottom = 244.0
+theme_override_font_sizes/font_size = 16
+text = "—"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="WorldlyArrowLabel" type="Label" parent="UiLayer/BlurredPanel"]
+offset_left = 24.0
+offset_top = 248.0
+offset_right = 808.0
+offset_bottom = 272.0
+theme_override_font_sizes/font_size = 16
+text = "▼"
+horizontal_alignment = 1
+
+[node name="WorldlyAfterLabel" type="Label" parent="UiLayer/BlurredPanel"]
+offset_left = 24.0
+offset_top = 276.0
+offset_right = 808.0
+offset_bottom = 312.0
+theme_override_font_sizes/font_size = 16
+text = "—"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="MoralityTierLabel" type="Label" parent="UiLayer/BlurredPanel"]
+offset_left = 24.0
+offset_top = 332.0
+offset_right = 808.0
+offset_bottom = 360.0
+theme_override_font_sizes/font_size = 12
+text = "—"
+horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="ContinueButton" type="Button" parent="UiLayer/BlurredPanel"]
-offset_left = 24.0
-offset_top = 200.0
-offset_right = 360.0
-offset_bottom = 260.0
-text = "继续 — 回到江南"
+offset_left = 316.0
+offset_top = 380.0
+offset_right = 516.0
+offset_bottom = 424.0
+text = "继续 — 江南雨歇，路还要走"
