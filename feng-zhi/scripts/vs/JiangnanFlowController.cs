@@ -179,24 +179,21 @@ public partial class JiangnanFlowController : Node
 	}
 
 	/// <summary>
-	/// dev-story spec §3 规约的 choice → shifts 映射。
-	/// 抽成静态方法是为了 integration tests 直接验证映射表，不必构造 Autoload。
+	/// dev-story spec §3 规约的 choice → shifts 映射，转发到 Foundation
+	/// 单一权威实现 <see cref="MindsetOutcomeShifts.ResolveShifts"/>。
 	/// </summary>
 	public static IReadOnlyList<MindsetShift> ResolveShifts(MindsetChoice choice)
 	{
+		return MindsetOutcomeShifts.ResolveShifts(ToOutcomeChoice(choice));
+	}
+
+	private static MindsetOutcomeChoice ToOutcomeChoice(MindsetChoice choice)
+	{
 		return choice switch
 		{
-			MindsetChoice.Spare => new[]
-			{
-				new MindsetShift(MindsetAxis.Morality, +5),
-				new MindsetShift(MindsetAxis.Resolve, +2),
-			},
-			MindsetChoice.Defeat => new[]
-			{
-				new MindsetShift(MindsetAxis.Morality, -5),
-				new MindsetShift(MindsetAxis.Resolve, -2),
-			},
-			_ => System.Array.Empty<MindsetShift>(),
+			MindsetChoice.Spare => MindsetOutcomeChoice.Spare,
+			MindsetChoice.Defeat => MindsetOutcomeChoice.Defeat,
+			_ => MindsetOutcomeChoice.None,
 		};
 	}
 
