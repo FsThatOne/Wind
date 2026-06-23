@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-22 (battle iso 蒙皮 done @ cu-visual-evidence A 路线 + S8-Explore-TileMap-Adoption backlog added)"
+updated: "2026-06-23 (battle iso 蒙皮 done @ A 路线 + StartCave 入口资产清残留 + ADR-0022 progress 回灌 + S8-Explore-TileMap-Adoption 提前启动 in-progress)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -163,12 +163,12 @@ stories:
     name: "explore 场景从散落 Sprite2D 迁移到 iso TileMapLayer，复用 cliff_cave_ground_tiles.tres"
     file: "production/sprints/sprint-8-explore-tilemap-adoption.md"
     priority: must-have
-    status: backlog
-    owner: ""
+    status: in-progress
+    owner: "user"
     estimate_days: 1.6
     estimate_hours: 13.0
     actual_hours: null
-    blocker: "Sprint 8 候选 — 依赖 S7-Iso-Pivot-Foundation done (已 done) + battle iso 蒙皮 done (A 路线已 done)"
+    blocker: ""
     completed: ""
     sprint_candidate: 8
-    note: "S7-Iso-Pivot-Foundation §AC8 (标 N/A) 的承接 story；A 路线 (battle scene) 已落地，本 story 是对称的 explore 落地。.tmx → Godot TileMapLayer 翻译 + CavePlayer iso 坐标 + Props y_sort + 视觉证据 + 文档同步，7 个 AC，13.0h ≈ 1.6d。"
+    note: "S7-Iso-Pivot-Foundation §AC8 (标 N/A) 的承接 story；A 路线 (battle scene) 已落地，本 story 是对称的 explore 落地。**2026-06-23 提前启动**：用户已实质推进 AC1 (.tmx → BackMountainCliffCaveTileLayers.tscn 自动化翻译, build_godot_back_mountain_cliff_cave_tile_layers.py) + AC2 (Day/Night × Ground/Terrain/Overlay 5 层 scene 骨架) + 部分 AC3 (BackMountainCliffCave.tscn / Game.cs 集成)；尚需 AC4 props y_sort + AC5 视觉证据 + AC6/AC7 文档 + DoD。"

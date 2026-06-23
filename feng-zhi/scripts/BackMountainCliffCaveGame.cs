@@ -17,11 +17,9 @@ public partial class BackMountainCliffCaveGame : Node2D
 	private const int MapHeight = 16;
 	private const int TileWidth = 64;
 	private const int TileHeight = 32;
-	private const int TilesetColumns = 6;
 	private const string AssetRoot = "res://assets/maps/back_mountain_cliff_cave";
 	private const string DayMap = AssetRoot + "/maps/back_mountain_cliff_cave_day.tmx";
 	private const string NightMap = AssetRoot + "/maps/back_mountain_cliff_cave_night.tmx";
-	private const string TilesetPath = AssetRoot + "/tilesets/cliff_cave_ground_tiles.png";
 
 	private readonly Vector2 _origin = new(576f, 96f);
 	private readonly Dictionary<string, Marker> _markers = new();
@@ -59,7 +57,8 @@ public partial class BackMountainCliffCaveGame : Node2D
 	};
 
 	private Node2D _mapRoot = null!;
-	private Node2D _tiles = null!;
+	private Node2D _dayTileLayers = null!;
+	private Node2D _nightTileLayers = null!;
 	private Node2D _structures = null!;
 	private Node2D _collision = null!;
 	private Node2D _logicMarkers = null!;
@@ -77,7 +76,8 @@ public partial class BackMountainCliffCaveGame : Node2D
 	public override void _Ready()
 	{
 		_mapRoot = GetNode<Node2D>("MapRoot");
-		_tiles = GetNode<Node2D>("MapRoot/Tiles");
+		_dayTileLayers = GetNode<Node2D>("MapRoot/Tiles/TileLayers/Day");
+		_nightTileLayers = GetNode<Node2D>("MapRoot/Tiles/TileLayers/Night");
 		_structures = GetNode<Node2D>("MapRoot/Structures");
 		_collision = GetNode<Node2D>("MapRoot/Collision");
 		_logicMarkers = GetNode<Node2D>("MapRoot/LogicMarkers");
@@ -92,7 +92,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 		_messagePanel.Visible = false;
 		LoadVariant("day", repositionPlayer: true);
 		UpdateInventoryLabel();
-		GD.Print("[BackMountainCliffCave] Ready. TMX day/night runtime loader active.");
+		GD.Print("[BackMountainCliffCave] Ready. Godot TileMapLayer visuals + TMX markers active.");
 	}
 
 	public override void _Process(double delta)
@@ -144,16 +144,15 @@ public partial class BackMountainCliffCaveGame : Node2D
 		_markers.Clear();
 		_groundTiles.Clear();
 		_blockedTiles.Clear();
-		ClearChildren(_tiles);
 		ClearChildren(_structures);
 		ClearChildren(_collision);
 		ClearChildren(_logicMarkers);
 
 		var mapPath = variant == "day" ? DayMap : NightMap;
 		var root = LoadTmx(mapPath);
-		var atlas = LoadTexture(TilesetPath);
 
-		BuildTileLayers(root, atlas);
+		ConfigureTileLayerVariant(variant);
+		ReadGroundTiles(root);
 		BuildStructures(root);
 		BuildCollision(root);
 		BuildLogicMarkers(root);
@@ -176,43 +175,24 @@ public partial class BackMountainCliffCaveGame : Node2D
 		UpdatePrompt();
 	}
 
-	private void BuildTileLayers(XElement root, Texture2D atlas)
+	private void ConfigureTileLayerVariant(string variant)
 	{
-		foreach (var layerName in new[] { "Ground", "Terrain", "Overlay" })
+		var isNight = variant == "night";
+		_dayTileLayers.Visible = !isNight;
+		_nightTileLayers.Visible = isNight;
+	}
+
+	private void ReadGroundTiles(XElement root)
+	{
+		var layer = FindLayer(root, "Ground");
+		var gids = ParseCsv(layer.Element("data")?.Value ?? string.Empty);
+		for (var y = 0; y < MapHeight; y++)
 		{
-			var layer = FindLayer(root, layerName);
-			var gids = ParseCsv(layer.Element("data")?.Value ?? string.Empty);
-			for (var y = 0; y < MapHeight; y++)
+			for (var x = 0; x < MapWidth; x++)
 			{
-				for (var x = 0; x < MapWidth; x++)
+				if (gids[y * MapWidth + x] != 0)
 				{
-					var gid = gids[y * MapWidth + x];
-					if (gid == 0)
-					{
-						continue;
-					}
-
-					if (layerName == "Ground")
-					{
-						_groundTiles.Add(new Vector2I(x, y));
-					}
-
-					var tileId = gid - 1;
-					var sprite = new Sprite2D
-					{
-						Name = $"{layerName}_{x}_{y}",
-						Texture = atlas,
-						RegionEnabled = true,
-						RegionRect = new Rect2(
-							(tileId % TilesetColumns) * TileWidth,
-							(tileId / TilesetColumns) * TileHeight,
-							TileWidth,
-							TileHeight),
-						Centered = false,
-						Position = TileToScreen(x, y) - new Vector2(TileWidth / 2f, TileHeight / 2f),
-						ZIndex = y * 10 + x + (layerName == "Overlay" ? 500 : 0),
-					};
-					_tiles.AddChild(sprite);
+					_groundTiles.Add(new Vector2I(x, y));
 				}
 			}
 		}

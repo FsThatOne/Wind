@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GODOT_ROOT = ROOT / "feng-zhi"
 ASSET_ROOT = GODOT_ROOT / "assets/maps/back_mountain_cliff_cave"
 SCENE_PATH = GODOT_ROOT / "scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn"
+TILE_LAYERS_SCENE_PATH = GODOT_ROOT / "scenes/back_mountain_cliff_cave/BackMountainCliffCaveTileLayers.tscn"
 SCRIPT_PATH = GODOT_ROOT / "scripts/BackMountainCliffCaveGame.cs"
 PROJECT_PATH = GODOT_ROOT / "project.godot"
 
@@ -85,13 +86,48 @@ def validate_tileset_alpha(path: Path) -> None:
         if image.mode != "RGBA":
             fail(f"{path.name} must be RGBA")
         alpha = image.getchannel("A")
-        transparent = sum(1 for value in alpha.getdata() if value == 0)
+        alpha_values = alpha.get_flattened_data() if hasattr(alpha, "get_flattened_data") else alpha.getdata()
+        transparent = sum(1 for value in alpha_values if value == 0)
         if transparent == 0:
             fail(f"{path.name} has no transparent diamond outside area")
 
 
+def validate_godot_tileset(path: Path) -> None:
+    require(path)
+    text = path.read_text(encoding="utf-8")
+    for snippet in [
+        'type="TileSet"',
+        'path="res://assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.png"',
+        "tile_shape = 1",
+        "tile_layout = 5",
+        "tile_size = Vector2i(64, 32)",
+        'custom_data_layer_0/name = "tile_name"',
+    ]:
+        if snippet not in text:
+            fail(f"{path.name} missing {snippet}")
+
+
+def validate_tile_layers_scene(path: Path) -> None:
+    require(path)
+    text = path.read_text(encoding="utf-8")
+    for snippet in [
+        'type="TileSet"',
+        "cliff_cave_ground_tiles.tres",
+        '[node name="Day" type="Node2D" parent="."',
+        '[node name="Night" type="Node2D" parent="."',
+        'type="TileMapLayer"',
+        "tile_map_data = PackedByteArray(",
+        "tile_set = ExtResource",
+    ]:
+        if snippet not in text:
+            fail(f"{path.name} missing {snippet}")
+    if text.count('type="TileMapLayer"') < 6:
+        fail(f"{path.name} should contain Day/Night Ground/Terrain/Overlay TileMapLayer nodes")
+
+
 def main() -> None:
     require(SCENE_PATH)
+    require(TILE_LAYERS_SCENE_PATH)
     require(SCRIPT_PATH)
     require(PROJECT_PATH)
 
@@ -103,6 +139,8 @@ def main() -> None:
     for snippet in [
         "BackMountainCliffCave",
         "BackMountainCliffCaveGame.cs",
+        "BackMountainCliffCaveTileLayers.tscn",
+        'node name="TileLayers"',
         "CavePlayer.cs",
         "main_character.tres",
         "Camera2D",
@@ -117,7 +155,8 @@ def main() -> None:
         "back_mountain_cliff_cave_day.tmx",
         "back_mountain_cliff_cave_night.tmx",
         "LoadVariant",
-        "BuildTileLayers",
+        "ConfigureTileLayerVariant",
+        "ReadGroundTiles",
         "BuildStructures",
         "BuildCollision",
         "BuildLogicMarkers",
@@ -132,6 +171,8 @@ def main() -> None:
     ]:
         if snippet not in script:
             fail(f"script missing {snippet}")
+    if "BuildTileLayers" in script:
+        fail("BackMountainCliffCaveGame.cs still builds tile sprites at runtime")
 
     player_script = (GODOT_ROOT / "scripts/CavePlayer.cs").read_text(encoding="utf-8")
     for snippet in [
@@ -163,6 +204,8 @@ def main() -> None:
         fail("BackMountainCliffCave.tscn still hardcodes the old sprite foot offset")
 
     validate_tileset_alpha(ASSET_ROOT / "tilesets/cliff_cave_ground_tiles.png")
+    validate_godot_tileset(ASSET_ROOT / "tilesets/cliff_cave_ground_tiles.tres")
+    validate_tile_layers_scene(TILE_LAYERS_SCENE_PATH)
     require(ASSET_ROOT / "maps/cliff_cave_ground_tiles.tsx")
     for name in REQUIRED_PROPS:
         require(ASSET_ROOT / "props" / name)
