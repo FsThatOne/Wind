@@ -205,18 +205,19 @@ public partial class Iso4AnimatedSprite2DAnimator : Node, IIso4CharacterAnimator
     /// <summary>
     /// cart 空间向量 → <see cref="Iso4Direction"/>。
     ///
-    /// Sector 中心对齐 ADR-0022 §3 WASD cart 对角向量：
+    /// <para>
+    /// 分区几何（对应 screen-direction 4 象限）：
+    /// </para>
     /// <list type="bullet">
-    ///   <item><description>NW 中心 cart_angle = -3π/4 (W key cart -1,-1)</description></item>
-    ///   <item><description>NE 中心 cart_angle = -π/4 (D key cart +1,-1)</description></item>
-    ///   <item><description>SE 中心 cart_angle = +π/4 (S key cart +1,+1)</description></item>
-    ///   <item><description>SW 中心 cart_angle = +3π/4 (A key cart -1,+1)</description></item>
+    ///   <item><description>NE = cart_angle ∈ (-3π/4, -π/4]，中心 -π/4 = D key</description></item>
+    ///   <item><description>SE = cart_angle ∈ (-π/4, π/4]，中心 +π/4 = S key</description></item>
+    ///   <item><description>SW = cart_angle ∈ (π/4, 3π/4]，中心 +3π/4 = A key</description></item>
+    ///   <item><description>NW = cart_angle ∈ (3π/4, π] ∪ [-π, -3π/4]，中心 -3π/4 = W key</description></item>
     /// </list>
     ///
     /// <para>
-    /// 注：与 ADR-0022 §2 表中"sector 边界在 cart 对角 (±π/4, ±3π/4)"略有出入；本实现按
-    /// §3 WASD 期望（W=NW、D=NE、S=SE、A=SW）选择把 sector 中心对齐 cart 对角，使 WASD
-    /// 落入 sector 内部而非边界。ADR-0022 erratum 已记入该 ADR 文末 Validation Criteria 后。
+    /// 区间右闭左开：把 WASD cart 对角向量稳定地置于各自 sector 中心，cart 卡式轴
+    /// (cart ±X / ±Y) 自然对应到相邻的 screen-diagonal。±15° 迟滞抑制边界抖动。
     /// </para>
     /// </summary>
     private static Iso4Direction ResolveDirection(Vector2 v, Iso4Direction? current)
@@ -239,18 +240,22 @@ public partial class Iso4AnimatedSprite2DAnimator : Node, IIso4CharacterAnimator
 
     private static Iso4Direction SectorFromAngle(float angle)
     {
-        if (angle < -Mathf.Pi / 2.0f) return Iso4Direction.NW;
-        if (angle < 0f) return Iso4Direction.NE;
-        if (angle < Mathf.Pi / 2.0f) return Iso4Direction.SE;
+        const float QuarterPi = Mathf.Pi / 4.0f;
+        const float ThreeQuarterPi = 3.0f * Mathf.Pi / 4.0f;
+        if (angle > ThreeQuarterPi || angle <= -ThreeQuarterPi) return Iso4Direction.NW;
+        if (angle <= -QuarterPi) return Iso4Direction.NE;
+        if (angle <= QuarterPi) return Iso4Direction.SE;
         return Iso4Direction.SW;
     }
 
+    // Sector 中心位于 cart 卡式轴（与对角 boundary 等距）。
+    // 注意 NW 中心是 +π / -π wrap point：NormalizeAngle 让两侧 distance 对称。
     private static float SectorCenter(Iso4Direction direction) => direction switch
     {
-        Iso4Direction.NE => -Mathf.Pi / 4.0f,
-        Iso4Direction.SE => +Mathf.Pi / 4.0f,
-        Iso4Direction.SW => +3.0f * Mathf.Pi / 4.0f,
-        Iso4Direction.NW => -3.0f * Mathf.Pi / 4.0f,
+        Iso4Direction.NE => -Mathf.Pi / 2.0f,
+        Iso4Direction.SE => 0f,
+        Iso4Direction.SW => +Mathf.Pi / 2.0f,
+        Iso4Direction.NW => Mathf.Pi,
         _ => 0f,
     };
 

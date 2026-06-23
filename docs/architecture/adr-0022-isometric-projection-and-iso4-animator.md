@@ -118,20 +118,21 @@ public interface IIso4CharacterAnimator : ICharacterAnimator
 }
 ```
 
-方向选区（cart 空间，atan2 后等分 4 区间，含 ±15° 迟滞抑制抖动）。
-**Sector 中心对齐 §3 WASD cart 对角向量**（W=(-1,-1) → 中心 -3π/4 → NW），
-使 WASD 输入落在 sector **内部**而非边界；boundary 在 cart 卡式半轴 (0, ±π/2)：
+方向选区（cart 空间，atan2 后分 4 区间，含 ±15° 迟滞抑制抖动）。
+Sector 边界在 cart 对角 (±π/4, ±3π/4)，**右闭左开**区间把 §3 WASD 对角向量稳定地置入正确 sector：
 
-| atan2(y, x) 区间 | Iso4Direction | 屏幕方向 | WASD 中心 |
-|---|---|---|---|
-| [-π, -π/2)    | NW | ↖ | W cart (-1, -1)，atan2 = -3π/4 |
-| [-π/2, 0)     | NE | ↗ | D cart (+1, -1)，atan2 = -π/4 |
-| [0, π/2)      | SE | ↘ | S cart (+1, +1)，atan2 = +π/4 |
-| [π/2, π]      | SW | ↙ | A cart (-1, +1)，atan2 = +3π/4 |
+| atan2(y, x) 区间 | Iso4Direction | 屏幕方向 | 中心 (cart 卡式轴) | 含 §3 WASD 边界点 |
+|---|---|---|---|---|
+| (-3π/4, -π/4] | NE | ↗ | cart (0, -1) atan2 = -π/2 | D cart (+1, -1) atan2 = -π/4 |
+| (-π/4, π/4]   | SE | ↘ | cart (+1, 0) atan2 = 0    | S cart (+1, +1) atan2 = +π/4 |
+| (π/4, 3π/4]   | SW | ↙ | cart (0, +1) atan2 = +π/2 | A cart (-1, +1) atan2 = +3π/4 |
+| (3π/4, π] ∪ [-π, -3π/4] | NW | ↖ | cart (-1, 0) atan2 = ±π | W cart (-1, -1) atan2 = -3π/4 |
 
-> **Erratum 2026-06-23**：原稿区间表 sector 边界设在 cart 对角（±π/4 / ±3π/4），
-> 与 §3 WASD 期望冲突（W 落 NE 而非 NW）。本表为修订后版本，由
-> `Iso4AnimatedSprite2DAnimator` / `FakeIso4CharacterAnimator` 实现兜底验证。
+> **Erratum 2026-06-23**：原稿区间表用左闭右开（`[a, b)`），使 W key 的 atan2 = -3π/4
+> 落入 NE 区间 [-3π/4, -π/4) 而非 §3 期望的 NW。本表改为右闭左开（`(a, b]`）保持 §2/§3 一致；
+> Sector 几何不变，仅边界包含性反转。
+> 由 `Iso4AnimatedSprite2DAnimator` / `FakeIso4CharacterAnimator` 实现兜底验证，
+> 含 `WASD_CartDiagonals_FallInSectorCenters` 4 case Theory 测试。
 
 Adapter 内部动画名约定：`walk_ne` / `walk_se` / `walk_sw` / `walk_nw`（+ `idle` 兜底）。
 

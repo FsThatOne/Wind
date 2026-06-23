@@ -73,9 +73,11 @@ public sealed class FakeIso4CharacterAnimator : IIso4CharacterAnimator
     private static Iso4Direction ResolveDirection(Vector2 v)
     {
         var angle = Mathf.Atan2(v.Y, v.X);
-        if (angle < -Mathf.Pi / 2.0f) return Iso4Direction.NW;
-        if (angle < 0f) return Iso4Direction.NE;
-        if (angle < Mathf.Pi / 2.0f) return Iso4Direction.SE;
+        const float QuarterPi = Mathf.Pi / 4.0f;
+        const float ThreeQuarterPi = 3.0f * Mathf.Pi / 4.0f;
+        if (angle > ThreeQuarterPi || angle <= -ThreeQuarterPi) return Iso4Direction.NW;
+        if (angle <= -QuarterPi) return Iso4Direction.NE;
+        if (angle <= QuarterPi) return Iso4Direction.SE;
         return Iso4Direction.SW;
     }
 }
