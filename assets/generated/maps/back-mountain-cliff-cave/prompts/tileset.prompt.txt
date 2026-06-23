@@ -1,0 +1,43 @@
+Create a 16-bit pixel art isometric diamond tileset for a Chinese wuxia RPG cave interior.
+
+Exact sheet contract:
+- PNG image, 384x128 pixels.
+- 6 columns x 4 rows.
+- Each tile is exactly 64x32 pixels.
+- 2:1 isometric diamond footprint.
+- All 24 tiles must be seamless or edge-compatible.
+- No labels, no text, no numbers, no UI, no characters.
+
+Scene identity:
+This is not a dungeon, mine, ruin, monster cave, or treasure room. It is a lived-in storage cave behind FengZhi Manor, used to store medicinal wine and supplies, and also used as a secret base by the protagonist and his senior sister.
+
+Art style:
+16-bit pixel wuxia, readable pixel edges, restrained ink-and-stone palette, warm domestic undertone, cave stone in low saturation gray-green and muted ochre, small moss and wet stone details. Avoid modern HD painting, blur, painterly smears, noisy textures, and realistic rendering.
+
+Tile list, left to right, top to bottom:
+1 dry stone floor
+2 wet stone floor
+3 flatter storage-area stone floor
+4 moss-marked stone floor
+5 pebble scatter floor
+6 shallow water puddle floor
+7 muddy water edge
+8 dark corner shadow floor
+9 cave wall foot line north-east edge
+10 cave wall foot line north-west edge
+11 low stone ledge edge
+12 wooden floor pad under storage
+13 cave wall shadow transition
+14 worn path stone
+15 cleaner secret-base nook stone
+16 wine-jar placement stain
+17 rest-mat floor imprint
+18 subtle warm-lamp floor glow
+19 damp cave crack floor
+20 small moss corner floor
+21 storage scuff floor
+22 darker rear-cave floor
+23 shallow water highlight
+24 plain fallback dry stone floor
+
+Keep every tile aligned to its own 64x32 cell. Do not let art cross cell boundaries except exact seamless edge continuation.

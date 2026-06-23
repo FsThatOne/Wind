@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="FengZhi"
-run/main_scene="uid://dq57hnpshsgyy"
+run/main_scene="res://scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

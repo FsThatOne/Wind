@@ -1,0 +1,26 @@
+Create a 16-bit pixel art prop sheet for a Chinese wuxia RPG cave interior.
+
+Exact sheet contract:
+- PNG image.
+- Solid #FF00FF magenta background.
+- 2 columns x 5 rows, 10 prop cells.
+- Each prop must be isolated inside its cell with generous padding.
+- No labels, no text, no numbers, no UI, no characters.
+- Pixel art with readable edges.
+
+Scene identity:
+This is a lived-in storage cave behind FengZhi Manor, used for medicinal wine, supplies, and as a secret base shared by the protagonist and his senior sister. It must feel humble, domestic, safe, and personal. Do not include swords, treasure chests, tomb objects, bones, monsters, mine carts, ancient ruins, or combat props.
+
+Props, row-major order:
+1 single sealed medicinal wine jar with cloth and clay seal
+2 group of 2-3 sealed medicinal wine jars, main pickup object
+3 wall-side wooden storage shelf with small jars and folded cloth
+4 bamboo basket with dried herbs
+5 stored cloth bundle
+6 low wooden crate for storage clutter
+7 old rest mat or straw mat, low and humble
+8 small wooden stool
+9 senior sister memory marker, a small cloth strip or paper tag tied to a stone, gentle and personal
+10 small dim oil lamp, warm but modest
+
+All props must have their visual bottom aligned consistently so they can be placed on an isometric tile baseline after chroma-key cleanup.
