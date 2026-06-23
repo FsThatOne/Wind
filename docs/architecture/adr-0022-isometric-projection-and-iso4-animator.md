@@ -1,10 +1,10 @@
 # ADR-0022: Isometric Diamond Projection & 4-Directional Character Animator
 
 ## Status
-Accepted
+Accepted (Migration Plan §1–§3 + §5 ✅；§4 partial — explore 切 iso 已挂 S8-Explore-TileMap-Adoption；Validation #1 ✅，#2/#3 partial，#4 ⏳ 留 S8)
 
 ## Date
-2026-06-22
+2026-06-22 (Migration progress 回灌 2026-06-23)
 
 ## Supersedes
 [ADR-0021](adr-0021-character-animation-port.md) — §扩展点 1 (8 方向序列帧子接口)
@@ -162,6 +162,8 @@ ADR-0010 五层结构沿用；每层 TileMapLayer 节点的属性：
 
 > **2026-06-23 校准**：经 64×32 与 128×64 可视化对比后，当前默认 isometric tile 规格改为 64×32。该尺寸用于 Sprint 7 iso foundation、后山涯洞试制 tileset 与 Tiled 分层地图，以优先验证探索可读性、碰撞、逻辑标记和角色脚底对齐。128×64 保留为后续高清/正式战棋镜头的重制候选，不作为当前默认规格。
 
+> **2026-06-23 A 路线落地**：[battle_jiangnan_bandit.tscn](../../feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn) 复用 [cliff_cave_ground_tiles.tres](../../feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres) 铺 5×5 战棋格 + IsoBoard (Node2D, y_sort_enabled) + Player/Bandit Sprite2D 落格，验证「战斗 + 探索共享 TileSet」承诺。explore 场景的对称迁移挂 [S8-Explore-TileMap-Adoption](../../production/sprints/sprint-8-explore-tilemap-adoption.md)（7 AC / 13.0h ≈ 1.6d）。
+
 `Background` 节点（ADR-0020 D1 追加项）保持 `Sprite2D`，但 `y_sort_origin` 应设为远低于战棋面，避免被遮挡。
 
 ### 5. 与 ADR-0021 的关系
@@ -218,22 +220,22 @@ ADR-0010 五层结构沿用；每层 TileMapLayer 节点的属性：
 
 ## Migration Plan
 
-| 阶段 | 内容 |
-|---|---|
-| 1 | 本 ADR 接受 + S7-Iso-Pivot-Foundation story 拆解（同批落盘） |
-| 2 | Foundation 层：新增 `Geometry/IsoProjection.cs` + `Animation/Iso4Direction.cs` + `Animation/IIso4CharacterAnimator.cs` + `Animation/GodotIntegration/Iso4AnimatedSprite2DAnimator.cs` + `Animation/Fakes/FakeIso4CharacterAnimator.cs`；删除 8 向同名文件；测试从 11 → 8 重写 |
-| 3 | Asset：重建 `feng-zhi/assets/character/main_character.tres` 为 `idle + walk_ne + walk_se + walk_sw + walk_nw`；新 sprite 由 generate2dsprite 生成 4 张斜向走路 sheet（保留旧 8 向中 4 张斜向可作首版） |
-| 4 | feng-zhi：`StartCave.tscn` 改 TileMapLayer 为 Isometric；`CavePlayer.cs` 切换到 `IIso4CharacterAnimator`；输入映射 WASD → cart 向量 |
-| 5 | Doc：GDD `combat-system.md` §战棋空间规则补 iso 标注；ADR-0010 §层级规范追加 iso tile_shape 列；ADR-0021 Status 改为 "Partially Superseded by ADR-0022 (§扩展点 1)"；art-bible.md Reference Board 补 isometric 注 |
+| 阶段 | 内容 | 状态 |
+|---|---|---|
+| 1 | 本 ADR 接受 + S7-Iso-Pivot-Foundation story 拆解（同批落盘） | ✅ commit 40d81c4 |
+| 2 | Foundation 层：新增 `Geometry/IsoProjection.cs` + `Animation/Iso4Direction.cs` + `Animation/IIso4CharacterAnimator.cs` + `Animation/GodotIntegration/Iso4AnimatedSprite2DAnimator.cs` + `Animation/Fakes/FakeIso4CharacterAnimator.cs`；删除 8 向同名文件；测试从 11 → 24（10 IsoProjection + 14 Iso4） | ✅ commits 7da0ba1, 0836963, 5a5ec05, 3ae8116 |
+| 3 | Asset：重建 `feng-zhi/assets/character/main_character.tres` 为 `idle + walk_ne + walk_se + walk_sw + walk_nw`；新 sprite 由 generate2dsprite 生成 4 张斜向走路 sheet（保留旧 8 向中 4 张斜向可作首版） | ✅ commit 5e0bcdf |
+| 4 | feng-zhi：`CavePlayer.cs` 切换到 `IIso4CharacterAnimator`；输入映射 WASD → cart 向量；TileMapLayer 实地化 | ⚠️ partial — `CavePlayer.cs` 切 `IIso4` ✅ (commit ac6b346)；`StartCave.tscn` 已下线由 `BackMountainCliffCave.tscn` 接管 (ece2ae6 / a2c3a35 / 235bc8d)；battle scene iso TileMapLayer ✅ A 路线落地 (commit 271b817)；explore TileMapLayer 化 ⏳ 挂 [S8-Explore-TileMap-Adoption](../../production/sprints/sprint-8-explore-tilemap-adoption.md) |
+| 5 | Doc：GDD `combat-system.md` §战棋空间规则补 iso 标注；ADR-0010 §层级规范追加 iso tile_shape 列；ADR-0021 Status 改为 "Partially Superseded by ADR-0022 (§扩展点 1)"；art-bible.md Reference Board 补 isometric 注 | ✅ 同步落盘 |
 
 **Rollback plan**：保留 8 向代码于 `archive/animation-8dir-2026-06-22/` 一个 sprint（不入构建），Sprint 8 retro 时若 isometric playtest 失败可一次性回滚。
 
 ## Validation Criteria
 
-1. Foundation 测试 1378 ± Δ：删除 11 旧测试，新增 ≥ 8 测试覆盖 `IsoProjection` 双向变换 + `Iso4Direction` 选区 + 迟滞 + 帧相位保持
-2. `feng-zhi/StartCave.tscn` 实机：WASD 走 4 斜向，sprite 切换无残影，y-sort 正确
-3. VS 战棋场景 spike：5×5 iso grid + 3 角色 + 1 棵树（Overlay），角色绕树走时遮挡正确
-4. 鼠标 hover 落子：屏幕坐标 → cart 坐标 → tile (0..4, 0..4) 误差 ≤ 1 像素
+1. ✅ Foundation 测试 1378 ± Δ：删除 11 旧测试，新增 ≥ 8 测试覆盖 `IsoProjection` 双向变换 + `Iso4Direction` 选区 + 迟滞 + 帧相位保持。**实际**：1378 → 1399（+10 IsoProjection + 14 Iso4 − 11 8dir = +13），含 `WASD_CartDiagonals_FallInSectorCenters` Theory 4 case
+2. ⚠️ partial — explore 实机：WASD 走 4 斜向，sprite 切换无残影，y-sort 正确。**当前**：headless `--import` 0 err、Foundation 测试覆盖 sector + 迟滞行为 ✅；`BackMountainCliffCave` owner 实机走查 + 录屏 pending（cu-visual-evidence + S8 视觉证据）
+3. ⚠️ partial — VS 战棋场景 spike：5×5 iso grid + 3 角色 + 1 棵树（Overlay），角色绕树走时遮挡正确。**当前**：5×5 iso grid + Player/Bandit Sprite2D ✅ ([battle_jiangnan_bandit.tscn](../../feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn) commit 271b817)；多角色 + Overlay 树冠遮挡留 S8 (`S8-Explore-TileMap-Adoption` AC4 props y_sort 验证 + 后续 S8-In-Place-Combat 候选)
+4. ⏳ 鼠标 hover 落子：屏幕坐标 → cart 坐标 → tile (0..4, 0..4) 误差 ≤ 1 像素。**当前**：`IsoProjection.ScreenToCart` 已单测 ✅；UI 落子交互层未实现，留 S8 战棋落子 story
 
 ## GDD Requirements Addressed
 
