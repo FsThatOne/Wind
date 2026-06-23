@@ -1,0 +1,366 @@
+feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn
+  s_db852e122f2c02::t_153f379e381cf7 1,4-5,13-30 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5c67f86f0d831c32ce05","tool_type":"agent","tool_id":"Write","line_ranges":[{"Single":1},{"Range":[4,5]},{"Range":[13,30]}]}]}
+production/sprints/sprint-8-explore-tilemap-adoption.md
+  s_db852e122f2c02::t_e83b20c67789f7 1-76 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5d1df86f0d831c32ce2d","tool_type":"agent","tool_id":"Write","line_ranges":[{"Range":[1,76]}]}]}
+feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres
+  s_db852e122f2c02::t_0daab377115f81 1 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a6232f86f0d831c32ce5f","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Single":1}]}]}
+  s_db852e122f2c02::t_ff0cb0d17baf75 2-63 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5c31f86f0d831c32cdfc","tool_type":"agent","tool_id":"Write","line_ranges":[{"Range":[2,63]}]}]}
+production/sprint-status.yaml
+  s_db852e122f2c02::t_f5cd42dd2d8fa3 135 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5d7ef86f0d831c32ce3c","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Single":135}]}]}
+  s_db852e122f2c02::t_1da397606f16ab 161-174 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5e28f86f0d831c32ce46","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Range":[161,174]}]}]}
+  s_db852e122f2c02::t_e5f941d6dd74e7 17 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5d60f86f0d831c32ce36","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Single":17}]}]}
+feng-zhi/scripts/vs/JiangnanBattleGame.cs
+  s_db852e122f2c02::t_50af130fe9902f 192-220 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5cbef86f0d831c32ce0e","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Range":[192,220]}]}]}
+  s_db852e122f2c02::t_f86c24327cc299 51-52 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a5caff86f0d831c32ce0b","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Range":[51,52]}]}]}
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "271b81771590d63155a1a63381b833133dd2a459",
+  "prompts": {},
+  "sessions": {
+    "s_db852e122f2c02": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a394ce76157a98654a2d8ec",
+        "model": "openrouter-2o__dev",
+        "display_model_name": "openrouter-2o"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {
+    "feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres": [
+      {
+        "hash": "s_db852e122f2c02::t_0daab377115f81",
+        "line_ranges": [
+          {
+            "Single": 1
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a6232f86f0d831c32ce5f",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Single": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_db852e122f2c02::t_ff0cb0d17baf75",
+        "line_ranges": [
+          {
+            "Range": [
+              2,
+              63
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5c31f86f0d831c32cdfc",
+            "tool_type": "agent",
+            "tool_id": "Write",
+            "line_ranges": [
+              {
+                "Range": [
+                  2,
+                  63
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn": [
+      {
+        "hash": "s_db852e122f2c02::t_153f379e381cf7",
+        "line_ranges": [
+          {
+            "Single": 1
+          },
+          {
+            "Range": [
+              4,
+              5
+            ]
+          },
+          {
+            "Range": [
+              13,
+              30
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5c67f86f0d831c32ce05",
+            "tool_type": "agent",
+            "tool_id": "Write",
+            "line_ranges": [
+              {
+                "Single": 1
+              },
+              {
+                "Range": [
+                  4,
+                  5
+                ]
+              },
+              {
+                "Range": [
+                  13,
+                  30
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/vs/JiangnanBattleGame.cs": [
+      {
+        "hash": "s_db852e122f2c02::t_50af130fe9902f",
+        "line_ranges": [
+          {
+            "Range": [
+              192,
+              220
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5cbef86f0d831c32ce0e",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Range": [
+                  192,
+                  220
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_db852e122f2c02::t_f86c24327cc299",
+        "line_ranges": [
+          {
+            "Range": [
+              51,
+              52
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5caff86f0d831c32ce0b",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Range": [
+                  51,
+                  52
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "production/sprint-status.yaml": [
+      {
+        "hash": "s_db852e122f2c02::t_f5cd42dd2d8fa3",
+        "line_ranges": [
+          {
+            "Single": 135
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5d7ef86f0d831c32ce3c",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Single": 135
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_db852e122f2c02::t_1da397606f16ab",
+        "line_ranges": [
+          {
+            "Range": [
+              161,
+              174
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5e28f86f0d831c32ce46",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Range": [
+                  161,
+                  174
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_db852e122f2c02::t_e5f941d6dd74e7",
+        "line_ranges": [
+          {
+            "Single": 17
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5d60f86f0d831c32ce36",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Single": 17
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "production/sprints/sprint-8-explore-tilemap-adoption.md": [
+      {
+        "hash": "s_db852e122f2c02::t_e83b20c67789f7",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              76
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a5d1df86f0d831c32ce2d",
+            "tool_type": "agent",
+            "tool_id": "Write",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  76
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "s_db852e122f2c02": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_0daab377115f81": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_153f379e381cf7": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_1da397606f16ab": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_425efcfbd932b0": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_50af130fe9902f": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_e5f941d6dd74e7": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_e83b20c67789f7": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_f5cd42dd2d8fa3": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_f86c24327cc299": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_ff0cb0d17baf75": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
