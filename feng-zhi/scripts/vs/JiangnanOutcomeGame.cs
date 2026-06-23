@@ -132,11 +132,34 @@ public partial class JiangnanOutcomeGame : Node2D
 			? $"道义：{newTierName}"
 			: $"道义：{oldTierName} → {newTierName}";
 
+		var visual = MindsetPresentationService.GetVisualParams(snapshot.NewZone);
+		_blurredPanel.SelfModulate = WarmthToModulate(visual.Warmth);
+
 		GD.Print(
-			$"[JiangnanOutcome] Snapshot rendered: zone={zoneName}; " +
+			$"[JiangnanOutcome] Snapshot rendered: zone={zoneName}; warmth={visual.Warmth:F2}; " +
 			$"resolve {snapshot.OldState.Resolve}→{snapshot.NewState.Resolve}; " +
 			$"worldly {snapshot.OldState.Worldly}→{snapshot.NewState.Worldly}; " +
 			$"morality {snapshot.OldState.Morality}→{snapshot.NewState.Morality} ({newTierName})");
+	}
+
+	/// <summary>
+	/// 把 <see cref="MindsetVisualParams.Warmth"/>（约 ∈ [-0.35, 0.35]）线性映射到
+	/// BlurredPanel 的 self_modulate 颜色乘子。
+	///
+	/// - Warmth > 0（暖色：白衣入世 / 大隐于市 / 释怀未定）→ R 上、B 下，整体偏暖橙
+	/// - Warmth ≈ 0（中性：未定 / 中庸）→ 白（不染色）
+	/// - Warmth &lt; 0（冷色：孤剑入世 / 执念未定 / 风止沉烟）→ R 下、B 上，整体偏冷青
+	///
+	/// 系数选 0.6（R/B）+ 0.1（G）让 0.35 warmth 不至于过饱和（max 0.79 / 1.21 通道）。
+	/// </summary>
+	private static Color WarmthToModulate(float warmth)
+	{
+		var t = Mathf.Clamp(warmth, -0.5f, 0.5f);
+		return new Color(
+			r: 1.0f + t * 0.6f,
+			g: 1.0f + t * 0.1f,
+			b: 1.0f - t * 0.6f,
+			a: 1.0f);
 	}
 
 	private void RenderFallback(JiangnanFlowController.MindsetChoice choice)
