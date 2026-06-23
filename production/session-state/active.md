@@ -786,3 +786,52 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
   - **DoD pending**：owner 在 Godot 4.7 编辑器里打开 StartCave Play 验证 WASD 走 4 斜向、sprite 切换正确；录制 ≥1 段 30s 录屏 + ≥3 张 NE/SE/NW 截图落 `production/qa/evidence/s7-iso-pivot-foundation/`
   - Sprint 7 must-have 剩 2 项：S7-VS-Outcome-Feedback (1.25d) + cu-visual-evidence (0.75d carryover)
 - **Sprint 7 progress**：5/8 stories done (Spike + Foundation + Smoke + Combat-Loop + **Iso-Pivot**) + Animator-Port + ADR-0022 docs；剩余 must-have 2 项 (Outcome-Feedback / cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。可用 capacity 余 ≈ 3d / 总 10d（含 buffer）。VS prove-or-pivot 向 **PROVE** 大步前进。
+
+## Session Extract — S7-VS-Outcome-Feedback PASS (代码层) 2026-06-23
+
+- **完成 story**：`S7-VS-Outcome-Feedback` (must-have, 1.25d est → 4.5h actual, **variance -55%**, 代码层 done；DoD owner 实机录屏 pending)
+- **commits**：
+  - `79b9b0d` docs(sprint-7): AC1 dev-story spec 草稿 (8 AC + 8 subtask + DoD + 风险)
+  - `4464998` feat(mindset): AC5 MindsetZoneLiteraryNames 9 zone + 5 tier 文学名（落 Foundation, deviation from spec §2.1）
+  - `7e0200c` feat(vs-outcome): AC2 JiangnanFlowController 集成 MindsetService + EventBus + Snapshot
+  - `9be8a8b` feat(vs-outcome): AC3 OutcomeGame 接入 + 文学化前后对比渲染
+  - `5002aa3` feat(vs-outcome): AC4 BlurredPanel StyleBoxFlat + warmth → SelfModulate 染色
+  - `86bb24a` test(vs-outcome): AC6 Foundation 化 MindsetOutcomeShifts + 4 integration tests (4/4 PASS)
+  - `f527e29` docs(vs-outcome): AC7 代码层 smoke evidence + owner pending checklist
+- **AC 进度**：
+  - AC1 spec ✅ (79b9b0d)
+  - AC2 FlowController Mindset 集成 ✅ (7e0200c)
+  - AC3 OutcomeGame 接入 + 文学化渲染 ✅ (9be8a8b)
+  - AC4 BlurredPanel 视觉升级 ✅ (5002aa3)
+  - AC5 MindsetZoneLiteraryNames ✅ (4464998)
+  - AC6 4 integration tests ✅ (86bb24a)
+  - AC7 build/test/headless smoke ✅ (f527e29)
+  - AC8 closeout (active.md / sprint-7 / sprint-status / spec Final Status) ⏳ 本 commit
+- **关键技术决策**：
+  - **Foundation 化 spec §3 mapping**：Subtask 6 写 tests 时发现 `JiangnanFlowController.ResolveShifts` 在 feng-zhi/，tests 项目只链 Foundation 拿不到。决策：把 mapping 抽到 `MindsetOutcomeShifts.cs` 落 Foundation（含 `MindsetOutcomeChoice` enum）；JiangnanFlowController.MindsetChoice 保留 Godot 友好枚举但内部委托给 Foundation。**单一权威 + tests 可直接验证 spec §3 数值表**。
+  - **SelfModulate vs Modulate**：BlurredPanel 染色用 `SelfModulate` 而非 `Modulate` — Modulate 会乘子级联到所有子 Label 让文字偏色；SelfModulate 只影响 Panel 自己的 StyleBoxFlat 背景绘制，文字保持白色高对比。Godot 推荐模式。
+  - **Snapshot 不依赖事件序**：`MindsetShiftSnapshot` record 一次性冻结 old/new state；UI 不订阅事件做累加，避免 single-frame 多事件触发顺序问题（spec §9 风险表已预警）
+  - **Autoload 单例 vs DI 容器**：feng-zhi 还没 ServiceLocator/IoC；MindsetService + EventBus 都挂 `JiangnanFlowController` Autoload，跨 scene 存活，Sprint 8 可考虑统一 DI
+  - **fallback path**：OutcomeGame 在 /root/JiangnanFlow autoload 缺失（独立 scene 调试）时降级到老 placeholder 文本 + PushWarning，保留 standalone 可调试
+  - **modulate-only 朦胧化**：不上 ShaderMaterial 高斯模糊（spec §2.2 Out of Scope）。StyleBoxFlat 半透明深底 + warmth modulate 给"朦胧"基线视觉门槛 — blurred-ui partial 已满足
+- **估时偏差归因（-55%, 10h → 4.5h）**：
+  - Mindset epic 7/7 stories done 但**从未在真实 scene 中接入过** — 本 story 等于"首次集成 + 暴露集成成本"。结果：暴露成本几乎为 0（Foundation 完备 + Godot Autoload 友好）
+  - 主要节省 (Subtask 3/4/5 联合 -3.7h)：StyleBoxFlat + SelfModulate 是 Godot 内置能力，0 实验时间
+  - 单一权威重构（Subtask 6）反而**节省**：用 Foundation 化 ResolveShifts 一次性消除"feng-zhi vs tests 跨项目不对称"问题
+- **Foundation 测试基线**：1399 → 1403 (+4)。spec 原目标 1399 + 4 = 1403，实际命中。
+- **暴露 / 解锁 / 影响**：
+  - **暴露 epic-done ≠ integration-done**：Mindset epic 7/7 done 实际是 Foundation 层闭环；本 story 是首次"在游戏场景里能看到位移"。建议 traceability-index 加 "integration evidence" 栏区分
+  - **解锁 cu-visual-evidence**：现在 outcome 朦胧化 + zone 切换可拍进 evidence 录屏（cu-006 决胜动画 + outcome 心境位移连拍 = 完整 narrative beat）
+  - **解锁 Sprint 8 blurred-ui epic**：留下 prior art — MindsetZoneLiteraryNames 静态表 + WarmthToModulate + StyleBoxFlat 模板
+  - **解锁 Sprint 8 mindset-dual-axis 真集成**：Autoload 单例 + EventBus 接线模式可复用到存档 / 跨章节累积 / NPC 反应
+- **暴露的技术债（5 项）**：
+  1. BattleEnd 自动位移路径未启用（GDD §来源 B 战斗结果位移）
+  2. modulate-only 朦胧化 — 最终方案是 ShaderMaterial（高斯模糊 + LUT 色调）
+  3. mindset_zone 场景级染色未联动 explore scene（blurred-ui Rule 4 pending_reveals 队列）
+  4. MindsetService.UpdateReputation 未在 outcome 流调用
+  5. tests 内 MindsetShiftSnapshotData 与 feng-zhi 的 MindsetShiftSnapshot 不共享类型（无 feng-zhi.Domain 公共项目）
+- **下一步**：
+  - **DoD pending**：owner 在 Godot 4.7-mono 编辑器实机走查 (Spare / Defeat / Zone-or-Tier 切换) + ≥30s 录屏 + ≥3 张截图 存 `production/qa/evidence/s7-vs-outcome-feedback/`
+  - Sprint 7 must-have 剩 1 项：`cu-visual-evidence` (0.75d carryover, 可与 outcome DoD 一并录制)
+  - Sprint 7 should-have 剩 1 项：`S7-VS-Playtest-Session` (0.5d, 依赖 cu-visual-evidence)
+- **Sprint 7 progress**：6/8 stories done (Spike + Foundation + Smoke + Combat-Loop + Iso-Pivot + **Outcome-Feedback**) + Animator-Port + ADR-0022 docs；剩余 must-have 1 项 (cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。本 sprint 实际 actual hours 已花 ~14.5h / 总 10d capacity (含 buffer)，估算偏差累计 -55~-69% 让 sprint 跑赢 calendar；剩余 7+ 天给 cu-visual-evidence + Playtest + 总结 buffer 充裕。VS prove-or-pivot **PROVE 信号已强**——VS 全循环（explore → combat → mindset outcome → return）已 owner 实机 PASS（Combat-Loop 09:06 sign-off），剩余只是录制 + 玩家试玩 + 视觉打磨。

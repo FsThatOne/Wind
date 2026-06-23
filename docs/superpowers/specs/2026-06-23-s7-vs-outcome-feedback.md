@@ -228,6 +228,68 @@ corner_radius_* = 6
 
 ---
 
-## 10 · Final Status — (待 owner sign-off 后完成)
+## 10 · Final Status — PASS 代码层 (2026-06-23)
 
-填写：commit 列表 / 估时偏差 / 实际 AC 完成 / 暴露问题 / 解锁项 / 下一步。
+### 10.1 AC 完成度
+
+| AC | 状态 | Commit |
+|---|---|---|
+| AC1 spec 落档 | ✅ | `79b9b0d` |
+| AC2 FlowController Mindset 集成 | ✅ | `7e0200c` |
+| AC3 OutcomeGame 接入 + 文学化渲染 | ✅ | `9be8a8b` |
+| AC4 BlurredPanel StyleBoxFlat + warmth modulate | ✅ | `5002aa3` |
+| AC5 MindsetZoneLiteraryNames | ✅ | `4464998` |
+| AC6 4 integration tests | ✅ | `86bb24a` |
+| AC7 build/test/headless smoke | ✅ | `f527e29` |
+| AC8 closeout（本 commit） | ✅ | (本次 commit) |
+
+### 10.2 估时偏差 — **-55% (10.0h → 4.5h)**
+
+| 子任务 | 估时 | 实际 | 差异 |
+|---|---|---|---|
+| Subtask 1 (spec 草稿) | 0.5h | 0.5h | 0 |
+| Subtask 2 (LiteraryNames) | 0.5h | 0.3h | -0.2h |
+| Subtask 3 (Flow 集成) | 2.0h | 0.8h | -1.2h |
+| Subtask 4 (OutcomeGame) | 2.0h | 1.0h | -1.0h |
+| Subtask 5 (视觉) | 2.0h | 0.5h | -1.5h |
+| Subtask 6 (tests + 重构) | 1.5h | 1.0h | -0.5h |
+| Subtask 7 (smoke) | 1.0h | 0.2h | -0.8h |
+| Subtask 8 (closeout) | 0.5h | 0.2h | -0.3h |
+
+**主因**：
+- Foundation 层已 ready（MindsetService / MindsetPresentationService / EventBus 7/7 stories done from mindset-dual-axis epic）→ 直接复用，0 业务逻辑代码
+- StyleBoxFlat + SelfModulate 是 Godot 4 内置能力，纯 .tscn / `Modulate` 调用就够，无需 ShaderMaterial 实验时间
+- Spec §3 mapping 抽到 Foundation 一次性解决"如何让 tests 拿到 source of truth"问题，免去 mock / mirror 代码
+
+### 10.3 范围偏差
+
+- ✅ 完整符合 spec §2.1 In Scope（所有 6 个新建/改造目标全落）
+- ⚠️ 文件位置偏差：spec 写 `feng-zhi/scripts/vs/MindsetZoneLiteraryNames.cs`，实际落 `src/FengZhi.Foundation/Mindset/`（理由：与 enum 同模块 + 让 tests 共用 + Sprint 8 blurred-ui epic 收编时不跨项目移动）
+- ➕ 增项：Subtask 6 顺手把 spec §3 mapping 也抽到 Foundation (`MindsetOutcomeShifts`)，删除 FlowController 内嵌副本——单一权威 + tests 可直接验证
+
+### 10.4 暴露 / 解锁 / 影响
+
+- **暴露**：
+  - Mindset epic 之前 7/7 stories done，但**从未在真实 game scene 中接入过** — 本 story 是首次实机化（即便仍是单会话内存）。说明 epic-done 不等于 integration-done，traceability index 应分两栏跟踪
+- **解锁**：
+  - `cu-visual-evidence` 录制现在可以同时拍 outcome 朦胧化镜头（cu-006 决胜动画 + outcome 心境位移连拍 = 一段完整 narrative beat）
+  - Sprint 8 `blurred-ui` epic 起步时，本 story 已留下 `MindsetZoneLiteraryNames` 静态表 + `WarmthToModulate` 函数 + StyleBoxFlat 模板 = 现成的 prior art
+  - Sprint 8 `mindset-dual-axis` 真集成（存档 / 跨章节累积 / NPC 反应）也可基于本 story 的 Autoload 单例模式扩展
+- **影响**：
+  - 暂未影响其他 sprint 7 story（Combat-Loop / Iso-Pivot 都已 done）
+  - 给 cu-008（手柄）增加测试面：outcome scene 现在有 2 + 1 个 Button，手柄焦点链需要覆盖
+
+### 10.5 已知技术债
+
+1. **BattleEnd 自动位移路径未启用**（GDD §来源 B）：避免与玩家二次选择叠加。Sprint 8 需明确"战斗结果 vs 玩家二次选择"的位移合流策略
+2. **modulate-only 朦胧化**：满足 partial 视觉要求，但与 GDD blurred-ui Rule 2 "色调偏移" 还有差距，最终方案是 ShaderMaterial（高斯模糊 + LUT 色调）
+3. **场景级染色未联动**：mindset_zone 变化只在 outcome panel 内反映，没有 propagate 到 explore scene（Rule 4 的 `pending_reveals` 队列）
+4. **无 reputation 更新**：`MindsetService.UpdateReputation` 没在 outcome 流里调用 — 留给 Sprint 8 长跨度演进
+5. **测试中 MindsetShiftSnapshotData 是 tests 内的 record**：与 feng-zhi 的 `MindsetShiftSnapshot` 不共享类型（无跨项目类型共享）。若 Sprint 8 引入"feng-zhi.Domain" 公共项目，可统一
+
+### 10.6 下一步
+
+- DoD pending：owner 在 Godot 4.7-mono 编辑器实机走查 + ≥30s 录屏 + ≥3 张截图存 `production/qa/evidence/s7-vs-outcome-feedback/`
+- Sprint 7 must-have 剩 1 项：`cu-visual-evidence` (0.75d carryover, 可在 owner DoD 同时录制顺手包括 outcome panel 镜头)
+- Sprint 7 should-have 剩 1 项：`S7-VS-Playtest-Session` (0.5d, 依赖 cu-visual-evidence done)
+

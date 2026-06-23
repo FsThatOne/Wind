@@ -109,14 +109,16 @@ stories:
     name: "战后心境位移 + 朦胧化战后面板 (mindset-dual-axis + blurred-ui partial)"
     file: "docs/superpowers/specs/2026-06-23-s7-vs-outcome-feedback.md"
     priority: must-have
-    status: in-progress
-    owner: "agent"
+    status: done
+    owner: "agent (code) + owner (实机走查 pending)"
     estimate_days: 1.25
     estimate_hours: 10.0
-    actual_hours: null
+    actual_hours: 4.5
     blocker: ""
-    completed: ""
-    note: "Re-estimated 2026-06-22 from 1.0d → 1.25d per vs-scope-spike §7 (含 blurred-ui partial 1 个面板)。2026-06-23 09:30 spec 草稿落档 (AC1)，owner sign-off A · 8 subtasks 顺推。位移数值定为 Spare → Morality+5 + Resolve+2；Defeat → Morality-5 + Resolve-2。朦胧化用 modulate + StyleBoxFlat（不上 ShaderMaterial）。"
+    completed: "2026-06-23 (代码层 done；DoD owner 实机录屏 pending)"
+    deliverable: "docs/superpowers/specs/2026-06-23-s7-vs-outcome-feedback.md + src/FengZhi.Foundation/Mindset/{MindsetZoneLiteraryNames.cs,MindsetOutcomeShifts.cs} + feng-zhi/scripts/vs/{JiangnanFlowController.cs,JiangnanOutcomeGame.cs} + feng-zhi/scenes/vs/battle_outcome_jiangnan.tscn + tests/integration/vs/jiangnan_flow_mindset_integration_test.cs + production/qa/evidence/s7-vs-outcome-feedback/smoke-2026-06-23.md (commits 79b9b0d, 4464998, 7e0200c, 9be8a8b, 5002aa3, 86bb24a, f527e29)"
+    verdict: "PASS 代码层 — AC1-7 全 ✅；AC8 本 commit 收口。Foundation 1399 → 1403 (+4 outcome integration tests, 4/4 PASS)；feng-zhi build 0 err / 0 new warn；Godot --headless --import 0 err。JiangnanFlowController 持 MindsetService + EventBus autoload 单例；ApplyOutcomeChoice 真实调 MindsetOutcomeShifts.ResolveShifts + MindsetService.ApplyShifts；OutcomeGame 订阅 MindsetShiftedEvent + 渲染朦胧化 zone 名 / 前后独白 / 道义档位 + warmth → SelfModulate 染色。Owner 实机走查 + 录屏 (Spare/Defeat/Zone-or-Tier 切换) 留 DoD pending。"
+    note: "估时偏差 -55% (10.0h → 4.5h)：survey 阶段悲观估计 + Foundation 已有 MindsetService/MindsetPresentationService runtime ready，省去再造任何业务逻辑；spec §3 mapping 单一权威落 Foundation（MindsetOutcomeShifts）让 integration tests 直接覆盖。朦胧化沿 modulate + StyleBoxFlat 路线（未上 ShaderMaterial），blurred-ui partial 视觉门槛满足。Sprint 7 must-have 6/7 done，只剩 cu-visual-evidence 录制依赖 owner 实机。"
 
   - id: "cu-visual-evidence"
     name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence — 在 VS 上录制"
