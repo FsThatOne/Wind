@@ -1,0 +1,565 @@
+feng-zhi/scenes/back_mountain_cliff_cave/BackMountainCliffCaveTileLayers.tscn
+  s_db852e122f2c02::t_c5e651de30ca28 1-48 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7721f86f0d831c32cf4c","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Range":[1,48]}]}]}
+tools/validate_godot_back_mountain_cliff_cave.py
+  s_db852e122f2c02::t_c5e651de30ca28 14,89-90,95-127,130,142-143,158-159,174-175,207-208 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7721f86f0d831c32cf4c","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Single":14},{"Range":[89,90]},{"Range":[95,127]},{"Single":130},{"Range":[142,143]},{"Range":[158,159]},{"Range":[174,175]},{"Range":[207,208]}]}]}
+feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres
+  s_db852e122f2c02::t_c5e651de30ca28 59 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7721f86f0d831c32cf4c","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Single":59}]}]}
+feng-zhi/scripts/BackMountainCliffCaveGame.cs
+  s_db852e122f2c02::t_c5e651de30ca28 60-61,79-80,95,154-155,178,180-189,191,193,195 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7721f86f0d831c32cf4c","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Range":[60,61]},{"Range":[79,80]},{"Single":95},{"Range":[154,155]},{"Single":178},{"Range":[180,189]},{"Single":191},{"Single":193},{"Single":195}]}]}
+production/sprint-status.yaml
+  s_db852e122f2c02::t_a2820f666578e4 17 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7680f86f0d831c32cf13","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Single":17}]}]}
+  s_db852e122f2c02::t_17c7145fcf158d 166-167,171,174 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7667f86f0d831c32cf10","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Range":[166,167]},{"Single":171},{"Single":174}]}]}
+tools/build_godot_back_mountain_cliff_cave_tile_layers.py
+  s_db852e122f2c02::t_c5e651de30ca28 1-149 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7721f86f0d831c32cf4c","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Range":[1,149]}]}]}
+feng-zhi/scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn
+  s_db852e122f2c02::t_c5e651de30ca28 1,3,6,9,11,14,21,24,26,28,30,32-34,38,43-44,47,53,55,62,69,78,85,92 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3a7721f86f0d831c32cf4c","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Single":1},{"Single":3},{"Single":6},{"Single":9},{"Single":11},{"Single":14},{"Single":21},{"Single":24},{"Single":26},{"Single":28},{"Single":30},{"Range":[32,34]},{"Single":38},{"Range":[43,44]},{"Single":47},{"Single":53},{"Single":55},{"Single":62},{"Single":69},{"Single":78},{"Single":85},{"Single":92}]}]}
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "717a23e12f5092cad3cf65c2eb2579da279863b9",
+  "prompts": {},
+  "sessions": {
+    "s_db852e122f2c02": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a394ce76157a98654a2d8ec",
+        "model": "openrouter-2o__dev",
+        "display_model_name": "openrouter-2o"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {
+    "feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres": [
+      {
+        "hash": "s_db852e122f2c02::t_c5e651de30ca28",
+        "line_ranges": [
+          {
+            "Single": 59
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7721f86f0d831c32cf4c",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Single": 59
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn": [
+      {
+        "hash": "s_db852e122f2c02::t_c5e651de30ca28",
+        "line_ranges": [
+          {
+            "Single": 1
+          },
+          {
+            "Single": 3
+          },
+          {
+            "Single": 6
+          },
+          {
+            "Single": 9
+          },
+          {
+            "Single": 11
+          },
+          {
+            "Single": 14
+          },
+          {
+            "Single": 21
+          },
+          {
+            "Single": 24
+          },
+          {
+            "Single": 26
+          },
+          {
+            "Single": 28
+          },
+          {
+            "Single": 30
+          },
+          {
+            "Range": [
+              32,
+              34
+            ]
+          },
+          {
+            "Single": 38
+          },
+          {
+            "Range": [
+              43,
+              44
+            ]
+          },
+          {
+            "Single": 47
+          },
+          {
+            "Single": 53
+          },
+          {
+            "Single": 55
+          },
+          {
+            "Single": 62
+          },
+          {
+            "Single": 69
+          },
+          {
+            "Single": 78
+          },
+          {
+            "Single": 85
+          },
+          {
+            "Single": 92
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7721f86f0d831c32cf4c",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Single": 1
+              },
+              {
+                "Single": 3
+              },
+              {
+                "Single": 6
+              },
+              {
+                "Single": 9
+              },
+              {
+                "Single": 11
+              },
+              {
+                "Single": 14
+              },
+              {
+                "Single": 21
+              },
+              {
+                "Single": 24
+              },
+              {
+                "Single": 26
+              },
+              {
+                "Single": 28
+              },
+              {
+                "Single": 30
+              },
+              {
+                "Range": [
+                  32,
+                  34
+                ]
+              },
+              {
+                "Single": 38
+              },
+              {
+                "Range": [
+                  43,
+                  44
+                ]
+              },
+              {
+                "Single": 47
+              },
+              {
+                "Single": 53
+              },
+              {
+                "Single": 55
+              },
+              {
+                "Single": 62
+              },
+              {
+                "Single": 69
+              },
+              {
+                "Single": 78
+              },
+              {
+                "Single": 85
+              },
+              {
+                "Single": 92
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scenes/back_mountain_cliff_cave/BackMountainCliffCaveTileLayers.tscn": [
+      {
+        "hash": "s_db852e122f2c02::t_c5e651de30ca28",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              48
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7721f86f0d831c32cf4c",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  48
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/BackMountainCliffCaveGame.cs": [
+      {
+        "hash": "s_db852e122f2c02::t_c5e651de30ca28",
+        "line_ranges": [
+          {
+            "Range": [
+              60,
+              61
+            ]
+          },
+          {
+            "Range": [
+              79,
+              80
+            ]
+          },
+          {
+            "Single": 95
+          },
+          {
+            "Range": [
+              154,
+              155
+            ]
+          },
+          {
+            "Single": 178
+          },
+          {
+            "Range": [
+              180,
+              189
+            ]
+          },
+          {
+            "Single": 191
+          },
+          {
+            "Single": 193
+          },
+          {
+            "Single": 195
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7721f86f0d831c32cf4c",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Range": [
+                  60,
+                  61
+                ]
+              },
+              {
+                "Range": [
+                  79,
+                  80
+                ]
+              },
+              {
+                "Single": 95
+              },
+              {
+                "Range": [
+                  154,
+                  155
+                ]
+              },
+              {
+                "Single": 178
+              },
+              {
+                "Range": [
+                  180,
+                  189
+                ]
+              },
+              {
+                "Single": 191
+              },
+              {
+                "Single": 193
+              },
+              {
+                "Single": 195
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "production/sprint-status.yaml": [
+      {
+        "hash": "s_db852e122f2c02::t_a2820f666578e4",
+        "line_ranges": [
+          {
+            "Single": 17
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7680f86f0d831c32cf13",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Single": 17
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_db852e122f2c02::t_17c7145fcf158d",
+        "line_ranges": [
+          {
+            "Range": [
+              166,
+              167
+            ]
+          },
+          {
+            "Single": 171
+          },
+          {
+            "Single": 174
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7667f86f0d831c32cf10",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Range": [
+                  166,
+                  167
+                ]
+              },
+              {
+                "Single": 171
+              },
+              {
+                "Single": 174
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tools/build_godot_back_mountain_cliff_cave_tile_layers.py": [
+      {
+        "hash": "s_db852e122f2c02::t_c5e651de30ca28",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              149
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7721f86f0d831c32cf4c",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  149
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tools/validate_godot_back_mountain_cliff_cave.py": [
+      {
+        "hash": "s_db852e122f2c02::t_c5e651de30ca28",
+        "line_ranges": [
+          {
+            "Single": 14
+          },
+          {
+            "Range": [
+              89,
+              90
+            ]
+          },
+          {
+            "Range": [
+              95,
+              127
+            ]
+          },
+          {
+            "Single": 130
+          },
+          {
+            "Range": [
+              142,
+              143
+            ]
+          },
+          {
+            "Range": [
+              158,
+              159
+            ]
+          },
+          {
+            "Range": [
+              174,
+              175
+            ]
+          },
+          {
+            "Range": [
+              207,
+              208
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3a7721f86f0d831c32cf4c",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Single": 14
+              },
+              {
+                "Range": [
+                  89,
+                  90
+                ]
+              },
+              {
+                "Range": [
+                  95,
+                  127
+                ]
+              },
+              {
+                "Single": 130
+              },
+              {
+                "Range": [
+                  142,
+                  143
+                ]
+              },
+              {
+                "Range": [
+                  158,
+                  159
+                ]
+              },
+              {
+                "Range": [
+                  174,
+                  175
+                ]
+              },
+              {
+                "Range": [
+                  207,
+                  208
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "s_db852e122f2c02": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_17c7145fcf158d": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_a2820f666578e4": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_db852e122f2c02::t_c5e651de30ca28": {
+      "tool": "trae",
+      "conversation_id": "6a394ce76157a98654a2d8ec",
+      "session_id": "6a394ce76157a98654a2d8ec",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
