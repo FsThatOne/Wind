@@ -1,6 +1,6 @@
 # Architecture Traceability Index
 
-> **Last Updated**: 2026-06-22
+> **Last Updated**: 2026-06-23
 > **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **Source**: `/architecture-review` full mode (delta review)
 
@@ -143,6 +143,7 @@ None — first review run.
 | 2026-06-22 | 60% fully covered | ADR-0019 → **Superseded** by ADR-0020 (Pure 2D Wuxia Rendering Direction / 《大侠立志传》方向)；ADR-0020 状态 Accepted；#12 地图/场景 与 #2 回合制战斗 同步追加 ADR-0020 引用；art-bible / game-concept / item-system / EPIC.md 同步；详见 [架构评审 2026-06-22](architecture-review-2026-06-22.md) |
 | 2026-06-22 | 60% fully covered | +ADR-0021 Character Animation Port (`ICharacterAnimator` 全局 Port + Adapter)；Cross-ADR Conventions 表新增 `ICharacterAnimator` 角色动画端口一行；状态 Accepted |
 | 2026-06-22 | 60% fully covered | +ADR-0022 Isometric Diamond Projection & 4-Directional Character Animator（菱形 tile 投影 + `Iso4Direction` + `IIso4CharacterAnimator`）；ADR-0021 §扩展点 1 标 Partially Superseded；#2 回合制战斗 / #12 地图/场景 同步追加 ADR-0022 引用；ADR-0010 层级规范表追加 iso tile_shape 列；combat-system.md §战棋空间规则 + art-bible.md Reference Board 同步；状态 Accepted |
+| 2026-06-23 | 60% fully covered | S7-Iso-Pivot-Foundation 落地 ADR-0022 stage 2（Foundation 代码层）：新增 `FengZhi.Foundation.Geometry.IsoProjection` + `Animation.{Iso4Direction, IIso4CharacterAnimator, GodotIntegration.Iso4AnimatedSprite2DAnimator, Fakes.FakeIso4CharacterAnimator}` + 24 单测 (10 IsoProjection + 14 Iso4)；删除 `EightDirection / IDirectionalCharacterAnimator / EightDirectionAnimatedSprite2DAnimator` + 11 8dir 测试；`feng-zhi/scripts/CavePlayer.cs` 迁移到 `IIso4CharacterAnimator` + WASD cart 对角映射；`main_character.tres` 重建为 idle + walk_ne/se/sw/nw + 资产 rename main_character_iso4/ + 8dir 归档 _archive_8dir_2026-06-22/。ADR-0022 §2 sector 区间表 erratum：边界包含性从左闭右开 `[a, b)` 改为右闭左开 `(a, b]`，sector 中心对齐 cart 卡式轴（NE=-π/2, SE=0, SW=π/2, NW=π）。Foundation 1399/1399 PASS；feng-zhi build 0 err；headless StartCave 加载 clean。AC8 (StartCave TileMapLayer iso 化) 标 N/A — feng-zhi/ 无 TileMapLayer，真正 iso TileMap 实现导入点是未来 VS 重建。 |
 
 ---
 

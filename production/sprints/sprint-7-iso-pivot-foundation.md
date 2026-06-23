@@ -35,7 +35,7 @@
 - ADR-0022 §1 投影几何 — `IsoProjection` 公式照抄落 `Foundation/Geometry/`
 - ADR-0022 §2 4 斜方向枚举与子接口 — `Iso4Direction` / `IIso4CharacterAnimator` 契约不变
 - ADR-0022 §3 输入映射 — WASD → cart 向量
-- ADR-0022 §4 TileMapLayer 配置 — `tile_shape = Isometric`, `tile_layout = DiamondDown`, `tile_size = 128×64`, `y_sort_enabled = true`
+- ADR-0022 §4 TileMapLayer 配置 — `tile_shape = Isometric`, `tile_layout = DiamondDown`, `tile_size = 64×32`, `y_sort_enabled = true`
 - ADR-0022 §5 与 ADR-0021 的关系 — 主端口 `ICharacterAnimator` / `Facing` 不变
 - ADR-0021 §扩展点 1 标 "Partially Superseded by ADR-0022 (§扩展点 1)"
 
@@ -50,20 +50,20 @@
 | **AC5** | 8 个新单测覆盖：方向选区 4 区间正确性、±15° 迟滞、帧相位保持、零向量 Pause、Fake 计数 | Foundation 测试基线 1378 - 11 + 8 = **1375/1375** | 1.0h |
 | **AC6** | `feng-zhi/assets/character/main_character.tres` 重建：`idle + walk_ne + walk_se + walk_sw + walk_nw`；旧 8 向资产挪到 `feng-zhi/assets/character/_archive_8dir_2026-06-22/` | `.tres` 在 4.7 编辑器无 import error；旧 PNG 在 archive 不被引用；新 4 张 sprite 来源：复用旧 NE / SE / SW / NW 4 张（首版） | 1.0h |
 | **AC7** | `feng-zhi/scripts/CavePlayer.cs` 切换到 `IIso4CharacterAnimator`；输入映射 WASD → cart 向量（W=(-1,-1), A=(-1,1), S=(1,1), D=(1,-1) 各归一化） | 实机：按 W 角色走屏幕 ↖，按 D 走屏幕 ↗，sprite 切换正确 | 1.0h |
-| **AC8** | `feng-zhi/StartCave.tscn` 的 TileMapLayer `tile_shape = Isometric`, `tile_layout = DiamondDown`, `tile_size = 128×64`, `y_sort_enabled = true` | 编辑器中 tile 显示为菱形；角色绕障碍走时遮挡正确 | 1.0h |
+| **AC8** | ~~`feng-zhi/StartCave.tscn` 的 TileMapLayer iso 配置~~ → **N/A (scope deviation 2026-06-23)** | `feng-zhi/` 整个项目目前没有任何 TileMapLayer（StartCave 用 Sprite2D PNG 背景；VS 场景全是 UI 节点）。无可转换对象。ADR-0022 §4 默认值在 ADR 中冻结，真正 iso TileMap 实现导入点是未来 VS 重建 story | 1.0h → 0h |
 | **AC9** | 文档更新：`design/gdd/combat-system.md` §战棋空间规则双轴标注；`adr-0010` 表追加 iso 列；`art-bible.md` Reference Board 补注 | 三处 diff 通过 design-review skill 抽查 | 0.5h |
 | **AC10** | `production/sprint-status.yaml` 更新：本 story 标 done；`S7-VS-Combat-Loop` 的 blocker 字段引用本 story；`docs/architecture/traceability-index.md` Recent Changes 追加 ADR-0022 entry | git diff 干净；`git status` clean | 0.5h |
 
-**Total**: 8.0h
+**Total**: ~~8.0h~~ → 7.0h（AC8 N/A，详见上表注）
 
 ## Definition of Done
 
-- [ ] AC1–AC10 全部完成
-- [ ] Foundation 1375/1375 PASS
-- [ ] `feng-zhi/` 在 Godot 4.7 编辑器中 Play `StartCave.tscn` 无 ERROR，WASD 走 4 斜向有效
-- [ ] 视觉证据：≥ 1 段 ≤ 30s 录屏 + ≥ 3 张关键截图（NE / SE / NW 走路 + tile 遮挡），落 `production/qa/evidence/s7-iso-pivot-foundation/`
-- [ ] estimate_hours: 8.0 / actual_hours: 实际值（DoD 工时对照）
-- [ ] git working tree clean
+- [x] AC1–AC10 完成（AC8 标 N/A，详情见上表）
+- [x] Foundation 1399/1399 PASS（baseline 1386 + AC2 IsoProjection 10 + AC4/5 Iso4 14 - AC3 8dir 11 = 1399）
+- [ ] `feng-zhi/` 在 Godot 4.7 编辑器中 Play `StartCave.tscn` 无 ERROR，WASD 走 4 斜向有效（**owner 实机走查 pending**）
+- [ ] 视觉证据：≥ 1 段 ≤ 30s 录屏 + ≥ 3 张关键截图（NE / SE / NW 走路），落 `production/qa/evidence/s7-iso-pivot-foundation/`（tile 遮挡截图删除，因 AC8 N/A）（**owner pending**）
+- [x] estimate_hours: 8.0 / actual_hours: 实际值（DoD 工时对照） → see sprint-status.yaml + Progress Log
+- [x] git working tree clean（仅余 docs/architecture/adr-0010 + sprint-7-iso-pivot-foundation 的 tile_size 同步修改，待最终 commit 一并收口）
 
 ## Test Evidence
 

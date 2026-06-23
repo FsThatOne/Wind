@@ -79,14 +79,16 @@ stories:
     name: "ADR-0022: Isometric Diamond Projection + 4 斜向 Animator 落地（Foundation + feng-zhi/StartCave）"
     file: "production/sprints/sprint-7-iso-pivot-foundation.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
+    status: done
+    owner: "agent (code) + owner (实机走查 pending)"
     estimate_days: 1.0
     estimate_hours: 8.0
-    actual_hours: null
+    actual_hours: 2.5
     blocker: ""
-    completed: ""
-    note: "全项目从「方格 + 8 向」pivot 至「isometric diamond + 4 斜向」。ADR-0022 已 Accepted；本 story 落地 Foundation 层 IsoProjection / Iso4Direction / IIso4CharacterAnimator + Iso4AnimatedSprite2DAnimator + Fake，删除旧 8 向代码与 11 单测，重建 main_character.tres，切换 StartCave.tscn 到 isometric TileMapLayer。Blocks S7-VS-Combat-Loop / cu-visual-evidence / S7-VS-Outcome-Feedback。"
+    completed: "2026-06-23 (代码层 done；DoD owner 实机录屏 pending)"
+    deliverable: "src/FengZhi.Foundation/Geometry/IsoProjection.cs + src/FengZhi.Foundation/Animation/{Iso4Direction.cs,IIso4CharacterAnimator.cs,GodotIntegration/Iso4AnimatedSprite2DAnimator.cs,Fakes/FakeIso4CharacterAnimator.cs} + 24 单测 (10 IsoProjection + 14 Iso4) + 删除 EightDirection/IDirectional/EightDirectionAdapter/FakeCharacterAnimator 8dir 部分 (-11 tests) + feng-zhi/scripts/CavePlayer.cs IIso4 迁移 + feng-zhi/assets/character/main_character.tres 重建 (idle + 4 walk_*) + main_character_iso4/ folder + _archive_8dir_2026-06-22/ + ADR-0022 §2 erratum (commits 7da0ba1, 0836963, 5a5ec05, 3ae8116, 5e0bcdf)"
+    verdict: "PASS (代码层) — Foundation 1399/1399 (baseline 1386 + 10 IsoProjection + 14 Iso4 - 11 8dir = 1399 ✓); feng-zhi build 0 err / 2 warn (pre-existing BossPhaseSystem); headless StartCave 加载 clean (autoload Boot OK)；S7-Day1-Smoke P2 空 default animation 警告随 main_character.tres 重建消失。AC1-7 + AC9-10 完成；AC8 标 N/A（feng-zhi/ 全项目无 TileMapLayer，真正 iso TileMap 实现导入点是未来 VS 重建 story）。**Owner 实机走查留作 DoD pending**。"
+    note: "估时偏差 -69% (8.0h → 2.5h)：survey 阶段悲观估计 + AC8 N/A 共同压缩实际工时。AC4 → AC5 过程中通过测试驱动发现并修复 sector 几何 bug（boundary 在 cart 对角而非卡式半轴；ADR-0022 §2 erratum 同步落盘）。ADR-0021 §扩展点 1 8 向路径正式下线，rollback plan 走 _archive_8dir_2026-06-22/。Blocks 解除：S7-VS-Combat-Loop iso 蒙皮 / cu-visual-evidence / S7-VS-Outcome-Feedback 可继续。"
 
   - id: "S7-VS-Combat-Loop"
     name: "Lite Xingqi: 1v1 战斗，复用 BattlePhase 包装观气→出招→破绽→决胜"

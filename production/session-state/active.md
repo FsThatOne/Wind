@@ -746,3 +746,43 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
   - 推进 `S7-VS-Outcome-Feedback` (1.25d, must-have)：mindset 双轴位移 + blurred 战后面板 partial
   - 或并行启动 `S7-Iso-Pivot-Foundation` (1.0d, ready-for-dev)：等 iso pivot 落地后再做 cu-visual-evidence iso 蒙皮
 - **Sprint 7 progress**：4/8 stories done (Spike + Foundation + Smoke + Combat-Loop) + Animator-Port (并行 done) + ADR-0022 pivot docs；剩余 must-have 3 项 (Iso-Pivot-Foundation / Outcome-Feedback / cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。可用 capacity 余 ≈ 3.5d / 总 10d（含 buffer）。
+
+## Session Extract — S7-Iso-Pivot-Foundation PASS (代码层) 2026-06-23
+
+- **完成 story**：`S7-Iso-Pivot-Foundation` (must-have, 1.0d est → 2.5h actual, **variance -69%**, 代码层 done；DoD owner 实机录屏 pending)
+- **commits**：
+  - `7da0ba1` feat(geometry): AC2 IsoProjection 纯静态投影工具 + 10 互逆单测
+  - `0836963` feat(animation): AC4 Iso4 4 斜方向兄弟接口 + Adapter + Fake + ADR §2 erratum
+  - `5a5ec05` test(animation): AC5 Iso4 14 单测覆盖选区/迟滞/WASD/Fake + 修订 sector 几何
+  - `3ae8116` refactor(animation): AC3+AC7 删 8dir 代码 + CavePlayer 迁移到 IIso4
+  - `5e0bcdf` feat(asset): AC6 main_character.tres 重建为 iso4 + 8dir 资产归档
+- **AC 进度**：
+  - AC1 (ADR + traceability): 已由 commit 40d81c4 完成
+  - AC2 (IsoProjection + 10 tests): 7da0ba1 ✅
+  - AC3 (删 8dir + 11 tests): 3ae8116 ✅
+  - AC4 (Iso4 interface/adapter/fake): 0836963 ✅
+  - AC5 (14 Iso4 tests): 5a5ec05 ✅
+  - AC6 (main_character.tres + assets archive): 5e0bcdf ✅
+  - AC7 (CavePlayer 迁移): 3ae8116 ✅ (与 AC3 原子提交)
+  - AC8 (StartCave TileMapLayer iso): **N/A** — feng-zhi/ 全项目无 TileMapLayer
+  - AC9 (combat-system/adr-0010/art-bible 同步): 已由 40d81c4 完成
+  - AC10 (sprint-status/traceability/story doc): 待 closeout commit
+- **关键技术决策**：
+  - ADR-0022 §2 sector 区间表 erratum 落盘：原稿左闭右开 `[a, b)` 让 W key (atan2=-3π/4) 落入 NE 区间冲突 §3 (W → NW)。修订为右闭左开 `(a, b]`，sector 中心从 WASD 对角移到 cart 卡式轴 (NE=-π/2, SE=0, SW=π/2, NW=π)。
+  - 测试驱动发现并修复 sector 几何 bug：AC4 初版用错误的 boundary (cart 卡式半轴 0/±π/2)，cart (-1, 0) atan2=π 错误归到 SW 而非屏幕 NW；AC5 测试 fail 后回炉，正确实现是 boundary 在 cart 对角 (±π/4, ±3π/4)，中心在 cart 卡式轴。
+  - CavePlayer 输入映射：WASD 直接按 ADR §3 解释成 cart 对角向量（不用 Input.GetVector 因为它返回 screen-space）；屏幕速度通过 IsoProjection 后归一化 × Speed 保持恒定（避免 N/S 比 E/W 慢一倍的视觉异感）。
+  - AC8 N/A 决策：feng-zhi/ 全项目 grep 无 TileMapLayer，StartCave 用 Sprite2D PNG 背景，VS 场景全是 ColorRect。AC8 是 story 写作时的乐观假设，真正 iso TileMap 实现导入点是未来 VS 重建 story。
+  - 资产 rename + split 策略：folder rename `main_character_16bit_8dir/` → `main_character_iso4/` + 4 卡式 (E/N/S/W) 32 文件 git mv 到 `_archive_8dir_2026-06-22/`；perl -i -pe 批量更新 .import source_file 路径；archive 加 `.gdignore` 让 Godot 忽略。godot --headless --import 16 张 PNG reimport 成功 0 err。
+- **估时偏差归因（-69%, 8h → 2.5h）**：
+  - AC8 N/A 节省 1.0h
+  - AC4 + AC5 测试驱动发现的 geometry bug 多花 ~30min 回炉
+  - 净节省主因：survey 阶段对 .import / .tres / .tscn 文本编辑的悲观估计 — 实际 Godot 4 资源都是文本格式 + 路径稳定可靠，perl -i 批量改路径 + headless reimport 自愈，比预想的「手工 Godot 编辑器操作」快 10x
+- **Foundation 测试基线**：1386 → 1399 (净 +13: AC2 +10 / AC4-5 +14 / AC3 -11)。spec 原目标 1378-11+8=1375，实际超出 ~24 (因 baseline 已含 Combat-Loop +8 tests，且我做了 10+14 而非 spec 期望的 8+4=12 tests)。
+- **暴露/解锁/影响**：
+  - **暴露 ADR 写作问题**：ADR-0022 §2/§3 之间初版有自相矛盾 — 类似 sprint 内 ADR-0021 自我演化为 0022 的快迭代下，新 ADR 内部一致性需 reviewer 验证（建议加入 architecture-review 工作流的 chain-of-verification 步骤）
+  - **解锁 downstream**：S7-VS-Combat-Loop iso 蒙皮 / cu-visual-evidence / S7-VS-Outcome-Feedback 现在可推进
+  - **rollback 残留**：`_archive_8dir_2026-06-22/` + `.gdignore` 形成 1-sprint window 可一次性回滚（Sprint 8 retro 决策）
+- **下一步**：
+  - **DoD pending**：owner 在 Godot 4.7 编辑器里打开 StartCave Play 验证 WASD 走 4 斜向、sprite 切换正确；录制 ≥1 段 30s 录屏 + ≥3 张 NE/SE/NW 截图落 `production/qa/evidence/s7-iso-pivot-foundation/`
+  - Sprint 7 must-have 剩 2 项：S7-VS-Outcome-Feedback (1.25d) + cu-visual-evidence (0.75d carryover)
+- **Sprint 7 progress**：5/8 stories done (Spike + Foundation + Smoke + Combat-Loop + **Iso-Pivot**) + Animator-Port + ADR-0022 docs；剩余 must-have 2 项 (Outcome-Feedback / cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。可用 capacity 余 ≈ 3d / 总 10d（含 buffer）。VS prove-or-pivot 向 **PROVE** 大步前进。
