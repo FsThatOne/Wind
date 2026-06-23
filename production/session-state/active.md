@@ -704,3 +704,45 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
   - 推进 `S7-VS-Combat-Loop` (1.5d, must-have)：在 `battle_jiangnan_bandit.tscn` 里接 `BattleFacade` + `CombatUiHud` + `MoveSelectionPanel` + `DecisiveStrikeDirector`，包装为"观气→出招→破绽→决胜"语言层
   - 完成后串联 `S7-VS-Outcome-Feedback` (1.25d) 与 `cu-visual-evidence` (0.75d carryover)
 - **Sprint 7 progress**：3/8 stories done (Spike + Foundation + Smoke)；剩余 must-have 3 项 (Combat-Loop / Outcome-Feedback / cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。可用 capacity 余 ≈ 7.5d / 总 10d。
+
+## Session Extract — S7-VS-Combat-Loop MVP-A PASS 2026-06-23
+
+- **完成 story**：`S7-VS-Combat-Loop` (must-have, 1.5d est → 4.0h actual, **-67% variance**, MVP-A 紧缩范围)
+- **Owner 实机 sign-off**：2026-06-23 09:06 「PASS」
+- **commits**：
+  - `7aa8786` plan(s7): MVP-A dev-story spec
+  - `6f768a8` feat(vs-combat): Subtask 0b+1 fixture + smoke test
+  - `204ec03` feat(vs-combat): Subtask 2 VsBattleLoopController
+  - `bc84362` feat(vs-combat): Subtask 3+4+5 Godot scene 接入
+- **交付**：
+  - `docs/superpowers/specs/2026-06-23-s7-vs-combat-loop-mvp-a.md` — dev-story spec
+  - `src/FengZhi.Foundation/Combat/Fixtures/JiangnanBandit1v1Fixture.cs` — 1v1 fixture (luo_han_quan / tie_bi_heng_lan，HP/Gang 调校至 2-5 回合分胜负)
+  - `src/FengZhi.Foundation/Combat/Runtime/VsBattleLoopController.cs` — 事件驱动战斗循环编排器
+  - `tests/integration/vs/{jiangnan_bandit_fixture_smoke_test.cs,vs_battle_loop_controller_test.cs}` — 双层 8 个测试 case
+  - `feng-zhi/scripts/vs/Jiangnan{BattleGame,FlowController,OutcomeGame}.cs` — Godot 集成 + 转场携带 BattleResult
+  - `feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn` — 占位 UI (HP/Neixi label + Light/Heavy button)
+- **验证链**：
+  1. Foundation `dotnet test`：1386/1386 PASS (新增 8 个 case)
+  2. `dotnet build feng-zhi`：0 warn / 0 err
+  3. `godot --headless --quit-after 60 battle_jiangnan_bandit.tscn`：scene 加载、`_Ready` 触发、autoload Boot 全 clean
+  4. **Owner 实机 Subtask 8**：完整跑通 explore → 触发战斗 → 轻击/重击点击 → 2-3 回合分胜负 → BattleEndEvent → GoToOutcome(result) → 胜/负文案切换 → 返回 explore (动态状态更新)
+- **关键决策**：
+  - Subtask 0a 暴露 spec 用了不存在的 move ID (`quick_strike` / `heavy_strike`)，改用 registry 中实际存在的 `luo_han_quan` / `tie_bi_heng_lan`（落汉拳 / 铁臂横拦）
+  - Subtask 1 fixture 测试暴露 `ResolutionService.ExecuteMove` 硬编码 `BaseMultiplier = 1.0f`（移动数据被忽略，tech-debt 已记入 Sprint 8）；通过调校 fixture HP/Gang (player 25/80, bandit 20/60) 让战斗在 2-5 回合分胜负，标注 VS-only，不污染主线平衡
+  - Subtask 6 PhaseBanner 砍除（StatusLabel 已覆盖 UX 需求）
+  - CombatMoveSelectionPanel + CombatHudPanel 集成推到 cu-visual-evidence 阶段（cu-004 录制时一并做），MVP-A 用 ColorRect+Button 占位
+  - VsBattleLoopController 单方法 publish 复合事件 (RoundStart + IntentReveal)，避免 UI 双 tick 闪烁
+- **估时偏差归因**：
+  - **-67% (12h → 4h)** 主因：dependency-survey 暴露的 R2「编排层 0%」实际只花 1h 化解 (`VsBattleLoopController` ~120 lines)，远低于 spike 估计的 4-6h
+  - 复用率 ~50%（vs spike §2.2 假设 75%）—— BattleFacade / BattleEventBus 可直用，但 ResolutionService 的 BaseMultiplier 黑盒 + CombatUiEventAdapter 在 MVP-A 未启用降低实际复用率
+- **Iso follow-up（与 ADR-0022 pivot 协同）**：
+  - 当前 `battle_jiangnan_bandit.tscn` = ColorRect 背景 + 占位 UI，**iso pivot 决策 (commit 40d81c4) 不阻塞 MVP-A 关账**（docs-only stage 1）
+  - S7-Iso-Pivot-Foundation (ready-for-dev, 1.0d) 落地后，在 cu-visual-evidence 阶段顺手按 iso 视觉重新蒙皮（替换背景为 iso TileMap + sprite，估时 < 1h，逻辑层不动）
+- **gate / retro 影响**：
+  - VS prove-or-pivot 决策点向 **PROVE** 迈进一步（核心循环可玩 + 0 S1/S2 bug，剩 playtest 评估）
+  - 估时偏差列表加一条：**S7-VS-Combat-Loop -67%**（与 Foundation-Scene -84% 同源 —— spike survey 的悲观假设过度计入估时）
+  - Sprint 6 retro Action #3 (estimate calibration) 持续暴露：integration spike 估时需引入「survey-risk 降级因子」(若 survey 已枚举具体 gap 模式，actual 通常是 estimate 的 0.3-0.5x)
+- **下一步**：
+  - 推进 `S7-VS-Outcome-Feedback` (1.25d, must-have)：mindset 双轴位移 + blurred 战后面板 partial
+  - 或并行启动 `S7-Iso-Pivot-Foundation` (1.0d, ready-for-dev)：等 iso pivot 落地后再做 cu-visual-evidence iso 蒙皮
+- **Sprint 7 progress**：4/8 stories done (Spike + Foundation + Smoke + Combat-Loop) + Animator-Port (并行 done) + ADR-0022 pivot docs；剩余 must-have 3 项 (Iso-Pivot-Foundation / Outcome-Feedback / cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。可用 capacity 余 ≈ 3.5d / 总 10d（含 buffer）。

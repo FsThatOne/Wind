@@ -131,6 +131,9 @@
 | 2026-06-22 | S7-VS-Scope-Spike | done | 4.0h (vs 8h) | Option B · Lite Xingqi VS（combat 复用率 75%, 0 new cb-*）。`docs/superpowers/specs/2026-06-23-vs-scope-spike.md` |
 | 2026-06-22 | S7-VS-Foundation-Scene | done | 2.5h (vs 16h) | Code-first placeholder 骨架 (3 scene + 4 script + autoload). headless 通过, owner 实机 PASS. commit 5c07433. **重大估时偏差：placeholder story 估时下次需下调到 0.5d** |
 | 2026-06-22 | S7-Day1-Smoke-Startup | done | 0.5h (vs 2h) | Owner 实机 Step 1-5 全 PASS；gate W2 闭环。`production/qa/evidence/s7-day1-smoke-2026-06-23.md` |
+| 2026-06-22 | S7-Animator-Directional-Port | done | 3.0h (vs 3h) | ADR-0021 §扩展点 1 八方向角色动画端口落地 + CavePlayer 迁移。Foundation 1378/1378。commit 9e3e2de |
+| 2026-06-22 | ADR-0022 iso pivot (docs only) | done | — | 全项目 pivot 至 isometric diamond + 4 斜向；新增 S7-Iso-Pivot-Foundation story (ready-for-dev, 1.0d)。commit 40d81c4 |
+| 2026-06-23 | S7-VS-Combat-Loop | done | 4.0h (vs 12h) | **MVP-A 紧缩范围 PASS** — 1v1 完整 explore→combat→outcome 循环 owner 实机 sign-off 09:06。Subtask 0-8 全闭环：fixture (luo_han_quan/tie_bi_heng_lan) + VsBattleLoopController + Godot scene 集成 + 双层测试 + outcome 文案切换。复用率 ~50% (vs spike 假设 75%)。CombatMoveSelectionPanel/HudPanel 集成、PhaseBanner 推 cu-visual-evidence 阶段。**重大估时偏差 -67%**：dependency-survey 暴露的 R2「编排层 0%」实际 1h 化解。commits 7aa8786/6f768a8/204ec03/bc84362。**Iso follow-up**：battle scene 当前是 ColorRect+Button 占位，S7-Iso-Pivot-Foundation 落地后于 cu-visual-evidence 阶段顺手 iso 蒙皮 (< 1h) |
 
 ## Linked Artifacts
 

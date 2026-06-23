@@ -92,14 +92,16 @@ stories:
     name: "Lite Xingqi: 1v1 战斗，复用 BattlePhase 包装观气→出招→破绽→决胜"
     file: "production/sprints/sprint-7.md"
     priority: must-have
-    status: backlog
-    owner: ""
+    status: done
+    owner: "user+agent"
     estimate_days: 1.5
     estimate_hours: 12.0
-    actual_hours: null
-    blocker: "depends on S7-VS-Foundation-Scene + S7-Iso-Pivot-Foundation (ADR-0022 iso pivot)"
-    completed: ""
-    note: "Re-estimated 2026-06-22 from 2.0d → 1.5d per vs-scope-spike §7 (75% combat reuse, 0 new cb-* story). 2026-06-22 加 blocker S7-Iso-Pivot-Foundation：iso 投影 + 4 斜向必须先行落地。"
+    actual_hours: 4.0
+    blocker: ""
+    completed: "2026-06-23"
+    deliverable: "docs/superpowers/specs/2026-06-23-s7-vs-combat-loop-mvp-a.md + src/FengZhi.Foundation/Combat/{Fixtures/JiangnanBandit1v1Fixture.cs,Runtime/VsBattleLoopController.cs} + tests/integration/vs/{jiangnan_bandit_fixture_smoke_test.cs,vs_battle_loop_controller_test.cs} + feng-zhi/scripts/vs/Jiangnan{BattleGame,FlowController,OutcomeGame}.cs + feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn (commits 7aa8786, 6f768a8, 204ec03, bc84362)"
+    verdict: "PASS (MVP-A 紧缩范围) — Owner 实机 sign-off 2026-06-23 09:06：1v1 完整 explore→combat→outcome 循环可玩，轻击/重击按钮触发回合推进，2-3 回合分胜负，BattleEndEvent → JiangnanFlowController.GoToOutcome(result) 转场闭环，胜/负 outcome 文案切换正常。Foundation 1386/1386 测试 + headless 启动 0 warn。"
+    note: "Scope deviation 2026-06-22 23:55: 实际复用率 ~50% (vs spike §2.2 假设 75%)；CombatMoveSelectionPanel + CombatHudPanel 集成推到 cu-visual-evidence 子任务（cu-004 录制时一并做）；Subtask 6 PhaseBanner 砍除（StatusLabel 已覆盖该 UX）；估时偏差 -67% (12h → 4h)，主因 dependency-survey 暴露的 R2「编排层 0%」实际仅 1h 化解。Iso follow-up：battle_jiangnan_bandit.tscn 当前是 ColorRect+Button 占位 UI，S7-Iso-Pivot-Foundation 落地后于 cu-visual-evidence 阶段顺手按 iso 视觉重新蒙皮，估时 < 1h（仅替换背景/前景为 iso TileMap + sprite，不动逻辑）。"
 
   - id: "S7-VS-Outcome-Feedback"
     name: "战后心境位移 + 朦胧化战后面板 (mindset-dual-axis + blurred-ui partial)"

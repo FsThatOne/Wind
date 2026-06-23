@@ -219,3 +219,54 @@ JiangnanBattleGame._Ready
 | 4 | R1 (move id 缺失) | A1 · grep registry 找现有招 → 已完成 §3.4 |
 
 scope 锁定为 MVP-A 紧缩范围，正式可执行。
+
+---
+
+## 11 · Final Status — PASS (2026-06-23 09:06)
+
+**Owner 实机 sign-off**：「PASS」 — Subtask 8 完整 explore → combat → outcome 循环通过。
+
+### 11.1 · 最终结果
+
+| 维度 | 状态 | 备注 |
+|---|---|---|
+| Subtask 0a (move ID grounding) | ✅ | `quick_strike`/`heavy_strike` → `luo_han_quan`/`tie_bi_heng_lan` |
+| Subtask 0b+1 (fixture + smoke) | ✅ | `JiangnanBandit1v1Fixture` + 3 test cases, 2-5 回合分胜负达成 |
+| Subtask 2 (VsBattleLoopController) | ✅ | 事件驱动循环编排 + 5 test cases |
+| Subtask 3+4+5 (Godot scene 接入) | ✅ | `battle_jiangnan_bandit.tscn` placeholder UI + `JiangnanBattleGame.cs` 集成 |
+| Subtask 6 (PhaseBanner) | ❌ Cut | StatusLabel 已覆盖 UX 需求；不影响 PASS |
+| Subtask 7 (Foundation Build 0 warn) | ✅ | 1386/1386 + `dotnet build feng-zhi` 0 warn / 0 err |
+| Subtask 8 (实机 smoke) | ✅ | Owner sign-off：胜/负转场闭环，文案切换正常 |
+
+### 11.2 · 估时偏差
+
+- **估计**：1.5d / 12h
+- **实际**：0.5d / 4h
+- **Variance**：**-67%**（dependency-survey 暴露的 R2「编排层 0%」实际仅 1h 化解）
+
+### 11.3 · 范围偏移记录（scope deviation log）
+
+| Out 项 | 状态 | 原因 |
+|---|---|---|
+| CombatMoveSelectionPanel 集成 | Deferred → cu-visual-evidence | MVP-A 用占位按钮足够；cu-004 录制时一并接入 |
+| CombatHudPanel 集成 | Deferred → cu-visual-evidence | 同上 |
+| PhaseBanner | Cut | StatusLabel 已覆盖 |
+| 复用率 50% (vs 假设 75%) | Accepted | `ResolutionService.BaseMultiplier=1.0f` 硬编码 + CombatUiEventAdapter 未启用 |
+
+### 11.4 · Iso pivot 协同（与 ADR-0022 / S7-Iso-Pivot-Foundation）
+
+- ADR-0022 isometric diamond pivot 在 commit `40d81c4` 落地（**docs-only stage 1**），**不阻塞 MVP-A 关账**。
+- `battle_jiangnan_bandit.tscn` 当前 = ColorRect 背景 + 占位 UI；S7-Iso-Pivot-Foundation (ready-for-dev, 1.0d) 落地后，在 cu-visual-evidence 阶段按 iso 视觉重新蒙皮（替换为 iso TileMap + sprite，估 < 1h，**逻辑层不动**）。
+
+### 11.5 · 暴露的 tech-debt（Sprint 8+ 待办）
+
+1. **`ResolutionService.ExecuteMove` 硬编码 `BaseMultiplier = 1.0f`** —— 招式数据中的 `damage_multiplier` / `gang_cost` 被忽略，导致 fixture 平衡需要靠调 HP/Gang 间接绕开。需要新 cb-* story 修复，使 move data 真正驱动伤害计算。
+2. **`CombatUiEventAdapter` 在 MVP-A 未启用** —— spike §2.2 假设的 75% 复用率因此打折；cu-visual-evidence 阶段接入完整 HUD 时再启用并验证。
+3. **Fixture HP/Gang 数值 = VS-only override** —— 主线平衡需以独立的 `BalancingService` 或数据表方式管理，避免每个 VS / 战斗实例都在 fixture 里硬编码。
+
+### 11.6 · 关键 commits
+
+- `7aa8786` plan(s7): MVP-A dev-story spec
+- `6f768a8` feat(vs-combat): Subtask 0b+1 江南小贼 1v1 fixture + smoke test
+- `204ec03` feat(vs-combat): Subtask 2 VsBattleLoopController 事件驱动战斗循环
+- `bc84362` feat(vs-combat): Subtask 3+4+5 Godot 战斗 scene 接入真实循环
