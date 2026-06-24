@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-24 (jiangnan-iso-v1 64-tile tileset + pond showcase scene 落 feng-zhi + S7-Iso-Pivot-Foundation visual evidence 补充 + 5 个 S8 tileset 候选 story 入 backlog)"
+updated: "2026-06-24 PM (用户澄清 iso 方向 NOT 否决，仅资产层暂撤；6 个 S8-tileset-* backlog 全部加上 depends-on S8-tileset-iso-redesign 前置；过渡过的 jiangnan_riverside 非-iso tileset 标注为 chapter_00 临时方案)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -173,13 +173,23 @@ stories:
     sprint_candidate: 8
     note: "AC1-AC3 (TileMapLayer 骨架 + Day/Night 切换 + 坐标集成) 2026-06-23 完成；AC4 (Structures y_sort + Player 移入 MapRoot + props foot-based Position/Offset + 移除 ZIndex hack + WASD tile 边界 1 帧停顿修复) 2026-06-24 完成，owner 实机遮挡验证 PASS。AC5 视觉证据 + AC6 文档 + AC7 关账一并收口。已知遗留：Ground/Terrain TileMapLayer y_sort 链穿透导致部分 tile 覆盖 Player，需后续统一搭建场景时将 Tiles 移出 MapRoot y_sort 链（方案已确认）。估时偏差 -54% (13.0h → 6.0h)。"
 
-  # ----------- Sprint 8 候选: jiangnan-iso-v1 tileset 后续工程 ----------- 
-  # 来源: assets/generated/tilesets/jiangnan-iso/README.md §下一步候选 story
-  # + production/qa/evidence/s7-iso-pivot-foundation/pond-showcase-2026-06-24.md
+  # ----------- Sprint 8 候选: jiangnan-iso tileset 后续工程 ----------- 
+  # 来源: 历史 assets/generated/tilesets/jiangnan-iso/README.md §下一步候选 story
+  # + 历史 production/qa/evidence/s7-iso-pivot-foundation/pond-showcase-2026-06-24.md
   # 入 backlog 时间: 2026-06-24
+  #
+  # ⚠️ 2026-06-24 用户澄清 (commit 24c34ba 删除 jiangnan-iso-v1 资产 上下文):
+  #   - 删除原因: 用户对 image_gen 出的资产质量不满意, 暂时撤回
+  #   - 方向状态: ISO 方向 NOT 否决, 只是资产层暂时弃用, 后续会重新设计地块
+  #   - 影响: 以下 6 个 story 全部 ALL 依赖于一个先于它们的前置 story
+  #     "S8-tileset-iso-redesign" (尚未拍板, owner 决定何时开题), 该前置 story
+  #     完成前, 这 6 个全部保持 backlog + 不开工
+  #   - 当前过渡方案: feng-zhi/assets/maps/jiangnan_riverside/jiangnan_ground_tiles.tres
+  #     是非-iso 的简单平面方案 (commit fbbc5be), 仅作 chapter_00 explore 临时使用,
+  #     不替代 ADR-0022 iso 方向
 
   - id: "S8-room-jiangnan-iso-pond-test"
-    name: "用 jiangnan-iso-v1 tileset 搭一个可玩的 3×3 池塘 + 拱桥 explore room (非 showcase)"
+    name: "用 iso tileset 搭一个可玩的 3×3 池塘 + 拱桥 explore room"
     file: ""
     priority: should-have
     status: backlog
@@ -187,13 +197,13 @@ stories:
     estimate_days: 1.0
     estimate_hours: 8.0
     actual_hours: null
-    blocker: "depends on S8-tileset-edge-polish (浅色 tile 白边修复) 视觉门槛"
+    blocker: "depends on S8-tileset-iso-redesign (新地块资产) + S8-tileset-edge-polish 视觉门槛"
     completed: ""
     sprint_candidate: 8
-    note: "feng-zhi/scenes/showcase/jiangnan_iso_pond_showcase.tscn 已证明 tileset 可装配；本 story 把它升级成可走入的 room (Player 落格 + 碰撞 + 与 BackMountainCliffCave 同结构 Day/Night × Ground/Terrain/Overlay 三层)。"
+    note: "原参考: feng-zhi/scenes/showcase/jiangnan_iso_pond_showcase.tscn (已随 24c34ba 删除)。本 story 用未来重设的 iso tileset 升级成可走入的 room (Player 落格 + 碰撞 + 与 BackMountainCliffCave 同结构 Day/Night × Ground/Terrain/Overlay 三层)。"
 
   - id: "S8-tileset-edge-polish"
-    name: "jiangnan-iso-v1 浅色 tile (water/bank/bridge) 边缘白晕修复"
+    name: "iso tileset 浅色 tile (water/bank/bridge) 边缘白晕修复"
     file: ""
     priority: should-have
     status: backlog
@@ -201,13 +211,13 @@ stories:
     estimate_days: 0.5
     estimate_hours: 4.0
     actual_hours: null
-    blocker: ""
+    blocker: "depends on S8-tileset-iso-redesign (新资产到位)"
     completed: ""
     sprint_candidate: 8
-    note: "image_gen 在浅色 tile 钻形内沿画了 #f0f0f0 的湿润反光像素，下采样后呈细白边。process_tileset.py 已用 apply_diamond_mask(radius=0.85) 激进缩 mask 清掉大部分，但浅色仍残留。修复路径：手绘清理或第二次 image_gen pass 指定更深的内沿色。详见 README.md §已知限制 5。"
+    note: "原 jiangnan-iso-v1 在浅色 tile 钻形内沿有 #f0f0f0 湿润反光像素呈细白边 (process_tileset.py apply_diamond_mask radius=0.85 已激进缩，浅色仍残留)。若重设资产时彻底解决，此 story 可裁掉；否则保留修复路径 (手绘 / 二次 image_gen 指定更深内沿色)。"
 
   - id: "S8-tileset-bank-direction-completion"
-    name: "jiangnan-iso-v1 sheet1 row 2 bank_legacy 重置为严格 4 斜向 (或弃用)"
+    name: "iso tileset bank 类目严格 4 斜向 (NE/SE/SW/NW) 补齐"
     file: ""
     priority: nice-to-have
     status: backlog
@@ -215,13 +225,13 @@ stories:
     estimate_days: 0.25
     estimate_hours: 2.0
     actual_hours: null
-    blocker: ""
+    blocker: "depends on S8-tileset-iso-redesign (新资产到位)"
     completed: ""
     sprint_candidate: 8
-    note: "sheet1 row 2 的 4 张 bank tile image_gen 没按 ADR-0022 NE/SE/SW/NW 严格 4 斜向产出。sheet2 row 6 bank_iso4 已补齐。本 story 选择: (a) 第二次 image_gen pass 重画 sheet1 row 2 / (b) 直接从 manifest 移除 bank_legacy 类目 (推荐 b, 减少决策负担)。"
+    note: "原 jiangnan-iso-v1 sheet1 row 2 bank_legacy 没按 ADR-0022 NE/SE/SW/NW 严格 4 斜向产出，sheet2 row 6 bank_iso4 已补齐。重设时若一次画对则此 story 可裁掉。"
 
   - id: "S8-tileset-terrain-bitmask"
-    name: "jiangnan-iso-v1 配 Godot 4 Terrain set + autotile bitmask (bank/path/grass 自动转角)"
+    name: "iso tileset 配 Godot 4 Terrain set + autotile bitmask (bank/path/grass 自动转角)"
     file: ""
     priority: nice-to-have
     status: backlog
@@ -229,13 +239,13 @@ stories:
     estimate_days: 1.0
     estimate_hours: 8.0
     actual_hours: null
-    blocker: "depends on S8-tileset-bank-direction-completion (legacy 决策完成)"
+    blocker: "depends on S8-tileset-iso-redesign (新资产到位) + S8-tileset-bank-direction-completion (4 斜向完整)"
     completed: ""
     sprint_candidate: 8
-    note: "在 jiangnan_iso_tileset.tres 里建 Terrain set, 把 bank_iso4 (4 张) + path_grass (12 张) + corner (6 张) 各自加入对应 bitmask, 让 TileMap 落格时自动选转角 tile。降低 room 装配心智成本。"
+    note: "在新 iso tileset .tres 里建 Terrain set, 把 bank (4 张) + path_grass + corner 各自加入对应 bitmask, 让 TileMap 落格时自动选转角 tile。降低 room 装配心智成本。"
 
   - id: "S8-tileset-collision-layer"
-    name: "jiangnan-iso-v1 配 collision polygon (water 阻挡 / bridge 通行 / corner 边界)"
+    name: "iso tileset 配 collision polygon (water 阻挡 / bridge 通行 / corner 边界)"
     file: ""
     priority: nice-to-have
     status: backlog
@@ -243,13 +253,13 @@ stories:
     estimate_days: 0.5
     estimate_hours: 4.0
     actual_hours: null
-    blocker: ""
+    blocker: "depends on S8-tileset-iso-redesign (新资产到位)"
     completed: ""
     sprint_candidate: 8
-    note: "在 jiangnan_iso_tileset.tres 里加 physics_layer 0 + 给 water_* / corner_inner_full 配阻挡 polygon, 给 bridge_* 配通行 (无 polygon), 让 NPC AI + Player 移动直接复用 TileMap 物理。"
+    note: "在新 iso tileset .tres 里加 physics_layer 0 + 给 water_* / corner_inner_full 配阻挡 polygon, 给 bridge_* 配通行 (无 polygon)，让 NPC AI + Player 移动直接复用 TileMap 物理。"
 
   - id: "S8-art-bible-iso-palette"
-    name: "把 jiangnan-iso muted 江南调色板写进 design/art/art-bible.md"
+    name: "把 iso tileset muted 江南调色板写进 design/art/art-bible.md"
     file: "design/art/art-bible.md"
     priority: nice-to-have
     status: backlog
@@ -257,7 +267,7 @@ stories:
     estimate_days: 0.25
     estimate_hours: 2.0
     actual_hours: null
-    blocker: ""
+    blocker: "depends on S8-tileset-iso-redesign (调色板由重设结果决定)"
     completed: ""
     sprint_candidate: 8
-    note: "从 assets/generated/tilesets/jiangnan-iso/tileset.prompt.txt + manifest 提炼出主色 (青石棕灰/湿泥褐/浅绿水/重苔深绿) 落 art-bible.md, 让后续场景 prompt 统一调色板。"
+    note: "重设地块时落主色 (青石棕灰/湿泥褐/浅绿水/重苔深绿 类似的 muted 江南色板) 进 art-bible.md，让后续场景 prompt 统一调色板。"
