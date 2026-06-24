@@ -1,11 +1,19 @@
 # cu-005 反制与决胜行动提示 — QA Evidence
 
+> **🔴 2026-06-24 状态更新（visual evidence 待重录）**
+> - 本 evidence 文档**视觉录屏部分待 VS 江南战斗场景重录**
+> - 现有内容来自**旧 prototype `sprint5-combat-ui-harness`**，VS 切换后判为 stale target
+> - VS 新场景 `battle_jiangnan_bandit.tscn` 当前未集成 `CounterTag` / `DecisiveStrikeRow` 等 widget
+> - 集成 + 录制拆为 6 子 story，scope 拆解见 [`harness spec`](../../docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md)
+> - 依赖链：`cu-004-vs-integration` done → `cu-005-vs-integration` done → `cu-visual-evidence-harness` done → `cu-visual-evidence-recording` done → 回填本文件
+> - Foundation 契约层自动测试仍 ✅（`CombatUiCounterDecisivePromptTest` 等）
+
 > 日期：2026-06-17
 > Story：`production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md`
 > TR-ID：`TR-combat-ui-005`
 > 类型：Integration / UI
-> 证据状态：新 harness 手测通过；旧 `fengzhi-vertical-slice` 结果已判定为 stale target
-> QA 签字：User manual QA
+> 证据状态：**视觉部分待重录（VS 集成后）**；Foundation 自动契约层 ✅；旧 prototype 结果已判 stale
+> QA 签字：User manual QA（旧 prototype harness）
 
 ## 验证目标
 

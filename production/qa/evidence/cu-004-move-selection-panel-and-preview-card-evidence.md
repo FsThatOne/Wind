@@ -1,11 +1,19 @@
 # cu-004 招式选择面板与预览卡 — QA Evidence
 
+> **🔴 2026-06-24 状态更新（visual evidence 待重录）**
+> - 本 evidence 文档**视觉录屏部分待 VS 江南战斗场景重录**
+> - 现有内容（下方 §手动结果 等）来自**旧 prototype `sprint5-combat-ui-harness`**，VS 切换后判为 stale target
+> - VS 新场景 `battle_jiangnan_bandit.tscn`（Sprint 7 MVP-A）当前用 2 Button 占位代替 `CombatMoveSelectionPanel`
+> - 集成 + 录制拆为 6 子 story，scope 拆解见 [`harness spec`](../../docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md)
+> - 依赖链：`cu-004-vs-integration` done → `cu-visual-evidence-harness` done → `cu-visual-evidence-recording` done → 回填本文件 §视觉证据 段
+> - Foundation 契约层自动测试仍 ✅（`CombatUiMoveSelectionPanelTest` 等）
+
 > 日期：2026-06-17
 > Story：`production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md`
 > TR-ID：`TR-combat-ui-004`
 > 类型：UI
-> 证据状态：新 harness 手测通过；旧 `fengzhi-vertical-slice` 结果已判定为 stale target
-> QA 签字：User manual QA
+> 证据状态：**视觉部分待重录（VS 集成后）**；Foundation 自动契约层 ✅；旧 `fengzhi-vertical-slice` / `sprint5-combat-ui-harness` 结果已判 stale
+> QA 签字：User manual QA（旧 prototype harness）
 
 ## 验证目标
 

@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-24 PM (回溯落 2 个 emergent done story: S7-Dialogue-Chapter-00-Wiring + S7-Dialogue-Compiler-Tool, 量化 dialogue 系统涌现产出; 同步澄清 iso 方向 NOT 否决, 仅资产层暂撤, 6 个 S8-tileset-* depends-on S8-tileset-iso-redesign)"
+updated: "2026-06-24 PM (cu-visual-evidence harness spec 落地 + 6 子 story 拆分: cu-004/005/006/008-vs-integration + cu-visual-evidence-harness + cu-visual-evidence-recording, Owner Q1-Q6 全选推荐项 a; +回溯落 2 emergent done story S7-Dialogue-Chapter-00-Wiring + S7-Dialogue-Compiler-Tool; +iso 方向 NOT 否决澄清)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -170,19 +170,102 @@ stories:
     verdict: "PASS — 作者用纯文本 .dlg 写对话 (无需手撸 YAML)，编译输出与 chapter_00 现有 4 个手写 YAML 兼容；降低对话内容生产门槛，为 chapter 1+ 批量产出对话节点做工具铺垫。"
     note: "emergent — 在写 chapter_00 4 个 YAML 时发现手撸 YAML 重复成本高，临时插队做工具。estimate 偏差 -17% (3h → 2.5h)，工具类 story 估时一般偏保守，下次可下调到 2h baseline。"
 
-  - id: "cu-visual-evidence"
-    name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence — 在 VS 上录制"
-    file: "production/sprints/sprint-7.md"
+  # ----------- cu-visual-evidence 拆分 (2026-06-24 harness spec 落地) -----------
+  # 原 cu-visual-evidence (6h, 单 story) 被拆为 6 个子 story (12-14h)。
+  # 拆分来源: docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md
+  # 拆分原因: MVP-A 显式 deviation 把 4 个 CombatUi widget 集成推到 cu-visual-evidence,
+  # 实际 scope = UI 集成 4 子任务 + harness + 录制 = 6 子任务 (sprint-status.yaml 原估时偏差 +100%)。
+  # Q1=a / Q2=a / Q3=a / Q4=a / Q5=a / Q6=a (owner 2026-06-24 PM 全部采纳推荐项)。
+
+  - id: "cu-004-vs-integration"
+    name: "cu-004 招式选择面板 + 预览卡 集成进 VS battle scene"
+    file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
+    priority: must-have
+    status: ready-for-dev
+    owner: ""
+    estimate_days: 0.5
+    estimate_hours: 4.0
+    actual_hours: null
+    blocker: "Depends on S7-VS-Combat-Loop done (已 done)。"
+    completed: ""
+    sprint_candidate: 7
+    deliverable: "feng-zhi/scenes/ui/combat/CombatMoveSelectionPanel.tscn + MoveRow.tscn + MovePreviewCard.tscn + feng-zhi/scripts/combat/CombatMoveSelectionPanel.cs (订阅 CombatUiEventAdapter.OnMoveSelectionPanelUpdated); JiangnanBandit1v1Fixture.CreateDemoConfig_Cu004Showcase() (6 装备 + 调息 + 使用道具 + 心法专属 + 内息不足 + 心法封印 + 无道具); JiangnanBattleGame.cs 替换 LightButton/HeavyButton 占位"
+    note: "harness spec subtask A; 是 B/C/D 的关键路径前置。AC 见 production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md §验收标准。"
+
+  - id: "cu-005-vs-integration"
+    name: "cu-005 反制 + 决胜提示 集成进 VS battle scene"
+    file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
+    priority: must-have
+    status: ready-for-dev
+    owner: ""
+    estimate_days: 0.25
+    estimate_hours: 2.0
+    actual_hours: null
+    blocker: "Depends on cu-004-vs-integration done (共用 CombatMoveSelectionPanel)。"
+    completed: ""
+    sprint_candidate: 7
+    deliverable: "feng-zhi/scenes/ui/combat/CounterTag.tscn + DecisiveStrikeRow.tscn; CombatMoveSelectionPanel.cs 接 CombatUiMoveSelection.CounterDecisivePrompt; JiangnanBandit1v1Fixture.CreateDemoConfig_Cu005Showcase() (敌方公开柔意图 + 玩家有刚招 + 内息 ≥3/<3 切换 + 敌方破绽 ≥5)"
+    note: "harness spec subtask B; AC 见 production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md §验收标准。"
+
+  - id: "cu-006-vs-integration"
+    name: "cu-006 决胜一击演出 集成进 VS battle scene"
+    file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
+    priority: must-have
+    status: ready-for-dev
+    owner: ""
+    estimate_days: 0.4
+    estimate_hours: 3.0
+    actual_hours: null
+    blocker: "Depends on cu-004-vs-integration done (panel 内决胜行触发) + cu-005-vs-integration done (决胜行渲染)。"
+    completed: ""
+    sprint_candidate: 7
+    deliverable: "feng-zhi/scenes/ui/combat/DecisiveStrikeOverlay.tscn + feng-zhi/scripts/combat/DecisiveStrikeGodotAdapter.cs (bind TimeScaleEngineBridge + CameraRequestBusBridge + CombatCinematicLockInputFilter); JiangnanBandit1v1Fixture.CreateDemoConfig_Cu006Showcase() (敌方破绽 = 5 可直接触发)"
+    note: "harness spec subtask C; AC 见 production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md §验收标准。Q3=a: pause priority 验证由 Foundation combat_ui_decisive_animation_director_test.cs 覆盖, 视觉证据不重复覆盖。"
+
+  - id: "cu-008-vs-integration"
+    name: "cu-008 dual-focus + 手柄 D-pad 导航 集成进 VS battle scene"
+    file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
+    priority: must-have
+    status: ready-for-dev
+    owner: ""
+    estimate_days: 0.25
+    estimate_hours: 2.0
+    actual_hours: null
+    blocker: "Depends on cu-004-vs-integration done (共用 panel + focus_neighbor)。"
+    completed: ""
+    sprint_candidate: 7
+    deliverable: "CombatMoveSelectionPanel.cs + .tscn 加 focus_neighbor_top/bottom 循环 + grab_focus FocusManager 保护 + 鼠标 hover 独立视觉态 + 输入模式切换不丢 focus; InputMap 检查 ui_focus_next/prev/accept 绑定 WASD 或方向键 (Q4=a 键盘 D-pad 模拟 path); JiangnanBandit1v1Fixture.CreateDemoConfig_Cu008Showcase() (= Cu004 + 强制 gamepad-only 模式)"
+    note: "harness spec subtask D; AC 见 production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md §验收标准。Q4=a: 不验证真手柄插拔切换 → 此点拆到 cu-008-Gamepad-HW-Verify nice-to-have story 自然消费。"
+
+  - id: "cu-visual-evidence-harness"
+    name: "Recording harness — 4 个 demo scene + DemoSeed + state assertion fail-fast"
+    file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
+    priority: must-have
+    status: ready-for-dev
+    owner: ""
+    estimate_days: 0.1
+    estimate_hours: 1.0
+    actual_hours: null
+    blocker: "Depends on cu-004 + cu-005 + cu-006 + cu-008 vs-integration 全 done。"
+    completed: ""
+    sprint_candidate: 7
+    deliverable: "JiangnanBattleGame.cs 加 [Export] DemoSeed; feng-zhi/scenes/vs/demo/{battle_demo_cu004,battle_demo_cu005,battle_demo_cu006,battle_demo_cu008}.tscn (Q2=a 4 个独立 .tscn 模式, 各覆盖 DemoSeed); AssertDemoState() 防 demo state 漂移 fail-fast"
+    note: "harness spec subtask E; owner 一条 godot 命令进 demo state, 不必走 explore → battle 玩到正确状态。state assertion fail-fast 避免录到一半发现状态不对。"
+
+  - id: "cu-visual-evidence-recording"
+    name: "Owner 实机录 cu-004/005/006/008 4 段视觉证据"
+    file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
     priority: must-have
     status: backlog
-    owner: ""
-    estimate_days: 0.75
-    estimate_hours: 6.0
+    owner: "owner"
+    estimate_days: 0.2
+    estimate_hours: 2.0
     actual_hours: null
-    blocker: "Carryover from Sprint 6 (commit 9b1b9b2). Depends on S7-VS-Combat-Loop done."
+    blocker: "Depends on cu-visual-evidence-harness done。"
     completed: ""
-    carryover_from_sprint: 6
-    note: "2026-06-22 follow-up A 路线 done：battle_jiangnan_bandit.tscn 已用 cliff_cave_ground_tiles.tres (新建 Godot TileSet 资源 + 64×32 isometric, 24 atlas tiles) 铺 5×5 战棋格 + PlayerSprite/BanditSprite 落格 + y_sort_enabled。feng-zhi build 0 err / 0 warn；mcp_godot run_project headless OK ([JiangnanBattle] Ready. Battle started.)。explore 场景同步迁移见 sprint-8-explore-tilemap-adoption.md。"
+    sprint_candidate: 7
+    deliverable: "production/qa/evidence/media/{cu-004,cu-005,cu-006,cu-008}-evidence-2026-06-XX.mp4 (≥720p) + 4 个 cu-00X-evidence.md 头部状态从「待录」更新为「录制完成 2026-06-XX」+ §视觉证据 段更新视频路径"
+    note: "harness spec subtask F; per-cu 录制 checklist 4-11 步含定格时长 / 触发动作 / 验证点。Sprint 7 最后一根 must-have, 完成 = gate prove-or-pivot 凭证完整 (Q5=a 全 Sprint 7 内做完路径)。"
 
   - id: "S7-VS-Playtest-Session"
     name: "1 次新玩家试玩 session + 反馈报告 (gate §C-PLAYTEST)"

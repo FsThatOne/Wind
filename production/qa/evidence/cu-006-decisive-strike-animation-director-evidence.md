@@ -1,8 +1,15 @@
 # cu-006 — 一击决胜演出编排 Evidence
 
+> **🔴 2026-06-24 状态更新（VS 视觉 evidence 待录）**
+> - 本 evidence 已捕获 Foundation 自动 8/8 + Godot 集成 6/6 AC（2026-06-20 cu-006-godot-integration BUILD）
+> - 但 **VS 江南战斗场景 `battle_jiangnan_bandit.tscn` 尚未集成决胜演出**（MVP-A 用 2 Button + Label 占位）
+> - VS 场景内决胜演出集成 + 视觉录屏拆为 2 子 story：`cu-006-vs-integration` (3h) + `cu-visual-evidence-recording` (含 4 cu 录屏)
+> - scope 拆解见 [`harness spec`](../../docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md)
+> - Q3=a：pause priority 验证由 Foundation `combat_ui_decisive_animation_director_test.cs` 覆盖，VS 录屏不重复
+
 > **Story**: [cu-006-decisive-strike-animation-director.md](../../epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md)
 > **TR-ID**: TR-combat-ui-006
-> **Status**: Foundation Captured (2026-06-18) + Godot Integration Captured (2026-06-20) — Foundation 自动化 8/8 + harness panel 就位 + Godot 实机集成 6/6 AC（cu-006-godot-integration BUILD, 2026-06-20）；视觉 artifact pending designer 录屏。
+> **Status**: Foundation Captured (2026-06-18) + Godot Integration Captured (2026-06-20, harness panel) — Foundation 自动化 8/8 + Godot 实机集成 6/6 AC ✅；**VS 江南战斗场景视觉 artifact 待录**（依赖 `cu-006-vs-integration` done → `cu-visual-evidence-harness` done → `cu-visual-evidence-recording`）
 
 ## Capture Checklist
 

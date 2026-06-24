@@ -1,10 +1,17 @@
 # cu-008 双焦点与手柄导航 — QA Evidence
 
+> **🔴 2026-06-24 状态更新（VS 视觉 evidence 待重录）**
+> - 本 evidence 自动契约层 ✅（`CombatUiDualFocusNavigationTest` 等）；BUG-0001 已修
+> - 但 **VS 江南战斗场景 `battle_jiangnan_bandit.tscn` 尚未集成 dual-focus 导航**（MVP-A 用 2 Button 占位无 focus_neighbor 循环）
+> - VS 场景集成 + 视觉录屏拆为 2 子 story：`cu-008-vs-integration` (2h) + `cu-visual-evidence-recording`
+> - scope 拆解见 [`harness spec`](../../docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md)
+> - Q4=a：键盘 D-pad 模拟 path 录制；真手柄插拔验证拆到 `cu-008-Gamepad-HW-Verify` nice-to-have
+
 > 日期：2026-06-15  
 > Story：`production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md`  
 > TR-ID：`TR-combat-ui-008`  
 > 类型：UI  
-> 证据状态：自动契约已覆盖；新 harness 手测通过；`BUG-0001` 已验证修复
+> 证据状态：**VS 视觉部分待重录（VS 集成后, 键盘 D-pad path）**；Foundation 自动契约 ✅；BUG-0001 修复 ✅；旧 harness 手测 ✅（已判 stale target for VS）
 > 录制负责人：User  
 > QA 签字：TBD  
 > UX 签字：TBD
