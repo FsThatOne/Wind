@@ -1,0 +1,66 @@
+Create a pixel-art isometric diamond tileset sheet for a Chinese wuxia RPG Jiangnan water-town scene.
+
+Exact sheet contract:
+- PNG image with solid flat magenta (#FF00FF) background, no gradients in background.
+- Exactly 16 equal-size cells arranged in a 4x4 grid (4 rows, 4 columns).
+- NO borders, NO lines, NO frames between cells.
+- NO text, NO labels, NO numbers, NO arrows, NO UI.
+- Each cell contains exactly one isometric diamond tile viewed from above at 45 degrees.
+- Each diamond has a 2:1 width-to-height ratio (wider than tall), the classic isometric diamond footprint.
+- Every tile must be seamless: edges must match perfectly so adjacent tiles connect naturally when tiled.
+- Water shore edges must align perfectly across cell boundaries to form 2x2 or larger pools.
+
+Scene identity:
+Jiangnan water town (江南水乡) ground terrain for a martial arts RPG. Low-saturation palette:
+- Bluestone / flagstone paving: desaturated blue-gray, worn stone texture with subtle cracks
+- Wet earth / mud: dark brown-gray with damp sheen
+- Moss and grass: muted pale green patches growing between stones
+- Shallow water: pale translucent green with subtle ripples and reflections
+- Deep water: deeper teal-green with gentle wave patterns
+- Shoreline: smooth transition from wet stone/mud to water with dark damp edges
+
+Art style:
+16-bit pixel art wuxia RPG, clean readable pixel edges, restrained ink-wash influenced palette, no chunky outlines, soft muted colors, authentic ancient Chinese water-town feel. Avoid bright saturated colors, modern HD painting, blur, painterly smears, noisy textures, photorealistic rendering. Every pixel is deliberate and clean. Pixel details are sharp and game-ready.
+
+IMPORTANT isometric tile drawing rules:
+- Each tile is a diamond (rotated square) shape filling the cell, point up/down/left/right.
+- The diamond occupies roughly the full width and full height of its cell, touching near the cell edges.
+- Land tiles fill the entire diamond with their texture.
+- Water shore tiles have water in the specified corner/edge area and land in the remaining area, with a smooth curved shoreline transition (not a sharp diagonal cut).
+- Shorelines should look like natural earth meeting water, with darker wet pixels at the water edge.
+
+Tile layout, reading left-to-right, top-to-bottom (row 1 = top row):
+
+Row 1 (Base terrain):
+Cell (1,1): Bluestone flagstone ground - full diamond of weathered gray-blue stone paving with faint cracks
+Cell (1,2): Wet mud ground - full diamond of dark brown-gray damp earth, slightly moist sheen
+Cell (1,3): Mossy ground - full diamond of earth with scattered pale green moss and tiny grass tufts
+Cell (1,4): Shallow water center - full diamond of light translucent green water with tiny ripple highlights
+
+Row 2 (Water + straight shores):
+Cell (2,1): Deep water center - full diamond of deeper teal-green water with subtle wave patterns
+Cell (2,2): Shore NORTH - water in the TOP half/corner of diamond, bluestone land in the BOTTOM half; curved shoreline, water meeting stone at the top edge
+Cell (2,3): Shore SOUTH - water in the BOTTOM half/corner of diamond, bluestone land in the TOP half; curved shoreline, water meeting stone at the bottom edge
+Cell (2,4): Shore WEST - water in the LEFT half/corner of diamond, bluestone land in the RIGHT half; curved shoreline, water meeting stone at the left edge
+
+Row 3 (Shores continued + convex corners):
+Cell (3,1): Shore EAST - water in the RIGHT half/corner of diamond, bluestone land in the LEFT half; curved shoreline, water meeting stone at the right edge
+Cell (3,2): Convex corner SE - water fills the BOTTOM-RIGHT corner of the diamond, bluestone land occupies TOP-LEFT; rounded outer shore corner where two straight shores meet
+Cell (3,3): Convex corner SW - water fills the BOTTOM-LEFT corner of the diamond, bluestone land occupies TOP-RIGHT; rounded outer shore corner
+Cell (3,4): Convex corner NW - water fills the TOP-LEFT corner of the diamond, bluestone land occupies BOTTOM-RIGHT; rounded outer shore corner
+
+Row 4 (Corners continued + transitions):
+Cell (4,1): Convex corner NE - water fills the TOP-RIGHT corner of the diamond, bluestone land occupies BOTTOM-LEFT; rounded outer shore corner
+Cell (4,2): Inner corner / small land point - small bluestone tip pointing down into water; water surrounds from top-left, top, and top-right forming a concave bay
+Cell (4,3): Wet mud shore transition - mixed wet dark mud and shallow puddles, soft edge where land becomes saturated near water
+Cell (4,4): Mossy stone variant - bluestone with more prominent green moss growing in cracks, worn path appearance
+
+Seamless tiling is CRITICAL:
+- The top edge of every tile must visually connect to the bottom edge of the tile above it.
+- The left edge of every tile must visually connect to the right edge of the tile to its left.
+- When four shore corners are placed together (cells 3,2 / 3,3 / 4,1 / 4,2 variants), they must form a convincing 2x2 pool with no visible seams.
+- Water tiles (1,4) and (2,1) must tile seamlessly with themselves and with shore edges.
+- No tile may have hard cut-off edges; every diamond edge must have texture that continues to adjacent tiles.
+
+NO characters, NO props, NO objects, NO items, NO bridges, NO buildings, NO boats, NO text, NO shadows cast by objects.
+ONLY ground and water terrain tiles. Every tile is a top-down terrain piece.

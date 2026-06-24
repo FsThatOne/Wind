@@ -1,0 +1,133 @@
+{
+  "tile_width": 64,
+  "tile_height": 32,
+  "columns": 4,
+  "rows": 4,
+  "projection": "isometric_diamond_2_to_1",
+  "tiles": [
+    {
+      "id": 0,
+      "name": "bluestone",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 1,
+      "name": "wet_mud",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 2,
+      "name": "moss_ground",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 3,
+      "name": "bluestone_worn",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 4,
+      "name": "shallow_water",
+      "category": "water",
+      "walkable": false
+    },
+    {
+      "id": 5,
+      "name": "deep_water",
+      "category": "water",
+      "walkable": false
+    },
+    {
+      "id": 6,
+      "name": "shore_N",
+      "category": "shore",
+      "walkable": true,
+      "water_neighbors": [
+        "NE"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "shore_E",
+      "category": "shore",
+      "walkable": true,
+      "water_neighbors": [
+        "SE"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "shore_S",
+      "category": "shore",
+      "walkable": true,
+      "water_neighbors": [
+        "SW"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "shore_W",
+      "category": "shore",
+      "walkable": true,
+      "water_neighbors": [
+        "NW"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "corner_inner_NE",
+      "category": "shore_inner_corner",
+      "walkable": true,
+      "water_neighbors": [
+        "NE",
+        "SE"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "corner_inner_SE",
+      "category": "shore_inner_corner",
+      "walkable": true,
+      "water_neighbors": [
+        "SE",
+        "SW"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "corner_inner_SW",
+      "category": "shore_inner_corner",
+      "walkable": true,
+      "water_neighbors": [
+        "SW",
+        "NW"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "corner_inner_NW",
+      "category": "shore_inner_corner",
+      "walkable": true,
+      "water_neighbors": [
+        "NW",
+        "NE"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "wet_mud_puddles",
+      "category": "transition",
+      "walkable": true
+    },
+    {
+      "id": 15,
+      "name": "mossy_islet",
+      "category": "islet",
+      "walkable": true
+    }
+  ]
+}

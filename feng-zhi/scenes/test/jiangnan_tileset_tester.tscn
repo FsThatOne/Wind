@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/JiangnanTilesetTester.cs" id="1_script"]
+[ext_resource type="TileSet" path="res://assets/maps/jiangnan_riverside/tilesets/jiangnan_ground_tiles.tres" id="2_tileset"]
+
+[node name="JiangnanTilesetTester" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="TileMap" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("2_tileset")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 0)
+zoom = Vector2(1, 1)
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="Background" type="ColorRect" parent="BackgroundLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13, 0.18, 0.22, 1)
+
+[node name="UiLayer" type="CanvasLayer" parent="."]
+
+[node name="InfoLabel" type="Label" parent="UiLayer"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 600.0
+offset_bottom = 300.0
+modulate = Color(0.95, 0.95, 0.85, 1)
