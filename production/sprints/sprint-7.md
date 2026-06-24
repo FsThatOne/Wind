@@ -34,6 +34,17 @@
 
 **Total Should-Have**: 0.5d
 
+### Emergent / Out-of-Plan (2026-06-24 回溯落档)
+
+> 本 sprint 启动后涌现的工作；不在初版 plan 内，但已实际交付。落 story 用于 retro 追踪 + 实际产出量化。详细 deliverable / verdict 见 `production/sprint-status.yaml`。
+
+| ID | Task | Owner | Est. Days | Status | Acceptance Criteria |
+|---|---|---|---|---|---|
+| S7-Dialogue-Chapter-00-Wiring | Foundation DialogueRuntime → Godot 集成 + chapter_00 4 段对话内容 (memory_marker / rest_spot / storage_shelf / wine_pickup) + Provider scene-agnostic 泛化 (CaveConditionValueProvider → SceneConditionValueProvider) + DialoguePanel CanvasLayer 40 (ADR-0002 合规) + 对话期间输入屏蔽 | user | 0.75d | done | 4 段 dialogue YAML 端到端跑通：打字机渲染 → 选项 → mindset_shift 事件 → quest_flag；smoke test 场景自动触发；ADR-0002 双焦合规 |
+| S7-Dialogue-Compiler-Tool | `tools/dialogue_compiler.py` (.dlg 纯文本 → DialogueSchema-compliant YAML 转译器, 397 行) + `tools/README-dialogue-compiler.md` (114 行用户文档) | user (compiler) + agent (README) | 0.4d | done | 作者无需手撸 YAML, 用 .dlg 写对话即可编译；与 chapter_00 现有 4 个手写 YAML 兼容；支持 narration / inner_monologue / choice / event / condition / fallback |
+
+**Total Emergent**: 1.15d (5.0h + 2.5h actual)
+
 ### Nice to Have
 
 本 sprint **单一焦点 VS**。retro / gate 中优先级 concerns 全部 **deferred** 到 Sprint 8：
@@ -136,6 +147,8 @@
 | 2026-06-23 | S7-VS-Combat-Loop | done | 4.0h (vs 12h) | **MVP-A 紧缩范围 PASS** — 1v1 完整 explore→combat→outcome 循环 owner 实机 sign-off 09:06。Subtask 0-8 全闭环：fixture (luo_han_quan/tie_bi_heng_lan) + VsBattleLoopController + Godot scene 集成 + 双层测试 + outcome 文案切换。复用率 ~50% (vs spike 假设 75%)。CombatMoveSelectionPanel/HudPanel 集成、PhaseBanner 推 cu-visual-evidence 阶段。**重大估时偏差 -67%**：dependency-survey 暴露的 R2「编排层 0%」实际 1h 化解。commits 7aa8786/6f768a8/204ec03/bc84362。**Iso follow-up**：battle scene 当前是 ColorRect+Button 占位，S7-Iso-Pivot-Foundation 落地后于 cu-visual-evidence 阶段顺手 iso 蒙皮 (< 1h) |
 | 2026-06-23 | S7-Iso-Pivot-Foundation | done (代码层) | 2.5h (vs 8h) | **PASS** — ADR-0022 iso pivot stage 2 代码落地：Foundation 新增 IsoProjection + Iso4* + 24 单测；删除 EightDirection/IDirectional/EightDirectionAdapter + 11 8dir 测试；CavePlayer 迁移到 IIso4 + WASD cart 对角映射；main_character.tres 重建 + 资产 rename main_character_iso4/ + 归档 _archive_8dir_2026-06-22/；ADR §2 sector 区间 erratum（包含性反转 + 中心移到 cart 卡式轴）。Foundation 1399/1399 PASS；feng-zhi build 0 err；headless StartCave 加载 clean。AC8 (StartCave TileMapLayer iso) 标 **N/A** — 项目无 TileMapLayer。**Owner 实机走查作为 DoD pending**。**估时偏差 -69%**。commits 7da0ba1/0836963/5a5ec05/3ae8116/5e0bcdf |
 | 2026-06-23 | S7-VS-Outcome-Feedback | done (代码层) | 4.5h (vs 10h) | **PASS** — VS outcome scene 接入真实 Mindset 服务 + blurred-ui partial 1 面板：Foundation 新增 MindsetZoneLiteraryNames + MindsetOutcomeShifts (spec §3 唯一权威映射) + 4 integration tests (Spare/Defeat/ZoneCross/SnapshotContract, 4/4 PASS)；JiangnanFlowController 持 MindsetService + EventBus autoload；OutcomeGame 渲染 zone 名 + 前后独白对比 + 道义档位 + warmth → SelfModulate 染色；BlurredPanel StyleBoxFlat 半透明 + 6px 圆角。Foundation 1399 → 1403 (+4)；feng-zhi build 0 err；Godot headless 0 err。**Owner 实机走查 + 录屏 (Spare/Defeat/Zone-or-Tier 切换) DoD pending**。**估时偏差 -55%**。commits 79b9b0d/4464998/7e0200c/9be8a8b/5002aa3/86bb24a/f527e29 |
+| 2026-06-24 | S7-Dialogue-Chapter-00-Wiring | done (emergent) | 5.0h (vs 6h est) | **PASS — out-of-original-plan** Foundation DialogueRuntime → Godot 集成层完成：DialogueManager + DialoguePanel 新建 + SceneConditionValueProvider (从 CaveConditionValueProvider 重命名 + 泛化) + DialoguePanel CanvasLayer 40 修复 (ADR-0002 合规) + 4 段 chapter_00 dialogue YAML (memory_marker / rest_spot / storage_shelf / wine_pickup) + CavePlayer 对话期间输入屏蔽 + DialogueSmokeTestScene 自动触发场景。端到端跑通：打字机渲染 → 选项 → mindset_shift 事件 → quest_flag。FengZhi.csproj 加 CopyLocalLockFileAssemblies 确保 YamlDotNet.dll 运行时可用。commits 255a510 / 6d53546 / 2a4618b / 1129350 |
+| 2026-06-24 | S7-Dialogue-Compiler-Tool | done (emergent) | 2.5h (vs 3h est) | **PASS — out-of-original-plan** 作者层对话内容生产工具：`tools/dialogue_compiler.py` (397 行 .dlg 纯文本 → DialogueSchema-compliant YAML 转译器，支持 narration/inner_monologue/choice/event/condition/fallback/parameterized event) + `tools/README-dialogue-compiler.md` (114 行用户文档：快速开始/语法/示例)。与 chapter_00 现有 4 个手写 YAML 兼容。estimate 偏差 -17%。commits 3b1dfd2 / 48a1ce7 |
 
 ## Linked Artifacts
 

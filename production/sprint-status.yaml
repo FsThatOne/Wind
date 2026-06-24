@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-24 PM (用户澄清 iso 方向 NOT 否决，仅资产层暂撤；6 个 S8-tileset-* backlog 全部加上 depends-on S8-tileset-iso-redesign 前置；过渡过的 jiangnan_riverside 非-iso tileset 标注为 chapter_00 临时方案)"
+updated: "2026-06-24 PM (回溯落 2 个 emergent done story: S7-Dialogue-Chapter-00-Wiring + S7-Dialogue-Compiler-Tool, 量化 dialogue 系统涌现产出; 同步澄清 iso 方向 NOT 否决, 仅资产层暂撤, 6 个 S8-tileset-* depends-on S8-tileset-iso-redesign)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -119,6 +119,56 @@ stories:
     deliverable: "docs/superpowers/specs/2026-06-23-s7-vs-outcome-feedback.md + src/FengZhi.Foundation/Mindset/{MindsetZoneLiteraryNames.cs,MindsetOutcomeShifts.cs} + feng-zhi/scripts/vs/{JiangnanFlowController.cs,JiangnanOutcomeGame.cs} + feng-zhi/scenes/vs/battle_outcome_jiangnan.tscn + tests/integration/vs/jiangnan_flow_mindset_integration_test.cs + production/qa/evidence/s7-vs-outcome-feedback/smoke-2026-06-23.md (commits 79b9b0d, 4464998, 7e0200c, 9be8a8b, 5002aa3, 86bb24a, f527e29)"
     verdict: "PASS 代码层 — AC1-7 全 ✅；AC8 本 commit 收口。Foundation 1399 → 1403 (+4 outcome integration tests, 4/4 PASS)；feng-zhi build 0 err / 0 new warn；Godot --headless --import 0 err。JiangnanFlowController 持 MindsetService + EventBus autoload 单例；ApplyOutcomeChoice 真实调 MindsetOutcomeShifts.ResolveShifts + MindsetService.ApplyShifts；OutcomeGame 订阅 MindsetShiftedEvent + 渲染朦胧化 zone 名 / 前后独白 / 道义档位 + warmth → SelfModulate 染色。Owner 实机走查 + 录屏 (Spare/Defeat/Zone-or-Tier 切换) 留 DoD pending。"
     note: "估时偏差 -55% (10.0h → 4.5h)：survey 阶段悲观估计 + Foundation 已有 MindsetService/MindsetPresentationService runtime ready，省去再造任何业务逻辑；spec §3 mapping 单一权威落 Foundation（MindsetOutcomeShifts）让 integration tests 直接覆盖。朦胧化沿 modulate + StyleBoxFlat 路线（未上 ShaderMaterial），blurred-ui partial 视觉门槛满足。Sprint 7 must-have 6/7 done，只剩 cu-visual-evidence 录制依赖 owner 实机。"
+
+  # ----------- Sprint 7 涌现工作回溯 (out-of-original-plan, status=done) -----------
+  # 2026-06-24 dialogue 系统整体启动，在 sprint-7.md 初版未规划。
+  # 反向落 story 用于 retro 追踪 + Sprint 7 实际产出量化。
+
+  - id: "S7-Dialogue-Chapter-00-Wiring"
+    name: "对话系统端到端集成 + chapter_00 4 节点接入 + Provider scene-agnostic 泛化"
+    file: "production/sprints/sprint-7.md"
+    priority: emergent
+    status: done
+    owner: "user"
+    estimate_days: 0.75
+    estimate_hours: 6.0
+    actual_hours: 5.0
+    blocker: ""
+    completed: "2026-06-24"
+    sprint_candidate: 7
+    deliverable: |
+      Foundation 既有 DialogueRuntime → Godot 集成层:
+      - feng-zhi/scripts/dialogue/{DialogueManager.cs, DialoguePanel.cs} (新建)
+      - feng-zhi/scripts/dialogue/SceneConditionValueProvider.cs (从 CaveConditionValueProvider 重命名 + 泛化, 支持任意场景的 quest_flag/mindset 条件查询)
+      - feng-zhi/scenes/ui/DialoguePanel.tscn (CanvasLayer 40, ADR-0002 合规)
+      - feng-zhi/scripts/BackMountainCliffCaveGame.cs (memory_marker 硬编码 ShowMessage → DialogueManager 调用)
+      - feng-zhi/scripts/CavePlayer.cs (对话期间输入屏蔽)
+      - feng-zhi/scripts/test/DialogueSmokeTestScene.cs (smoke test 场景自动触发)
+      - feng-zhi/assets/data/dialogues/chapter_00/{memory_marker_01, rest_spot_01, storage_shelf_01, wine_pickup_01}.yaml (4 段对话内容: 打字机 + choice + mindset_shift + quest_flag)
+      - feng-zhi/FengZhi.csproj (CopyLocalLockFileAssemblies, 确保 YamlDotNet.dll 运行时可用)
+      commits: 255a510 (engine 集成 + memory_marker_01) / 6d53546 (smoke test 场景) / 2a4618b (CanvasLayer 40 修复) / 1129350 (chapter_00 内容 + Provider 泛化 + 输入屏蔽)
+    verdict: "PASS — dialogue YAML → 打字机渲染 → 选项 → mindset_shift 事件 → quest_flag 端到端跑通；ADR-0002 双焦 CanvasLayer 40 合规；scene-agnostic Provider 让对话系统脱离 cave-only 假设，为 chapter 1+ 江南/战场对话铺路。"
+    note: "本 story 在 sprint-7.md 原 plan 未列；emergent work 涌现自 dialogue-system epic 的实际推进。Foundation DialogueRuntime 此前已 done（来自更早 sprint），本 sprint 完成 Godot 端集成 + 首批内容 + 通用 Provider。"
+
+  - id: "S7-Dialogue-Compiler-Tool"
+    name: ".dlg plain-text → YAML 对话编译器 + 用户文档"
+    file: "production/sprints/sprint-7.md"
+    priority: emergent
+    status: done
+    owner: "user (compiler) + agent (README docs)"
+    estimate_days: 0.4
+    estimate_hours: 3.0
+    actual_hours: 2.5
+    blocker: ""
+    completed: "2026-06-24"
+    sprint_candidate: 7
+    deliverable: |
+      作者层 dialogue 内容生产工具链:
+      - tools/dialogue_compiler.py (397 行 .dlg 文本 → DialogueSchema-compliant YAML 转译器；支持 narration / inner_monologue / choice / event 节点 + condition / fallback / parameterized event)
+      - tools/README-dialogue-compiler.md (114 行用户文档：快速开始 / .dlg 语法 / 完整示例)
+      commits: 3b1dfd2 (compiler) / 48a1ce7 (README)
+    verdict: "PASS — 作者用纯文本 .dlg 写对话 (无需手撸 YAML)，编译输出与 chapter_00 现有 4 个手写 YAML 兼容；降低对话内容生产门槛，为 chapter 1+ 批量产出对话节点做工具铺垫。"
+    note: "emergent — 在写 chapter_00 4 个 YAML 时发现手撸 YAML 重复成本高，临时插队做工具。estimate 偏差 -17% (3h → 2.5h)，工具类 story 估时一般偏保守，下次可下调到 2h baseline。"
 
   - id: "cu-visual-evidence"
     name: "cu-004 / cu-005 / cu-006 / cu-008 Visual evidence — 在 VS 上录制"
