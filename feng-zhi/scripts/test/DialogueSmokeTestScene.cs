@@ -15,7 +15,9 @@ public partial class DialogueSmokeTestScene : Control
 	{
 		var panelScene = GD.Load<PackedScene>("res://scenes/ui/DialoguePanel.tscn");
 		_dialoguePanel = panelScene.Instantiate<DialoguePanel>();
-		AddChild(_dialoguePanel);
+		var dialogueLayer = new CanvasLayer { Layer = 40, Name = "DialogueLayer" };
+		AddChild(dialogueLayer);
+		dialogueLayer.AddChild(_dialoguePanel);
 
 		_dialogueManager = new DialogueManager();
 		AddChild(_dialogueManager);

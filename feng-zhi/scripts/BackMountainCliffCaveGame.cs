@@ -99,7 +99,9 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 		var panelScene = GD.Load<PackedScene>("res://scenes/ui/DialoguePanel.tscn");
 		_dialoguePanel = panelScene.Instantiate<Dialogue.DialoguePanel>();
-		GetNode("UiLayer").AddChild(_dialoguePanel);
+		var dialogueLayer = new CanvasLayer { Layer = 40, Name = "DialogueLayer" };
+		AddChild(dialogueLayer);
+		dialogueLayer.AddChild(_dialoguePanel);
 
 		_dialogueManager = new Dialogue.DialogueManager();
 		AddChild(_dialogueManager);
