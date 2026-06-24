@@ -1,0 +1,48 @@
+id: dialogue_smoke_test
+version: 1
+entry_node: narration_01
+nodes:
+  - id: narration_01
+    type: narration
+    text: "【测试】这是一段旁白文字，用于验证打字机逐字显示。"
+    next: inner_01
+
+  - id: inner_01
+    type: inner_monologue
+    text: "内心独白测试：如果你能看到这行字逐字出现，说明 Runtime → Presenter → Panel 链路正常。"
+    next: choice_01
+
+  - id: choice_01
+    type: choice
+    prompt: "选择一个选项以验证分支逻辑："
+    options:
+      - text: "选项 A：心境 resolve +1"
+        next: result_a
+        events:
+          - type: mindset_shift
+            axis: resolve
+            delta: 1
+      - text: "选项 B：心境 resolve -1"
+        next: result_b
+        events:
+          - type: mindset_shift
+            axis: resolve
+            delta: -1
+
+  - id: result_a
+    type: narration
+    text: "你选择了 A。对话即将结束，检查控制台 mindset shift 日志。"
+    next: END
+    events:
+      - type: quest_flag
+        key: smoke_test_done
+        value: "a"
+
+  - id: result_b
+    type: narration
+    text: "你选择了 B。对话即将结束，检查控制台 mindset shift 日志。"
+    next: END
+    events:
+      - type: quest_flag
+        key: smoke_test_done
+        value: "b"
