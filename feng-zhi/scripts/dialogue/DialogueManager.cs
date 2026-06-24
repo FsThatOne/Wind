@@ -16,7 +16,7 @@ public partial class DialogueManager : Node
 
 	private IEventBus _eventBus = null!;
 	private MindsetService _mindsetService = null!;
-	private CaveConditionValueProvider _conditionProvider = null!;
+	private IDialogueConditionValueProvider _conditionProvider = null!;
 	private DialoguePanel _panel = null!;
 
 	public bool IsDialogueActive =>
@@ -29,12 +29,12 @@ public partial class DialogueManager : Node
 	[Signal]
 	public delegate void DialogueEndedEventHandler();
 
-	public void Initialize(IEventBus eventBus, MindsetService mindsetService, DialoguePanel panel)
+	public void Initialize(IEventBus eventBus, MindsetService mindsetService, DialoguePanel panel, IDialogueConditionValueProvider conditionProvider)
 	{
 		_eventBus = eventBus;
 		_mindsetService = mindsetService;
 		_panel = panel;
-		_conditionProvider = new CaveConditionValueProvider(mindsetService);
+		_conditionProvider = conditionProvider;
 	}
 
 	public void StartDialogue(string resPath)

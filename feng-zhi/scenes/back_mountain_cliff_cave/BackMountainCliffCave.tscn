@@ -6,16 +6,16 @@
 [ext_resource type="PackedScene" path="res://scenes/back_mountain_cliff_cave/BackMountainCliffCaveTileLayers.tscn" id="4_tile_layers"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(26, 56)
+size = Vector2(26, 13)
 
 [node name="BackMountainCliffCave" type="Node2D" unique_id=1575090783]
 script = ExtResource("1_game")
 
 [node name="BackgroundTint" type="ColorRect" parent="." unique_id=651572901]
-offset_left = -2000.0
-offset_top = -2000.0
-offset_right = 2000.0
-offset_bottom = 2000.0
+offset_left = -1738.0
+offset_top = -1714.0
+offset_right = 2262.0
+offset_bottom = 2286.0
 color = Color(0.14, 0.13, 0.1, 1)
 
 [node name="MapRoot" type="Node2D" parent="." unique_id=726959333]
@@ -23,28 +23,30 @@ y_sort_enabled = true
 
 [node name="Tiles" type="Node2D" parent="MapRoot" unique_id=154872046]
 
-[node name="TileLayers" parent="MapRoot/Tiles" instance=ExtResource("4_tile_layers")]
+[node name="TileLayers" parent="MapRoot/Tiles" unique_id=1628882020 instance=ExtResource("4_tile_layers")]
 
 [node name="Structures" type="Node2D" parent="MapRoot" unique_id=1725654872]
+y_sort_enabled = true
 
 [node name="Collision" type="Node2D" parent="MapRoot" unique_id=959210651]
 
 [node name="LogicMarkers" type="Node2D" parent="MapRoot" unique_id=1509212356]
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=1590430537]
+[node name="Player" type="CharacterBody2D" parent="MapRoot" unique_id=1590430537]
 position = Vector2(352, 232)
 script = ExtResource("2_player")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=620822609]
-scale = Vector2(0.62, 0.62)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player" unique_id=620822609]
+position = Vector2(-2.6600008, -17.999998)
+scale = Vector2(0.6146875, 0.62)
 sprite_frames = ExtResource("3_frames")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1696631429]
-position = Vector2(5, 4)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapRoot/Player" unique_id=1696631429]
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_player")
 
-[node name="Camera2D" type="Camera2D" parent="Player" unique_id=277798968]
+[node name="Camera2D" type="Camera2D" parent="MapRoot/Player" unique_id=277798968]
 position = Vector2(0, -80)
 zoom = Vector2(1.15, 1.15)
 position_smoothing_enabled = true
@@ -96,3 +98,7 @@ offset_top = 18.0
 offset_right = 778.0
 offset_bottom = 142.0
 autowrap_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2123962590]
+offset_right = 40.0
+offset_bottom = 40.0

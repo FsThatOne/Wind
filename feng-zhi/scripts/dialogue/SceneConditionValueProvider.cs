@@ -4,12 +4,12 @@ using FengZhi.Foundation.Mindset;
 
 namespace FengZhi.Dialogue;
 
-public sealed class CaveConditionValueProvider : IDialogueConditionValueProvider
+public sealed class SceneConditionValueProvider : IDialogueConditionValueProvider
 {
 	private readonly MindsetService _mindsetService;
 	private readonly Dictionary<string, string> _flags = new(System.StringComparer.Ordinal);
 
-	public CaveConditionValueProvider(MindsetService mindsetService)
+	public SceneConditionValueProvider(MindsetService mindsetService)
 	{
 		_mindsetService = mindsetService;
 	}

@@ -37,6 +37,12 @@ public partial class CavePlayer : CharacterBody2D
 	private Vector2 _targetPosition;
 	private bool _tileMovementEnabled;
 
+	public bool TileMovementEnabled
+	{
+		get => _tileMovementEnabled;
+		set => _tileMovementEnabled = value;
+	}
+
 	public override void _Ready()
 	{
 		var sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -161,7 +167,13 @@ public partial class CavePlayer : CharacterBody2D
 		_currentTile = targetTile;
 		_targetTile = null;
 		SnapToCurrentTile();
-		if (_tilePath.Count == 0)
+
+		if (TryConsumeKeyboardStep() || _tilePath.Count > 0)
+		{
+			_targetTile = _tilePath.Dequeue();
+			_targetPosition = _tileToScreen(_targetTile.Value);
+		}
+		else
 		{
 			_animator.SetMovementVector(Vector2.Zero);
 		}

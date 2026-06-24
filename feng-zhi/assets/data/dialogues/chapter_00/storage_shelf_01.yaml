@@ -1,0 +1,49 @@
+id: storage_shelf_01
+version: 1
+entry_node: narration_01
+nodes:
+  - id: narration_01
+    type: narration
+    text: "木架上搁着旧布包、几束晒干的草药、几个空坛子。杂而不乱，像是有人定期整理过。"
+    next: inner_01
+
+  - id: inner_01
+    type: inner_monologue
+    text: "师姐总能从这堆东西里翻出正好要用的——纱布也好，伤药也好，甚至偶尔还能翻出一包藏好的桂花糕。"
+    next: choice_01
+
+  - id: choice_01
+    type: choice
+    prompt: "你要翻看一下吗？"
+    options:
+      - text: "随手翻翻，看看师姐又藏了什么。"
+        next: search_path
+        events:
+          - type: mindset_shift
+            axis: resolve
+            delta: -1
+      - text: "算了，这是她的东西。"
+        next: glance_path
+        events:
+          - type: mindset_shift
+            axis: resolve
+            delta: 1
+
+  - id: search_path
+    type: narration
+    text: "布包底下压着一张泛黄的纸条。纸条上是师姐的笔迹——入秋转凉，记得多穿。药酒在第三个坛子，别拿错了。"
+    next: search_inner
+
+  - id: search_inner
+    type: inner_monologue
+    text: "师姐的字，一如既往地周到。连你什么时候会来翻这个架子，她好像都算到了。"
+    events:
+      - type: quest_flag
+        key: shelf_searched
+        value: "true"
+    next: END
+
+  - id: glance_path
+    type: inner_monologue
+    text: "不去动她的东西。等她回来，一切还是她放好的样子。"
+    next: END

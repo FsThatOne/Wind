@@ -163,15 +163,15 @@ stories:
     name: "explore 场景从散落 Sprite2D 迁移到 iso TileMapLayer，复用 cliff_cave_ground_tiles.tres"
     file: "production/sprints/sprint-8-explore-tilemap-adoption.md"
     priority: must-have
-    status: in-progress
-    owner: "user"
+    status: done
+    owner: "user+agent"
     estimate_days: 1.6
     estimate_hours: 13.0
-    actual_hours: null
+    actual_hours: 6.0
     blocker: ""
-    completed: ""
+    completed: "2026-06-24"
     sprint_candidate: 8
-    note: "S7-Iso-Pivot-Foundation §AC8 (标 N/A) 的承接 story；A 路线 (battle scene) 已落地，本 story 是对称的 explore 落地。**2026-06-23 提前启动**：用户已实质推进 AC1 (.tmx → BackMountainCliffCaveTileLayers.tscn 自动化翻译, build_godot_back_mountain_cliff_cave_tile_layers.py) + AC2 (Day/Night × Ground/Terrain/Overlay 5 层 scene 骨架) + 部分 AC3 (BackMountainCliffCave.tscn / Game.cs 集成)；尚需 AC4 props y_sort + AC5 视觉证据 + AC6/AC7 文档 + DoD。"
+    note: "AC1-AC3 (TileMapLayer 骨架 + Day/Night 切换 + 坐标集成) 2026-06-23 完成；AC4 (Structures y_sort + Player 移入 MapRoot + props foot-based Position/Offset + 移除 ZIndex hack + WASD tile 边界 1 帧停顿修复) 2026-06-24 完成，owner 实机遮挡验证 PASS。AC5 视觉证据 + AC6 文档 + AC7 关账一并收口。已知遗留：Ground/Terrain TileMapLayer y_sort 链穿透导致部分 tile 覆盖 Player，需后续统一搭建场景时将 Tiles 移出 MapRoot y_sort 链（方案已确认）。估时偏差 -54% (13.0h → 6.0h)。"
 
   # ----------- Sprint 8 候选: jiangnan-iso-v1 tileset 后续工程 ----------- 
   # 来源: assets/generated/tilesets/jiangnan-iso/README.md §下一步候选 story

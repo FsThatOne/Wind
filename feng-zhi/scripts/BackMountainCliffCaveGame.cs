@@ -74,6 +74,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 	private Area2D? _focusedArea;
 	private Dialogue.DialogueManager? _dialogueManager;
 	private Dialogue.DialoguePanel? _dialoguePanel;
+	private Dialogue.SceneConditionValueProvider? _conditionProvider;
 	private string _variant = "day";
 	private bool _hasBirthdayWine;
 
@@ -85,7 +86,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 		_structures = GetNode<Node2D>("MapRoot/Structures");
 		_collision = GetNode<Node2D>("MapRoot/Collision");
 		_logicMarkers = GetNode<Node2D>("MapRoot/LogicMarkers");
-		_player = GetNode<CavePlayer>("Player");
+		_player = GetNode<CavePlayer>("MapRoot/Player");
 		_backgroundTint = GetNode<ColorRect>("BackgroundTint");
 		_statusLabel = GetNode<Label>("UiLayer/StatusLabel");
 		_promptLabel = GetNode<Label>("UiLayer/PromptLabel");
@@ -120,7 +121,9 @@ public partial class BackMountainCliffCaveGame : Node2D
 			mindsetService = new MindsetService(eventBus: eventBus);
 		}
 
-		_dialogueManager.Initialize(eventBus, mindsetService, _dialoguePanel);
+		_conditionProvider = new Dialogue.SceneConditionValueProvider(mindsetService);
+		_conditionProvider.SetFlag("variant", _variant);
+		_dialogueManager.Initialize(eventBus, mindsetService, _dialoguePanel, _conditionProvider);
 		_dialogueManager.DialogueEnded += OnDialogueEnded;
 
 		GD.Print("[BackMountainCliffCave] Ready. Godot TileMapLayer visuals + TMX markers active.");
@@ -128,7 +131,6 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 	public override void _Process(double delta)
 	{
-		_player.ZIndex = 1000 + Mathf.RoundToInt(_player.Position.Y);
 		UpdatePlayerTileMarker();
 	}
 
@@ -209,6 +211,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 		_statusLabel.Text = isNight
 			? "后山崖洞・夜：风声止住，酒坛与旧物都沉在暗处。"
 			: "后山崖洞・日常：藏酒、储物，也是你和师姐的秘密基地。";
+		_conditionProvider?.SetFlag("variant", variant);
 		UpdatePrompt();
 	}
 
@@ -274,8 +277,8 @@ public partial class BackMountainCliffCaveGame : Node2D
 				Texture = texture,
 				Centered = false,
 				Scale = new Vector2(scale, scale),
-				Position = anchor - new Vector2(size.X * scale / 2f, size.Y * scale - TileHeight / 2f),
-				ZIndex = 700 + tileY * 10 + tileX,
+				Position = new Vector2(anchor.X, anchor.Y + TileHeight / 2f),
+				Offset = new Vector2(-size.X / 2f, -size.Y),
 			};
 			_structures.AddChild(sprite);
 		}
@@ -480,20 +483,20 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 				_hasBirthdayWine = true;
 				UpdateInventoryLabel();
-				ShowMessage(_variant == "night"
-					? "酒坛还在原处，封泥微凉。你想起师姐说过：寿酒要慢慢开，不能惊了香。"
-					: "取得：寿酒。\n\n这是你和师姐一起守了三年的酒，今日要送去给庄主祝寿。");
+				_player.TileMovementEnabled = false;
+				_dialogueManager?.StartDialogue("res://assets/data/dialogues/chapter_00/wine_pickup_01.yaml");
 				return;
 			case "storage_shelf":
-				ShowMessage("木架上放着旧布包、草药和空坛。师姐总能从这些杂物里翻出正好要用的东西。");
+				_player.TileMovementEnabled = false;
+				_dialogueManager?.StartDialogue("res://assets/data/dialogues/chapter_00/storage_shelf_01.yaml");
 				return;
 			case "memory_marker":
+				_player.TileMovementEnabled = false;
 				_dialogueManager?.StartDialogue("res://assets/data/dialogues/chapter_00/memory_marker_01.yaml");
 				return;
 			case "rest_spot":
-				ShowMessage(_variant == "night"
-					? "草席仍在。你若在这里睡下，外头的风声似乎会远一些。"
-					: "秘密小窝收拾得很干净。师姐偶尔会把偷藏的点心放在这里。");
+				_player.TileMovementEnabled = false;
+				_dialogueManager?.StartDialogue("res://assets/data/dialogues/chapter_00/rest_spot_01.yaml");
 				return;
 			default:
 				ShowMessage("这里暂时没有可调查的东西。");
@@ -532,6 +535,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 	private void OnDialogueEnded()
 	{
+		_player.TileMovementEnabled = true;
 		UpdatePrompt();
 	}
 

@@ -1,0 +1,82 @@
+id: rest_spot_01
+version: 1
+entry_node: narration_01
+nodes:
+  - id: narration_01
+    type: narration
+    text: "洞壁凹进去的一小块地方，铺着一张干净的草席，角落叠着旧毯子。这是你和师姐的秘密小窝。"
+    next: inner_day
+    fallback: inner_night
+
+  - id: inner_day
+    type: inner_monologue
+    text: "师姐偶尔会把偷藏的点心放在毯子下面。她管这叫战略储备，你觉得她就是嘴馋。"
+    conditions:
+      - source: flag
+        key: variant
+        op: eq
+        value: day
+    next: choice_day
+
+  - id: choice_day
+    type: choice
+    prompt: "你要在这里坐一会儿吗？"
+    options:
+      - text: "坐下来，看看洞口的天光。"
+        next: sit_path
+      - text: "不了，还有事要做。"
+        next: leave_path
+    next: END
+
+  - id: sit_path
+    type: narration
+    text: "你靠着石壁坐下。洞口透进来的光把地面切成明暗两半。风从外面灌进来，到这里就停了。"
+    next: sit_inner
+
+  - id: sit_inner
+    type: inner_monologue
+    text: "这里很安静，很安全。总觉得只要待在这儿，什么都不会变。"
+    events:
+      - type: quest_flag
+        key: rest_spot_sat
+        value: "true"
+    next: END
+
+  - id: leave_path
+    type: inner_monologue
+    text: "庄主的寿酒还等着呢。等忙完了，再来坐也不迟。"
+    next: END
+
+  - id: inner_night
+    type: inner_monologue
+    text: "草席还是干净的，毯子叠得整整齐齐。外头的风声远了，洞里只剩下你自己的呼吸。"
+    conditions:
+      - source: flag
+        key: variant
+        op: eq
+        value: night
+    next: choice_night
+
+  - id: choice_night
+    type: choice
+    prompt: "夜深了——"
+    options:
+      - text: "在这里歇一夜吧。"
+        next: sleep_path
+      - text: "起身回去，不能再耽搁了。"
+        next: return_path
+    next: END
+
+  - id: sleep_path
+    type: narration
+    text: "你裹上旧毯子闭上眼。风声确实远了一些。师姐说得对，这里的风，总是会停。"
+    events:
+      - type: quest_flag
+        key: rest_spot_slept
+        value: "true"
+    next: END
+
+  - id: return_path
+    type: inner_monologue
+    text: "明天是庄主的大日子，不能在这里贪睡。你站起身，拍了拍衣袍上的灰。"
+    next: END

@@ -1,0 +1,53 @@
+id: wine_pickup_01
+version: 1
+entry_node: narration_01
+nodes:
+  - id: narration_01
+    type: narration
+    text: "角落里三坛酒静静立着，封泥上的墨迹已经干透。三年前你和师姐一起封的坛，今日就要开给庄主祝寿。"
+    next: inner_day
+    fallback: inner_night
+
+  - id: inner_day
+    type: inner_monologue
+    text: "师姐说，好酒要等。等得住的人，才配喝第一口。你不知道她是在说酒，还是在说别的什么。"
+    conditions:
+      - source: flag
+        key: variant
+        op: eq
+        value: day
+    next: choice_01
+
+  - id: choice_01
+    type: choice
+    prompt: "你伸手去取酒坛——"
+    options:
+      - text: "先端详封泥上的字迹。"
+        next: examine_path
+      - text: "直接抱起酒坛，准备带走。"
+        next: take_path
+    next: END
+
+  - id: examine_path
+    type: narration
+    text: "封泥上歪歪扭扭写着——庄主六十大寿，此坛留饮。是师姐的字，一笔一画都带着不服输的劲头。你忍不住笑了笑，把酒坛仔细抱好。"
+    events:
+      - type: quest_flag
+        key: wine_examined
+        value: "true"
+    next: END
+
+  - id: take_path
+    type: inner_monologue
+    text: "酒坛沉甸甸的，抱在怀里像是抱住了三年的光阴。走吧，庄主还等着呢。"
+    next: END
+
+  - id: inner_night
+    type: inner_monologue
+    text: "封泥微凉，指尖触到上面的字迹时，你想起师姐叮嘱过：寿酒要慢慢开，不能惊了香。"
+    conditions:
+      - source: flag
+        key: variant
+        op: eq
+        value: night
+    next: END

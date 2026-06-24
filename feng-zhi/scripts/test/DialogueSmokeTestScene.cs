@@ -36,7 +36,8 @@ public partial class DialogueSmokeTestScene : Control
 			mindsetService = new MindsetService(eventBus: eventBus);
 		}
 
-		_dialogueManager.Initialize(eventBus, mindsetService, _dialoguePanel);
+		var conditionProvider = new SceneConditionValueProvider(mindsetService);
+		_dialogueManager.Initialize(eventBus, mindsetService, _dialoguePanel, conditionProvider);
 		_dialogueManager.DialogueEnded += OnDialogueEnded;
 
 		_statusLabel = new Label
