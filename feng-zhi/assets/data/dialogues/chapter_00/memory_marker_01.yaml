@@ -1,0 +1,48 @@
+id: memory_marker_01
+version: 1
+entry_node: narration_01
+nodes:
+  - id: narration_01
+    type: narration
+    text: "石壁上留着师姐亲笔补过的起手式——笔锋未收之处，似乎还带着她执笔时的体温。"
+    next: inner_01
+
+  - id: inner_01
+    type: inner_monologue
+    text: "师姐说：剑未出时，心先要松。可如今这颗心，早就松不下来了。"
+    next: choice_01
+
+  - id: choice_01
+    type: choice
+    prompt: "面对师姐留下的笔迹，你……"
+    options:
+      - text: "伸手轻触刻痕，指尖描摹她的笔路。"
+        next: resolve_path
+        events:
+          - type: mindset_shift
+            axis: resolve
+            delta: -2
+      - text: "收回目光，转身继续做该做的事。"
+        next: release_path
+        events:
+          - type: mindset_shift
+            axis: resolve
+            delta: 2
+
+  - id: resolve_path
+    type: inner_monologue
+    text: "她的剑意刻在石壁上，也刻在你心里。这份执念，或许就是你还站在这里的理由。"
+    next: END
+    events:
+      - type: quest_flag
+        key: memory_marker_touched
+        value: "true"
+
+  - id: release_path
+    type: inner_monologue
+    text: "有些事记着就好。她若还在，大概也会说：别总回头看。"
+    next: END
+    events:
+      - type: quest_flag
+        key: memory_marker_touched
+        value: "true"

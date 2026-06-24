@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using FengZhi.Foundation.Events;
+using FengZhi.Foundation.Mindset;
 using Godot;
 
 namespace FengZhi;
@@ -70,6 +72,8 @@ public partial class BackMountainCliffCaveGame : Node2D
 	private Panel _messagePanel = null!;
 	private Label _messageLabel = null!;
 	private Area2D? _focusedArea;
+	private Dialogue.DialogueManager? _dialogueManager;
+	private Dialogue.DialoguePanel? _dialoguePanel;
 	private string _variant = "day";
 	private bool _hasBirthdayWine;
 
@@ -92,6 +96,31 @@ public partial class BackMountainCliffCaveGame : Node2D
 		_messagePanel.Visible = false;
 		LoadVariant("day", repositionPlayer: true);
 		UpdateInventoryLabel();
+
+		var panelScene = GD.Load<PackedScene>("res://scenes/ui/DialoguePanel.tscn");
+		_dialoguePanel = panelScene.Instantiate<Dialogue.DialoguePanel>();
+		GetNode("UiLayer").AddChild(_dialoguePanel);
+
+		_dialogueManager = new Dialogue.DialogueManager();
+		AddChild(_dialogueManager);
+
+		var flow = GetNodeOrNull<Vs.JiangnanFlowController>("/root/JiangnanFlow");
+		IEventBus eventBus;
+		MindsetService mindsetService;
+		if (flow != null)
+		{
+			eventBus = flow.EventBus;
+			mindsetService = flow.MindsetService;
+		}
+		else
+		{
+			eventBus = new EventBus();
+			mindsetService = new MindsetService(eventBus: eventBus);
+		}
+
+		_dialogueManager.Initialize(eventBus, mindsetService, _dialoguePanel);
+		_dialogueManager.DialogueEnded += OnDialogueEnded;
+
 		GD.Print("[BackMountainCliffCave] Ready. Godot TileMapLayer visuals + TMX markers active.");
 	}
 
@@ -103,6 +132,12 @@ public partial class BackMountainCliffCaveGame : Node2D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		if (_dialogueManager?.IsDialogueActive == true)
+		{
+			HandleDialogueInput(@event);
+			return;
+		}
+
 		if (@event.IsActionPressed("interact"))
 		{
 			if (_messagePanel.Visible)
@@ -451,9 +486,7 @@ public partial class BackMountainCliffCaveGame : Node2D
 				ShowMessage("木架上放着旧布包、草药和空坛。师姐总能从这些杂物里翻出正好要用的东西。");
 				return;
 			case "memory_marker":
-				ShowMessage(_variant == "night"
-					? "石壁上的刻痕隐在暗处。那几笔像还新着，却再没有人笑你腕太硬。"
-					: "石壁上留着师姐补过的起手式。她说剑未出时，心先要松。");
+				_dialogueManager?.StartDialogue("res://assets/data/dialogues/chapter_00/memory_marker_01.yaml");
 				return;
 			case "rest_spot":
 				ShowMessage(_variant == "night"
@@ -476,6 +509,27 @@ public partial class BackMountainCliffCaveGame : Node2D
 	private void HideMessage()
 	{
 		_messagePanel.Visible = false;
+		UpdatePrompt();
+	}
+
+	private void HandleDialogueInput(InputEvent @event)
+	{
+		if (@event.IsActionPressed("interact") || @event.IsActionPressed("ui_accept"))
+		{
+			_dialogueManager!.HandleConfirm();
+		}
+		else if (@event.IsActionPressed("ui_up"))
+		{
+			_dialogueManager!.HandleMoveSelection(-1);
+		}
+		else if (@event.IsActionPressed("ui_down"))
+		{
+			_dialogueManager!.HandleMoveSelection(1);
+		}
+	}
+
+	private void OnDialogueEnded()
+	{
 		UpdatePrompt();
 	}
 
