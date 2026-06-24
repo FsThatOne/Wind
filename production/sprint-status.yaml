@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-23 (battle iso 蒙皮 done @ A 路线 + StartCave 入口资产清残留 + ADR-0022 progress 回灌 + S8-Explore-TileMap-Adoption 提前启动 in-progress)"
+updated: "2026-06-24 (jiangnan-iso-v1 64-tile tileset + pond showcase scene 落 feng-zhi + S7-Iso-Pivot-Foundation visual evidence 补充 + 5 个 S8 tileset 候选 story 入 backlog)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -172,3 +172,92 @@ stories:
     completed: ""
     sprint_candidate: 8
     note: "S7-Iso-Pivot-Foundation §AC8 (标 N/A) 的承接 story；A 路线 (battle scene) 已落地，本 story 是对称的 explore 落地。**2026-06-23 提前启动**：用户已实质推进 AC1 (.tmx → BackMountainCliffCaveTileLayers.tscn 自动化翻译, build_godot_back_mountain_cliff_cave_tile_layers.py) + AC2 (Day/Night × Ground/Terrain/Overlay 5 层 scene 骨架) + 部分 AC3 (BackMountainCliffCave.tscn / Game.cs 集成)；尚需 AC4 props y_sort + AC5 视觉证据 + AC6/AC7 文档 + DoD。"
+
+  # ----------- Sprint 8 候选: jiangnan-iso-v1 tileset 后续工程 ----------- 
+  # 来源: assets/generated/tilesets/jiangnan-iso/README.md §下一步候选 story
+  # + production/qa/evidence/s7-iso-pivot-foundation/pond-showcase-2026-06-24.md
+  # 入 backlog 时间: 2026-06-24
+
+  - id: "S8-room-jiangnan-iso-pond-test"
+    name: "用 jiangnan-iso-v1 tileset 搭一个可玩的 3×3 池塘 + 拱桥 explore room (非 showcase)"
+    file: ""
+    priority: should-have
+    status: backlog
+    owner: ""
+    estimate_days: 1.0
+    estimate_hours: 8.0
+    actual_hours: null
+    blocker: "depends on S8-tileset-edge-polish (浅色 tile 白边修复) 视觉门槛"
+    completed: ""
+    sprint_candidate: 8
+    note: "feng-zhi/scenes/showcase/jiangnan_iso_pond_showcase.tscn 已证明 tileset 可装配；本 story 把它升级成可走入的 room (Player 落格 + 碰撞 + 与 BackMountainCliffCave 同结构 Day/Night × Ground/Terrain/Overlay 三层)。"
+
+  - id: "S8-tileset-edge-polish"
+    name: "jiangnan-iso-v1 浅色 tile (water/bank/bridge) 边缘白晕修复"
+    file: ""
+    priority: should-have
+    status: backlog
+    owner: ""
+    estimate_days: 0.5
+    estimate_hours: 4.0
+    actual_hours: null
+    blocker: ""
+    completed: ""
+    sprint_candidate: 8
+    note: "image_gen 在浅色 tile 钻形内沿画了 #f0f0f0 的湿润反光像素，下采样后呈细白边。process_tileset.py 已用 apply_diamond_mask(radius=0.85) 激进缩 mask 清掉大部分，但浅色仍残留。修复路径：手绘清理或第二次 image_gen pass 指定更深的内沿色。详见 README.md §已知限制 5。"
+
+  - id: "S8-tileset-bank-direction-completion"
+    name: "jiangnan-iso-v1 sheet1 row 2 bank_legacy 重置为严格 4 斜向 (或弃用)"
+    file: ""
+    priority: nice-to-have
+    status: backlog
+    owner: ""
+    estimate_days: 0.25
+    estimate_hours: 2.0
+    actual_hours: null
+    blocker: ""
+    completed: ""
+    sprint_candidate: 8
+    note: "sheet1 row 2 的 4 张 bank tile image_gen 没按 ADR-0022 NE/SE/SW/NW 严格 4 斜向产出。sheet2 row 6 bank_iso4 已补齐。本 story 选择: (a) 第二次 image_gen pass 重画 sheet1 row 2 / (b) 直接从 manifest 移除 bank_legacy 类目 (推荐 b, 减少决策负担)。"
+
+  - id: "S8-tileset-terrain-bitmask"
+    name: "jiangnan-iso-v1 配 Godot 4 Terrain set + autotile bitmask (bank/path/grass 自动转角)"
+    file: ""
+    priority: nice-to-have
+    status: backlog
+    owner: ""
+    estimate_days: 1.0
+    estimate_hours: 8.0
+    actual_hours: null
+    blocker: "depends on S8-tileset-bank-direction-completion (legacy 决策完成)"
+    completed: ""
+    sprint_candidate: 8
+    note: "在 jiangnan_iso_tileset.tres 里建 Terrain set, 把 bank_iso4 (4 张) + path_grass (12 张) + corner (6 张) 各自加入对应 bitmask, 让 TileMap 落格时自动选转角 tile。降低 room 装配心智成本。"
+
+  - id: "S8-tileset-collision-layer"
+    name: "jiangnan-iso-v1 配 collision polygon (water 阻挡 / bridge 通行 / corner 边界)"
+    file: ""
+    priority: nice-to-have
+    status: backlog
+    owner: ""
+    estimate_days: 0.5
+    estimate_hours: 4.0
+    actual_hours: null
+    blocker: ""
+    completed: ""
+    sprint_candidate: 8
+    note: "在 jiangnan_iso_tileset.tres 里加 physics_layer 0 + 给 water_* / corner_inner_full 配阻挡 polygon, 给 bridge_* 配通行 (无 polygon), 让 NPC AI + Player 移动直接复用 TileMap 物理。"
+
+  - id: "S8-art-bible-iso-palette"
+    name: "把 jiangnan-iso muted 江南调色板写进 design/art/art-bible.md"
+    file: "design/art/art-bible.md"
+    priority: nice-to-have
+    status: backlog
+    owner: ""
+    estimate_days: 0.25
+    estimate_hours: 2.0
+    actual_hours: null
+    blocker: ""
+    completed: ""
+    sprint_candidate: 8
+    note: "从 assets/generated/tilesets/jiangnan-iso/tileset.prompt.txt + manifest 提炼出主色 (青石棕灰/湿泥褐/浅绿水/重苔深绿) 落 art-bible.md, 让后续场景 prompt 统一调色板。"

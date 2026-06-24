@@ -17,20 +17,51 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
-WHITE_THRESHOLD = 240  # all RGB ≥ 240 → 视作白底背景 → alpha 0
 
 
-def chroma_key_white_to_alpha(img: Image.Image) -> Image.Image:
-    """把近白像素转为 alpha=0。"""
+def apply_diamond_mask(img: Image.Image, cols: int, rows: int) -> Image.Image:
+    """对每个 cell 内的 2:1 inscribed diamond 应用几何遮罩。
+
+    每个 cell 大小 = (W/cols, H/rows)，中心 (cw/2, ch/2)。
+    Diamond 内部：|x - cx|/(cw/2) + |y - cy|/(ch/2) <= 1
+    Diamond 外部：alpha = 0；内部：保留原 RGB + alpha=255。
+
+    优于 chroma-key 白底法：image_gen 的 BG 渐变到 #eaeaea 而 tile 内部高光
+    可达 #ffffff，颜色阈值无法分离；几何遮罩按 cell 切干净，与 ADR-0022
+    inscribed diamond 规约完全对齐。
+    """
     rgba = img.convert("RGBA")
     pixels = rgba.load()
     w, h = rgba.size
-    for y in range(h):
-        for x in range(w):
-            r, g, b, _ = pixels[x, y]
-            if r >= WHITE_THRESHOLD and g >= WHITE_THRESHOLD and b >= WHITE_THRESHOLD:
-                pixels[x, y] = (0, 0, 0, 0)
+    cell_w = w // cols
+    cell_h = h // rows
+    half_w = cell_w / 2.0
+    half_h = cell_h / 2.0
+
+    for cell_row in range(rows):
+        for cell_col in range(cols):
+            x0 = cell_col * cell_w
+            y0 = cell_row * cell_h
+            for ly in range(cell_h):
+                for lx in range(cell_w):
+                    # 归一化到 [-1, 1] × [-1, 1]
+                    nx = (lx - half_w + 0.5) / half_w
+                    ny = (ly - half_h + 0.5) / half_h
+                    # 0.85 激进缩小 15%：image_gen 画的钻石实际小于 inscribed
+                    # 边界，inscribed 边缘几像素本就是 BG 色 (≈#f0f0f0)，必须
+                    # 缩到钻石"内核"。配套 .png.import 应保持 fix_alpha_border。
+                    if abs(nx) + abs(ny) > 0.85:
+                        pixels[x0 + lx, y0 + ly] = (0, 0, 0, 0)
+                    else:
+                        r, g, b, _ = pixels[x0 + lx, y0 + ly]
+                        pixels[x0 + lx, y0 + ly] = (r, g, b, 255)
+
     return rgba
+
+
+# 兼容 main() 旧调用名 (现在用 apply_diamond_mask 替代)
+def chroma_key_white_to_alpha(img: Image.Image) -> Image.Image:
+    raise NotImplementedError("旧法已废弃，请使用 apply_diamond_mask(img, cols, rows)")
 
 
 def process_sheet(
@@ -47,13 +78,18 @@ def process_sheet(
     src = Image.open(src_path)
     print(f"\n[{source_name}] source: mode={src.mode} size={src.size}")
 
-    rgba = chroma_key_white_to_alpha(src)
+    rgba = apply_diamond_mask(src, cols, rows)
     rgba.save(ROOT / alpha_out_name)
     print(f"  saved alpha source: {alpha_out_name} (size={rgba.size})")
 
     godot_w = cols * 64
     godot_h = rows * 32
-    godot = rgba.resize((godot_w, godot_h), Image.NEAREST)
+    # BOX 滤波 (区域均值) 而非 NEAREST：image_gen 在 diamond 内沿画了接近 #f0f0f0
+    # 的亮像素，NEAREST 6× 下采样会保留这些亮带形成白晕；BOX 把边缘亮带与
+    # 内部色块混合，保留 pixel-art 块感的同时消除白边伪影。
+    godot = rgba.resize((godot_w, godot_h), Image.BOX)
+    # 在小分辨率再次几何 mask 一次，确保 cell 角 4 像素 alpha=0
+    godot = apply_diamond_mask(godot, cols, rows)
     godot.save(ROOT / godot_out_name)
     print(
         f"  saved Godot-ready: {godot_out_name} "

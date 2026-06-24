@@ -101,8 +101,9 @@ Row 7  | corner-in-SW | corner-in-SE | inner-full   | corner-ou-NW | corner-ou-N
 2. **sheet2 row 4 木桥与 row 0 木地板视觉相近**：image_gen 把"无栏木桥"画成与"木地板"几乎一样的纹理。使用时配合 Godot terrain bit / object layer / collision layer 区分。
 3. **sheet2 row 5 col 2-3 流水方向线被画成路面标线状的十字**：可作为石阶水路或装饰用；纯流水推荐 `water_still_pond` (col 4) 或 sheet1 的 `water_shallow / water_deep`。
 4. **Diamond inset**：菱形没占满 64×32 cell（上下少量透明 padding）。导入不影响功能，与严格满格 tile 混用时需 SubTexture origin 校准。
-5. **无 autotile bitmask**：留给后续 room story 在 Godot Terrain set 里配。
-6. **无 collision polygon**：room scene 用 `physics_layer` + `physics_polygon` 或外挂 Area2D 区分水陆/桥/楼梯。
+5. **浅色 tile 边缘有 1-2 px 白晕**：image_gen 在 `water_*` / `bank_*` / `bridge_*` 等浅色 tile 的钻石内沿画了接近 #f0f0f0 的"湿润反光"像素，下采样后呈现为细白边。`process_tileset.py` 已用 `apply_diamond_mask(radius=0.85)` 激进缩 mask 把大部分边缘像素清掉；深色 ground 类 tile (`grass`, `bluestone`, `mud`, `mossy_heavy`) 完全干净，仅浅色类残留细白边。Showcase scene 评估视觉可接受；可在 Sprint 8 `tileset-edge-polish` story 中手动重画。
+6. **无 autotile bitmask**：留给后续 room story 在 Godot Terrain set 里配。
+7. **无 collision polygon**：room scene 用 `physics_layer` + `physics_polygon` 或外挂 Area2D 区分水陆/桥/楼梯。
 
 ## 后处理工具
 
