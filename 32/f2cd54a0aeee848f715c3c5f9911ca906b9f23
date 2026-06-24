@@ -1,0 +1,109 @@
+tools/build_godot_jiangnan_iso_pond_showcase.py
+  s_6f10d80a2d1d03::t_116086dd206e74 1-169 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3b3767f86f0d831c32d3ee","tool_type":"agent","tool_id":"RunCommand","line_ranges":[{"Range":[1,169]}]}]}
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "32f2cd54a0aeee848f715c3c5f9911ca906b9f23",
+  "prompts": {},
+  "sessions": {
+    "s_6f10d80a2d1d03": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a3a8495f86f0d831c32d05b",
+        "model": "Doubao-Seed-2.1-Pro__dev",
+        "display_model_name": "Doubao-Seed-2.1-Pro"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {
+    "tools/build_godot_jiangnan_iso_pond_showcase.py": [
+      {
+        "hash": "s_6f10d80a2d1d03::t_116086dd206e74",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              169
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3b3767f86f0d831c32d3ee",
+            "tool_type": "agent",
+            "tool_id": "RunCommand",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  169
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "s_6f10d80a2d1d03": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_6f10d80a2d1d03::t_116086dd206e74": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_6f10d80a2d1d03::t_4d390d51cd0981": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_6f10d80a2d1d03::t_6278d69c44f3b2": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_6f10d80a2d1d03::t_a0234ed2d2222f": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_6f10d80a2d1d03::t_a2db414d1261c1": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_6f10d80a2d1d03::t_b3d1466fe84264": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_6f10d80a2d1d03::t_d71e2e47583c2e": {
+      "tool": "trae",
+      "conversation_id": "6a3a8495f86f0d831c32d05b",
+      "session_id": "6a3a8495f86f0d831c32d05b",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
