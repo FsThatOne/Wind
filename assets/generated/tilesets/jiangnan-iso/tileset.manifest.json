@@ -1,0 +1,181 @@
+{
+  "tileset_id": "jiangnan-iso-v1",
+  "schema_version": 2,
+  "generated_at": "2026-06-23T21:25:00+08:00",
+  "engine_target": "Godot_TileMap",
+  "godot_import": {
+    "tile_shape": "Isometric",
+    "tile_layout": "DiamondDown",
+    "tile_size": [64, 32],
+    "comment": "对齐 ADR-0022 projection 与 IsoProjection.cs (TileWidth=64, TileHeight=32)",
+    "multi_atlas": "Godot 4 TileSet 支持多 atlas source，本 tileset 用 2 个 atlas page：sheet1 (4×4=16 tiles) + sheet2 (6×8=48 tiles)，总 64 tiles。"
+  },
+  "atlas_pages": [
+    {
+      "page_id": "sheet1_base",
+      "page_index": 0,
+      "title": "基础地面 / 水域 / 岸 / 转角",
+      "tile_count": 16,
+      "grid": {"cols": 4, "rows": 4},
+      "files": {
+        "godot_ready": "jiangnan-iso-tileset-64x32.png",
+        "godot_ready_size": [256, 128],
+        "source_rgba": "jiangnan-iso-tileset-source-rgba.png",
+        "source_rgba_size": [1536, 1024],
+        "preview_4x": "jiangnan-iso-tileset-1024x512.png",
+        "raw_image_gen_output": "jiangnan-iso-tileset-4x4.png"
+      }
+    },
+    {
+      "page_id": "sheet2_supplement",
+      "page_index": 1,
+      "title": "扩展地面 / 路径 / 桥 / 水变体 / 4 斜向岸 / 转角补全",
+      "tile_count": 48,
+      "grid": {"cols": 6, "rows": 8},
+      "files": {
+        "godot_ready": "jiangnan-iso-tileset-supplement-64x32.png",
+        "godot_ready_size": [384, 256],
+        "source_rgba": "jiangnan-iso-tileset-supplement-source-rgba.png",
+        "source_rgba_size": [1536, 1024],
+        "preview_4x": "jiangnan-iso-tileset-supplement-1536x1024.png",
+        "raw_image_gen_output": "jiangnan-iso-tileset-6x8-supplement-raw.png"
+      }
+    }
+  ],
+  "shared_files": {
+    "prompt_sheet1": "tileset.prompt.txt (sheet1 部分)",
+    "prompt_sheet2": "tileset.prompt.txt (sheet2 部分)",
+    "post_process_script": "process_tileset.py",
+    "readme": "README.md"
+  },
+  "tiles_sheet1": [
+    {"page": "sheet1_base", "row": 0, "col": 0, "id": "ground_bluestone_a", "name": "青石地面 A",   "category": "ground"},
+    {"page": "sheet1_base", "row": 0, "col": 1, "id": "ground_bluestone_b", "name": "青石地面 B 变体", "category": "ground"},
+    {"page": "sheet1_base", "row": 0, "col": 2, "id": "ground_mud",         "name": "泥土地面",         "category": "ground"},
+    {"page": "sheet1_base", "row": 0, "col": 3, "id": "ground_grass_moss",  "name": "草苔地面",         "category": "ground"},
+
+    {"page": "sheet1_base", "row": 1, "col": 0, "id": "water_shallow",          "name": "浅水中心",     "category": "water"},
+    {"page": "sheet1_base", "row": 1, "col": 1, "id": "water_deep",             "name": "深水中心",     "category": "water"},
+    {"page": "sheet1_base", "row": 1, "col": 2, "id": "water_shallow_to_deep", "name": "浅深过渡",     "category": "water"},
+    {"page": "sheet1_base", "row": 1, "col": 3, "id": "water_to_land_strip",   "name": "水陆过渡条",   "category": "water_land_transition"},
+
+    {"page": "sheet1_base", "row": 2, "col": 0, "id": "bank_north_land_v1",     "name": "岸: 北陆南水 v1", "category": "bank_legacy"},
+    {"page": "sheet1_base", "row": 2, "col": 1, "id": "bank_south_land_v1",     "name": "岸: 北水南陆 v1", "category": "bank_legacy"},
+    {"page": "sheet1_base", "row": 2, "col": 2, "id": "bank_north_land_v2",     "name": "岸: 变体 3",      "category": "bank_legacy"},
+    {"page": "sheet1_base", "row": 2, "col": 3, "id": "bank_ne_water_sw_land",  "name": "岸: NE 水 SW 陆", "category": "bank_legacy"},
+
+    {"page": "sheet1_base", "row": 3, "col": 0, "id": "corner_inner_n_water_v1", "name": "内角: 北侧水凹 v1", "category": "corner_legacy"},
+    {"page": "sheet1_base", "row": 3, "col": 1, "id": "corner_inner_e_water_v1", "name": "内角: 东侧水凹 v1", "category": "corner_legacy"},
+    {"page": "sheet1_base", "row": 3, "col": 2, "id": "corner_outer_sw_land_v1", "name": "外角: SW 陆突 v1", "category": "corner_legacy"},
+    {"page": "sheet1_base", "row": 3, "col": 3, "id": "corner_outer_se_land_v1", "name": "外角: SE 陆突 v1", "category": "corner_legacy"}
+  ],
+  "tiles_sheet2": [
+    {"page": "sheet2_supplement", "row": 0, "col": 0, "id": "ground_stone_road",    "name": "街道石板",     "category": "ground"},
+    {"page": "sheet2_supplement", "row": 0, "col": 1, "id": "ground_cobblestone",   "name": "圆鹅卵石",     "category": "ground"},
+    {"page": "sheet2_supplement", "row": 0, "col": 2, "id": "ground_wood_light",    "name": "木地板浅色",   "category": "ground"},
+    {"page": "sheet2_supplement", "row": 0, "col": 3, "id": "ground_wood_dark",     "name": "木地板深色",   "category": "ground"},
+    {"page": "sheet2_supplement", "row": 0, "col": 4, "id": "ground_sand_path",     "name": "沙土路",       "category": "ground"},
+    {"page": "sheet2_supplement", "row": 0, "col": 5, "id": "ground_mossy_heavy",   "name": "重苔石",       "category": "ground"},
+
+    {"page": "sheet2_supplement", "row": 1, "col": 0, "id": "path_grass_nw_se",     "name": "草地径 NW-SE", "category": "path"},
+    {"page": "sheet2_supplement", "row": 1, "col": 1, "id": "path_grass_ne_sw",     "name": "草地径 NE-SW", "category": "path"},
+    {"page": "sheet2_supplement", "row": 1, "col": 2, "id": "path_grass_cross",     "name": "草地径 十字",  "category": "path"},
+    {"page": "sheet2_supplement", "row": 1, "col": 3, "id": "path_grass_t",         "name": "草地径 T 字",  "category": "path"},
+    {"page": "sheet2_supplement", "row": 1, "col": 4, "id": "path_grass_corner_nw", "name": "草地径转角 NW", "category": "path"},
+    {"page": "sheet2_supplement", "row": 1, "col": 5, "id": "path_grass_corner_ne", "name": "草地径转角 NE", "category": "path"},
+
+    {"page": "sheet2_supplement", "row": 2, "col": 0, "id": "path_grass_corner_se", "name": "草地径转角 SE", "category": "path"},
+    {"page": "sheet2_supplement", "row": 2, "col": 1, "id": "path_grass_corner_sw", "name": "草地径转角 SW", "category": "path"},
+    {"page": "sheet2_supplement", "row": 2, "col": 2, "id": "path_grass_end_n",     "name": "草地径端 N",   "category": "path"},
+    {"page": "sheet2_supplement", "row": 2, "col": 3, "id": "path_grass_end_s",     "name": "草地径端 S",   "category": "path"},
+    {"page": "sheet2_supplement", "row": 2, "col": 4, "id": "path_grass_end_e",     "name": "草地径端 E",   "category": "path"},
+    {"page": "sheet2_supplement", "row": 2, "col": 5, "id": "path_grass_end_w",     "name": "草地径端 W",   "category": "path"},
+
+    {"page": "sheet2_supplement", "row": 3, "col": 0, "id": "stone_path_nw_se",     "name": "石径(草上) NW-SE", "category": "stone_path"},
+    {"page": "sheet2_supplement", "row": 3, "col": 1, "id": "stone_path_ne_sw",     "name": "石径(草上) NE-SW", "category": "stone_path"},
+    {"page": "sheet2_supplement", "row": 3, "col": 2, "id": "stepping_stones",      "name": "踏脚石",          "category": "stone_path"},
+    {"page": "sheet2_supplement", "row": 3, "col": 3, "id": "stone_path_grass_left", "name": "石径 草溢左缘",   "category": "stone_path"},
+    {"page": "sheet2_supplement", "row": 3, "col": 4, "id": "stone_path_grass_right","name": "石径 草溢右缘",   "category": "stone_path"},
+    {"page": "sheet2_supplement", "row": 3, "col": 5, "id": "cobbled_threshold",     "name": "卵石门槛",        "category": "stone_path"},
+
+    {"page": "sheet2_supplement", "row": 4, "col": 0, "id": "bridge_wood_nw_se",     "name": "木桥 NW-SE",      "category": "bridge",
+      "note": "实际输出更像木地板; 与 ground_wood_* 区别不大，使用时配合 collision_layer/object_layer 区分"},
+    {"page": "sheet2_supplement", "row": 4, "col": 1, "id": "bridge_wood_ne_sw",     "name": "木桥 NE-SW",      "category": "bridge"},
+    {"page": "sheet2_supplement", "row": 4, "col": 2, "id": "bridge_wood_rail_left", "name": "木桥 栏杆左",     "category": "bridge"},
+    {"page": "sheet2_supplement", "row": 4, "col": 3, "id": "bridge_wood_rail_right","name": "木桥 栏杆右",     "category": "bridge"},
+    {"page": "sheet2_supplement", "row": 4, "col": 4, "id": "bridge_stone_arch_mid", "name": "拱桥中段",        "category": "bridge"},
+    {"page": "sheet2_supplement", "row": 4, "col": 5, "id": "bridge_stone_arch_pillar","name": "拱桥支撑(水中柱)", "category": "bridge"},
+
+    {"page": "sheet2_supplement", "row": 5, "col": 0, "id": "water_lotus",          "name": "荷叶浅水",       "category": "water_variant"},
+    {"page": "sheet2_supplement", "row": 5, "col": 1, "id": "water_reeds",          "name": "芦苇水边",       "category": "water_variant"},
+    {"page": "sheet2_supplement", "row": 5, "col": 2, "id": "water_stream_nw_se",   "name": "流水 NW-SE",     "category": "water_variant",
+      "note": "image_gen 把 'flow lines' 画成像路面标线; 视觉上像水中有十字; 可作为石阶水路或溪流装饰用"},
+    {"page": "sheet2_supplement", "row": 5, "col": 3, "id": "water_stream_ne_sw",   "name": "流水 NE-SW",     "category": "water_variant"},
+    {"page": "sheet2_supplement", "row": 5, "col": 4, "id": "water_still_pond",     "name": "静潭(倒影)",    "category": "water_variant"},
+    {"page": "sheet2_supplement", "row": 5, "col": 5, "id": "water_wooden_dock",    "name": "木栈道",         "category": "water_variant"},
+
+    {"page": "sheet2_supplement", "row": 6, "col": 0, "id": "bank_iso_ne",          "name": "岸: NE 斜向(严格)", "category": "bank_iso4"},
+    {"page": "sheet2_supplement", "row": 6, "col": 1, "id": "bank_iso_se",          "name": "岸: SE 斜向(严格)", "category": "bank_iso4"},
+    {"page": "sheet2_supplement", "row": 6, "col": 2, "id": "bank_iso_sw",          "name": "岸: SW 斜向(严格)", "category": "bank_iso4"},
+    {"page": "sheet2_supplement", "row": 6, "col": 3, "id": "bank_iso_nw",          "name": "岸: NW 斜向(严格)", "category": "bank_iso4"},
+    {"page": "sheet2_supplement", "row": 6, "col": 4, "id": "bank_half_north_land", "name": "岸: 北半陆",      "category": "bank_half"},
+    {"page": "sheet2_supplement", "row": 6, "col": 5, "id": "bank_half_south_land", "name": "岸: 南半陆",      "category": "bank_half"},
+
+    {"page": "sheet2_supplement", "row": 7, "col": 0, "id": "corner_inner_sw",      "name": "内角: SW 水凹",   "category": "corner"},
+    {"page": "sheet2_supplement", "row": 7, "col": 1, "id": "corner_inner_se",      "name": "内角: SE 水凹",   "category": "corner"},
+    {"page": "sheet2_supplement", "row": 7, "col": 2, "id": "corner_inner_full",    "name": "内角: 1×1 池中心", "category": "corner"},
+    {"page": "sheet2_supplement", "row": 7, "col": 3, "id": "corner_outer_nw",      "name": "外角: NW 陆突",   "category": "corner"},
+    {"page": "sheet2_supplement", "row": 7, "col": 4, "id": "corner_outer_ne",      "name": "外角: NE 陆突",   "category": "corner"},
+    {"page": "sheet2_supplement", "row": 7, "col": 5, "id": "corner_outer_full",    "name": "外角: 1×1 岛中心", "category": "corner"}
+  ],
+  "usage_examples": {
+    "2x2_pond_full_iso": [
+      "使用 sheet2 row 6 严格 4 斜向岸：bank_iso_ne / se / sw / nw 围成 2×2 水域，中间 water_deep 填充"
+    ],
+    "3x3_pond_with_corners": [
+      "外圈：4 个 bank_iso_* + 4 个 corner_outer_*",
+      "中间：水核心 (water_deep) ×1",
+      "可用 corner_inner_* 在岸外侧拐角处补足凹角"
+    ],
+    "1x1_micro_pond": [
+      "corner_inner_full (sheet2 row 7 col 2) — 单块即一个 1×1 微型水池"
+    ],
+    "1x1_micro_island": [
+      "corner_outer_full (sheet2 row 7 col 5) — 单块即一个 1×1 微型岛"
+    ],
+    "village_paths": [
+      "用 path_grass_* 系列连接，corner/end_cap/cross/T 全覆盖；与 stone_path_* 混用以表达 '土路 vs 石路' 阶层"
+    ],
+    "bridge_over_pond": [
+      "用 bridge_stone_arch_mid (row 4 col 4) + bridge_stone_arch_pillar (row 4 col 5) 在 water_deep 上拼一座拱桥",
+      "或用 bridge_wood_* + bridge_wood_rail_* 拼一座带栏木桥"
+    ]
+  },
+  "limitations_and_followups": [
+    "sheet1 row 2 (bank_legacy) 与 ADR-0022 NE/SE/SW/NW 严格映射对不齐，已由 sheet2 row 6 (bank_iso4 系列) 补齐严格 4 斜向",
+    "sheet2 row 4 木桥 (col 0-3) 实际输出更像木地板，与 ground_wood_* 视觉区分弱；使用时配合 Godot terrain bit 或 object layer 区分桥/地板语义",
+    "sheet2 row 5 col 2-3 流水 tile 的 'flow lines' 被 image_gen 解读成路面标线状的十字，可作为石阶水路或装饰用，纯流水推荐用 col 4 静潭",
+    "所有 diamond 在 64×32 cell 内有少量上下 padding；Godot 导入功能不受影响，与严格满格 tile 混用时需 SubTexture origin 校准",
+    "tileset 不含 terrain bitmask / autotile rules / collision polygon — 留给后续 Sprint 8+ room story 在 Godot 4 Terrain set 配",
+    "颜色对齐 art-bible 江南水乡基础色，未做 LAB 色差精确对齐 — 实机集成时设计可能再调一轮 modulate / mood"
+  ],
+  "summary": {
+    "total_tiles": 64,
+    "sheet1_tiles": 16,
+    "sheet2_tiles": 48,
+    "categories": {
+      "ground": 10,
+      "water": 6,
+      "water_variant": 6,
+      "water_land_transition": 1,
+      "path": 12,
+      "stone_path": 6,
+      "bridge": 6,
+      "bank_legacy": 4,
+      "bank_iso4": 4,
+      "bank_half": 2,
+      "corner_legacy": 4,
+      "corner": 6
+    }
+  }
+}
