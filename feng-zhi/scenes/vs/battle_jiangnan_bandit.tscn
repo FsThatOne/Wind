@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://ce0leeu7ltkvl"]
+[gd_scene load_steps=6 format=3 uid="uid://ce0leeu7ltkvl"]
 
 [ext_resource type="Script" uid="uid://0380v76p22n6" path="res://scripts/vs/JiangnanBattleGame.cs" id="1_battle"]
 [ext_resource type="TileSet" uid="uid://b7iso0cliffcave1" path="res://assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres" id="2_tileset"]
 [ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_se_00.png" id="3_player_se"]
+[ext_resource type="Script" path="res://scripts/combat/DecisiveStrikeGodotAdapter.cs" id="4_decisiveadapter"]
+[ext_resource type="PackedScene" uid="uid://b7decisive00ov1" path="res://scenes/ui/combat/DecisiveStrikeOverlay.tscn" id="5_decisiveoverlay"]
 
 [node name="JiangnanBattle" type="Node2D"]
 script = ExtResource("1_battle")
@@ -80,19 +82,28 @@ offset_left = 24.0
 offset_top = 240.0
 offset_right = 880.0
 offset_bottom = 320.0
-text = "出招：选一招攻击江湖小贼。内息不足时自动调息。"
+text = "选择招式：方向键 ↑/↓ 切换聚焦，Enter / 空格 确认；置灰行不可选。cu-005 demo: [ / ] 切换内息演反制启用/置灰。cu-006 demo: 敌方破绽 = 5 → 按 Enter 演 7-phase 决胜（演出期屏蔽输入）。cu-008 demo: 鼠标 hover 蓝 / 键盘 focus 琥珀 / 同时存在混合色。"
 autowrap_mode = 3
 
-[node name="ActionsPanel" type="HBoxContainer" parent="UiLayer/CombatPanel"]
+[node name="MoveSelectionMount" type="Control" parent="UiLayer/CombatPanel"]
 offset_left = 24.0
 offset_top = 340.0
 offset_right = 880.0
 offset_bottom = 410.0
+mouse_filter = 2
 
-[node name="LightButton" type="Button" parent="UiLayer/CombatPanel/ActionsPanel"]
-custom_minimum_size = Vector2(280, 60)
-text = "罗汉拳 · 轻击 (内息 2)"
+; cu-006-vs-integration: 战斗主相机 (CameraRequestBusBridge 写入目标)
+; 默认 PositionSmoothingEnabled=true, Zoom=1; 演出期 bridge 会切到 Zoom=1.6 + Smoothing=false 锁定目标, 完成后恢复
+[node name="MainCamera" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+enabled = true
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0
 
-[node name="HeavyButton" type="Button" parent="UiLayer/CombatPanel/ActionsPanel"]
-custom_minimum_size = Vector2(280, 60)
-text = "铁臂横拦 · 重击 (内息 4)"
+; cu-006-vs-integration: 一击决胜慢动作覆盖层 (instance)
+; 默认 Visible=false, 由 DecisiveStrikeGodotAdapter 在 RequestDecisive 时 toggle
+[node name="DecisiveStrikeOverlay" parent="." instance=ExtResource("5_decisiveoverlay")]
+
+; cu-006-vs-integration: 一击决胜 Godot 适配器节点 (JiangnanBattleGame._Ready 调用 Initialize 注入依赖)
+[node name="DecisiveStrikeAdapter" type="Node" parent="."]
+script = ExtResource("4_decisiveadapter")

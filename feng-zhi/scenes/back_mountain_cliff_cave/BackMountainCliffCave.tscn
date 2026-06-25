@@ -18,12 +18,12 @@ offset_right = 2262.0
 offset_bottom = 2286.0
 color = Color(0.14, 0.13, 0.1, 1)
 
+[node name="Tiles" type="Node2D" parent="." unique_id=154872046]
+
+[node name="TileLayers" parent="Tiles" unique_id=1628882020 instance=ExtResource("4_tile_layers")]
+
 [node name="MapRoot" type="Node2D" parent="." unique_id=726959333]
 y_sort_enabled = true
-
-[node name="Tiles" type="Node2D" parent="MapRoot" unique_id=154872046]
-
-[node name="TileLayers" parent="MapRoot/Tiles" unique_id=1628882020 instance=ExtResource("4_tile_layers")]
 
 [node name="Structures" type="Node2D" parent="MapRoot" unique_id=1725654872]
 y_sort_enabled = true

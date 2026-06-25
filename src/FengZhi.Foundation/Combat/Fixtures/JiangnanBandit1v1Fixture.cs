@@ -1,4 +1,6 @@
 using FengZhi.Foundation.CharacterData;
+using FengZhi.Foundation.CombatUi;
+using FengZhi.Foundation.MartialArts;
 
 namespace FengZhi.Foundation.Combat.Fixtures;
 
@@ -127,4 +129,268 @@ public static class JiangnanBandit1v1Fixture
         }
         return script;
     }
+
+    // ---------- cu-004-vs-integration demo seed (harness spec subtask A) ----------
+    //
+    // cu-004 demo 目的: 展示招式选择面板 8 行（6 装备 + 调息 + 使用道具），覆盖：
+    //   - 体系角标 (Gang/Rou/Qiao 3 种)
+    //   - 心法专属角标
+    //   - 置灰原因 (内息不足 / 心法封印 / 无道具)
+    //   - 预览卡 3 种关系 (克制/中性/被克)
+    //
+    // 展示与结算解耦（owner 2026-06-24 Q2=a 决策）：
+    //   - 4 个 demo_* 招式仅作 UI 呈现，提交时由 JiangnanBattleGame 翻译回 luo_han_quan/tie_bi_heng_lan
+    //   - 心法专属招式恒置灰（IsXinfaSealed=true），不会被 ConfirmSelected 选中
+    //   - cu-004 录屏只验 UI 状态，不验结算精确性
+
+    /// <summary>cu-004 demo move id：柔系展示招（克制敌人 Gang）。</summary>
+    public const string Cu004DemoRouMoveId = "demo_rou_yun_palm";
+
+    /// <summary>cu-004 demo move id：巧系展示招（被敌人 Gang 克制）。</summary>
+    public const string Cu004DemoQiaoMoveId = "demo_qiao_yun_step";
+
+    /// <summary>cu-004 demo move id：高内息消耗招式（恒置灰：差 N 内息）。</summary>
+    public const string Cu004DemoHighCostMoveId = "demo_qian_ye_palm";
+
+    /// <summary>cu-004 demo move id：心法专属招式（IsXinfaSealed=true 时置灰）。</summary>
+    public const string Cu004DemoXinfaMoveId = "demo_ming_jing_zhi_shui";
+
+    /// <summary>
+    /// cu-004 demo seed 完整契约：战斗 config + 招式面板 demo 数据 + 面板 context 字段。
+    /// </summary>
+    /// <param name="BattleConfig">实际战斗 config（复用 CreateBattleConfig，结算走 2 真招）。</param>
+    /// <param name="PanelDisplay">招式面板展示数据：6 招（2 真 + 3 demo + 1 心法专属）。</param>
+    /// <param name="IsXinfaSealed">面板 context: 心法封印（demo 恒 true，让心法专属置灰）。</param>
+    /// <param name="UsableCombatItemCount">面板 context: 可用战斗道具（demo 恒 0，让"使用道具"置灰）。</param>
+    public sealed record Cu004DemoSeed(
+        BattleConfig BattleConfig,
+        BattlePanelDisplayData PanelDisplay,
+        bool IsXinfaSealed,
+        int UsableCombatItemCount);
+
+    /// <summary>
+    /// 构建 cu-004 demo seed。面板覆盖 6 装备槽 + 心法专属 + 置灰原因 + 体系关系预览。
+    /// </summary>
+    public static Cu004DemoSeed CreateDemoConfig_Cu004Showcase() => new(
+        BattleConfig: CreateBattleConfig(),
+        PanelDisplay: BuildCu004PanelDisplay(),
+        IsXinfaSealed: true,
+        UsableCombatItemCount: 0);
+
+    // ---------- cu-005-vs-integration demo seed (harness spec subtask B) ----------
+    //
+    // cu-005 demo 目的: 在 cu-004 面板基础上覆盖反制 + 决胜一击提示：
+    //   - 敌方公开柔意图（玩家 Gang 招式 = 克制 → 反制标签可见）
+    //   - 内息 ≥3 → 反制标签金色启用 / <3 → 灰色置灰 + "内息不足"
+    //   - 敌方破绽 ≥5 → 顶部插入"决胜一击"高亮行
+    //   - 提交反制 → BattleAction.Type = Counter；提交决胜 → BattleAction.Type = Decisive
+    //
+    // 与 cu-004 demo seed 差异（与 cu-004 共用 6 招 panel display）：
+    //   - PreloadedDecisiveTargetIds = [BanditId]（demo 直接 UI 注入决胜目标，不依赖真破绽 ≥5；
+    //     owner Q3=a 决策一致：纯 UI demo 字段不连战斗结算）
+    //   - InitialPlayerNeixi=3（反制启用边界；录屏者可用 hotkey 切到 <3 演置灰）
+    //   - 敌方 ScriptedAI commit Rou 意图（玩家 Gang 招式 = 克制 → 反制标签可见）
+
+    /// <summary>
+    /// cu-005 demo seed 完整契约。继承 cu-004 panel 数据（保持 6 招覆盖），
+    /// 额外预置决胜目标 + 初始内息让反制/决胜立刻可演示。
+    /// </summary>
+    /// <param name="BattleConfig">战斗 config（复用 cu-004，结算走 2 真招）。</param>
+    /// <param name="PanelDisplay">招式面板展示数据（复用 cu-004 6 招）。</param>
+    /// <param name="IsXinfaSealed">心法封印（demo 恒 true）。</param>
+    /// <param name="UsableCombatItemCount">可用道具（demo 恒 0）。</param>
+    /// <param name="PreloadedDecisiveTargetIds">demo 启动时直接注入 UI 决胜目标 list。</param>
+    /// <param name="InitialPlayerNeixi">demo 启动时玩家 UI 内息显示值（≥3 反制启用 / &lt;3 反制置灰）。</param>
+    public sealed record Cu005DemoSeed(
+        BattleConfig BattleConfig,
+        BattlePanelDisplayData PanelDisplay,
+        bool IsXinfaSealed,
+        int UsableCombatItemCount,
+        IReadOnlyList<string> PreloadedDecisiveTargetIds,
+        int InitialPlayerNeixi);
+
+    /// <summary>
+    /// 构建 cu-005 demo seed。
+    /// </summary>
+    public static Cu005DemoSeed CreateDemoConfig_Cu005Showcase() => new(
+        BattleConfig: CreateBattleConfig(),
+        PanelDisplay: BuildCu004PanelDisplay(),
+        IsXinfaSealed: true,
+        UsableCombatItemCount: 0,
+        PreloadedDecisiveTargetIds: new[] { BanditId },
+        InitialPlayerNeixi: 3); // 反制启用边界，录屏者用 hotkey 切到 <3 演置灰
+
+    // ---------- cu-006-vs-integration demo seed (harness spec subtask C) ----------
+    //
+    // cu-006 demo 目的：在 battle scene 接入 Foundation DecisiveStrikeDirector 完整 7-phase 演出。
+    //   - 敌方破绽 = StaggerThreshold(5) 直接可触发决胜 → 玩家第一回合按 Enter 即可触发
+    //   - 玩家初始 Neixi >= 3 走决胜 (Foundation Sequence 内部不扣 Neixi, 但 UI panel 显示要求)
+    //   - PanelDisplay 复用 cu-004 face card 让玩家有"决胜一击"行可选 (cu-005 已落 panel 顶部决胜行)
+    //   - EnemyInitialStaggerOverride = 5 由 JiangnanBattleGame._Ready 在 facade.InitiateBattle 之后调
+    //     bandit.AddStagger(5) 直接预置
+    //   - 演出触发链路: 玩家选决胜行 → BattleAction.ActionType=Decisive → ResolutionService.ExecuteDecisive
+    //     → DamageDealtEvent(VisualRelation=Decisive) → JiangnanBattleGame.OnDamageDealtForDecisive
+    //     → adapter.RequestDecisive → 7-phase
+    //   - 演出期 Engine.TimeScale = 0.2; Camera 推/锁/恢复; 输入屏蔽 (whitelist ui_pause/ui_system_back)
+    //   - Phase5 显示 max-size deep-gold 伤害数字 (deep-gold 0.95,0.78,0.20)
+    //
+    // 与 cu-005 共用: 决胜目标预置 + 内息覆盖
+    // 与 cu-005 差异: 决胜触发后演 7-phase, 不需要 hotkey [/] 调内息
+
+    /// <summary>
+    /// cu-006 demo seed: cu-004 panel + 敌方破绽预置到阈值（直接触发决胜）。
+    /// </summary>
+    public sealed record Cu006DemoSeed(
+        BattleConfig BattleConfig,
+        BattlePanelDisplayData PanelDisplay,
+        bool IsXinfaSealed,
+        int UsableCombatItemCount,
+        IReadOnlyList<string> PreloadedDecisiveTargetIds,
+        int InitialPlayerNeixi,
+        int EnemyInitialStaggerOverride);
+
+    /// <summary>
+    /// 构建 cu-006 demo seed。
+    /// EnemyInitialStaggerOverride=5 = bandit.StaggerThreshold，让第一回合就能演决胜。
+    /// </summary>
+    public static Cu006DemoSeed CreateDemoConfig_Cu006Showcase() => new(
+        BattleConfig: CreateBattleConfig(),
+        PanelDisplay: BuildCu004PanelDisplay(),
+        IsXinfaSealed: true,
+        UsableCombatItemCount: 0,
+        PreloadedDecisiveTargetIds: new[] { BanditId },
+        InitialPlayerNeixi: 8, // 8 内息保证决胜内息成本 + 备选招式都可见
+        EnemyInitialStaggerOverride: 5);
+
+    // ---------- cu-008-vs-integration demo seed (harness spec subtask D) ----------
+    //
+    // cu-008 demo 目的: 验证招式选择面板的 dual-focus + D-pad/方向键循环导航：
+    //   - 默认聚焦第一个可用招式
+    //   - D-pad/方向键 上/下循环穿过 6 装备 + 调息 + 使用道具 (置灰行也参与循环？否)
+    //   - 决胜行（如有）可被手柄触达
+    //   - 鼠标 hover + 手柄 focus 视觉态独立（cu-005 已落 Slot hover/focus 双背景层）
+    //   - 输入模式切换（鼠标 ↔ 键盘 ↔ 手柄）不丢 focus
+    //
+    // 与 cu-004 共用: panel display 6 招 + 心法封印 + 无道具 + 决胜目标预置（同 cu-005）
+    // 与 cu-004/005 差异: PrefersGamepadOnlyHint=true 告知录屏者建议拔鼠标 / 用方向键模拟 D-pad
+
+    /// <summary>
+    /// cu-008 demo seed: 与 cu-004 panel 一致 + 决胜目标预置 + gamepad-only 录制提示。
+    /// </summary>
+    public sealed record Cu008DemoSeed(
+        BattleConfig BattleConfig,
+        BattlePanelDisplayData PanelDisplay,
+        bool IsXinfaSealed,
+        int UsableCombatItemCount,
+        IReadOnlyList<string> PreloadedDecisiveTargetIds,
+        int InitialPlayerNeixi,
+        bool PrefersGamepadOnlyHint);
+
+    /// <summary>
+    /// 构建 cu-008 demo seed。复用 cu-004 panel display + cu-005 决胜目标预置。
+    /// </summary>
+    public static Cu008DemoSeed CreateDemoConfig_Cu008Showcase() => new(
+        BattleConfig: CreateBattleConfig(),
+        PanelDisplay: BuildCu004PanelDisplay(),
+        IsXinfaSealed: true,
+        UsableCombatItemCount: 0,
+        PreloadedDecisiveTargetIds: new[] { BanditId },
+        InitialPlayerNeixi: 8, // 8 内息让 demo 招式大都可用，循环穿过更多行
+        PrefersGamepadOnlyHint: true);
+
+    /// <summary>
+    /// cu-005 demo 小贼 ScriptedAI：所有回合 commit Rou 意图（让玩家 Gang 招式始终克制）。
+    /// </summary>
+    public static ScriptedAI CreateBanditAICu005(int rounds = 8)
+    {
+        var script = new List<BattleAction>();
+        for (int round = 0; round < rounds; round++)
+        {
+            // demo: 敌方 commit Rou 意图（与 protagonist Gang 招式互克）
+            // moveId 沿用 LightStrike 让 ResolutionService 能查表，但 MoveType=Rou 让 IntentRevealed 公开柔
+            script.Add(new BattleAction
+            {
+                ActorId = BanditId,
+                Type = ActionType.Move,
+                TargetId = ProtagonistId,
+                MoveId = LightStrikeMoveId,
+                MoveType = MoveType.Rou,
+                NeixiCost = 2,
+            });
+        }
+        return new ScriptedAI(script);
+    }
+
+    private static BattlePanelDisplayData BuildCu004PanelDisplay() => new()
+    {
+        Entries = new[]
+        {
+            new BattlePanelMoveEntry
+            {
+                MoveId = LightStrikeMoveId,
+                Name = "罗汉拳 · 轻击",
+                Source = MoveSource.BaseSlot,
+                ColorTheme = TypeColorTheme.WarmGold,
+                NeixiCost = 2,
+                EffectiveMultiplier = 1.0f,
+                TriggerConditions = new[] { "always" },
+                SpecialEffects = new[] { "稳定输出" },
+            },
+            new BattlePanelMoveEntry
+            {
+                MoveId = HeavyStrikeMoveId,
+                Name = "铁臂横拦 · 重击",
+                Source = MoveSource.BaseSlot,
+                ColorTheme = TypeColorTheme.WarmGold,
+                NeixiCost = 4,
+                EffectiveMultiplier = 1.4f,
+                TriggerConditions = new[] { "always" },
+                SpecialEffects = new[] { "破绽 +1" },
+            },
+            new BattlePanelMoveEntry
+            {
+                MoveId = Cu004DemoRouMoveId,
+                Name = "柔云掌 · 引力",
+                Source = MoveSource.BaseSlot,
+                ColorTheme = TypeColorTheme.CoolCyan,
+                NeixiCost = 3,
+                EffectiveMultiplier = 1.1f,
+                TriggerConditions = new[] { "after_intent_revealed" },
+                SpecialEffects = new[] { "化刚为柔" },
+            },
+            new BattlePanelMoveEntry
+            {
+                MoveId = Cu004DemoQiaoMoveId,
+                Name = "巧云步 · 错身",
+                Source = MoveSource.BaseSlot,
+                ColorTheme = TypeColorTheme.NeutralGray,
+                NeixiCost = 3,
+                EffectiveMultiplier = 1.0f,
+                TriggerConditions = new[] { "always" },
+                SpecialEffects = new[] { "走位 +1" },
+            },
+            new BattlePanelMoveEntry
+            {
+                MoveId = Cu004DemoHighCostMoveId,
+                Name = "千叶千手",
+                Source = MoveSource.BaseSlot,
+                ColorTheme = TypeColorTheme.CoolCyan,
+                NeixiCost = 99, // 恒置灰: PlayerNeixi 不可能 ≥ 99
+                EffectiveMultiplier = 2.5f,
+                TriggerConditions = new[] { "second_hit" },
+                SpecialEffects = new[] { "范围 / 多段" },
+            },
+            new BattlePanelMoveEntry
+            {
+                MoveId = Cu004DemoXinfaMoveId,
+                Name = "明镜止水（心法）",
+                Source = MoveSource.XinfaExclusive,
+                ColorTheme = TypeColorTheme.CoolCyan,
+                NeixiCost = 2,
+                EffectiveMultiplier = 1.2f,
+                TriggerConditions = new[] { "when_guarding" },
+                SpecialEffects = new[] { "封印破除前不可用" },
+            },
+        }
+    };
 }

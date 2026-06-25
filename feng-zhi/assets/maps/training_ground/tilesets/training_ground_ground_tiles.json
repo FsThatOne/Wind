@@ -1,0 +1,157 @@
+{
+  "name": "training_ground_ground_tiles",
+  "tile_width": 64,
+  "tile_height": 32,
+  "columns": 6,
+  "rows": 4,
+  "tile_count": 24,
+  "image": "training_ground_ground_tiles.png",
+  "image_width": 384,
+  "image_height": 128,
+  "tiles": [
+    {
+      "id": 0,
+      "name": "ground_01",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 1,
+      "name": "ground_02",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 2,
+      "name": "ground_03",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 3,
+      "name": "ground_04",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 4,
+      "name": "ground_05",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 5,
+      "name": "ground_06",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 6,
+      "name": "terrain_01",
+      "category": "terrain",
+      "walkable": true
+    },
+    {
+      "id": 7,
+      "name": "terrain_02",
+      "category": "terrain",
+      "walkable": true
+    },
+    {
+      "id": 8,
+      "name": "terrain_03",
+      "category": "terrain",
+      "walkable": true
+    },
+    {
+      "id": 9,
+      "name": "terrain_04",
+      "category": "terrain",
+      "walkable": true
+    },
+    {
+      "id": 10,
+      "name": "terrain_05",
+      "category": "terrain",
+      "walkable": true
+    },
+    {
+      "id": 11,
+      "name": "terrain_06",
+      "category": "terrain",
+      "walkable": true
+    },
+    {
+      "id": 12,
+      "name": "wall_01",
+      "category": "boundary",
+      "walkable": false
+    },
+    {
+      "id": 13,
+      "name": "wall_02",
+      "category": "boundary",
+      "walkable": false
+    },
+    {
+      "id": 14,
+      "name": "wall_03",
+      "category": "boundary",
+      "walkable": false
+    },
+    {
+      "id": 15,
+      "name": "wall_04",
+      "category": "boundary",
+      "walkable": false
+    },
+    {
+      "id": 16,
+      "name": "wall_05",
+      "category": "boundary",
+      "walkable": false
+    },
+    {
+      "id": 17,
+      "name": "wall_06",
+      "category": "boundary",
+      "walkable": false
+    },
+    {
+      "id": 18,
+      "name": "overlay_01",
+      "category": "overlay",
+      "walkable": true
+    },
+    {
+      "id": 19,
+      "name": "overlay_02",
+      "category": "overlay",
+      "walkable": true
+    },
+    {
+      "id": 20,
+      "name": "overlay_03",
+      "category": "overlay",
+      "walkable": true
+    },
+    {
+      "id": 21,
+      "name": "overlay_04",
+      "category": "overlay",
+      "walkable": true
+    },
+    {
+      "id": 22,
+      "name": "special_01",
+      "category": "ground",
+      "walkable": true
+    },
+    {
+      "id": 23,
+      "name": "special_02",
+      "category": "ground",
+      "walkable": true
+    }
+  ]
+}

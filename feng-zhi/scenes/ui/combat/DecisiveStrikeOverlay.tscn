@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://b7decisive00ov1"]
+
+; cu-006-vs-integration · 一击决胜慢动作覆盖层
+;
+; 由 DecisiveStrikeGodotAdapter 在 Phase1 触发时 .Visible = true，演出结束 .Visible = false。
+; 节点结构：
+;   CanvasLayer (layer = 100, 盖在 UiLayer 之上)
+;   ├── Dim                : 半透明黑色 ColorRect (撑满)
+;   └── CenterContainer    : 中心容器
+;       └── VBox           : 垂直布局
+;           ├── PhaseLabel       : "决胜一击 · Phase X PhaseName" (深金 32px)
+;           ├── StylePlaceholder : "—— 体系动画 placeholder ——" (灰 24px, Phase4 期间 modulate)
+;           └── DamageLabel      : 伤害数字 (deep-gold 96px max-size, Phase5 才 Visible)
+
+[node name="DecisiveStrikeOverlay" type="CanvasLayer"]
+layer = 100
+visible = false
+
+[node name="Dim" type="ColorRect" parent="."]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+color = Color(0, 0, 0, 0.55)
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(720, 280)
+theme_override_constants/separation = 24
+
+[node name="PhaseLabel" type="Label" parent="CenterContainer/VBox"]
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+modulate = Color(0.95, 0.78, 0.20, 1)
+text = "决胜一击"
+
+[node name="StylePlaceholder" type="Label" parent="CenterContainer/VBox"]
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+modulate = Color(0.80, 0.80, 0.80, 1)
+text = "—— 体系动画 placeholder ——"
+
+[node name="DamageLabel" type="Label" parent="CenterContainer/VBox"]
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 96
+modulate = Color(0.95, 0.78, 0.20, 1)
+visible = false
+text = "0"

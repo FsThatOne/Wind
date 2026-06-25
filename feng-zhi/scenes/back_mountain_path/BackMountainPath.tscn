@@ -1,0 +1,99 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/BackMountainPathGame.cs" id="1_game"]
+[ext_resource type="Script" path="res://scripts/CavePlayer.cs" id="2_player"]
+[ext_resource type="SpriteFrames" path="res://assets/character/main_character.tres" id="3_frames"]
+[ext_resource type="PackedScene" path="res://scenes/back_mountain_path/BackMountainPathTileLayers.tscn" id="4_tile_layers"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(26, 13)
+
+[node name="BackMountainPath" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="BackgroundTint" type="ColorRect" parent="."]
+offset_left = -1738.0
+offset_top = -1714.0
+offset_right = 2262.0
+offset_bottom = 2286.0
+color = Color(0.14, 0.13, 0.1, 1)
+
+[node name="Tiles" type="Node2D" parent="."]
+
+[node name="TileLayers" parent="Tiles" instance=ExtResource("4_tile_layers")]
+
+[node name="MapRoot" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Structures" type="Node2D" parent="MapRoot"]
+y_sort_enabled = true
+
+[node name="Collision" type="Node2D" parent="MapRoot"]
+
+[node name="LogicMarkers" type="Node2D" parent="MapRoot"]
+
+[node name="Player" type="CharacterBody2D" parent="MapRoot"]
+position = Vector2(352, 280)
+script = ExtResource("2_player")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player"]
+position = Vector2(-2.66, -18.0)
+scale = Vector2(0.6147, 0.62)
+sprite_frames = ExtResource("3_frames")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapRoot/Player"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_player")
+
+[node name="Camera2D" type="Camera2D" parent="MapRoot/Player"]
+position = Vector2(0, -80)
+zoom = Vector2(1.15, 1.15)
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+
+[node name="UiLayer" type="CanvasLayer" parent="."]
+
+[node name="StatusLabel" type="Label" parent="UiLayer"]
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 900.0
+offset_bottom = 52.0
+text = "后山小路"
+
+[node name="InventoryLabel" type="Label" parent="UiLayer"]
+offset_left = 20.0
+offset_top = 52.0
+offset_right = 520.0
+offset_bottom = 84.0
+
+[node name="PromptLabel" type="Label" parent="UiLayer"]
+visible = false
+offset_left = 360.0
+offset_top = 560.0
+offset_right = 820.0
+offset_bottom = 604.0
+text = "E / 空格 调查    N 切换日夜"
+horizontal_alignment = 1
+
+[node name="HintLabel" type="Label" parent="UiLayer"]
+offset_left = 20.0
+offset_top = 600.0
+offset_right = 740.0
+offset_bottom = 632.0
+text = "左键点击寻路移动；WASD / 方向键逐格移动；E / 空格调查；N 切换日常 / 夜晚"
+
+[node name="MessagePanel" type="Panel" parent="UiLayer"]
+visible = false
+offset_left = 176.0
+offset_top = 456.0
+offset_right = 976.0
+offset_bottom = 622.0
+
+[node name="MessageLabel" type="Label" parent="UiLayer/MessagePanel"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 18.0
+offset_right = 778.0
+offset_bottom = 142.0
+autowrap_mode = 3

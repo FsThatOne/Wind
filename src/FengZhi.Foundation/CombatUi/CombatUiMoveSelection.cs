@@ -872,6 +872,10 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
                 _slots.Add(entry.ActionId, slot);
                 _orderedSlots.Add(slot);
                 AddChild(slot);
+
+                // cu-008 dual-focus: slot hover -> navigation.Hover (不抢 keyboard focus)
+                slot.SlotMouseEntered += OnSlotMouseEntered;
+                slot.SlotMouseExited += OnSlotMouseExited;
             }
 
             slot.Configure(entry);
@@ -884,6 +888,31 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         }
 
         _orderedSlots.Sort((left, right) => left.StableOrder.CompareTo(right.StableOrder));
+    }
+
+    private void OnSlotMouseEntered(string actionId)
+    {
+        var navigation = _navigation.Hover(actionId);
+        ApplyNavigationVisual(navigation);
+    }
+
+    private void OnSlotMouseExited(string actionId)
+    {
+        // 只有当离开的恰好是当前 hover 时才清空，避免不同 slot 互踩
+        if (string.Equals(_navigation.Snapshot.HoveredActionId, actionId, StringComparison.Ordinal))
+        {
+            var navigation = _navigation.Hover(null);
+            ApplyNavigationVisual(navigation);
+        }
+    }
+
+    private void ApplyNavigationVisual(CombatUiNavigationSnapshot navigation)
+    {
+        // navigation snapshot 已经包含 dual focus visual state，
+        // 由 slot.OnFocusEntered/Exited + hover signal 各自维护视觉态，
+        // 这里仅 reserved for future input mode handling。
+        _ = navigation;
+        MarkDirty();
     }
 
     private void BindFocusNeighbors(CombatUiNavigationSnapshot navigation)
@@ -987,15 +1016,79 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
 
 /// <summary>
 /// 可交互行动槽位。键鼠与手柄导航都必须能聚焦。
+///
+/// 视觉结构（cu-004 + cu-005 集成时通过 EnsureVisualChildren 懒构造）：
+///   VBoxContainer
+///   ├─ HBoxContainer  (TopRow)
+///   │   ├─ Label TypeGlyph        (体系字形 拳/水/风)
+///   │   ├─ Label DisplayName      (招式名)
+///   │   ├─ Label NeixiCost        (内息 N)
+///   │   ├─ Label XinfaBadge       (心法, 隐藏除非 IsXinfaExclusive)
+///   │   └─ Label CounterTag       (反制 / 反制·内息不足, 隐藏除非 CounterPrompt.IsVisible)
+///   ├─ Label EffectSummary        (效果摘要 + 触发条件)
+///   └─ Label DisabledReason       (置灰原因, 隐藏除非 DisabledReason != null)
+///   + ColorRect DecisiveHighlight (顶层 z-index = -1, IsDecisiveStrike 时显示金色描边)
+///
+/// 单元测试不调 _Ready，但 Configure 会触发 EnsureVisualChildren；调 AddChild 不需要 SceneTree。
 /// </summary>
 public partial class CombatMoveActionSlot : Control
 {
+    private VBoxContainer? _layout;
+    private HBoxContainer? _topRow;
+    private Label? _typeGlyphLabel;
+    private Label? _nameLabel;
+    private Label? _neixiLabel;
+    private Label? _xinfaBadgeLabel;
+    private Label? _counterTagLabel;
+    private Label? _effectLabel;
+    private Label? _disabledReasonLabel;
+    private ColorRect? _decisiveHighlight;
+
+    private static readonly Color CounterEnabledColor = new(1f, 0.83f, 0.20f, 1f); // counter_gold
+    private static readonly Color CounterDisabledColor = new(0.70f, 0.70f, 0.70f, 1f); // counter_disabled_gray
+    private static readonly Color XinfaBadgeColor = new(0.45f, 0.85f, 1.0f, 1f);
+    private static readonly Color DisabledReasonColor = new(0.85f, 0.55f, 0.45f, 1f);
+    private static readonly Color DecisiveHighlightColor = new(0.95f, 0.78f, 0.20f, 0.20f);
+
+    // cu-008 dual-focus: hover 与 focus 独立视觉态
+    private static readonly Color HoverBgColor = new(0.30f, 0.40f, 0.55f, 0.35f);     // mouse_hover semi-transparent blue
+    private static readonly Color FocusBgColor = new(0.55f, 0.40f, 0.15f, 0.45f);     // keyboard/gamepad focus amber
+    private static readonly Color FocusAndHoverBgColor = new(0.50f, 0.45f, 0.25f, 0.55f); // 同时被聚焦 + 悬停
+
+    private ColorRect? _hoverBackground;
+    private ColorRect? _focusBackground;
+    private bool _isHovered;
+    private bool _isFocused;
+
+    /// <summary>
+    /// 鼠标进入槽位 hover 区域（cu-008 dual-focus 路径，宿主用于通知 binder 调 panel.HoverAction）。
+    /// </summary>
+    [Signal]
+    public delegate void SlotMouseEnteredEventHandler(string actionId);
+
+    /// <summary>
+    /// 鼠标离开槽位 hover 区域。
+    /// </summary>
+    [Signal]
+    public delegate void SlotMouseExitedEventHandler(string actionId);
+
     public CombatMoveActionSlot()
     {
         Name = "CombatMoveActionSlot";
         FocusMode = FocusModeEnum.All;
-        MouseFilter = MouseFilterEnum.Pass;
+        MouseFilter = MouseFilterEnum.Stop; // cu-008: Stop 让 MouseEntered/Exited 信号能正常发
+        CustomMinimumSize = new Vector2(840, 60);
+        MouseEntered += OnMouseEntered;
+        MouseExited += OnMouseExited;
+        FocusEntered += OnFocusEntered;
+        FocusExited += OnFocusExited;
     }
+
+    /// <summary>当前 slot 是否被鼠标 hover（仅 UI 视觉，不影响 focus）。</summary>
+    public bool IsMouseHovered => _isHovered;
+
+    /// <summary>当前 slot 是否被键盘/手柄聚焦。</summary>
+    public bool IsKeyboardFocused => _isFocused;
 
     public static FocusModeEnum RequiredFocusMode => FocusModeEnum.All;
 
@@ -1064,6 +1157,9 @@ public partial class CombatMoveActionSlot : Control
             ReleaseFocus();
         Visible = true;
         Modulate = entry.IsEnabled ? Colors.White : new Color(1f, 1f, 1f, 0.4f);
+
+        EnsureVisualChildren();
+        RefreshVisualLabels();
     }
 
     public void ConfigureFocusNavigation(string upNeighborActionId, string downNeighborActionId)
@@ -1084,6 +1180,195 @@ public partial class CombatMoveActionSlot : Control
         FocusMode = FocusModeEnum.None;
     }
 
+    /// <summary>
+    /// 懒构造视觉子节点。idempotent — 第一次 Configure 时建立，后续刷新只更新 Label 文字。
+    /// 不依赖 _Ready 调用时序，单元测试也可触发（AddChild 不需要 SceneTree）。
+    /// </summary>
+    private void EnsureVisualChildren()
+    {
+        if (_layout != null)
+            return;
+
+        // cu-008 dual-focus: focus 与 hover 各一个独立背景层，互不抢
+        _focusBackground = new ColorRect
+        {
+            Name = "FocusBackground",
+            Color = FocusBgColor,
+            MouseFilter = MouseFilterEnum.Ignore,
+            Visible = false,
+            ZIndex = -2,
+        };
+        _focusBackground.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        AddChild(_focusBackground);
+
+        _hoverBackground = new ColorRect
+        {
+            Name = "HoverBackground",
+            Color = HoverBgColor,
+            MouseFilter = MouseFilterEnum.Ignore,
+            Visible = false,
+            ZIndex = -2,
+        };
+        _hoverBackground.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        AddChild(_hoverBackground);
+
+        _decisiveHighlight = new ColorRect
+        {
+            Name = "DecisiveHighlight",
+            Color = DecisiveHighlightColor,
+            MouseFilter = MouseFilterEnum.Ignore,
+            Visible = false,
+            ZIndex = -1,
+        };
+        _decisiveHighlight.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        AddChild(_decisiveHighlight);
+
+        _layout = new VBoxContainer
+        {
+            Name = "Layout",
+            MouseFilter = MouseFilterEnum.Ignore,
+        };
+        _layout.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        _layout.AddThemeConstantOverride("separation", 2);
+        AddChild(_layout);
+
+        _topRow = new HBoxContainer
+        {
+            Name = "TopRow",
+            MouseFilter = MouseFilterEnum.Ignore,
+        };
+        _topRow.AddThemeConstantOverride("separation", 10);
+        _layout.AddChild(_topRow);
+
+        _typeGlyphLabel = new Label { Name = "TypeGlyph", CustomMinimumSize = new Vector2(28, 0) };
+        _topRow.AddChild(_typeGlyphLabel);
+
+        _nameLabel = new Label { Name = "DisplayName", CustomMinimumSize = new Vector2(220, 0) };
+        _topRow.AddChild(_nameLabel);
+
+        _neixiLabel = new Label { Name = "NeixiCost", CustomMinimumSize = new Vector2(90, 0) };
+        _topRow.AddChild(_neixiLabel);
+
+        _xinfaBadgeLabel = new Label
+        {
+            Name = "XinfaBadge",
+            Text = "[心法]",
+            Visible = false,
+            Modulate = XinfaBadgeColor,
+            CustomMinimumSize = new Vector2(56, 0),
+        };
+        _topRow.AddChild(_xinfaBadgeLabel);
+
+        _counterTagLabel = new Label
+        {
+            Name = "CounterTag",
+            Visible = false,
+            CustomMinimumSize = new Vector2(160, 0),
+        };
+        _topRow.AddChild(_counterTagLabel);
+
+        _effectLabel = new Label
+        {
+            Name = "EffectSummary",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+        };
+        _layout.AddChild(_effectLabel);
+
+        _disabledReasonLabel = new Label
+        {
+            Name = "DisabledReason",
+            Visible = false,
+            Modulate = DisabledReasonColor,
+        };
+        _layout.AddChild(_disabledReasonLabel);
+    }
+
+    private void RefreshVisualLabels()
+    {
+        if (_topRow == null) return;
+
+        _typeGlyphLabel!.Text = TypeGlyph;
+        _nameLabel!.Text = DisplayName;
+        _neixiLabel!.Text = NeixiCost > 0 ? $"内息 {NeixiCost}" : "—";
+        _xinfaBadgeLabel!.Visible = IsXinfaExclusive;
+        _effectLabel!.Text = string.IsNullOrEmpty(TriggerConditionIcon)
+            ? EffectSummary
+            : $"({TriggerConditionIcon}) {EffectSummary}";
+
+        if (CounterPrompt is { IsVisible: true } counter)
+        {
+            _counterTagLabel!.Visible = true;
+            _counterTagLabel.Text = counter.IsEnabled
+                ? counter.Label
+                : $"{counter.Label}";
+            _counterTagLabel.Modulate = counter.IsEnabled ? CounterEnabledColor : CounterDisabledColor;
+        }
+        else
+        {
+            _counterTagLabel!.Visible = false;
+        }
+
+        _disabledReasonLabel!.Visible = !string.IsNullOrEmpty(DisabledReason);
+        _disabledReasonLabel.Text = DisabledReason ?? string.Empty;
+
+        _decisiveHighlight!.Visible = IsDecisiveStrike;
+        RefreshDualFocusVisuals();
+    }
+
+    /// <summary>
+    /// cu-008: hover + focus 两个状态独立计算视觉态。
+    /// 同时存在时混合色（焦点 dominant），仅 focus 时琥珀，仅 hover 时蓝。
+    /// </summary>
+    private void RefreshDualFocusVisuals()
+    {
+        if (_focusBackground == null || _hoverBackground == null)
+            return;
+
+        // disabled 槽位不允许任何 hover/focus 视觉
+        if (!IsEnabledForSelection)
+        {
+            _focusBackground.Visible = false;
+            _hoverBackground.Visible = false;
+            return;
+        }
+
+        _focusBackground.Visible = _isFocused;
+        _hoverBackground.Visible = _isHovered;
+
+        if (_isFocused && _isHovered)
+            _focusBackground.Color = FocusAndHoverBgColor;
+        else
+            _focusBackground.Color = FocusBgColor;
+    }
+
+    private void OnMouseEntered()
+    {
+        _isHovered = true;
+        RefreshDualFocusVisuals();
+        if (IsEnabledForSelection && !string.IsNullOrEmpty(ActionId))
+            EmitSignal(SignalName.SlotMouseEntered, ActionId);
+    }
+
+    private void OnMouseExited()
+    {
+        _isHovered = false;
+        RefreshDualFocusVisuals();
+        if (!string.IsNullOrEmpty(ActionId))
+            EmitSignal(SignalName.SlotMouseExited, ActionId);
+    }
+
+    private void OnFocusEntered()
+    {
+        _isFocused = true;
+        RefreshDualFocusVisuals();
+    }
+
+    private void OnFocusExited()
+    {
+        _isFocused = false;
+        RefreshDualFocusVisuals();
+    }
+
     private static string ToNodeName(string actionId)
     {
         return $"MoveAction_{actionId.Replace(':', '_')}";
@@ -1092,14 +1377,31 @@ public partial class CombatMoveActionSlot : Control
 
 /// <summary>
 /// 招式预览卡 Control。只展示关系和反制提示，不展示预测数值。
+///
+/// 视觉结构：
+///   VBoxContainer
+///   ├─ Label TitleLabel      ("预览：[招式名]")
+///   ├─ Label RelationshipLabel ("关系：克制/中性/被克")
+///   └─ Label CounterHintLabel  ("可反制 / 谨防被反制 / 等待目标意图" 等)
 /// </summary>
 public partial class CombatMovePreviewCardControl : Control
 {
+    private VBoxContainer? _layout;
+    private Label? _titleLabel;
+    private Label? _relationshipLabel;
+    private Label? _counterHintLabel;
+
+    private static readonly Color AdvantageColor = new(1f, 0.83f, 0.20f, 1f);
+    private static readonly Color DisadvantageColor = new(0.95f, 0.45f, 0.40f, 1f);
+    private static readonly Color NeutralColor = new(0.80f, 0.80f, 0.80f, 1f);
+    private static readonly Color UnknownColor = new(0.60f, 0.60f, 0.65f, 1f);
+
     public CombatMovePreviewCardControl()
     {
         Name = "CombatMovePreviewCard";
         FocusMode = FocusModeEnum.None;
         MouseFilter = MouseFilterEnum.Ignore;
+        CustomMinimumSize = new Vector2(440, 70);
     }
 
     public static FocusModeEnum RequiredFocusMode => FocusModeEnum.None;
@@ -1133,5 +1435,43 @@ public partial class CombatMovePreviewCardControl : Control
         TypeRelationship = card.TypeRelationship;
         RelationshipText = card.RelationshipText;
         CounterHint = card.CounterHint;
+
+        EnsureVisualChildren();
+        RefreshVisualLabels();
+    }
+
+    private void EnsureVisualChildren()
+    {
+        if (_layout != null) return;
+
+        _layout = new VBoxContainer { Name = "Layout", MouseFilter = MouseFilterEnum.Ignore };
+        _layout.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        _layout.AddThemeConstantOverride("separation", 2);
+        AddChild(_layout);
+
+        _titleLabel = new Label { Name = "Title" };
+        _layout.AddChild(_titleLabel);
+
+        _relationshipLabel = new Label { Name = "Relationship" };
+        _layout.AddChild(_relationshipLabel);
+
+        _counterHintLabel = new Label { Name = "CounterHint" };
+        _layout.AddChild(_counterHintLabel);
+    }
+
+    private void RefreshVisualLabels()
+    {
+        if (_titleLabel == null) return;
+
+        _titleLabel.Text = $"预览：{DisplayName}";
+        _relationshipLabel!.Text = $"关系：{RelationshipText}";
+        _relationshipLabel.Modulate = TypeRelationship switch
+        {
+            CombatUiMoveTypeRelationship.Advantage => AdvantageColor,
+            CombatUiMoveTypeRelationship.Disadvantage => DisadvantageColor,
+            CombatUiMoveTypeRelationship.Neutral => NeutralColor,
+            _ => UnknownColor,
+        };
+        _counterHintLabel!.Text = CounterHint;
     }
 }

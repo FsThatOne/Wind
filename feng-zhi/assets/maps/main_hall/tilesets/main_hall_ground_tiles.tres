@@ -1,0 +1,63 @@
+[gd_resource type="TileSet" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/maps/main_hall/tilesets/main_hall_ground_tiles.png" id="1_atlas"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_main_hall"]
+texture = ExtResource("1_atlas")
+texture_region_size = Vector2i(64, 32)
+0:0/0 = 0
+0:0/0/custom_data_0 = "polished_wood_floor"
+1:0/0 = 0
+1:0/0/custom_data_0 = "worn_wood_floor"
+2:0/0 = 0
+2:0/0/custom_data_0 = "stone_threshold"
+3:0/0 = 0
+3:0/0/custom_data_0 = "carpet_center"
+4:0/0 = 0
+4:0/0/custom_data_0 = "carpet_edge"
+5:0/0 = 0
+5:0/0/custom_data_0 = "stone_pillar_base"
+0:1/0 = 0
+0:1/0/custom_data_0 = "wall_foot_ne"
+1:1/0 = 0
+1:1/0/custom_data_0 = "wall_foot_nw"
+2:1/0 = 0
+2:1/0/custom_data_0 = "wall_foot_se"
+3:1/0 = 0
+3:1/0/custom_data_0 = "wall_foot_sw"
+4:1/0 = 0
+4:1/0/custom_data_0 = "doorway_threshold"
+5:1/0 = 0
+5:1/0/custom_data_0 = "shadow_floor"
+0:2/0 = 0
+0:2/0/custom_data_0 = "wood_plank_dark"
+1:2/0 = 0
+1:2/0/custom_data_0 = "wood_plank_light"
+2:2/0 = 0
+2:2/0/custom_data_0 = "stone_step"
+3:2/0 = 0
+3:2/0/custom_data_0 = "mosaic_tile"
+4:2/0 = 0
+4:2/0/custom_data_0 = "clay_tile"
+5:2/0 = 0
+5:2/0/custom_data_0 = "lacquer_floor"
+0:3/0 = 0
+0:3/0/custom_data_0 = "bamboo_mat_floor"
+1:3/0 = 0
+1:3/0/custom_data_0 = "stone_crack_floor"
+2:3/0 = 0
+2:3/0/custom_data_0 = "dust_floor"
+3:3/0 = 0
+3:3/0/custom_data_0 = "blood_stain_floor"
+4:3/0 = 0
+4:3/0/custom_data_0 = "ceremonial_floor"
+5:3/0 = 0
+5:3/0/custom_data_0 = "plain_wood_fallback"
+
+[resource]
+tile_shape = 1
+tile_layout = 5
+tile_size = Vector2i(64, 32)
+custom_data_layer_0/name = "tile_name"
+custom_data_layer_0/type = 4
+sources/0 = SubResource("TileSetAtlasSource_main_hall")

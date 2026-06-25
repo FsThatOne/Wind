@@ -36,11 +36,18 @@ public partial class CavePlayer : CharacterBody2D
 	private Vector2I? _targetTile;
 	private Vector2 _targetPosition;
 	private bool _tileMovementEnabled;
+	private bool _movementFrozen;
 
 	public bool TileMovementEnabled
 	{
 		get => _tileMovementEnabled;
 		set => _tileMovementEnabled = value;
+	}
+
+	public bool MovementFrozen
+	{
+		get => _movementFrozen;
+		set => _movementFrozen = value;
 	}
 
 	public override void _Ready()
@@ -59,6 +66,12 @@ public partial class CavePlayer : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (_movementFrozen)
+		{
+			Velocity = Vector2.Zero;
+			return;
+		}
+
 		if (_tileMovementEnabled)
 		{
 			MoveAlongTilePath(delta);

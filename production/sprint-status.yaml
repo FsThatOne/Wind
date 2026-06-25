@@ -14,7 +14,7 @@ goal: "ADR-0020 全循环 Vertical Slice 重建 — 第一章·江南 explore→
 start: "2026-06-23"
 end: "2026-07-06"
 generated: "2026-06-22"
-updated: "2026-06-24 PM (cu-visual-evidence harness spec 落地 + 6 子 story 拆分: cu-004/005/006/008-vs-integration + cu-visual-evidence-harness + cu-visual-evidence-recording, Owner Q1-Q6 全选推荐项 a; +回溯落 2 emergent done story S7-Dialogue-Chapter-00-Wiring + S7-Dialogue-Compiler-Tool; +iso 方向 NOT 否决澄清)"
+updated: "2026-06-24 PM-3 (cu-004 + cu-005 vs-integration both done; cu-004 视觉补漏 (slot/preview partial 代码侧懒构造 Label/ColorRect) + cu-005 反制/决胜提示 + DemoSeed export 提前到 cu-005 阶段; Foundation 1403/1403 0 回归; feng-zhi 编译 0 err)"
 
 stories:
   - id: "S7-Animator-Directional-Port"
@@ -181,76 +181,297 @@ stories:
     name: "cu-004 招式选择面板 + 预览卡 集成进 VS battle scene"
     file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
+    status: done
+    owner: "agent"
     estimate_days: 0.5
     estimate_hours: 4.0
-    actual_hours: null
-    blocker: "Depends on S7-VS-Combat-Loop done (已 done)。"
-    completed: ""
+    actual_hours: 1.5
+    blocker: ""
+    completed: "2026-06-24"
     sprint_candidate: 7
-    deliverable: "feng-zhi/scenes/ui/combat/CombatMoveSelectionPanel.tscn + MoveRow.tscn + MovePreviewCard.tscn + feng-zhi/scripts/combat/CombatMoveSelectionPanel.cs (订阅 CombatUiEventAdapter.OnMoveSelectionPanelUpdated); JiangnanBandit1v1Fixture.CreateDemoConfig_Cu004Showcase() (6 装备 + 调息 + 使用道具 + 心法专属 + 内息不足 + 心法封印 + 无道具); JiangnanBattleGame.cs 替换 LightButton/HeavyButton 占位"
-    note: "harness spec subtask A; 是 B/C/D 的关键路径前置。AC 见 production/epics/combat-ui/stories/cu-004-move-selection-panel-and-preview-card.md §验收标准。"
+    deliverable: |
+      cu-004 招式选择面板集成 done:
+      - src/FengZhi.Foundation/Combat/Fixtures/JiangnanBandit1v1Fixture.cs 扩 Cu004DemoSeed record + CreateDemoConfig_Cu004Showcase()
+        (6 招: luo_han_quan/tie_bi_heng_lan + demo_rou_yun_palm/demo_qiao_yun_step/demo_qian_ye_palm/demo_ming_jing_zhi_shui;
+         IsXinfaSealed=true / UsableCombatItemCount=0 让心法专属 + 使用道具置灰; NeixiCost=99 制造内息不足置灰)
+      - feng-zhi/scripts/combat/CombatMoveSelectionBinder.cs 新增 (桥接 Foundation CombatMoveSelectionPanel + Presenter + BattleEventBus;
+        owner Q2=a demo_* 招式提交时按 NeixiCost 路由回 luo_han_quan/tie_bi_heng_lan 结算;
+        订阅 NeixiChangedEvent / IntentRevealedEvent 自动刷 panel context)
+      - feng-zhi/scripts/vs/JiangnanBattleGame.cs 重写 (移除 _lightButton/_heavyButton, 持有 _moveBinder,
+        _UnhandledInput 接 ui_up/ui_down/ui_accept, _Ready 用 cu-004 demo seed)
+      - feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn 移除 LightButton/HeavyButton 节点, 替换为 MoveSelectionMount Control 挂载点
+    verdict: |
+      PASS — cu-004.md §验收标准 8/8 契约层 ✅ (panel 8 行: 6 装备 + 调息 + 使用道具, 不含普通攻击;
+      心法专属角标 + 3 种置灰原因 + 预览卡体系关系 + 默认 focus + 资源刷新事件不中断);
+      Foundation.Tests 1403/1403 0 回归 (无新增/无修改既有测试); feng-zhi 编译 0 err 0 warn;
+      录屏证据由 cu-visual-evidence-recording 子 story 落地, 不在本 story scope。
+    note: |
+      Owner 决策 (2026-06-24 Q1-Q4 全选 a):
+      Q1=a presenter wiring 走 Binder 不改 Foundation adapter (YAGNI);
+      Q2=a demo move 提交时路由回真招做结算 (cu-004 录屏只验 UI);
+      Q3=a 心法封印作为纯 UI demo 字段, 不连战斗结算 (cu-007+ scope);
+      Q4=a fixture-first 实施顺序.
+      Binder 设计为可扩展: cu-005 加 counter prompt / cu-006 加 decisive overlay / cu-008 加 input mode 都直接扩本文件即可.
+      Actual 1.5h vs estimate 4h (-62%) — Foundation 层 CombatMoveSelectionPanel 已 partial 实现, 集成成本远低于 spec 估计.
 
   - id: "cu-005-vs-integration"
     name: "cu-005 反制 + 决胜提示 集成进 VS battle scene"
     file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
-    estimate_days: 0.25
-    estimate_hours: 2.0
-    actual_hours: null
-    blocker: "Depends on cu-004-vs-integration done (共用 CombatMoveSelectionPanel)。"
-    completed: ""
+    status: done
+    owner: "agent"
+    estimate_days: 0.4
+    estimate_hours: 3.0
+    actual_hours: 2.0
+    blocker: ""
+    completed: "2026-06-24"
     sprint_candidate: 7
-    deliverable: "feng-zhi/scenes/ui/combat/CounterTag.tscn + DecisiveStrikeRow.tscn; CombatMoveSelectionPanel.cs 接 CombatUiMoveSelection.CounterDecisivePrompt; JiangnanBandit1v1Fixture.CreateDemoConfig_Cu005Showcase() (敌方公开柔意图 + 玩家有刚招 + 内息 ≥3/<3 切换 + 敌方破绽 ≥5)"
-    note: "harness spec subtask B; AC 见 production/epics/combat-ui/stories/cu-005-counter-and-decisive-action-prompts.md §验收标准。"
+    deliverable: |
+      cu-005 反制 + 决胜提示集成 done:
+      - src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs 视觉补漏 (cu-004 阶段遗漏):
+        * CombatMoveActionSlot 加 VBox + HBox + 6 个 Label (TypeGlyph/DisplayName/NeixiCost/XinfaBadge/CounterTag/EffectSummary/DisabledReason)
+          + ColorRect DecisiveHighlight (IsDecisiveStrike 时金色描边); 懒构造模式 EnsureVisualChildren idempotent
+        * CombatMovePreviewCardControl 加 VBox + 3 个 Label (Title/Relationship/CounterHint) + 体系色 Modulate
+        * CounterTag 启用 counter_gold (1f, 0.83f, 0.20f) / 置灰 counter_disabled_gray (0.70f); 不可见时 Hidden
+      - src/FengZhi.Foundation/Combat/Fixtures/JiangnanBandit1v1Fixture.cs 扩 Cu005DemoSeed record + CreateDemoConfig_Cu005Showcase()
+        (PreloadedDecisiveTargetIds=[BanditId] / InitialPlayerNeixi=3 / 复用 cu-004 panel) + CreateBanditAICu005 (敌方所有回合 commit Rou 意图)
+      - feng-zhi/scripts/combat/CombatMoveSelectionBinder.cs 扩展:
+        * 订阅 DecisiveStrikeAvailableEvent / RoundStartEvent 维护 _decisiveStrikeTargetIds
+        * SetDecisiveStrikeTargets(IEnumerable<string>) demo 注入接口
+        * OverridePlayerNeixiForDemo(int) 演反制 enable/disable 切换的 hotkey 路径
+        * TranslateIntent 加 ActionType.Counter (IsCounter=true) + ActionType.Decisive (IsDecisiveStrike=true) 路由
+      - feng-zhi/scripts/vs/JiangnanBattleGame.cs: 加 [Export] string DemoSeed (默认 "cu-004"; "cu-005" 走 Cu005DemoSeed);
+        _UnhandledInput 加 cu-005 hotkey BracketLeft/BracketRight (减/加 UI 内息显示) 演反制 enable/disable
+      - feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn Hint 文案更新含 cu-005 hotkey 说明
+    verdict: |
+      PASS — cu-005.md §验收标准 7/7 契约层 ✅ (反制启用金色 + 置灰灰色 + isCounter=true 提交 + 决胜行顶部高亮 +
+      切目标刷新 + 内息变化即时刷 + UI 不执行反制扣费); Foundation.Tests 1403/1403 0 回归;
+      feng-zhi 编译 0 err 0 warn; spec 提及的 CounterTag.tscn / DecisiveStrikeRow.tscn 用代码侧懒构造替代
+      (与 Foundation partial class 模式一致, 见 deviation note); 录屏证据由 cu-visual-evidence-recording 落地.
+    note: |
+      偏差: spec deliverable 写"CounterTag.tscn + DecisiveStrikeRow.tscn", 实际改为代码侧懒构造 (Label + ColorRect)
+      理由: Foundation 的 CombatMoveActionSlot/PreviewCardControl 是 partial class 走代码侧 AddChild 模式 (不走 .tscn 拼布局),
+      与 spec 提及的独立 .tscn 模式不兼容; 视觉子节点直接放进 slot/preview partial class 让 Foundation 测试 + Godot 渲染共用.
+
+      意外发现 + 补漏: cu-004-vs-integration 集成时 slot/preview 是裸 Control 没有视觉子节点 (Foundation 契约层 + xunit
+      均不需要可视化), 实际录屏会看不见. cu-005 必须先补回 cu-004 视觉, 所以工作量从 2h spec 估计涨到 2.0h actual
+      (cu-004 视觉补 +0.5h + cu-005 wiring +1.5h). 折算 cu-005 净集成 1.5h 仍优于 spec 估的 2.0h.
+
+      cu-005 demo hotkey [/]: 录屏者在 panel 打开时按 ] 涨 UI 内息 / 按 [ 降 UI 内息 -> 反制金色启用/灰色置灰即时切换,
+      不依赖战斗结算 (owner Q3=a 决策一致 - 纯 UI demo 字段与战斗状态解耦).
+
+      DemoSeed export: 提前 cu-visual-evidence-harness 子 story E 的 [Export] DemoSeed 入口, harness story 时
+      只需再加 cu-006/cu-008 case + AssertDemoState fail-fast 即可, 不需重写架构.
 
   - id: "cu-006-vs-integration"
     name: "cu-006 决胜一击演出 集成进 VS battle scene"
     file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
+    status: done
+    owner: "agent"
     estimate_days: 0.4
     estimate_hours: 3.0
-    actual_hours: null
-    blocker: "Depends on cu-004-vs-integration done (panel 内决胜行触发) + cu-005-vs-integration done (决胜行渲染)。"
-    completed: ""
+    actual_hours: 1.5
+    blocker: ""
+    completed: "2026-06-25"
     sprint_candidate: 7
-    deliverable: "feng-zhi/scenes/ui/combat/DecisiveStrikeOverlay.tscn + feng-zhi/scripts/combat/DecisiveStrikeGodotAdapter.cs (bind TimeScaleEngineBridge + CameraRequestBusBridge + CombatCinematicLockInputFilter); JiangnanBandit1v1Fixture.CreateDemoConfig_Cu006Showcase() (敌方破绽 = 5 可直接触发)"
-    note: "harness spec subtask C; AC 见 production/epics/combat-ui/stories/cu-006-decisive-strike-animation-director.md §验收标准。Q3=a: pause priority 验证由 Foundation combat_ui_decisive_animation_director_test.cs 覆盖, 视觉证据不重复覆盖。"
+    deliverable: |
+      cu-006 一击决胜 7-phase 演出集成 done:
+      - feng-zhi/scenes/ui/combat/DecisiveStrikeOverlay.tscn (已上轮预填) · CanvasLayer layer=100:
+        * Dim ColorRect 全屏 0.55 alpha 黑
+        * CenterContainer/VBox: PhaseLabel (deep-gold 32px) + StylePlaceholder (灰 24px) + DamageLabel (deep-gold 96px max-size, Phase5 才 Visible)
+        * 默认 Visible=false, adapter 在 Phase1 翻成 true, Completed 翻回 false
+      - feng-zhi/scripts/combat/DecisiveStrikeGodotAdapter.cs (已上轮预填 + 本轮 using 补全):
+        * 持有 Foundation 栈: TimeScaleController + CameraRequestBus + CombatCinematicLock + CombatAnimationDirector
+        * 持有 Bridge: TimeScaleEngineBridge → Engine.TimeScale, CameraRequestBusBridge → Camera2D (+ TargetResolver)
+        * 订阅 DecisiveStrikeStartedEvent/PhaseAdvancedEvent/CompletedEvent 维护 overlay 文本 & visibility
+        * _Process(delta) 调 director.Tick(delta) (delta 已被 Engine.TimeScale=0.2 缩放, sequence 自然慢)
+        * ShouldConsumeInput → CombatCinematicLockInputFilter.ShouldConsume (whitelist ui_pause/ui_system_back)
+        * SequenceCompleted/Cancelled Action 回调 (Initialize 时由宿主注入)
+        * IDisposable (_ExitTree 释放所有 bridge + unsubscribe events + director.Dispose)
+      - feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn (已上轮预填):
+        * MainCamera Camera2D position=(576,324) PositionSmoothing=true 默认
+        * DecisiveStrikeOverlay instance + DecisiveStrikeAdapter Node 已挂在根
+      - feng-zhi/scripts/vs/JiangnanBattleGame.cs 集成 (本轮):
+        * _Ready GetNode 5 个新节点 (Camera2D / Overlay / Adapter / Player+Bandit Sprite)
+        * 在 facade.InitiateBattle 之后、controller.Start() 之前: 若 enemyStaggerOverride.HasValue → bandit.AddStagger(5)
+        * decisiveAdapter.Initialize(_bus, _mainCamera, _decisiveOverlay)
+        * RegisterTarget(Protagonist + Bandit, () => sprite.GlobalPosition) 让 Camera 锁目标
+        * SequenceCompleted/Cancelled callback → 更新 _statusLabel
+        * 订阅 DamageDealtEvent: VisualRelation==Decisive → adapter.RequestDecisive(SourceId, TargetId, Amount, MoveType.Gang)
+        * _UnhandledInput 顶部加 ShouldConsumeInput 短路 (演出期屏蔽除 whitelist 之外的所有输入)
+        * DemoSeed switch 加 "cu-006" case (enemyStaggerOverride=5 + initialDemoNeixi=8 + preloadedDecisiveTargets=[BanditId])
+        * Hint label 更新含 cu-006 触发说明
+      - src/FengZhi.Foundation/Combat/Fixtures/JiangnanBandit1v1Fixture.cs:
+        * Cu006DemoSeed record (BattleConfig + PanelDisplay + IsXinfaSealed + UsableCombatItemCount
+          + PreloadedDecisiveTargetIds + InitialPlayerNeixi + EnemyInitialStaggerOverride)
+        * CreateDemoConfig_Cu006Showcase() = cu-004 panel + 敌方 stagger=5 + Neixi=8 + DecisiveTarget=BanditId
+        * 删除重复的旧版 Cu006DemoSeed (DecisivePrecomputedDamage=99 的"演出独立测试"路径,
+          与"真实结算 → DamageDealtEvent 触发演出"链路不一致)
+    verdict: |
+      PASS — cu-006.md §验收标准 7/7 契约层 ✅ (由 Foundation combat_ui_decisive_animation_director_test.cs 覆盖,
+      Q3=a 决策不重复视觉证据). Godot 集成 AC:
+        AC1 (7-phase 顺序播放) ✅ adapter._Process delta → director.Tick → DecisiveStrikeSequence 推进
+        AC2 (TimeScale 1.0→0.2→1.0 优先级 50) ✅ TimeScaleEngineBridge 写 Engine.TimeScale
+        AC3 (Camera 推/锁/归位) ✅ CameraRequestBusBridge + TargetResolver
+        AC4 (输入屏蔽 cinematic lock) ✅ _UnhandledInput 顶部 ShouldConsumeInput 短路
+        AC5 (Phase5 max-size deep-gold 浮字) ✅ OnPhaseAdvanced (Phase5) → DamageLabel.Text + Visible=true
+        AC6 (pause stack 抢占恢复) ✅ Foundation DecisiveStrikeSequence._paused 由 ScaleChanged subscribe 自动维护
+        AC7 (演出结束所有资源恢复) ✅ Phase6/7/Completed LIFO 释放 + adapter._ExitTree 兜底 Dispose
+      Foundation.Tests 1403/1403 0 回归; feng-zhi 编译 0 err 0 warn;
+      录屏证据由 cu-visual-evidence-recording 落地, DemoSeed="cu-006" 一键复现 (敌方破绽 5 → 玩家按 Enter → 7-phase).
+    note: |
+      偏差 1: spec deliverable 写"敌方破绽 = 5 可直接触发"用 InitialStagger 字段, 实际 BattleConfig 不支持
+      InitialStagger, 改成 Cu006DemoSeed.EnemyInitialStaggerOverride + JiangnanBattleGame._Ready 在
+      facade.InitiateBattle 之后调 bandit.AddStagger(5) 直接预置. 效果等价, 数据驱动.
+
+      偏差 2: 触发链路 spec 写"binder.Submit → SubmitPlayerAction 检测 IsDecisiveStrike → adapter.RequestDecisive",
+      实际改成订阅 DamageDealtEvent(VisualRelation=Decisive) → adapter.RequestDecisive. 理由:
+      - BattleAction 没有 IsDecisiveStrike 字段, cu-005 binder.TranslateIntent 翻成 ActionType.Decisive
+      - PrecomputedDamage 是 ResolutionService.ExecuteDecisive 内 StaggerService 计算的, 在 SubmitPlayerIntent 之后才知道
+      - DamageDealtEvent 已经带 VisualRelation=Decisive + Amount, 是天然 trigger 点
+      - Foundation Combat 结算与演出解耦 (结算瞬间完成 → 演出 7-phase 慢慢跑), 与 spec Phase1 "接收 Core 已完成的预结算结果" 一致
+
+      偏差 3: 上轮会话末尾 fixture 文件已经有一个"DecisivePrecomputedDamage=99 演出独立测试"版本的 Cu006DemoSeed,
+      本轮删除. 理由: 真实结算 → DamageDealtEvent 触发演出比"演出独立 stub damage"路径更可信, 演出能拿到 Foundation
+      真实计算的伤害值 (40 ≈ (25-5)×2.0). 录屏更有说服力.
+
+      意外发现: DecisiveStrikeGodotAdapter.cs 上轮预填时缺 using FengZhi.Foundation.CharacterData (MoveType) +
+      using FengZhi.Foundation.CombatUi (DecisiveStrikePhase enum). 本轮补齐, 编译 0 err.
+
+      演出与战斗推进时序: 演出期间 controller 已经 PublishResolveEvents 完毕, WaitingForPlayer 等下一回合输入,
+      但 cinematic lock 屏蔽除 whitelist 之外所有输入, 所以 controller 自然挂起到演出结束. Foundation Sequence 内部
+      _paused 由 ScaleChanged subscribe 自动维护, pause stack 抢占时 TimeScale=0 → _paused=true → phase 不累计.
+
+      实际工时 1.5h vs estimate 3.0h. 因 adapter.cs + overlay.tscn + 场景 Camera/Overlay/Adapter 节点上轮已预填,
+      本轮只需 (a) JiangnanBattleGame GetNode + Initialize + DamageDealtEvent 订阅 + DemoSeed switch case
+      (b) Fixture Cu006DemoSeed 合并 (c) using 补齐 + 编译验证. 净 wiring ~1.5h.
 
   - id: "cu-008-vs-integration"
     name: "cu-008 dual-focus + 手柄 D-pad 导航 集成进 VS battle scene"
     file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
+    status: done
+    owner: "agent"
     estimate_days: 0.25
     estimate_hours: 2.0
-    actual_hours: null
-    blocker: "Depends on cu-004-vs-integration done (共用 panel + focus_neighbor)。"
-    completed: ""
+    actual_hours: 1.5
+    blocker: ""
+    completed: "2026-06-24"
     sprint_candidate: 7
-    deliverable: "CombatMoveSelectionPanel.cs + .tscn 加 focus_neighbor_top/bottom 循环 + grab_focus FocusManager 保护 + 鼠标 hover 独立视觉态 + 输入模式切换不丢 focus; InputMap 检查 ui_focus_next/prev/accept 绑定 WASD 或方向键 (Q4=a 键盘 D-pad 模拟 path); JiangnanBandit1v1Fixture.CreateDemoConfig_Cu008Showcase() (= Cu004 + 强制 gamepad-only 模式)"
-    note: "harness spec subtask D; AC 见 production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md §验收标准。Q4=a: 不验证真手柄插拔切换 → 此点拆到 cu-008-Gamepad-HW-Verify nice-to-have story 自然消费。"
+    deliverable: |
+      cu-008 dual-focus + D-pad/方向键循环导航集成 done:
+      - src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs · CombatMoveActionSlot 加:
+        * 2 独立背景层 ColorRect: FocusBackground (琥珀 0.55,0.40,0.15,0.45) / HoverBackground (蓝 0.30,0.40,0.55,0.35)
+          + 混合色 FocusAndHoverBgColor (0.50,0.45,0.25,0.55) 当 focus + hover 同时存在
+        * MouseFilter Pass → Stop (让 MouseEntered/Exited signal 正常发)
+        * ctor 订阅 MouseEntered/Exited/FocusEntered/FocusExited 4 events 维护 _isHovered/_isFocused
+        * 自定 [Signal] SlotMouseEntered/SlotMouseExited(actionId) 把 hover 事件冒泡给 panel
+        * RefreshDualFocusVisuals(): disabled slot 不显示任一背景层；其余按 _isHovered/_isFocused 组合
+        * IsMouseHovered/IsKeyboardFocused public getter 供测试 + 调试
+      - src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs · CombatMoveSelectionPanel.ApplySlots() 加:
+        * 首次创建 slot 时 wire slot.SlotMouseEntered → OnSlotMouseEntered → _navigation.Hover(actionId)
+        * OnSlotMouseExited 仅当离开的 slot == 当前 hover 时清空，避免 slot 互踩
+        * ApplyNavigationVisual(navigation) reserved 后续 input-mode-driven visual
+      - feng-zhi/scripts/combat/CombatMoveSelectionBinder.cs · SetInputMode(InputMode):
+        * 转发到 _panel.ChangeInputMode(mode) → navigation controller 内部更新 input mode；
+          panel 已通过 slot 双背景层独立维护 hover/focus 视觉, 不会丢
+      - feng-zhi/scripts/vs/JiangnanBattleGame.cs:
+        * 加 _lastInputMode? cache + DetectAndApplyInputMode(InputEvent):
+          - InputEventMouse{Motion|Button} → InputMode.Mouse
+          - InputEventJoypad{Button|Motion} → InputMode.Gamepad
+          - InputEventKey(Echo=false) → InputMode.Keyboard
+          - 仅变化时调 _moveBinder.SetInputMode (防 mouse motion 每帧抖)
+        * DemoSeed switch 加 "cu-008" case: 复用 cu-004 panel + 决胜目标预置 + InitialPlayerNeixi=8
+          + GD.Print 提示"建议拔鼠标或方向键模拟 D-pad 录制 dual-focus"
+      - src/FengZhi.Foundation/Combat/Fixtures/JiangnanBandit1v1Fixture.cs:
+        * Cu008DemoSeed record (BattleConfig + PanelDisplay + IsXinfaSealed + UsableCombatItemCount
+          + PreloadedDecisiveTargetIds + InitialPlayerNeixi + PrefersGamepadOnlyHint)
+        * CreateDemoConfig_Cu008Showcase() = cu-004 panel + 决胜目标=BanditId + Neixi=8 + GamepadHint=true
+      - feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn Hint 文案更新含 cu-008 双背景色规则
+        ("鼠标 hover 蓝 / 键盘 focus 琥珀 / 同时存在混合色")
+    verdict: |
+      PASS — cu-008.md §验收标准 7/7 ✅:
+        AC1 (D-pad 上下导航) ✅ Foundation CombatUiNavigationController.Move(Up/Down) 模运算循环 (cu-004 已落)
+        AC2 (最后/最前循环) ✅ 同上, navigation index = (index ± 1 + count) % count
+        AC3 (焦点不逃出面板) ✅ panel 内 BindFocusNeighbors 把 focus_previous/next 设到首尾 slot；panel 外控件不抢
+        AC4 (A/确认提交) ✅ binder.ConfirmFocused → TranslateIntent → SubmitPlayerAction 链路 (cu-004 已落)
+        AC5 (反制/决胜行可手柄触达) ✅ 决胜行作为 slot 参与 ApplySlots → BindFocusNeighbors 自动链入
+        AC6 (鼠标 hover + 手柄 focus 视觉不冲突) ✅ Slot 双背景层 ColorRect 独立, _isHovered/_isFocused 各自 toggle
+        AC7 (输入模式切换焦点高亮规则) ✅ DetectAndApplyInputMode + SetInputMode → ChangeInputMode 路径, 仅变化时通知, 不丢 slot focus
+      Foundation.Tests 1403/1403 0 回归; feng-zhi 编译 0 err 0 warn;
+      录屏证据由 cu-visual-evidence-recording 落地, DemoSeed="cu-008" 一键复现.
+    note: |
+      偏差 1: spec deliverable 写 ".tscn 加 focus_neighbor_top/bottom 循环",
+      实际 focus_neighbor 由 Foundation CombatMoveSelectionPanel.BindFocusNeighbors() 代码侧 set
+      (与 partial class + AddChild 模式一致, 不走 .tscn 拼布局). 与 cu-004/005 deviation note 同源.
+
+      偏差 2: Q4=a "键盘 D-pad 模拟 path" 决策 → 不验证真手柄插拔切换. DetectAndApplyInputMode 已 handle
+      InputEventJoypad* → InputMode.Gamepad 分支, 真手柄录制可直接复用. cu-008-Gamepad-HW-Verify (nice-to-have)
+      自然消费此分支, 不在 cu-008-vs-integration 范围.
+
+      偏差 3: Cu008DemoSeed.InitialPlayerNeixi=8 (cu-004 默认 5) — 故意让多招可用让 D-pad 循环穿过更多有效行,
+      演 dual-focus 时不被置灰行打断. cu-005 demo 用 Neixi=3 演反制 enable/disable, 与 cu-008 路径解耦.
+
+      意外发现: MouseFilter 必须设 Stop 才能让 Godot 的 MouseEntered/Exited signal 正常发 — Pass 时鼠标事件
+      被父节点吞掉, slot 收不到. 修正后视觉态可独立 toggle, 不影响 cu-004/005 已有点击+导航行为.
+
+      实际工时 1.5h vs estimate 2.0h. 因 Foundation 已有 CombatUiNavigationController 循环 + InputMode enum +
+      ChangeInputMode 接口, feng-zhi 侧只需写 InputEvent → InputMode 映射 + slot 双背景层视觉. 净集成 ~1.5h.
 
   - id: "cu-visual-evidence-harness"
     name: "Recording harness — 4 个 demo scene + DemoSeed + state assertion fail-fast"
     file: "docs/superpowers/specs/2026-06-24-cu-visual-evidence-harness.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
+    status: done
+    owner: "agent"
     estimate_days: 0.1
     estimate_hours: 1.0
-    actual_hours: null
-    blocker: "Depends on cu-004 + cu-005 + cu-006 + cu-008 vs-integration 全 done。"
-    completed: ""
+    actual_hours: 0.5
+    blocker: ""
+    completed: "2026-06-25"
     sprint_candidate: 7
-    deliverable: "JiangnanBattleGame.cs 加 [Export] DemoSeed; feng-zhi/scenes/vs/demo/{battle_demo_cu004,battle_demo_cu005,battle_demo_cu006,battle_demo_cu008}.tscn (Q2=a 4 个独立 .tscn 模式, 各覆盖 DemoSeed); AssertDemoState() 防 demo state 漂移 fail-fast"
-    note: "harness spec subtask E; owner 一条 godot 命令进 demo state, 不必走 explore → battle 玩到正确状态。state assertion fail-fast 避免录到一半发现状态不对。"
+    deliverable: |
+      cu-visual-evidence-harness E.1-E.4 done:
+      - feng-zhi/scenes/vs/demo/ 新建目录 (Q2=a 4 个独立 .tscn 模式):
+        * battle_demo_cu004.tscn (uid://ce0demo7cu004v1) inherit battle_jiangnan_bandit.tscn override DemoSeed="cu-004"
+        * battle_demo_cu005.tscn (uid://ce0demo7cu005v1) inherit ... DemoSeed="cu-005"
+        * battle_demo_cu006.tscn (uid://ce0demo7cu006v1) inherit ... DemoSeed="cu-006"
+        * battle_demo_cu008.tscn (uid://ce0demo7cu008v1) inherit ... DemoSeed="cu-008"
+      - feng-zhi/scripts/vs/JiangnanBattleGame.cs 加 AssertDemoState(panelDisplay, isXinfaSealed, usableCombatItemCount,
+        preloadedDecisiveTargets, initialDemoNeixi, enemyStaggerOverride, enemy) #if DEBUG 包裹:
+        * cu-004: 招式数 ≥6 + IsXinfaSealed=true + UsableCombatItemCount=0 + ≥1 XinfaExclusive 招式
+        * cu-005: 招式数 ≥6 + PreloadedDecisiveTargetIds 非空 + InitialPlayerNeixi=3 (反制启用边界)
+        * cu-006: EnemyInitialStaggerOverride=5 + enemy.Stagger ≥5 + PreloadedDecisiveTargetIds 非空
+        * cu-008: 招式数 ≥6 + PreloadedDecisiveTargetIds 非空 + InitialPlayerNeixi ≥6
+        * AssertDemo() = condition false → GD.PushError + throw InvalidOperationException (fail-fast)
+      - 录屏命令 (each demo 一条命令):
+        godot --path feng-zhi/ feng-zhi/scenes/vs/demo/battle_demo_cu004.tscn
+        godot --path feng-zhi/ feng-zhi/scenes/vs/demo/battle_demo_cu005.tscn
+        godot --path feng-zhi/ feng-zhi/scenes/vs/demo/battle_demo_cu006.tscn
+        godot --path feng-zhi/ feng-zhi/scenes/vs/demo/battle_demo_cu008.tscn
+      - [Export] DemoSeed 入参在 cu-005-vs-integration 已落 (sprint-status.yaml cu-005 note 提及 "提前 cu-visual-evidence-harness
+        子 story E 的 [Export] DemoSeed 入口"), 本 story 仅需补 4 个 inherited scene + AssertDemoState
+    verdict: |
+      PASS — 4 个 demo scene 文件创建; AssertDemoState 覆盖 4 个 DemoSeed 不变量; feng-zhi 编译 0 err 0 warn;
+      Foundation.Tests 1403/1403 0 回归. spec Validation Criteria 6 ✅
+      (4 个 demo scene 可一条命令启动 + state assertion 通过).
+    note: |
+      偏差 1: spec E.4 示例用 _panel.AvailableMoves.Count 这类 panel runtime state 做 assert. 实际改为对 demo seed
+      fixture 输出 + battle initial state 做 assert (panelDisplay.Entries.Count + enemyStaggerOverride + enemy.Stagger
+      + preloadedDecisiveTargets + initialDemoNeixi). 理由: panel 在 _Ready 末尾还未 OpenForPlayerDecision (binder
+      要等 controller.Start 后才打开), assert fixture 输出更早期更可靠.
+
+      偏差 2: spec 示例用 Debug.Assert (.NET 内置), 实际改为自定 AssertDemo() = GD.PushError + throw. 理由:
+      Debug.Assert 在 release build 会被剥离, 但 throw 在 #if DEBUG 包裹内能保证 fail-fast 路径触发,
+      且 GD.PushError 在 Godot console 直接红色高亮, 录屏者更容易看到.
+
+      偏差 3: cu-005/006/008 已经在自己集成时落 DemoSeed switch case + DemoSeed [Export], 所以 E story 实际只剩
+      4 个 .tscn + AssertDemoState 落, 净工时 0.5h vs estimate 1.0h. 因 cu-005 story note 已经提前 "DemoSeed
+      export 提前落地", E story 直接受益.
+
+      未来可扩展: feng-zhi/scenes/vs/demo/ 模式可复用 (cu-009+ / exploration-insight / mindset-dual-axis 等
+      下次需要视觉证据的 story 直接 inherit + 覆盖 DemoSeed). 见 spec §Future-proofing.
 
   - id: "cu-visual-evidence-recording"
     name: "Owner 实机录 cu-004/005/006/008 4 段视觉证据"
