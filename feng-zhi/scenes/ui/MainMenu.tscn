@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://scripts/ui/MainMenuGame.cs" id="1_mainmenu"]
 [ext_resource type="Texture2D" path="res://assets/ui/main_menu/button_seal_normal.png" id="2_button_seal"]
 [ext_resource type="Texture2D" path="res://assets/ui/main_menu/background_lone_swordsman.png" id="3_bg_main"]
+[ext_resource type="Texture2D" path="res://assets/ui/main_menu/title_logo.png" id="4_title_logo"]
 
 ; nine-slice 印章按钮 4 状态共用同一张贴图, 用 modulate_color tint 区分
 [sub_resource type="StyleBoxTexture" id="StyleBox_button_normal"]
@@ -84,41 +85,25 @@ texture = ExtResource("3_bg_main")
 expand_mode = 1
 stretch_mode = 6
 
-; --- 标题容器 (居中偏上, ~viewport 顶部 22% 位置) ---
-[node name="TitleContainer" type="VBoxContainer" parent="."]
+; --- 标题 Logo (水墨草书"风  止" + 朱砂印章; 居中偏上, 顶部 15px 起) ---
+; 原始 2125x2394 (≈0.888 比例), 显示 460x518 保持比例
+; 斜对角构图 (左上"风" + 右下"止"+印章), 周围大量留白 → 不会挤到 MenuList (anchor 0.55)
+; stretch_mode=5 (KEEP_ASPECT_CENTERED), expand_mode=1 (IGNORE_SIZE)
+; 入场动画由 MainMenuGame 整体 Modulate 0→1 控制 (~0.5s 淡入)
+[node name="TitleLogo" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.22
 anchor_right = 0.5
-anchor_bottom = 0.22
-offset_left = -300.0
-offset_top = 0.0
-offset_right = 300.0
-offset_bottom = 160.0
+offset_left = -230.0
+offset_top = 15.0
+offset_right = 230.0
+offset_bottom = 533.0
 grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-theme_override_constants/separation = 8
-
-; 墨黑题字 + 宣纸白晕染 outline (适配浅米水墨画背景)
-[node name="TitleLabel" type="Label" parent="TitleContainer"]
-layout_mode = 2
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 96
-theme_override_colors/font_color = Color(0.10, 0.08, 0.06, 1)
-theme_override_colors/font_outline_color = Color(0.95, 0.92, 0.85, 0.85)
-theme_override_constants/outline_size = 8
-text = "风  止"
-
-[node name="SubtitleLabel" type="Label" parent="TitleContainer"]
-layout_mode = 2
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
-theme_override_colors/font_color = Color(0.30, 0.25, 0.18, 1)
-theme_override_colors/font_outline_color = Color(0.95, 0.92, 0.85, 0.7)
-theme_override_constants/outline_size = 4
-text = "Wind  Stops"
+mouse_filter = 2
+texture = ExtResource("4_title_logo")
+expand_mode = 1
+stretch_mode = 5
 
 ; --- 菜单按钮列表 (居中偏下, viewport 中部 55%) ---
 [node name="MenuList" type="VBoxContainer" parent="."]
