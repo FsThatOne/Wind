@@ -41,6 +41,7 @@ public abstract partial class SceneGameBase : Node2D
 	protected Label StatusLabel = null!;
 	protected Label PromptLabel = null!;
 	protected Label InventoryLabel = null!;
+	private Label _hintLabel = null!;
 	private Panel _messagePanel = null!;
 	private Label _messageLabel = null!;
 	private Area2D? _focusedArea;
@@ -66,10 +67,12 @@ public abstract partial class SceneGameBase : Node2D
 		StatusLabel = GetNode<Label>("UiLayer/StatusLabel");
 		PromptLabel = GetNode<Label>("UiLayer/PromptLabel");
 		InventoryLabel = GetNode<Label>("UiLayer/InventoryLabel");
+		_hintLabel = GetNode<Label>("UiLayer/HintLabel");
 		_messagePanel = GetNode<Panel>("UiLayer/MessagePanel");
 		_messageLabel = GetNode<Label>("UiLayer/MessagePanel/MessageLabel");
 		GD.Print($"[{SceneName}] _Ready: all nodes bound.");
 
+		ConfigureResponsiveHud();
 		_messagePanel.Visible = false;
 
 		GD.Print($"[{SceneName}] _Ready: loading DialoguePanel.tscn...");
@@ -124,6 +127,66 @@ public abstract partial class SceneGameBase : Node2D
 	}
 
 	protected virtual void OnReady() { }
+
+	private void ConfigureResponsiveHud()
+	{
+		ConfigureTopLeftLabel(StatusLabel, top: 16f, height: 36f);
+		StatusLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+
+		ConfigureTopLeftLabel(InventoryLabel, top: 52f, height: 32f);
+		InventoryLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+
+		PromptLabel.AnchorLeft = 0.5f;
+		PromptLabel.AnchorRight = 0.5f;
+		PromptLabel.AnchorTop = 1.0f;
+		PromptLabel.AnchorBottom = 1.0f;
+		PromptLabel.OffsetLeft = -300f;
+		PromptLabel.OffsetRight = 300f;
+		PromptLabel.OffsetTop = -92f;
+		PromptLabel.OffsetBottom = -52f;
+		PromptLabel.HorizontalAlignment = HorizontalAlignment.Center;
+
+		_hintLabel.AnchorLeft = 0.0f;
+		_hintLabel.AnchorRight = 1.0f;
+		_hintLabel.AnchorTop = 1.0f;
+		_hintLabel.AnchorBottom = 1.0f;
+		_hintLabel.OffsetLeft = 20f;
+		_hintLabel.OffsetRight = -20f;
+		_hintLabel.OffsetTop = -44f;
+		_hintLabel.OffsetBottom = -12f;
+		_hintLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+
+		_messagePanel.AnchorLeft = 0.5f;
+		_messagePanel.AnchorRight = 0.5f;
+		_messagePanel.AnchorTop = 1.0f;
+		_messagePanel.AnchorBottom = 1.0f;
+		_messagePanel.OffsetLeft = -420f;
+		_messagePanel.OffsetRight = 420f;
+		_messagePanel.OffsetTop = -228f;
+		_messagePanel.OffsetBottom = -56f;
+
+		_messageLabel.AnchorLeft = 0.0f;
+		_messageLabel.AnchorRight = 1.0f;
+		_messageLabel.AnchorTop = 0.0f;
+		_messageLabel.AnchorBottom = 1.0f;
+		_messageLabel.OffsetLeft = 22f;
+		_messageLabel.OffsetRight = -22f;
+		_messageLabel.OffsetTop = 18f;
+		_messageLabel.OffsetBottom = -18f;
+		_messageLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+	}
+
+	private static void ConfigureTopLeftLabel(Label label, float top, float height)
+	{
+		label.AnchorLeft = 0.0f;
+		label.AnchorRight = 1.0f;
+		label.AnchorTop = 0.0f;
+		label.AnchorBottom = 0.0f;
+		label.OffsetLeft = 20f;
+		label.OffsetRight = -20f;
+		label.OffsetTop = top;
+		label.OffsetBottom = top + height;
+	}
 
 	public override void _Process(double delta)
 	{

@@ -141,6 +141,7 @@ SCENES: list[SceneConfig] = [
             Prop("secret_compartment", 20, 15, "../props/secret_compartment.png"),
         ],
         day_markers=[
+            Marker("entry_from_compound", "entry", 16, 19, {}),
             Marker("exit_to_main_hall", "exit", 16, 19, {
                 "target_scene": "main_hall",
                 "entry_marker": "entry_from_study",
@@ -150,6 +151,7 @@ SCENES: list[SceneConfig] = [
             Marker("scroll_inspect", "inspect", 20, 8, {}),
         ],
         night_markers=[
+            Marker("entry_from_compound", "entry", 16, 19, {}),
             Marker("exit_to_main_hall", "exit", 16, 19, {
                 "target_scene": "main_hall",
                 "entry_marker": "entry_from_study",
@@ -203,6 +205,7 @@ SCENES: list[SceneConfig] = [
             Prop("fence_post", 26, 12, "../props/fence_post.png"),
         ],
         day_markers=[
+            Marker("entry_from_compound", "entry", 16, 19, {}),
             Marker("exit_to_courtyard", "exit", 16, 19, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_training_ground",
@@ -212,6 +215,7 @@ SCENES: list[SceneConfig] = [
             Marker("stone_bench_rest", "inspect", 13, 15, {}),
         ],
         night_markers=[
+            Marker("entry_from_compound", "entry", 16, 19, {}),
             Marker("exit_to_courtyard", "exit", 16, 19, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_training_ground",
@@ -264,6 +268,9 @@ SCENES: list[SceneConfig] = [
             Prop("path_rock", 24, 12, "../props/path_rock.png"),
         ],
         day_markers=[
+            Marker("entry_from_compound", "entry", 19, 19, {}),
+            Marker("entry_from_gate", "entry", 19, 19, {}),
+            Marker("entry_from_cliff_cave", "entry", 24, 2, {}),
             Marker("exit_to_mountain_gate", "exit", 19, 19, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_back_mountain_path",
@@ -276,6 +283,9 @@ SCENES: list[SceneConfig] = [
             Marker("wild_grass_inspect", "inspect", 14, 14, {}),
         ],
         night_markers=[
+            Marker("entry_from_compound", "entry", 19, 19, {}),
+            Marker("entry_from_gate", "entry", 19, 19, {}),
+            Marker("entry_from_cliff_cave", "entry", 24, 2, {}),
             Marker("exit_to_mountain_gate", "exit", 19, 19, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_back_mountain_path",
@@ -286,7 +296,7 @@ SCENES: list[SceneConfig] = [
             }),
             Marker("old_tree_inspect", "inspect", 9, 10, {}),
         ],
-        player_pos=(1216, 640),
+        player_pos=(576, 704),
     ),
     SceneConfig(
         id="mountain_gate",
@@ -326,6 +336,8 @@ SCENES: list[SceneConfig] = [
             Prop("gate_plaque", 15, 9, "../props/gate_plaque.png"),
         ],
         day_markers=[
+            Marker("entry_from_compound", "entry", 9, 3, {}),
+            Marker("entry_from_path", "entry", 23, 9, {}),
             Marker("exit_to_courtyard", "exit", 9, 3, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_mountain_gate",
@@ -338,6 +350,8 @@ SCENES: list[SceneConfig] = [
             Marker("gate_pillar_inspect", "inspect", 13, 8, {}),
         ],
         night_markers=[
+            Marker("entry_from_compound", "entry", 9, 3, {}),
+            Marker("entry_from_path", "entry", 23, 9, {}),
             Marker("exit_to_courtyard", "exit", 9, 3, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_mountain_gate",
@@ -389,6 +403,7 @@ SCENES: list[SceneConfig] = [
             Prop("medicine_pot", 16, 9, "../props/medicine_pot.png"),
         ],
         day_markers=[
+            Marker("entry_from_compound", "entry", 16, 18, {}),
             Marker("exit_to_courtyard", "exit", 16, 18, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_living_quarter",
@@ -398,6 +413,7 @@ SCENES: list[SceneConfig] = [
             Marker("medicine_pot_inspect", "inspect", 17, 9, {}),
         ],
         night_markers=[
+            Marker("entry_from_compound", "entry", 16, 18, {}),
             Marker("exit_to_courtyard", "exit", 16, 18, {
                 "target_scene": "sect_compound",
                 "entry_marker": "entry_from_living_quarter",

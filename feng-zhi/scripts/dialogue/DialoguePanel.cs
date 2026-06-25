@@ -64,9 +64,9 @@ public partial class DialoguePanel : PanelContainer
 				_optionButtons[i].Visible = true;
 				_optionButtons[i].Text = snapshot.Options[i].Text;
 
+				// 选中态用 amber font_color 表达 (focus_mode=NONE, 不调 GrabFocus, 见 .tscn 注释).
 				if (i == snapshot.SelectedOptionIndex)
 				{
-					_optionButtons[i].GrabFocus();
 					_optionButtons[i].AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.4f));
 				}
 				else

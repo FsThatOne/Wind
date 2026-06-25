@@ -738,9 +738,22 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         Name = "CombatMoveSelectionPanel";
         MouseFilter = MouseFilterEnum.Pass;
         Visible = false;
+
+        _slotContainer = new VBoxContainer
+        {
+            Name = "SlotContainer",
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
+            SizeFlagsVertical = SizeFlags.ExpandFill,
+        };
+        _slotContainer.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        _slotContainer.AddThemeConstantOverride("separation", 2);
+        AddChild(_slotContainer);
+
         Preview = new CombatMovePreviewCardControl();
         AddChild(Preview);
     }
+
+    private readonly VBoxContainer _slotContainer;
 
     public CombatMovePreviewCardControl Preview { get; }
 
@@ -871,7 +884,7 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
                 slot = new CombatMoveActionSlot();
                 _slots.Add(entry.ActionId, slot);
                 _orderedSlots.Add(slot);
-                AddChild(slot);
+                _slotContainer.AddChild(slot);
 
                 // cu-008 dual-focus: slot hover -> navigation.Hover (不抢 keyboard focus)
                 slot.SlotMouseEntered += OnSlotMouseEntered;
@@ -917,26 +930,16 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
 
     private void BindFocusNeighbors(CombatUiNavigationSnapshot navigation)
     {
+        // 不设置 Godot 原生 FocusNeighborTop/Bottom —— 导航完全由
+        // CombatUiNavigationController 代码管理（NavigateUp/Down + GrabFocus）。
+        // 设置原生路径会导致方向键被引擎内建焦点系统拦截，不传到 _UnhandledInput。
         foreach (var binding in BuildFocusNeighborBindings(navigation))
         {
             if (!_slots.TryGetValue(binding.ActionId, out var slot))
                 continue;
 
             slot.ConfigureFocusNavigation(binding.UpNeighborActionId, binding.DownNeighborActionId);
-            var upPath = ResolveFocusPathFrom(slot, binding.UpNeighborActionId);
-            var downPath = ResolveFocusPathFrom(slot, binding.DownNeighborActionId);
-            slot.FocusNeighborTop = upPath;
-            slot.FocusNeighborBottom = downPath;
-            slot.FocusPrevious = upPath;
-            slot.FocusNext = downPath;
         }
-    }
-
-    private NodePath ResolveFocusPathFrom(Control from, string actionId)
-    {
-        return _slots.TryGetValue(actionId, out var target)
-            ? from.GetPathTo(target)
-            : new NodePath(string.Empty);
     }
 
     private void PushInitialFocus(string actionId)
@@ -1035,7 +1038,7 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
 /// </summary>
 public partial class CombatMoveActionSlot : Control
 {
-    private VBoxContainer? _layout;
+    private HBoxContainer? _layout;
     private HBoxContainer? _topRow;
     private Label? _typeGlyphLabel;
     private Label? _nameLabel;
@@ -1078,8 +1081,9 @@ public partial class CombatMoveActionSlot : Control
     {
         Name = "CombatMoveActionSlot";
         FocusMode = FocusModeEnum.All;
-        MouseFilter = MouseFilterEnum.Stop; // cu-008: Stop 让 MouseEntered/Exited 信号能正常发
-        CustomMinimumSize = new Vector2(840, 60);
+        MouseFilter = MouseFilterEnum.Stop;
+        CustomMinimumSize = new Vector2(0, 28);
+        SizeFlagsHorizontal = SizeFlags.ExpandFill;
         MouseEntered += OnMouseEntered;
         MouseExited += OnMouseExited;
         FocusEntered += OnFocusEntered;
@@ -1225,31 +1229,25 @@ public partial class CombatMoveActionSlot : Control
         _decisiveHighlight.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
         AddChild(_decisiveHighlight);
 
-        _layout = new VBoxContainer
+        _layout = new HBoxContainer
         {
             Name = "Layout",
             MouseFilter = MouseFilterEnum.Ignore,
         };
         _layout.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
-        _layout.AddThemeConstantOverride("separation", 2);
+        _layout.AddThemeConstantOverride("separation", 12);
         AddChild(_layout);
 
-        _topRow = new HBoxContainer
-        {
-            Name = "TopRow",
-            MouseFilter = MouseFilterEnum.Ignore,
-        };
-        _topRow.AddThemeConstantOverride("separation", 10);
-        _layout.AddChild(_topRow);
+        _topRow = _layout;
 
-        _typeGlyphLabel = new Label { Name = "TypeGlyph", CustomMinimumSize = new Vector2(28, 0) };
-        _topRow.AddChild(_typeGlyphLabel);
+        _typeGlyphLabel = new Label { Name = "TypeGlyph", CustomMinimumSize = new Vector2(20, 0) };
+        _layout.AddChild(_typeGlyphLabel);
 
-        _nameLabel = new Label { Name = "DisplayName", CustomMinimumSize = new Vector2(220, 0) };
-        _topRow.AddChild(_nameLabel);
+        _nameLabel = new Label { Name = "DisplayName", CustomMinimumSize = new Vector2(120, 0) };
+        _layout.AddChild(_nameLabel);
 
-        _neixiLabel = new Label { Name = "NeixiCost", CustomMinimumSize = new Vector2(90, 0) };
-        _topRow.AddChild(_neixiLabel);
+        _neixiLabel = new Label { Name = "NeixiCost", CustomMinimumSize = new Vector2(60, 0) };
+        _layout.AddChild(_neixiLabel);
 
         _xinfaBadgeLabel = new Label
         {
@@ -1257,22 +1255,22 @@ public partial class CombatMoveActionSlot : Control
             Text = "[心法]",
             Visible = false,
             Modulate = XinfaBadgeColor,
-            CustomMinimumSize = new Vector2(56, 0),
+            CustomMinimumSize = new Vector2(40, 0),
         };
-        _topRow.AddChild(_xinfaBadgeLabel);
+        _layout.AddChild(_xinfaBadgeLabel);
 
         _counterTagLabel = new Label
         {
             Name = "CounterTag",
             Visible = false,
-            CustomMinimumSize = new Vector2(160, 0),
+            CustomMinimumSize = new Vector2(50, 0),
         };
-        _topRow.AddChild(_counterTagLabel);
+        _layout.AddChild(_counterTagLabel);
 
         _effectLabel = new Label
         {
             Name = "EffectSummary",
-            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
         };
         _layout.AddChild(_effectLabel);
 

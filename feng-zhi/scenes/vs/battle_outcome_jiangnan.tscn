@@ -18,24 +18,29 @@ corner_radius_bottom_left = 6
 script = ExtResource("1_outcome")
 
 [node name="Background" type="ColorRect" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 color = Color(0.12, 0.12, 0.18, 1)
 
 [node name="SceneTitle" type="Label" parent="."]
 offset_left = 24.0
 offset_top = 24.0
-offset_right = 800.0
+anchor_right = 1.0
+offset_right = -24.0
 offset_bottom = 64.0
 text = "[Placeholder] 战后心境 / Outcome"
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
 
 [node name="ChoicePanel" type="Panel" parent="UiLayer"]
-offset_left = 200.0
-offset_top = 200.0
-offset_right = 950.0
-offset_bottom = 480.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -375.0
+offset_top = -140.0
+offset_right = 375.0
+offset_bottom = 140.0
 
 [node name="TitleLabel" type="Label" parent="UiLayer/ChoicePanel"]
 offset_left = 24.0
@@ -60,10 +65,14 @@ offset_bottom = 170.0
 text = "重伤他 — 心境向「狠」位移"
 
 [node name="BlurredPanel" type="Panel" parent="UiLayer"]
-offset_left = 160.0
-offset_top = 120.0
-offset_right = 992.0
-offset_bottom = 560.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -416.0
+offset_top = -220.0
+offset_right = 416.0
+offset_bottom = 220.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_blurred")
 
 [node name="ZoneNameLabel" type="Label" parent="UiLayer/BlurredPanel"]

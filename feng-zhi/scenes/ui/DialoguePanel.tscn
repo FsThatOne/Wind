@@ -44,18 +44,25 @@ layout_mode = 2
 visible = false
 theme_override_constants/separation = 8
 
+; focus_mode=0 (NONE): 关闭 Godot 内置 focus navigation, 防止 Button 吞掉 ui_up/ui_down 事件.
+; 选中态完全由 Foundation 的 SelectedOptionIndex + DialoguePanel 的 amber font_color 表达,
+; 键盘输入交给 SceneGameBase._UnhandledInput → DialogueManager.HandleMoveSelection (循环逻辑见 DialogueUiPresenter.MoveSelection).
 [node name="Option0" type="Button" parent="MarginContainer/VBoxContainer/ChoicesBox"]
 layout_mode = 2
+focus_mode = 0
 text = ""
 
 [node name="Option1" type="Button" parent="MarginContainer/VBoxContainer/ChoicesBox"]
 layout_mode = 2
+focus_mode = 0
 text = ""
 
 [node name="Option2" type="Button" parent="MarginContainer/VBoxContainer/ChoicesBox"]
 layout_mode = 2
+focus_mode = 0
 text = ""
 
 [node name="Option3" type="Button" parent="MarginContainer/VBoxContainer/ChoicesBox"]
 layout_mode = 2
+focus_mode = 0
 text = ""

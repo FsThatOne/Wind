@@ -289,8 +289,12 @@ public partial class JiangnanBattleGame : Node2D
 		ApplySnapshotIfDirty();
 	}
 
-	public override void _UnhandledInput(InputEvent @event)
+	public override void _Input(InputEvent @event)
 	{
+		// 使用 _Input 而非 _UnhandledInput：slot 有 FocusMode.All，
+		// Godot 内建焦点系统会在 GUI 层消费方向键，导致 _UnhandledInput 收不到。
+		// _Input 在 GUI 处理之前执行，确保我们的导航代码优先响应。
+
 		// cu-006 AC-2: 演出期间屏蔽除 whitelist (ui_pause/ui_system_back) 之外的所有输入
 		// 必须放在 _moveBinder.IsOpen 检查之前 — binder.Close 后才进入演出阶段，
 		// 但 cinematic lock 可能在 binder 关闭后继续生效（Phase1-Completed 全程）

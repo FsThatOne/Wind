@@ -9,7 +9,7 @@ public partial class BackMountainPathGame : SceneGameBase
 	protected override string DayMapPath => AssetRoot + "/maps/back_mountain_path_day.tmx";
 	protected override string NightMapPath => AssetRoot + "/maps/back_mountain_path_night.tmx";
 	protected override string SceneName => "雾林小径";
-	protected override string DefaultExitMarker => "exit_to_sect_compound";
+	protected override string DefaultExitMarker => "entry_from_compound";
 
 	private static readonly HashSet<string> _enabledStructures = new(System.StringComparer.Ordinal)
 	{

@@ -6,14 +6,15 @@
 script = ExtResource("1_riverside")
 
 [node name="Background" type="ColorRect" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 color = Color(0.43, 0.58, 0.62, 1)
 
 [node name="SceneTitle" type="Label" parent="."]
 offset_left = 24.0
 offset_top = 24.0
-offset_right = 600.0
+anchor_right = 1.0
+offset_right = -24.0
 offset_bottom = 64.0
 text = "[Placeholder] 江南河畔 / Jiangnan Riverside"
 
@@ -22,28 +23,34 @@ text = "[Placeholder] 江南河畔 / Jiangnan Riverside"
 [node name="StatusLabel" type="Label" parent="UiLayer"]
 offset_left = 24.0
 offset_top = 80.0
-offset_right = 800.0
+anchor_right = 1.0
+offset_right = -24.0
 offset_bottom = 120.0
 text = "江南河畔 — 前方似有人影。"
 
 [node name="MessagePanel" type="Panel" parent="UiLayer"]
 offset_left = 24.0
 offset_top = 140.0
-offset_right = 800.0
+anchor_right = 1.0
+offset_right = -24.0
 offset_bottom = 260.0
 
 [node name="MessageLabel" type="Label" parent="UiLayer/MessagePanel"]
 offset_left = 16.0
 offset_top = 16.0
-offset_right = 760.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -16.0
 offset_bottom = 104.0
 autowrap_mode = 3
 
 [node name="ActionsPanel" type="HBoxContainer" parent="UiLayer"]
 offset_left = 24.0
-offset_top = 540.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -108.0
 offset_right = 600.0
-offset_bottom = 600.0
+offset_bottom = -48.0
 
 [node name="TalkButton" type="Button" parent="UiLayer/ActionsPanel"]
 text = "对话老者"

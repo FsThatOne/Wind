@@ -235,10 +235,9 @@ public sealed class CombatMoveSelectionBinder : IDisposable
         if (battleAction is null)
             return false;
 
-        var accepted = _submitAction(battleAction);
-        if (accepted)
-            Close();
-        return accepted;
+        Close();
+        _submitAction(battleAction);
+        return true;
     }
 
     public void Dispose()
