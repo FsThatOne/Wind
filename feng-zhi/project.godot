@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="FengZhi"
-run/main_scene="res://scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn"
+run/main_scene="res://scenes/ui/MainMenu.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -22,7 +22,12 @@ SceneTransition="*res://scripts/SceneTransitionManager.cs"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
 window/canvas_textures/default_texture_filter=1
 
 [dotnet]

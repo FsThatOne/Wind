@@ -1,0 +1,221 @@
+[gd_scene format=3 uid="uid://b5jeifh26sti7"]
+
+; 启动页面 / 主菜单 (Main Menu)
+; 设计参考: design/ux/main-menu.md (UX spec v1.0, 2026-06-09)
+; 实施范围: MVP 4 按钮 (新游戏 / 读档 / 设置 / 退出); Q1=a / Q2=a / Q3=a / Q4=a 路径
+; 默认焦点: NewGameButton
+; 美术: button_seal_normal.png (印章风 320x56 浅米底, nine-slice 12/8/12/8)
+;
+; 子画面后续 story (sprint 8+):
+;   - LoadGameScreen (等 SaveManager 落地, 当前 placeholder)
+;   - SettingsScreen (等 settings-options.md 实施)
+;   - CreditsScreen (v1.0 收尾)
+;   - NewGameFlow / DifficultyScreen (等难度系统 GDD)
+;
+; 当前 "新游戏" 直接跳 BackMountainCliffCave.tscn (序章实际起点)
+; 当前 "设置" 弹 placeholder ConfirmationDialog "敬请期待"
+
+[ext_resource type="Script" path="res://scripts/ui/MainMenuGame.cs" id="1_mainmenu"]
+[ext_resource type="Texture2D" path="res://assets/ui/main_menu/button_seal_normal.png" id="2_button_seal"]
+[ext_resource type="Texture2D" path="res://assets/ui/main_menu/background_lone_swordsman.png" id="3_bg_main"]
+
+; nine-slice 印章按钮 4 状态共用同一张贴图, 用 modulate_color tint 区分
+[sub_resource type="StyleBoxTexture" id="StyleBox_button_normal"]
+texture = ExtResource("2_button_seal")
+texture_margin_left = 12.0
+texture_margin_top = 8.0
+texture_margin_right = 12.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBox_button_hover"]
+texture = ExtResource("2_button_seal")
+texture_margin_left = 12.0
+texture_margin_top = 8.0
+texture_margin_right = 12.0
+texture_margin_bottom = 8.0
+modulate_color = Color(1.10, 1.02, 0.88, 1)
+
+; focus 视觉与 hover 完全一致 (dual-focus 互斥: 永远只有一个按钮高亮, 不区分鼠标/键盘来源)
+[sub_resource type="StyleBoxTexture" id="StyleBox_button_focus"]
+texture = ExtResource("2_button_seal")
+texture_margin_left = 12.0
+texture_margin_top = 8.0
+texture_margin_right = 12.0
+texture_margin_bottom = 8.0
+modulate_color = Color(1.10, 1.02, 0.88, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBox_button_pressed"]
+texture = ExtResource("2_button_seal")
+texture_margin_left = 12.0
+texture_margin_top = 8.0
+texture_margin_right = 12.0
+texture_margin_bottom = 8.0
+modulate_color = Color(0.82, 0.78, 0.72, 1)
+
+[sub_resource type="Theme" id="Theme_button"]
+default_font_size = 28
+Button/colors/font_color = Color(0.16, 0.12, 0.09, 1)
+Button/colors/font_hover_color = Color(0.42, 0.28, 0.08, 1)
+Button/colors/font_focus_color = Color(0.42, 0.28, 0.08, 1)
+Button/colors/font_pressed_color = Color(0.10, 0.08, 0.06, 1)
+Button/styles/normal = SubResource("StyleBox_button_normal")
+Button/styles/hover = SubResource("StyleBox_button_hover")
+Button/styles/focus = SubResource("StyleBox_button_focus")
+Button/styles/pressed = SubResource("StyleBox_button_pressed")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mainmenu")
+
+; --- 水墨主背景: 白衣孤剑 + 远山雾霭 (16:9 1024x576, KEEP_ASPECT_COVERED 铺满裁切) ---
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bg_main")
+expand_mode = 1
+stretch_mode = 6
+
+; --- 标题容器 (居中偏上, ~viewport 顶部 22% 位置) ---
+[node name="TitleContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 0.22
+anchor_right = 0.5
+anchor_bottom = 0.22
+offset_left = -300.0
+offset_top = 0.0
+offset_right = 300.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+; 墨黑题字 + 宣纸白晕染 outline (适配浅米水墨画背景)
+[node name="TitleLabel" type="Label" parent="TitleContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 96
+theme_override_colors/font_color = Color(0.10, 0.08, 0.06, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.92, 0.85, 0.85)
+theme_override_constants/outline_size = 8
+text = "风  止"
+
+[node name="SubtitleLabel" type="Label" parent="TitleContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.30, 0.25, 0.18, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.92, 0.85, 0.7)
+theme_override_constants/outline_size = 4
+text = "Wind  Stops"
+
+; --- 菜单按钮列表 (居中偏下, viewport 中部 55%) ---
+[node name="MenuList" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 0.55
+anchor_right = 0.5
+anchor_bottom = 0.55
+offset_left = -160.0
+offset_top = 0.0
+offset_right = 160.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_button")
+theme_override_constants/separation = 18
+
+[node name="NewGameButton" type="Button" parent="MenuList"]
+layout_mode = 2
+custom_minimum_size = Vector2(320, 56)
+text = "新游戏"
+
+[node name="LoadGameButton" type="Button" parent="MenuList"]
+layout_mode = 2
+custom_minimum_size = Vector2(320, 56)
+text = "读  档"
+
+[node name="SettingsButton" type="Button" parent="MenuList"]
+layout_mode = 2
+custom_minimum_size = Vector2(320, 56)
+text = "设  置"
+
+[node name="QuitButton" type="Button" parent="MenuList"]
+layout_mode = 2
+custom_minimum_size = Vector2(320, 56)
+text = "退出游戏"
+
+; --- 底栏: 版本号 + 引言 + 版权 ---
+[node name="Footer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -48.0
+offset_right = -24.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+; Footer 三段: 深灰墨字 + 浅色 outline (画面底部跨山景与雾区, outline 保证可读)
+[node name="VersionLabel" type="Label" parent="Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 0
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.25, 0.22, 0.18, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.92, 0.85, 0.7)
+theme_override_constants/outline_size = 2
+text = "v1.0.0"
+
+[node name="QuoteLabel" type="Label" parent="Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.25, 0.22, 0.18, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.92, 0.85, 0.7)
+theme_override_constants/outline_size = 2
+text = "风止于此，心动于彼"
+
+[node name="CopyrightLabel" type="Label" parent="Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.25, 0.22, 0.18, 1)
+theme_override_colors/font_outline_color = Color(0.95, 0.92, 0.85, 0.7)
+theme_override_constants/outline_size = 2
+text = "© 2026 FengZhi"
+
+; --- 退出确认 Dialog (default visible=false; MainMenuGame popup_centered 调) ---
+[node name="QuitConfirmDialog" type="ConfirmationDialog" parent="."]
+title = "退出游戏"
+initial_position = 2
+size = Vector2i(480, 160)
+ok_button_text = "退出"
+cancel_button_text = "取消"
+dialog_text = "确定要退出游戏吗？"
+
+; --- 通用 "敬请期待" placeholder Dialog (设置/读档共用, MainMenuGame 动态改 title+text) ---
+[node name="SettingsPlaceholderDialog" type="AcceptDialog" parent="."]
+title = "设置"
+initial_position = 2
+size = Vector2i(480, 160)
+ok_button_text = "知道了"
+dialog_text = "设置画面将在 v1.0 收尾时落地。\n（敬请期待）"
