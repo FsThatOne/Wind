@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Generate all resource files for 5 new prologue scenes in FengZhi.
+"""Generate placeholder resource files for FengZhi prologue manor scenes.
 
 Scenes generated:
   1. study            (书房)
-  2. training_ground  (练武场)
-  3. back_mountain_path (后山小路)
-  4. mountain_gate    (山门)
-  5. living_quarter   (居所)
+  2. training_ground  (丹锻药圃，占位沿用旧目录名)
+  3. back_mountain_path (雾林小径与瀑布主潭)
+  4. mountain_gate    (雾林侧门，占位沿用旧目录名)
+  5. living_quarter   (厨房仓房小潭，占位沿用旧目录名)
 
 For each scene, outputs:
   - assets/maps/{id}/maps/{id}_ground_tiles.tsx
@@ -28,13 +28,24 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 GODOT_ROOT = ROOT / "feng-zhi"
 
-MAP_WIDTH = 16
-MAP_HEIGHT = 16
+MAP_WIDTH = 32
+MAP_HEIGHT = 28
 TILE_WIDTH = 64
 TILE_HEIGHT = 32
 TILESET_COLUMNS = 6
 TILESET_ROWS = 4
 TILE_COUNT = TILESET_COLUMNS * TILESET_ROWS  # 24
+
+SCENE_PATHS = {
+    "back_mountain_cliff_cave": "res://scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn",
+    "back_mountain_path": "res://scenes/back_mountain_path/BackMountainPath.tscn",
+    "living_quarter": "res://scenes/living_quarter/LivingQuarter.tscn",
+    "main_hall": "res://scenes/main_hall/MainHall.tscn",
+    "mountain_gate": "res://scenes/mountain_gate/MountainGate.tscn",
+    "sect_compound": "res://scenes/sect_compound/SectCompound.tscn",
+    "study": "res://scenes/study/Study.tscn",
+    "training_ground": "res://scenes/training_ground/TrainingGround.tscn",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -99,268 +110,303 @@ SCENES: list[SceneConfig] = [
         day_chapter_state="prologue_daily",
         night_chapter_state="prologue_massacre_trigger",
         ground_rows=[
-            (3, 5, 10),
-            (4, 4, 11),
-            (5, 4, 11),
-            (6, 3, 12),
-            (7, 3, 12),
-            (8, 3, 12),
-            (9, 4, 11),
-            (10, 4, 11),
-            (11, 5, 10),
+            (4, 13, 18),
+            (5, 11, 20),
+            (6, 10, 22),
+            (7, 9, 23),
+            (8, 8, 24),
+            (9, 8, 24),
+            (10, 7, 25),
+            (11, 7, 25),
+            (12, 7, 25),
+            (13, 7, 25),
+            (14, 8, 24),
+            (15, 8, 24),
+            (16, 9, 23),
+            (17, 10, 22),
+            (18, 11, 20),
+            (19, 13, 18),
         ],
         terrain_gids=[
-            (4, 5, 7), (4, 10, 7),
-            (6, 4, 8), (6, 11, 8),
-            (8, 4, 10), (8, 11, 10),
-            (10, 5, 11), (10, 10, 11),
+            (5, 12, 7), (5, 19, 7),
+            (8, 9, 8), (8, 23, 8),
+            (11, 8, 10), (11, 24, 10),
+            (15, 10, 11), (15, 22, 11),
+            (18, 14, 6), (18, 17, 6),
         ],
         props=[
-            Prop("bookshelf", 5, 4, "../props/bookshelf.png"),
-            Prop("desk", 7, 6, "../props/desk.png"),
-            Prop("scroll_pile", 9, 5, "../props/scroll_pile.png"),
-            Prop("secret_compartment", 10, 9, "../props/secret_compartment.png"),
+            Prop("bookshelf", 10, 7, "../props/bookshelf.png"),
+            Prop("desk", 16, 11, "../props/desk.png"),
+            Prop("scroll_pile", 21, 8, "../props/scroll_pile.png"),
+            Prop("secret_compartment", 20, 15, "../props/secret_compartment.png"),
         ],
         day_markers=[
-            Marker("exit_to_main_hall", "exit", 7, 11, {
+            Marker("exit_to_main_hall", "exit", 16, 19, {
                 "target_scene": "main_hall",
                 "entry_marker": "entry_from_study",
             }),
-            Marker("bookshelf_inspect", "inspect", 5, 4, {}),
-            Marker("desk_inspect", "inspect", 7, 6, {}),
-            Marker("scroll_inspect", "inspect", 9, 5, {}),
+            Marker("bookshelf_inspect", "inspect", 11, 7, {}),
+            Marker("desk_inspect", "inspect", 16, 12, {}),
+            Marker("scroll_inspect", "inspect", 20, 8, {}),
         ],
         night_markers=[
-            Marker("exit_to_main_hall", "exit", 7, 11, {
+            Marker("exit_to_main_hall", "exit", 16, 19, {
                 "target_scene": "main_hall",
                 "entry_marker": "entry_from_study",
             }),
-            Marker("bookshelf_inspect", "inspect", 5, 4, {}),
-            Marker("desk_inspect", "inspect", 7, 6, {}),
-            Marker("secret_compartment_inspect", "inspect", 10, 9, {}),
+            Marker("bookshelf_inspect", "inspect", 11, 7, {}),
+            Marker("desk_inspect", "inspect", 16, 12, {}),
+            Marker("secret_compartment_inspect", "inspect", 19, 15, {}),
         ],
-        player_pos=(352, 320),
+        player_pos=(1024, 640),
     ),
     SceneConfig(
         id="training_ground",
-        scene_name="练武场",
+        scene_name="丹锻药圃",
         pascal_name="TrainingGround",
         day_mood="warm_daily",
         night_mood="silent_night",
         day_chapter_state="prologue_daily",
         night_chapter_state="prologue_massacre_trigger",
         ground_rows=[
-            (2, 4, 11),
-            (3, 3, 12),
-            (4, 3, 12),
-            (5, 2, 13),
-            (6, 2, 13),
-            (7, 2, 13),
-            (8, 2, 13),
-            (9, 3, 12),
-            (10, 3, 12),
-            (11, 4, 11),
-            (12, 5, 10),
+            (3, 12, 19),
+            (4, 10, 22),
+            (5, 8, 24),
+            (6, 7, 25),
+            (7, 6, 26),
+            (8, 5, 27),
+            (9, 5, 27),
+            (10, 4, 28),
+            (11, 4, 28),
+            (12, 4, 28),
+            (13, 5, 27),
+            (14, 5, 27),
+            (15, 6, 26),
+            (16, 7, 25),
+            (17, 8, 24),
+            (18, 10, 22),
+            (19, 12, 19),
         ],
         terrain_gids=[
-            (3, 7, 6), (3, 8, 6),
-            (5, 3, 7), (5, 12, 7),
-            (8, 3, 10), (8, 12, 10),
-            (10, 7, 11), (10, 8, 11),
+            (4, 12, 6), (4, 19, 6),
+            (7, 7, 7), (7, 24, 7),
+            (10, 5, 10), (10, 27, 10),
+            (13, 8, 11), (13, 23, 11),
+            (17, 13, 8), (17, 18, 8),
         ],
         props=[
-            Prop("training_dummy", 6, 5, "../props/training_dummy.png"),
-            Prop("training_dummy", 6, 10, "../props/training_dummy.png"),
-            Prop("wooden_sword", 4, 7, "../props/wooden_sword.png"),
-            Prop("stone_bench", 9, 4, "../props/stone_bench.png"),
-            Prop("fence_post", 3, 5, "../props/fence_post.png"),
-            Prop("fence_post", 3, 10, "../props/fence_post.png"),
+            Prop("training_dummy", 10, 8, "../props/training_dummy.png"),
+            Prop("training_dummy", 21, 8, "../props/training_dummy.png"),
+            Prop("wooden_sword", 16, 6, "../props/wooden_sword.png"),
+            Prop("stone_bench", 12, 15, "../props/stone_bench.png"),
+            Prop("fence_post", 6, 12, "../props/fence_post.png"),
+            Prop("fence_post", 26, 12, "../props/fence_post.png"),
         ],
         day_markers=[
-            Marker("exit_to_courtyard", "exit", 7, 12, {
-                "target_scene": "main_hall",
-                "entry_marker": "entry_from_training",
+            Marker("exit_to_courtyard", "exit", 16, 19, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_training_ground",
             }),
-            Marker("training_dummy_interact", "interactable", 6, 5, {}),
-            Marker("wooden_sword_pickup", "interactable", 4, 7, {}),
-            Marker("stone_bench_rest", "inspect", 9, 4, {}),
+            Marker("training_dummy_interact", "interactable", 11, 8, {}),
+            Marker("wooden_sword_pickup", "interactable", 16, 7, {}),
+            Marker("stone_bench_rest", "inspect", 13, 15, {}),
         ],
         night_markers=[
-            Marker("exit_to_courtyard", "exit", 7, 12, {
-                "target_scene": "main_hall",
-                "entry_marker": "entry_from_training",
+            Marker("exit_to_courtyard", "exit", 16, 19, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_training_ground",
             }),
-            Marker("training_dummy_inspect", "inspect", 6, 5, {}),
-            Marker("stone_bench_rest", "inspect", 9, 4, {}),
+            Marker("training_dummy_inspect", "inspect", 11, 8, {}),
+            Marker("stone_bench_rest", "inspect", 13, 15, {}),
         ],
-        player_pos=(384, 320),
+        player_pos=(1024, 640),
     ),
     SceneConfig(
         id="back_mountain_path",
-        scene_name="后山小路",
+        scene_name="雾林小径",
         pascal_name="BackMountainPath",
         day_mood="warm_daily",
         night_mood="silent_night",
         day_chapter_state="prologue_daily",
         night_chapter_state="prologue_massacre_trigger",
         ground_rows=[
-            (2, 6, 9),
-            (3, 5, 10),
-            (4, 5, 10),
-            (5, 4, 11),
-            (6, 4, 11),
-            (7, 3, 12),
-            (8, 3, 12),
-            (9, 2, 11),
-            (10, 2, 10),
-            (11, 3, 9),
-            (12, 4, 8),
-            (13, 5, 7),
+            (1, 22, 26),
+            (2, 20, 27),
+            (3, 18, 27),
+            (4, 16, 26),
+            (5, 14, 25),
+            (6, 11, 24),
+            (7, 9, 23),
+            (8, 7, 22),
+            (9, 5, 22),
+            (10, 4, 23),
+            (11, 4, 25),
+            (12, 5, 27),
+            (13, 7, 28),
+            (14, 9, 28),
+            (15, 11, 27),
+            (16, 13, 26),
+            (17, 15, 24),
+            (18, 17, 22),
+            (19, 18, 20),
         ],
         terrain_gids=[
-            (3, 6, 7), (3, 9, 7),
-            (5, 5, 8), (5, 10, 8),
-            (7, 4, 6), (7, 11, 6),
-            (9, 3, 7), (9, 10, 7),
-            (11, 4, 8), (11, 8, 8),
+            (2, 24, 7), (4, 20, 7),
+            (7, 12, 8), (8, 18, 8),
+            (10, 6, 6), (10, 21, 6),
+            (12, 12, 10), (12, 24, 10),
+            (15, 17, 11), (15, 23, 11),
         ],
         props=[
-            Prop("old_tree", 4, 6, "../props/old_tree.png"),
-            Prop("path_rock", 8, 5, "../props/path_rock.png"),
-            Prop("wild_grass", 6, 10, "../props/wild_grass.png"),
-            Prop("path_rock", 10, 8, "../props/path_rock.png"),
+            Prop("old_tree", 8, 10, "../props/old_tree.png"),
+            Prop("path_rock", 17, 6, "../props/path_rock.png"),
+            Prop("wild_grass", 13, 14, "../props/wild_grass.png"),
+            Prop("path_rock", 24, 12, "../props/path_rock.png"),
         ],
         day_markers=[
-            Marker("exit_to_mountain_gate", "exit", 7, 2, {
-                "target_scene": "mountain_gate",
-                "entry_marker": "entry_from_path",
+            Marker("exit_to_mountain_gate", "exit", 19, 19, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_back_mountain_path",
             }),
-            Marker("exit_to_cliff_cave", "exit", 5, 13, {
+            Marker("exit_to_cliff_cave", "exit", 24, 1, {
                 "target_scene": "back_mountain_cliff_cave",
                 "entry_marker": "entry_from_path",
             }),
-            Marker("old_tree_inspect", "inspect", 4, 6, {}),
-            Marker("wild_grass_inspect", "inspect", 6, 10, {}),
+            Marker("old_tree_inspect", "inspect", 9, 10, {}),
+            Marker("wild_grass_inspect", "inspect", 14, 14, {}),
         ],
         night_markers=[
-            Marker("exit_to_mountain_gate", "exit", 7, 2, {
-                "target_scene": "mountain_gate",
-                "entry_marker": "entry_from_path",
+            Marker("exit_to_mountain_gate", "exit", 19, 19, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_back_mountain_path",
             }),
-            Marker("exit_to_cliff_cave", "exit", 5, 13, {
+            Marker("exit_to_cliff_cave", "exit", 24, 1, {
                 "target_scene": "back_mountain_cliff_cave",
                 "entry_marker": "entry_from_path",
             }),
-            Marker("old_tree_inspect", "inspect", 4, 6, {}),
+            Marker("old_tree_inspect", "inspect", 9, 10, {}),
         ],
-        player_pos=(352, 280),
+        player_pos=(1216, 640),
     ),
     SceneConfig(
         id="mountain_gate",
-        scene_name="山门",
+        scene_name="雾林侧门",
         pascal_name="MountainGate",
         day_mood="warm_daily",
         night_mood="silent_night",
         day_chapter_state="prologue_daily",
         night_chapter_state="prologue_massacre_trigger",
         ground_rows=[
-            (3, 5, 10),
-            (4, 4, 11),
-            (5, 4, 11),
-            (6, 3, 12),
-            (7, 3, 12),
-            (8, 3, 12),
-            (9, 3, 12),
-            (10, 4, 11),
-            (11, 4, 11),
-            (12, 5, 10),
+            (3, 7, 12),
+            (4, 7, 15),
+            (5, 8, 18),
+            (6, 9, 21),
+            (7, 10, 23),
+            (8, 11, 24),
+            (9, 10, 25),
+            (10, 8, 25),
+            (11, 6, 24),
+            (12, 5, 22),
+            (13, 4, 20),
+            (14, 4, 18),
+            (15, 5, 16),
+            (16, 6, 14),
+            (17, 7, 12),
+            (18, 8, 10),
         ],
         terrain_gids=[
-            (4, 7, 6), (4, 8, 6),
-            (6, 4, 7), (6, 11, 7),
-            (9, 4, 10), (9, 11, 10),
-            (11, 7, 11), (11, 8, 11),
+            (4, 10, 6), (4, 13, 6),
+            (7, 12, 7), (7, 21, 7),
+            (10, 9, 10), (10, 24, 10),
+            (13, 6, 11), (13, 18, 11),
         ],
         props=[
-            Prop("gate_pillar_left", 6, 4, "../props/gate_pillar_left.png"),
-            Prop("gate_pillar_right", 6, 11, "../props/gate_pillar_right.png"),
-            Prop("gate_plaque", 5, 7, "../props/gate_plaque.png"),
+            Prop("gate_pillar_left", 12, 8, "../props/gate_pillar_left.png"),
+            Prop("gate_pillar_right", 18, 10, "../props/gate_pillar_right.png"),
+            Prop("gate_plaque", 15, 9, "../props/gate_plaque.png"),
         ],
         day_markers=[
-            Marker("exit_to_courtyard", "exit", 7, 12, {
-                "target_scene": "main_hall",
-                "entry_marker": "entry_from_gate",
+            Marker("exit_to_courtyard", "exit", 9, 3, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_mountain_gate",
             }),
-            Marker("exit_to_back_mountain", "exit", 7, 3, {
+            Marker("exit_to_back_mountain", "exit", 23, 9, {
                 "target_scene": "back_mountain_path",
                 "entry_marker": "entry_from_gate",
             }),
-            Marker("gate_plaque_inspect", "inspect", 5, 7, {}),
-            Marker("gate_pillar_inspect", "inspect", 6, 4, {}),
+            Marker("gate_plaque_inspect", "inspect", 15, 10, {}),
+            Marker("gate_pillar_inspect", "inspect", 13, 8, {}),
         ],
         night_markers=[
-            Marker("exit_to_courtyard", "exit", 7, 12, {
-                "target_scene": "main_hall",
-                "entry_marker": "entry_from_gate",
+            Marker("exit_to_courtyard", "exit", 9, 3, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_mountain_gate",
             }),
-            Marker("exit_to_back_mountain", "exit", 7, 3, {
+            Marker("exit_to_back_mountain", "exit", 23, 9, {
                 "target_scene": "back_mountain_path",
                 "entry_marker": "entry_from_gate",
             }),
-            Marker("gate_plaque_inspect", "inspect", 5, 7, {}),
+            Marker("gate_plaque_inspect", "inspect", 15, 10, {}),
         ],
-        player_pos=(384, 340),
+        player_pos=(960, 544),
     ),
     SceneConfig(
         id="living_quarter",
-        scene_name="居所",
+        scene_name="厨房仓房小潭",
         pascal_name="LivingQuarter",
         day_mood="warm_daily",
         night_mood="silent_night",
         day_chapter_state="prologue_daily",
         night_chapter_state="prologue_massacre_trigger",
         ground_rows=[
-            (3, 5, 10),
-            (4, 4, 11),
-            (5, 4, 11),
-            (6, 3, 12),
-            (7, 3, 12),
-            (8, 3, 12),
-            (9, 4, 11),
-            (10, 4, 11),
-            (11, 5, 10),
+            (4, 10, 19),
+            (5, 8, 21),
+            (6, 6, 23),
+            (7, 5, 24),
+            (8, 4, 25),
+            (9, 4, 25),
+            (10, 4, 25),
+            (11, 5, 26),
+            (12, 6, 27),
+            (13, 7, 27),
+            (14, 8, 26),
+            (15, 9, 24),
+            (16, 10, 22),
+            (17, 11, 20),
+            (18, 12, 18),
         ],
         terrain_gids=[
-            (4, 5, 7), (4, 10, 7),
-            (6, 4, 8), (6, 11, 8),
-            (8, 4, 10), (8, 11, 10),
-            (10, 5, 11), (10, 10, 11),
+            (5, 11, 7), (5, 20, 7),
+            (8, 5, 8), (8, 24, 8),
+            (11, 7, 10), (11, 25, 10),
+            (14, 11, 11), (14, 22, 11),
+            (17, 14, 6), (17, 17, 6),
         ],
         props=[
-            Prop("bed_mat", 5, 9, "../props/bed_mat.png"),
-            Prop("herb_drying_rack", 7, 5, "../props/herb_drying_rack.png"),
-            Prop("herb_plant", 8, 10, "../props/herb_plant.png"),
-            Prop("medicine_pot", 6, 7, "../props/medicine_pot.png"),
+            Prop("bed_mat", 10, 13, "../props/bed_mat.png"),
+            Prop("herb_drying_rack", 12, 7, "../props/herb_drying_rack.png"),
+            Prop("herb_plant", 21, 13, "../props/herb_plant.png"),
+            Prop("medicine_pot", 16, 9, "../props/medicine_pot.png"),
         ],
         day_markers=[
-            Marker("exit_to_courtyard", "exit", 7, 11, {
-                "target_scene": "main_hall",
-                "entry_marker": "entry_from_living",
+            Marker("exit_to_courtyard", "exit", 16, 18, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_living_quarter",
             }),
-            Marker("bed_mat_rest", "interactable", 5, 9, {}),
-            Marker("herb_rack_inspect", "inspect", 7, 5, {}),
-            Marker("medicine_pot_inspect", "inspect", 6, 7, {}),
+            Marker("bed_mat_rest", "interactable", 11, 13, {}),
+            Marker("herb_rack_inspect", "inspect", 13, 7, {}),
+            Marker("medicine_pot_inspect", "inspect", 17, 9, {}),
         ],
         night_markers=[
-            Marker("exit_to_courtyard", "exit", 7, 11, {
-                "target_scene": "main_hall",
-                "entry_marker": "entry_from_living",
+            Marker("exit_to_courtyard", "exit", 16, 18, {
+                "target_scene": "sect_compound",
+                "entry_marker": "entry_from_living_quarter",
             }),
-            Marker("bed_mat_rest", "interactable", 5, 9, {}),
-            Marker("herb_rack_inspect", "inspect", 7, 5, {}),
-            Marker("herb_plant_inspect", "inspect", 8, 10, {}),
+            Marker("bed_mat_rest", "interactable", 11, 13, {}),
+            Marker("herb_rack_inspect", "inspect", 13, 7, {}),
+            Marker("herb_plant_inspect", "inspect", 22, 13, {}),
         ],
-        player_pos=(352, 300),
+        player_pos=(1024, 608),
     ),
 ]
 
@@ -380,7 +426,7 @@ def ground_positions(scene: SceneConfig) -> list[tuple[int, int]]:
 
 
 def build_ground_csv(scene: SceneConfig) -> str:
-    """Build 16x16 CSV for Ground layer (GID 1 = walkable, 0 = empty)."""
+    """Build CSV for Ground layer (GID 1 = walkable, 0 = empty)."""
     grid = [[0] * MAP_WIDTH for _ in range(MAP_HEIGHT)]
     for col, row in ground_positions(scene):
         grid[row][col] = 1
@@ -391,7 +437,7 @@ def build_ground_csv(scene: SceneConfig) -> str:
 
 
 def build_terrain_csv(scene: SceneConfig) -> str:
-    """Build 16x16 CSV for Terrain layer using terrain_gids."""
+    """Build CSV for Terrain layer using terrain_gids."""
     grid = [[0] * MAP_WIDTH for _ in range(MAP_HEIGHT)]
     for row, col, gid in scene.terrain_gids:
         grid[row][col] = gid
@@ -402,7 +448,7 @@ def build_terrain_csv(scene: SceneConfig) -> str:
 
 
 def build_collision_csv(scene: SceneConfig) -> str:
-    """Build 16x16 CSV for Collision layer.
+    """Build CSV for Collision layer.
 
     9 = outside ground (blocked), 0 = walkable, 11 = prop blocked.
     """
@@ -424,7 +470,7 @@ def build_collision_csv(scene: SceneConfig) -> str:
 
 
 def build_overlay_csv() -> str:
-    """Build 16x16 CSV for Overlay layer (all zeros placeholder)."""
+    """Build CSV for Overlay layer (all zeros placeholder)."""
     return ",".join(["0"] * (MAP_WIDTH * MAP_HEIGHT))
 
 
@@ -560,7 +606,8 @@ def build_markers_xml(
         )
         # Add extra properties based on marker type
         if marker.marker_type == "exit":
-            target = marker.properties.get("target_scene", "")
+            target_key = marker.properties.get("target_scene", "")
+            target = SCENE_PATHS.get(target_key, target_key)
             entry = marker.properties.get("entry_marker", "")
             props_xml += (
                 f'<property name="target_scene" value="{target}" />'
@@ -612,7 +659,7 @@ def generate_tmx(scene: SceneConfig, variant: str) -> str:
     parts.append("<?xml version='1.0' encoding='UTF-8'?>")
     parts.append(
         f'<map version="1.10" tiledversion="1.10.2" orientation="isometric" '
-        f'renderorder="right-down" width="16" height="16" tilewidth="64" '
+        f'renderorder="right-down" width="{MAP_WIDTH}" height="{MAP_HEIGHT}" tilewidth="64" '
         f'tileheight="32" infinite="0" nextlayerid="7" nextobjectid="{next_obj_id}">'
     )
     # Properties
@@ -631,12 +678,12 @@ def generate_tmx(scene: SceneConfig, variant: str) -> str:
     )
     # Ground layer
     parts.append(
-        f'<layer id="1" name="Ground" width="16" height="16">'
+        f'<layer id="1" name="Ground" width="{MAP_WIDTH}" height="{MAP_HEIGHT}">'
         f'<data encoding="csv">\n{ground_csv}\n</data></layer>'
     )
     # Terrain layer
     parts.append(
-        f'<layer id="2" name="Terrain" width="16" height="16">'
+        f'<layer id="2" name="Terrain" width="{MAP_WIDTH}" height="{MAP_HEIGHT}">'
         f'<data encoding="csv">\n{terrain_csv}\n</data></layer>'
     )
     # Structures objectgroup
@@ -647,12 +694,12 @@ def generate_tmx(scene: SceneConfig, variant: str) -> str:
     )
     # Overlay layer
     parts.append(
-        f'<layer id="4" name="Overlay" width="16" height="16">'
+        f'<layer id="4" name="Overlay" width="{MAP_WIDTH}" height="{MAP_HEIGHT}">'
         f'<data encoding="csv">\n{overlay_csv}\n</data></layer>'
     )
     # Collision layer
     parts.append(
-        f'<layer id="5" name="Collision" width="16" height="16" visible="0" '
+        f'<layer id="5" name="Collision" width="{MAP_WIDTH}" height="{MAP_HEIGHT}" visible="0" '
         f'opacity="0.35"><data encoding="csv">\n{collision_csv}\n</data></layer>'
     )
     # LogicMarkers objectgroup
@@ -778,22 +825,27 @@ def generate_main_tscn(scene: SceneConfig) -> str:
     lines.append("[gd_scene format=3]")
     lines.append("")
     lines.append(
+        f'[ext_resource type="Script" path="res://scripts/{pname}Game.cs" '
+        f'id="1_game"]'
+    )
+    lines.append(
         f'[ext_resource type="Script" path="res://scripts/CavePlayer.cs" '
-        f'id="1_player"]'
+        f'id="2_player"]'
     )
     lines.append(
         f'[ext_resource type="SpriteFrames" '
-        f'path="res://assets/character/main_character.tres" id="2_frames"]'
+        f'path="res://assets/character/main_character.tres" id="3_frames"]'
     )
     lines.append(
         f'[ext_resource type="PackedScene" '
-        f'path="res://scenes/{sid}/{pname}TileLayers.tscn" id="3_tile_layers"]'
+        f'path="res://scenes/{sid}/{pname}TileLayers.tscn" id="4_tile_layers"]'
     )
     lines.append("")
     lines.append('[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]')
     lines.append("size = Vector2(26, 13)")
     lines.append("")
     lines.append(f'[node name="{pname}" type="Node2D"]')
+    lines.append('script = ExtResource("1_game")')
     lines.append("")
     lines.append('[node name="BackgroundTint" type="ColorRect" parent="."]')
     lines.append("offset_left = -1738.0")
@@ -805,7 +857,7 @@ def generate_main_tscn(scene: SceneConfig) -> str:
     lines.append('[node name="Tiles" type="Node2D" parent="."]')
     lines.append("")
     lines.append(
-        '[node name="TileLayers" parent="Tiles" instance=ExtResource("3_tile_layers")]'
+        '[node name="TileLayers" parent="Tiles" instance=ExtResource("4_tile_layers")]'
     )
     lines.append("")
     lines.append('[node name="MapRoot" type="Node2D" parent="."]')
@@ -820,14 +872,14 @@ def generate_main_tscn(scene: SceneConfig) -> str:
     lines.append("")
     lines.append('[node name="Player" type="CharacterBody2D" parent="MapRoot"]')
     lines.append(f"position = Vector2({px}, {py})")
-    lines.append('script = ExtResource("1_player")')
+    lines.append('script = ExtResource("2_player")')
     lines.append("")
     lines.append(
         '[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player"]'
     )
     lines.append("position = Vector2(-2.66, -18.0)")
     lines.append("scale = Vector2(0.6147, 0.62)")
-    lines.append('sprite_frames = ExtResource("2_frames")')
+    lines.append('sprite_frames = ExtResource("3_frames")')
     lines.append('animation = &"idle"')
     lines.append("")
     lines.append(

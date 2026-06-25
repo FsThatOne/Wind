@@ -923,17 +923,19 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
                 continue;
 
             slot.ConfigureFocusNavigation(binding.UpNeighborActionId, binding.DownNeighborActionId);
-            slot.FocusNeighborTop = ResolveFocusPath(binding.UpNeighborActionId);
-            slot.FocusNeighborBottom = ResolveFocusPath(binding.DownNeighborActionId);
-            slot.FocusPrevious = slot.FocusNeighborTop;
-            slot.FocusNext = slot.FocusNeighborBottom;
+            var upPath = ResolveFocusPathFrom(slot, binding.UpNeighborActionId);
+            var downPath = ResolveFocusPathFrom(slot, binding.DownNeighborActionId);
+            slot.FocusNeighborTop = upPath;
+            slot.FocusNeighborBottom = downPath;
+            slot.FocusPrevious = upPath;
+            slot.FocusNext = downPath;
         }
     }
 
-    private NodePath ResolveFocusPath(string actionId)
+    private NodePath ResolveFocusPathFrom(Control from, string actionId)
     {
-        return _slots.TryGetValue(actionId, out var slot)
-            ? GetPathTo(slot)
+        return _slots.TryGetValue(actionId, out var target)
+            ? from.GetPathTo(target)
             : new NodePath(string.Empty);
     }
 

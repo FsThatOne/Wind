@@ -21,8 +21,8 @@ public partial class MainHallGame : SceneGameBase
 	protected override void OnLoadVariant(string variant)
 	{
 		StatusLabel.Text = variant == "night"
-			? "正堂・夜：庄训石壁前，一切都静了。"
-			: "正堂・日常：庄训石壁上刻着——风过万里，止于此山。";
+			? "正堂・夜：天然岩壁压在堂后，庄训前的一切都静了。"
+			: "正堂・日常：正堂背靠天然岩壁，庄训刻着——风过万里，止于此山。";
 		InventoryLabel.Text = "";
 	}
 
@@ -31,10 +31,10 @@ public partial class MainHallGame : SceneGameBase
 		switch (markerName)
 		{
 			case "stone_wall_inspect":
-				ShowMessage("石壁上刻着庄训——风过万里，止于此山。我辈习武，非为争锋，唯养心性。");
+				ShowMessage("石壁上刻着庄训——风过万里，止于此山。我辈修身，非为争锋，唯养心性。");
 				return;
 			case "weapon_rack_inspect":
-				ShowMessage("兵器架上整齐排列着刀剑棍棒，每一柄都擦得锃亮。无人拔剑——所有弟子手中是筷子、茶杯、琴。");
+				ShowMessage("这里先沿用旧占位架，正式版本更适合换成礼器、竹简或山院日用器物，而不是练武场式兵器陈列。");
 				return;
 			case "tea_table_interact":
 				ShowMessage("茶桌上搁着半壶冷茶，杯盏三两只。师父的座位空着。");

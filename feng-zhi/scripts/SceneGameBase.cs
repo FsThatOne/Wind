@@ -6,14 +6,13 @@ using System.Xml.Linq;
 using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Geometry;
 using FengZhi.Foundation.Mindset;
+using FengZhi.Ui;
 using Godot;
 
 namespace FengZhi;
 
 public abstract partial class SceneGameBase : Node2D
 {
-	protected const int MapWidth = 16;
-	protected const int MapHeight = 16;
 	protected const int TileWidth = 64;
 	protected const int TileHeight = 32;
 
@@ -26,6 +25,10 @@ public abstract partial class SceneGameBase : Node2D
 	private readonly Dictionary<string, Marker> _markers = new();
 	private readonly HashSet<Vector2I> _groundTiles = new();
 	private readonly HashSet<Vector2I> _blockedTiles = new();
+	private int _mapWidth = 16;
+	private int _mapHeight = 16;
+	private bool _autoExitEnabled;
+	private Vector2I _lastPlayerTile = new(-999, -999);
 
 	private Node2D _mapRoot = null!;
 	private Node2D _dayTileLayers = null!;
@@ -43,10 +46,11 @@ public abstract partial class SceneGameBase : Node2D
 	private Area2D? _focusedArea;
 	protected Dialogue.DialogueManager? DialogueManager;
 	private Dialogue.DialoguePanel? _dialoguePanel;
+	private AttributePanel? _attributePanel;
 	protected Dialogue.SceneConditionValueProvider? ConditionProvider;
 	protected string Variant = "day";
 
-	protected Vector2 Origin { get; set; } = new(576f, 96f);
+	protected virtual Vector2 Origin { get; set; } = new(576f, 96f);
 
 	public override void _Ready()
 	{
@@ -74,6 +78,12 @@ public abstract partial class SceneGameBase : Node2D
 		var dialogueLayer = new CanvasLayer { Layer = 40, Name = "DialogueLayer" };
 		AddChild(dialogueLayer);
 		dialogueLayer.AddChild(_dialoguePanel);
+
+		var attrScene = GD.Load<PackedScene>("res://scenes/ui/AttributePanel.tscn");
+		_attributePanel = attrScene.Instantiate<AttributePanel>();
+		var attrLayer = new CanvasLayer { Layer = 30, Name = "AttributeLayer" };
+		AddChild(attrLayer);
+		attrLayer.AddChild(_attributePanel);
 
 		DialogueManager = new Dialogue.DialogueManager();
 		AddChild(DialogueManager);
@@ -107,6 +117,9 @@ public abstract partial class SceneGameBase : Node2D
 		if (transition != null)
 			transition.FadeIn();
 
+		_autoExitEnabled = false;
+		GetTree().CreateTimer(0.5).Timeout += () => _autoExitEnabled = true;
+
 		GD.Print($"[{SceneName}] _Ready: complete.");
 	}
 
@@ -115,6 +128,7 @@ public abstract partial class SceneGameBase : Node2D
 	public override void _Process(double delta)
 	{
 		UpdatePlayerTileMarker();
+		CheckAutoExit();
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -122,6 +136,14 @@ public abstract partial class SceneGameBase : Node2D
 		if (DialogueManager?.IsDialogueActive == true)
 		{
 			HandleDialogueInput(@event);
+			return;
+		}
+
+		if (@event.IsActionPressed("toggle_attribute_panel"))
+		{
+			_attributePanel?.Toggle();
+			Player.MovementFrozen = _attributePanel?.Visible == true;
+			GetViewport().SetInputAsHandled();
 			return;
 		}
 
@@ -174,6 +196,8 @@ public abstract partial class SceneGameBase : Node2D
 		var mapPath = variant == "day" ? DayMapPath : NightMapPath;
 		GD.Print($"[{SceneName}] LoadVariant: loading TMX from {mapPath}...");
 		var root = LoadTmx(mapPath);
+		_mapWidth = int.Parse(root.Attribute("width")?.Value ?? "16", CultureInfo.InvariantCulture);
+		_mapHeight = int.Parse(root.Attribute("height")?.Value ?? "16", CultureInfo.InvariantCulture);
 
 		ConfigureTileLayerVariant(variant);
 		ReadGroundTiles(root);
@@ -236,11 +260,11 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		var layer = FindLayer(root, "Ground");
 		var gids = ParseCsv(layer.Element("data")?.Value ?? string.Empty);
-		for (var y = 0; y < MapHeight; y++)
+		for (var y = 0; y < _mapHeight; y++)
 		{
-			for (var x = 0; x < MapWidth; x++)
+			for (var x = 0; x < _mapWidth; x++)
 			{
-				if (gids[y * MapWidth + x] != 0)
+				if (gids[y * _mapWidth + x] != 0)
 				{
 					_groundTiles.Add(new Vector2I(x, y));
 				}
@@ -299,11 +323,11 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		var layer = FindLayer(root, "Collision");
 		var gids = ParseCsv(layer.Element("data")?.Value ?? string.Empty);
-		for (var y = 0; y < MapHeight; y++)
+		for (var y = 0; y < _mapHeight; y++)
 		{
-			for (var x = 0; x < MapWidth; x++)
+			for (var x = 0; x < _mapWidth; x++)
 			{
-				if (gids[y * MapWidth + x] == 0)
+				if (gids[y * _mapWidth + x] == 0)
 					continue;
 
 				_blockedTiles.Add(new Vector2I(x, y));
@@ -350,6 +374,29 @@ public abstract partial class SceneGameBase : Node2D
 			if (type == "npc")
 			{
 				SpawnStaticNpc(marker);
+				continue;
+			}
+
+			if (type == "exit")
+			{
+				var targetScene = marker.Props?.GetValueOrDefault("target_scene");
+				if (!string.IsNullOrEmpty(targetScene))
+				{
+					var highlight = new Polygon2D
+					{
+						Name = $"{name}_highlight",
+						Polygon = new Vector2[]
+						{
+							new(-TileWidth / 2f, 0f),
+							new(0f, -TileHeight / 2f),
+							new(TileWidth / 2f, 0f),
+							new(0f, TileHeight / 2f),
+						},
+						Color = new Color(1f, 0.82f, 0.3f, 0.35f),
+						Position = TileToScreen(marker.TileX, marker.TileY),
+					};
+					_logicMarkers.AddChild(highlight);
+				}
 				continue;
 			}
 
@@ -417,11 +464,15 @@ public abstract partial class SceneGameBase : Node2D
 		if (!IsWalkableTile(tile) && _markers.TryGetValue(DefaultExitMarker, out var exit))
 			tile = new Vector2I(exit.TileX, exit.TileY);
 
+		_lastPlayerTile = tile;
 		Player.ConfigureTileMovement(
 			tile,
 			nextTile => TileToScreen(nextTile.X, nextTile.Y),
 			IsWalkableTile);
 		_markers["player_tile"] = new Marker("player_tile", "runtime", tile.X, tile.Y);
+
+		var camera = Player.GetNodeOrNull<Camera2D>("Camera2D");
+		camera?.ResetSmoothing();
 	}
 
 	protected void StartDialogue(string yamlPath)
@@ -471,12 +522,6 @@ public abstract partial class SceneGameBase : Node2D
 
 		if (_markers.TryGetValue(markerName, out var marker))
 		{
-			if (marker.Type == "exit")
-			{
-				OnExitInteract(markerName);
-				return;
-			}
-
 			if (marker.Type == "npc")
 			{
 				var dialogueId = marker.Props?.GetValueOrDefault("dialogue_id");
@@ -536,11 +581,7 @@ public abstract partial class SceneGameBase : Node2D
 			return;
 		}
 
-		var areaName = _focusedArea.Name.ToString();
-		if (_markers.TryGetValue(areaName, out var marker) && marker.Type == "exit")
-			PromptLabel.Text = "E / 空格 前往下一区域    N 切换日夜";
-		else
-			PromptLabel.Text = "E / 空格 调查    N 切换日夜";
+		PromptLabel.Text = "E / 空格 调查    N 切换日夜";
 		PromptLabel.Visible = true;
 	}
 
@@ -548,6 +589,29 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		var tile = ScreenToTile(Player.Position);
 		_markers["player_tile"] = new Marker("player_tile", "runtime", tile.X, tile.Y);
+	}
+
+	private void CheckAutoExit()
+	{
+		if (!_autoExitEnabled || Player.MovementFrozen)
+			return;
+
+		var tile = ScreenToTile(Player.Position);
+		if (tile == _lastPlayerTile)
+			return;
+		_lastPlayerTile = tile;
+
+		foreach (var (name, marker) in _markers)
+		{
+			if (marker.Type != "exit")
+				continue;
+			if (marker.TileX == tile.X && marker.TileY == tile.Y)
+			{
+				GD.Print($"[{SceneName}] Auto-exit triggered: '{name}'");
+				OnExitInteract(name);
+				return;
+			}
+		}
 	}
 
 	protected Vector2 TileToScreen(int x, int y)
@@ -621,8 +685,8 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		return tile.X >= 0 &&
 			tile.Y >= 0 &&
-			tile.X < MapWidth &&
-			tile.Y < MapHeight &&
+			tile.X < _mapWidth &&
+			tile.Y < _mapHeight &&
 			_groundTiles.Contains(tile) &&
 			!_blockedTiles.Contains(tile);
 	}
@@ -654,14 +718,14 @@ public abstract partial class SceneGameBase : Node2D
 			throw new InvalidOperationException($"TMX object group not found: {name}");
 	}
 
-	private static int[] ParseCsv(string csv)
+	private int[] ParseCsv(string csv)
 	{
 		var values = csv
 			.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
 			.Select(ParseInt)
 			.ToArray();
-		if (values.Length != MapWidth * MapHeight)
-			throw new InvalidOperationException($"Expected {MapWidth * MapHeight} gids, got {values.Length}");
+		if (values.Length != _mapWidth * _mapHeight)
+			throw new InvalidOperationException($"Expected {_mapWidth * _mapHeight} gids, got {values.Length}");
 		return values;
 	}
 

@@ -8,7 +8,7 @@ public partial class LivingQuarterGame : SceneGameBase
 	protected override string AssetRoot => "res://assets/maps/living_quarter";
 	protected override string DayMapPath => AssetRoot + "/maps/living_quarter_day.tmx";
 	protected override string NightMapPath => AssetRoot + "/maps/living_quarter_night.tmx";
-	protected override string SceneName => "住处";
+	protected override string SceneName => "厨房仓房小潭";
 	protected override string DefaultExitMarker => "exit_to_courtyard";
 
 	private static readonly HashSet<string> _enabledStructures = new(System.StringComparer.Ordinal)
@@ -21,8 +21,8 @@ public partial class LivingQuarterGame : SceneGameBase
 	protected override void OnLoadVariant(string variant)
 	{
 		StatusLabel.Text = variant == "night"
-			? "住处・夜：草药的清香弥漫，月光照在简朴的床铺上。"
-			: "住处：弟子起居之地，师姐在此晾晒草药。";
+			? "厨房仓房小潭・夜：灶火已熄，小潭映着仓檐，水声在夜里格外清。"
+			: "厨房仓房小潭：山院自给自足的生活核，米粮、药草、灶台和溪水都聚在这里。";
 		InventoryLabel.Text = "";
 	}
 
@@ -31,16 +31,16 @@ public partial class LivingQuarterGame : SceneGameBase
 		switch (markerName)
 		{
 			case "herb_rack_inspect":
-				ShowMessage("晾药架上挂满了各色草药，是师姐精心整理的。每一束都标了名字和采摘日期。");
+				ShowMessage("晾架上混着菜干、药草和山菌，每一束都标了日期。山院的日子就是这样一点点存下来的。");
 				return;
 			case "medicine_pot_inspect":
-				ShowMessage("药罐里正煎着什么，空气中弥漫着苦涩的药香。师姐说这是给师父准备的养身方。");
+				ShowMessage("灶边的小锅还留着温意，既能煎药，也能熬粥。这里比任何练功处都更像风止山庄的心口。");
 				return;
 			case "bed_mat_inspect":
-				ShowMessage("简朴的床铺，被褥叠得整齐。枕边放着一本半读的武学手札。");
+				ShowMessage("仓房角落铺着临时草席，守夜的人偶尔会在这里歇一会儿。");
 				return;
 			case "herb_plant_inspect":
-				ShowMessage("几盆草药长得正好，嫩叶上还挂着露珠。师姐叮嘱过不要随便碰。");
+				ShowMessage("小潭边的草药长得很好，嫩叶上挂着水汽。这里以后可以替换成正式药圃和水岸素材。");
 				return;
 			default:
 				ShowMessage("这里暂时没有什么可调查的东西。");

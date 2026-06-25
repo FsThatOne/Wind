@@ -52,3 +52,10 @@ See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
 ## Context Management
 
 @.Codex/docs/context-management.md
+
+## Must Follow
+1. 用中文和我沟通, 用中文编写注释, 用中文编写文档.
+2. 随时随地可以跟我头脑风暴(/brainstorm), 我会根据你的建议进行调整.
+3. 问我问题时, 选项一定要有一个你推荐的选项, 我会根据你的推荐进行判断. 最好是能简单说明推荐原因.
+4. 做代码设计和实现时, 必须先查阅相关 GDD（design/gdd/）、ADR（docs/architecture/）以及 design/ 和 docs/ 目录下的其他相关文档（如 quick-specs、ux specs、engine-reference、systems-index 等）, 确保实现符合设计规约和架构约束. 不可跳过设计对照直接写代码.
+5. 优先使用 claude-code-game-studio 提供的 skill 和 agent 来完成任务（如 /design-system, /create-architecture, /dev-story, /code-review 等）, 充分利用工作流工具链而非纯手工操作.

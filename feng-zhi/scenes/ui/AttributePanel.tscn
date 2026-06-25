@@ -1,0 +1,199 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/AttributePanel.cs" id="1_script"]
+
+[node name="AttributePanel" type="PanelContainer"]
+script = ExtResource("1_script")
+visible = false
+anchors_preset = 9
+anchor_right = 0.4
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -10.0
+offset_bottom = -20.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "【角色属性】"
+horizontal_alignment = 1
+
+[node name="Sep1" type="HSeparator" parent="MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="ResourceTitle" type="Label" parent="MarginContainer/VBox"]
+layout_mode = 2
+text = "— 资源 —"
+horizontal_alignment = 1
+
+[node name="HpRow" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="HpName" type="Label" parent="MarginContainer/VBox/HpRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+text = "气血"
+
+[node name="HpBar" type="ProgressBar" parent="MarginContainer/VBox/HpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="HpLabel" type="Label" parent="MarginContainer/VBox/HpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+text = "100 / 100"
+horizontal_alignment = 2
+
+[node name="NeixiRow" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="NeixiName" type="Label" parent="MarginContainer/VBox/NeixiRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+text = "内息"
+
+[node name="NeixiBar" type="ProgressBar" parent="MarginContainer/VBox/NeixiRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 30.0
+value = 30.0
+show_percentage = false
+
+[node name="NeixiLabel" type="Label" parent="MarginContainer/VBox/NeixiRow"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+text = "30 / 30"
+horizontal_alignment = 2
+
+[node name="Sep2" type="HSeparator" parent="MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="BaseTitle" type="Label" parent="MarginContainer/VBox"]
+layout_mode = 2
+text = "— 五维 —"
+horizontal_alignment = 1
+
+[node name="BaseGrid" type="GridContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+columns = 2
+
+[node name="StrLabel" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+layout_mode = 2
+text = "力量："
+
+[node name="StrengthValue" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
+
+[node name="AgiLabel" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+layout_mode = 2
+text = "敏捷："
+
+[node name="AgilityValue" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
+
+[node name="InpLabel" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+layout_mode = 2
+text = "内力："
+
+[node name="InnerPowerValue" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
+
+[node name="InsLabel" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+layout_mode = 2
+text = "洞察："
+
+[node name="InsightValue" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
+
+[node name="ConLabel" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+layout_mode = 2
+text = "体魄："
+
+[node name="ConstitutionValue" type="Label" parent="MarginContainer/VBox/BaseGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
+
+[node name="Sep3" type="HSeparator" parent="MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="DerivedTitle" type="Label" parent="MarginContainer/VBox"]
+layout_mode = 2
+text = "— 战斗属性 —"
+horizontal_alignment = 1
+
+[node name="DerivedGrid" type="GridContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+columns = 2
+
+[node name="AtkLabel" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+layout_mode = 2
+text = "攻击："
+
+[node name="AttackValue" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="DefLabel" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+layout_mode = 2
+text = "防御："
+
+[node name="DefenseValue" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="SpdLabel" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+layout_mode = 2
+text = "速度："
+
+[node name="SpeedValue" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="CritLabel" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+layout_mode = 2
+text = "暴击："
+
+[node name="CritValue" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0%"
+
+[node name="PowLabel" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+layout_mode = 2
+text = "功力："
+
+[node name="TotalPowerValue" type="Label" parent="MarginContainer/VBox/DerivedGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"

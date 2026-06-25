@@ -33,7 +33,7 @@ y_sort_enabled = true
 [node name="LogicMarkers" type="Node2D" parent="MapRoot"]
 
 [node name="Player" type="CharacterBody2D" parent="MapRoot"]
-position = Vector2(384, 340)
+position = Vector2(960, 544)
 script = ExtResource("2_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player"]
@@ -59,7 +59,7 @@ offset_left = 20.0
 offset_top = 16.0
 offset_right = 900.0
 offset_bottom = 52.0
-text = "山门"
+text = "雾林侧门"
 
 [node name="InventoryLabel" type="Label" parent="UiLayer"]
 offset_left = 20.0

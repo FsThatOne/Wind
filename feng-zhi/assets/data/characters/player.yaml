@@ -1,0 +1,17 @@
+id: player
+name: 风止庄弟子
+type: player
+base_hp: 120
+base_neixi: 30
+base_stagger_threshold: 5
+strength: 12
+agility: 10
+inner_power: 14
+insight: 8
+constitution: 11
+base_attack: 10
+scaling_factor: 1.0
+primary_style: rou
+moves:
+  - basic_strike
+  - soft_palm

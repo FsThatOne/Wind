@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>风止 Logo 预览</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            padding: 40px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Serif SC", serif;
+            background: #12121f;
+            color: #e0d8cc;
+        }
+        h1 {
+            text-align: center;
+            font-weight: 400;
+            font-size: 14px;
+            letter-spacing: 0.5em;
+            margin-bottom: 50px;
+            color: #888;
+        }
+        .gallery {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .card {
+            text-align: center;
+        }
+        .card h3 {
+            font-weight: 400;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #999;
+            letter-spacing: 0.1em;
+        }
+        .box {
+            width: 420px;
+            height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .box img {
+            max-width: 85%;
+            max-height: 85%;
+        }
+        .checker {
+            background-image:
+                linear-gradient(45deg, #3a3a4a 25%, transparent 25%),
+                linear-gradient(-45deg, #3a3a4a 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #3a3a4a 75%),
+                linear-gradient(-45deg, transparent 75%, #3a3a4a 75%);
+            background-size: 24px 24px;
+            background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+            background-color: #2a2a3a;
+        }
+        .rice-paper {
+            background: linear-gradient(135deg, #f7f2e8 0%, #ebe3d4 50%, #f0e8d8 100%);
+        }
+        .ink-dark {
+            background: linear-gradient(160deg, #1a1520 0%, #0d0d18 50%, #151020 100%);
+        }
+        .info {
+            max-width: 600px;
+            margin: 50px auto 0;
+            padding: 25px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px;
+            font-size: 13px;
+            color: #777;
+            line-height: 2;
+        }
+        .info code {
+            background: rgba(255,255,255,0.06);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: "SF Mono", Consolas, monospace;
+            color: #bbb;
+            font-size: 12px;
+        }
+        .info .note {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-style: italic;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <h1>風 止 · 标题书法 Logo</h1>
+    <div class="gallery">
+        <div class="card">
+            <h3>透明背景</h3>
+            <div class="box checker">
+                <img src="logo-transparent.png" alt="Logo 透明背景预览">
+            </div>
+        </div>
+        <div class="card">
+            <h3>宣纸底色</h3>
+            <div class="box rice-paper">
+                <img src="preview-white-bg.png" alt="Logo 宣纸预览">
+            </div>
+        </div>
+        <div class="card">
+            <h3>墨色背景</h3>
+            <div class="box ink-dark">
+                <img src="preview-dark-bg.png" alt="Logo 深色预览">
+            </div>
+        </div>
+    </div>
+    <div class="info">
+        <strong style="color:#bbb">文件位置</strong><br>
+        透明PNG：<code>feng-zhi/assets/ui/title_logo_calligraphy.png</code> (2016×2016px)<br>
+        原始生成图：<code>assets/generated/ui/title-logo/raw-logo.png</code><br><br>
+        <strong style="color:#bbb">后处理</strong><br>
+        去除灰白背景转透明 · 去除边缘黑色填充 · 抗锯齿渐变 · 自动裁剪+6%留白<br>
+        <div class="note">
+            注：当前版本朱砂印章不明显，如需要可以：(1) 重新生成强调印章的版本，(2) 程序绘制合成印章，或 (3) 后期手工添加。
+        </div>
+    </div>
+</body>
+</html>

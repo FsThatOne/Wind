@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using FengZhi.Foundation.CharacterData;
 using FengZhi.Foundation.Combat;
+using FengZhi.Foundation.Data;
 using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Mindset;
 using Godot;
@@ -72,6 +74,15 @@ public partial class JiangnanFlowController : Node
 	/// </summary>
 	public MindsetService MindsetService { get; private set; } = null!;
 
+	/// <summary>数据注册中心（角色模板等）</summary>
+	public DataRegistry DataRegistry { get; private set; } = null!;
+
+	/// <summary>角色注册表</summary>
+	public ICharacterRegistry CharacterRegistry { get; private set; } = null!;
+
+	/// <summary>玩家角色运行时实例</summary>
+	public CharacterInstance PlayerInstance { get; private set; } = null!;
+
 	/// <summary>
 	/// 上一次 outcome 选择产生的心境位移快照（含 oldState / newState / 应用的 deltas）。
 	/// OutcomeGame UI 读取此快照渲染朦胧化前后对比文本。
@@ -83,8 +94,53 @@ public partial class JiangnanFlowController : Node
 	{
 		EventBus = new EventBus();
 		MindsetService = new MindsetService(eventBus: EventBus);
+
+		DataRegistry = new DataRegistry();
+		var loader = new CharacterConfigLoader();
+		var yamlSources = LoadCharacterYamlFiles("res://assets/data/characters");
+		loader.LoadAllTemplates(yamlSources, DataRegistry);
+
+		var registry = new CharacterRegistry(DataRegistry, EventBus);
+		CharacterRegistry = registry;
+		PlayerInstance = registry.CreatePlayer();
+
 		GD.Print($"[JiangnanFlow] Boot. EventBus + MindsetService autoload ready. " +
 				 $"Initial state R={MindsetService.State.Resolve} W={MindsetService.State.Worldly} M={MindsetService.State.Morality}");
+		GD.Print($"[JiangnanFlow] PlayerInstance created: {PlayerInstance.RuntimeId} " +
+				 $"HP={PlayerInstance.GetMaxHp()} NeiXi={PlayerInstance.GetMaxNeiXi()} " +
+				 $"STR={PlayerInstance.Attributes.Strength} AGI={PlayerInstance.Attributes.Agility} " +
+				 $"INP={PlayerInstance.Attributes.InnerPower} INS={PlayerInstance.Attributes.Insight} " +
+				 $"CON={PlayerInstance.Attributes.Constitution}");
+	}
+
+	private static Dictionary<string, string> LoadCharacterYamlFiles(string dirPath)
+	{
+		var result = new Dictionary<string, string>();
+		var dir = DirAccess.Open(dirPath);
+		if (dir == null)
+		{
+			GD.PrintErr($"[JiangnanFlow] Cannot open directory: {dirPath}");
+			return result;
+		}
+
+		dir.ListDirBegin();
+		var fileName = dir.GetNext();
+		while (!string.IsNullOrEmpty(fileName))
+		{
+			if (!dir.CurrentIsDir() && fileName.EndsWith(".yaml"))
+			{
+				var fullPath = $"{dirPath}/{fileName}";
+				var file = FileAccess.Open(fullPath, FileAccess.ModeFlags.Read);
+				if (file != null)
+				{
+					result[fullPath] = file.GetAsText();
+					file.Close();
+				}
+			}
+			fileName = dir.GetNext();
+		}
+		dir.ListDirEnd();
+		return result;
 	}
 
 	public void GoToExplore()

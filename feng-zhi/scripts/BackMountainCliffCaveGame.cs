@@ -28,13 +28,13 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 	};
 	private static readonly Dictionary<string, Vector2I> _structureTileOverrides = new(System.StringComparer.Ordinal)
 	{
-		["storage_shelf"] = new Vector2I(6, 4),
-		["wine_jars_group"] = new Vector2I(4, 7),
-		["wine_jar_single"] = new Vector2I(5, 7),
-		["oil_lamp_dim"] = new Vector2I(10, 8),
-		["sister_mark"] = new Vector2I(13, 8),
-		["small_stool"] = new Vector2I(11, 10),
-		["rest_mat"] = new Vector2I(12, 11),
+		["storage_shelf"] = new Vector2I(24, 5),
+		["wine_jars_group"] = new Vector2I(20, 8),
+		["wine_jar_single"] = new Vector2I(21, 8),
+		["oil_lamp_dim"] = new Vector2I(17, 12),
+		["sister_mark"] = new Vector2I(19, 15),
+		["small_stool"] = new Vector2I(20, 17),
+		["rest_mat"] = new Vector2I(22, 18),
 	};
 
 	private bool _hasBirthdayWine;
@@ -55,8 +55,8 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 	protected override void OnLoadVariant(string variant)
 	{
 		StatusLabel.Text = variant == "night"
-			? "后山崖洞・夜：风声止住，酒坛与旧物都沉在暗处。"
-			: "后山崖洞・日常：藏酒、储物，也是你和师姐的秘密基地。";
+			? "后山崖洞・夜：邻峰半山的洞口被瀑雾遮住，酒坛与旧物都沉在暗处。"
+			: "后山崖洞・日常：单线山路尽头的半山洞穴，藏酒、储物，也是你和师姐的秘密基地。";
 	}
 
 	protected override void OnInteract(string markerName)

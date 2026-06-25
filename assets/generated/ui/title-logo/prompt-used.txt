@@ -1,0 +1,23 @@
+# 风止 - 标题Logo生成记录
+
+## Prompt
+Chinese calligraphy logo design "风 止" in vertical brush stroke style, ink black on transparent background, traditional sumi-e brushwork with visible bristle texture and natural ink bleed, the two characters arranged with poetic spacing, slight cinnabar red seal stamp in lower right corner mimicking traditional Chinese painter's chop, no other text, no decoration, no frame, isolated on transparent background, high resolution vector-friendly --ar 1:1
+
+## 生成参数
+- image_size: square_hd
+- 日期: 2026-06-25
+
+## 输出文件
+- 原始图像: raw-logo.png
+- 最终透明PNG: feng-zhi/assets/ui/title_logo_calligraphy.png (2016x2016)
+- 白底预览: preview-white-bg.png
+- 深色背景预览: preview-dark-bg.png
+
+## 后处理
+- 去除浅灰白背景（R=238,G=239,B=243）转为透明
+- 去除边缘黑色填充边框
+- 渐变抗锯齿边缘
+- 裁剪到内容边界并添加6% padding
+
+## 备注
+- 首次生成未检测到明显的朱砂印章，可能需要重生成强调印章
