@@ -1,4 +1,6 @@
+using FengZhi.Foundation.Animation;
 using FengZhi.Foundation.CharacterData;
+using FengZhi.Foundation.Combat.Board;
 
 namespace FengZhi.Foundation.Combat;
 
@@ -29,9 +31,18 @@ public sealed class BattleCombatant
     public int AttackQiao { get; }
     public int Defense { get; }
     public int Speed { get; }
+    public int Agility { get; }
     public float CritRate { get; }
     public int InsightStat { get; }
     public int NeixiRecovery { get; }
+
+    // --- Xingqi ---
+    public int Xingqi { get; private set; }
+
+    // --- Board ---
+    public GridPosition Position { get; private set; }
+    public Iso4Direction Facing { get; private set; }
+    public int MoveRange { get; }
 
     public BattleCombatant(
         string id,
@@ -46,7 +57,11 @@ public sealed class BattleCombatant
         float critRate,
         int insightStat,
         int neixiRecovery,
-        int staggerThreshold = DefaultStaggerThreshold)
+        int staggerThreshold = DefaultStaggerThreshold,
+        int agility = -1,
+        GridPosition initialPosition = default,
+        Iso4Direction initialFacing = Iso4Direction.SE,
+        int moveRange = 3)
     {
         Id = id;
         Name = name;
@@ -61,9 +76,13 @@ public sealed class BattleCombatant
         AttackQiao = attackQiao;
         Defense = defense;
         Speed = speed;
+        Agility = agility >= 0 ? agility : speed;
         CritRate = critRate;
         InsightStat = insightStat;
         NeixiRecovery = neixiRecovery;
+        Position = initialPosition;
+        Facing = initialFacing;
+        MoveRange = moveRange;
     }
 
     // --- Status Queries ---
@@ -137,5 +156,30 @@ public sealed class BattleCombatant
     public void ClearStagger()
     {
         Stagger = 0;
+    }
+
+    // --- Xingqi Operations ---
+
+    public void AdvanceXingqi(int amount)
+    {
+        if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount));
+        Xingqi += amount;
+    }
+
+    public void ResetXingqi(int retainedAmount = 0)
+    {
+        Xingqi = Math.Max(0, retainedAmount);
+    }
+
+    // --- Board Operations ---
+
+    public void MoveTo(GridPosition newPosition)
+    {
+        Position = newPosition;
+    }
+
+    public void SetFacing(Iso4Direction facing)
+    {
+        Facing = facing;
     }
 }

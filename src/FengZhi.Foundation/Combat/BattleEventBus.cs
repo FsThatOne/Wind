@@ -133,3 +133,19 @@ public readonly record struct DecisiveStrikeCompletedEvent(
 public readonly record struct BattleEndEvent(BattleResult Result);
 
 public readonly record struct RoundEndEvent(int RoundNumber);
+
+// --- Xingqi Events ---
+
+public readonly record struct XingqiSnapshot(
+    string CombatantId,
+    int CurrentXingqi,
+    int Threshold,
+    bool IsReady);
+
+public readonly record struct XingqiAdvancedEvent(
+    IReadOnlyList<XingqiSnapshot> Snapshots,
+    int PulseNumber);
+
+public readonly record struct ActorTurnStartedEvent(
+    string ActorId,
+    bool IsPlayerSide);

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dmoi1xvgulwau"]
+
+; 行气系统 Demo 场景 — 脉冲驱动回合制
+; 玩家 Agility=12 vs 敌人 Agility=8 → 玩家先手
+; UseXingqiMode=true 启用 XingqiBattleLoopController
+
+[ext_resource type="PackedScene" uid="uid://ce0leeu7ltkvl" path="res://scenes/vs/battle_jiangnan_bandit.tscn" id="1_parent"]
+
+[node name="JiangnanBattle" instance=ExtResource("1_parent")]
+DemoSeed = "xingqi"
+UseXingqiMode = true

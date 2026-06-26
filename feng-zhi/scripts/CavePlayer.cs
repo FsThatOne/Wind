@@ -10,7 +10,7 @@ namespace FengZhi;
 /// <summary>
 /// 探索场景主角控制器（ADR-0022 §3 输入映射 + §扩展点 1 → IIso4 端口）。
 ///
-/// WASD 输入按 ADR §3 映射成 cart 对角向量（W=(-1,-1)/A=(-1,+1)/S=(+1,+1)/D=(+1,-1)），
+/// WASD 输入按 45 度等视距方向映射（W=右上/A=左上/S=左下/D=右下），
 /// 屏幕方向由 <see cref="IsoProjection"/> 自然衍生；为保持屏幕速度恒定，
 /// 屏幕速度对 iso 投影后归一化乘以恒定 <see cref="Speed"/>。
 /// </summary>
@@ -78,12 +78,12 @@ public partial class CavePlayer : CharacterBody2D
 			return;
 		}
 
-		// ADR-0022 §3：WASD → cart 对角向量。
+		// 45 度等视距：W/S/A/D 分别对应右上/左下/左上/右下。
 		var cart = Vector2.Zero;
-		if (Input.IsActionPressed("move_up"))    cart += new Vector2(-1f, -1f); // W → NW
-		if (Input.IsActionPressed("move_down"))  cart += new Vector2(+1f, +1f); // S → SE
-		if (Input.IsActionPressed("move_left"))  cart += new Vector2(-1f, +1f); // A → SW
-		if (Input.IsActionPressed("move_right")) cart += new Vector2(+1f, -1f); // D → NE
+		if (Input.IsActionPressed("move_up"))    cart += new Vector2(0f, -1f); // W → 右上 / NE
+		if (Input.IsActionPressed("move_down"))  cart += new Vector2(0f, +1f); // S → 左下 / SW
+		if (Input.IsActionPressed("move_left"))  cart += new Vector2(-1f, 0f); // A → 左上 / NW
+		if (Input.IsActionPressed("move_right")) cart += new Vector2(+1f, 0f); // D → 右下 / SE
 
 		if (cart != Vector2.Zero)
 			cart = cart.Normalized();

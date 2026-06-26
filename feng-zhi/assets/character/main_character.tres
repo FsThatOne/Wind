@@ -26,72 +26,97 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 8.0
-}, {
-"frames": [{
+}
+, {
+"frames": [
+{
 "duration": 1.0,
 "texture": ExtResource("ne0")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("ne1")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("ne2")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("ne3")
-}],
+}
+],
 "loop": true,
 "name": &"walk_ne",
 "speed": 8.0
-}, {
-"frames": [{
+}
+, {
+"frames": [
+{
 "duration": 1.0,
 "texture": ExtResource("se0")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("se1")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("se2")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("se3")
-}],
+}
+],
 "loop": true,
 "name": &"walk_se",
 "speed": 8.0
-}, {
-"frames": [{
+}
+, {
+"frames": [
+{
 "duration": 1.0,
 "texture": ExtResource("sw0")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("sw1")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("sw2")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("sw3")
-}],
+}
+],
 "loop": true,
 "name": &"walk_sw",
 "speed": 8.0
-}, {
-"frames": [{
+}
+, {
+"frames": [
+{
 "duration": 1.0,
 "texture": ExtResource("nw0")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("nw1")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("nw2")
-}, {
+},
+{
 "duration": 1.0,
 "texture": ExtResource("nw3")
-}],
+}
+],
 "loop": true,
 "name": &"walk_nw",
 "speed": 8.0
-}]
+}
+]

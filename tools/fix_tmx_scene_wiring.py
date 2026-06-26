@@ -15,7 +15,7 @@ SCENE_PATHS = {
     "mountain_gate": "res://scenes/mountain_gate/MountainGate.tscn",
     "study": "res://scenes/study/Study.tscn",
     "living_quarter": "res://scenes/living_quarter/LivingQuarter.tscn",
-    "training_ground": "res://scenes/training_ground/TrainingGround.tscn",
+    "alchemy_room": "res://scenes/alchemy_room/AlchemyRoom.tscn",
 }
 
 def replace_target_scenes(content):
@@ -69,7 +69,7 @@ ENTRY_MARKERS = {
     "living_quarter": {
         "entry_from_main_hall": (7, 11), # same as exit_to_courtyard
     },
-    "training_ground": {
+    "alchemy_room": {
         "entry_from_main_hall": (7, 12), # same as exit_to_courtyard
     },
 }
@@ -79,11 +79,11 @@ EXTRA_EXITS = {
     "main_hall": [
         ("exit_to_study", "exit", 5, 3, "res://scenes/study/Study.tscn", "entry_from_main_hall"),
         ("exit_to_living_quarter", "exit", 3, 7, "res://scenes/living_quarter/LivingQuarter.tscn", "entry_from_main_hall"),
-        ("exit_to_training_ground", "exit", 10, 7, "res://scenes/training_ground/TrainingGround.tscn", "entry_from_main_hall"),
+        ("exit_to_alchemy_room", "exit", 10, 7, "res://scenes/alchemy_room/AlchemyRoom.tscn", "entry_from_main_hall"),
     ],
     "back_mountain_cliff_cave": [],
     "mountain_gate": [
-        ("exit_to_training_ground", "exit", 5, 7, "res://scenes/training_ground/TrainingGround.tscn", "entry_from_main_hall"),
+        ("exit_to_alchemy_room", "exit", 5, 7, "res://scenes/alchemy_room/AlchemyRoom.tscn", "entry_from_main_hall"),
     ],
 }
 
@@ -175,7 +175,7 @@ def process_tmx(scene_name, tmx_path):
 def main():
     scenes = [
         "main_hall", "back_mountain_cliff_cave", "back_mountain_path",
-        "mountain_gate", "study", "living_quarter", "training_ground"
+        "mountain_gate", "study", "living_quarter", "alchemy_room"
     ]
 
     for scene in scenes:

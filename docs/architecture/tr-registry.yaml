@@ -25,7 +25,7 @@
 # STATUS VALUES: active | deprecated | superseded-by: TR-[system]-NNN
 
 version: 1
-last_updated: "2026-06-14"
+last_updated: "2026-06-26"
 
 requirements:
   - id: TR-dialogue-system-001
@@ -613,6 +613,22 @@ requirements:
     gdd: design/gdd/exploration-insight.md
     requirement: "探索/洞察系统必须只持久化 INVESTIGATED 终态；存档加载后已发现节点保持 INVESTIGATED 且不重复触发，DETECTED/IGNORED 不得持久化；战斗、对话或 LockMode >= Partial 期间必须暂停检测并隐藏提示，锁释放后若玩家仍在范围内必须恢复检测"
     created: 2026-06-14
+    revised: ""
+    status: active
+
+  - id: TR-audio-001
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "音频系统必须维护 Exploration/Combat/Cutscene/Dialogue/Menu/Silence 六状态 FSM，按状态转换规则切换，并在进入每个状态时按 state_attenuation 矩阵（F2 公式）对 BGM/Ambient/SFX 三轨应用衰减系数；AudioServer Bus 层级在 _Ready 时初始化"
+    created: 2026-06-26
+    revised: ""
+    status: active
+
+  - id: TR-audio-002
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "BGM 管理必须使用双 AudioStreamPlayer 交替播放实现等功率 crossfade（fade_out=cos(t·π/2), fade_in=sin(t·π/2)）；Override 栈最大深度 3，溢出替换栈顶；同曲续播时跳过 crossfade；bgm_id=SILENCE 时淡出当前 BGM 不播新曲；crossfade 未完成时新切换立即中断重新开始"
+    created: 2026-06-26
     revised: ""
     status: active
 

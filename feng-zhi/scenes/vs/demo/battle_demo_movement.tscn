@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c3tmvkw8bqp5y"]
+
+; 战棋移动系统 Demo 场景 — 8x8 棋盘 + BFS 可达范围 + 移动动画
+; 玩家(1,1) MoveRange=3 Agility=12 vs 敌人(6,6) MoveRange=2 Agility=8
+; UseXingqiMode=true + DemoSeed="movement" 启用 Grid 模式
+
+[ext_resource type="PackedScene" uid="uid://ce0leeu7ltkvl" path="res://scenes/vs/battle_jiangnan_bandit.tscn" id="1_parent"]
+
+[node name="JiangnanBattle" instance=ExtResource("1_parent")]
+DemoSeed = "movement"
+UseXingqiMode = true

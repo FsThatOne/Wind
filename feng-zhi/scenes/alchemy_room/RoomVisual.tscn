@@ -1,0 +1,963 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://scripts/IsoMapRoot.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-1.png" id="3_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-2.png" id="4_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-3.png" id="5_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-4.png" id="6_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-5.png" id="7_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-6.png" id="8_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-7.png" id="9_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-8.png" id="10_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-9.png" id="11_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-10.png" id="12_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-11.png" id="13_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/b-tile-1.png" id="14_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-12.png" id="15_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-13.png" id="16_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-14.png" id="17_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-15.png" id="18_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/b-tile-2.png" id="19_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-16.png" id="20_tex"]
+[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-17.png" id="21_tex"]
+
+[node name="RoomVisual" type="Node2D"]
+script = ExtResource("1_script")
+iso_map_json_path = "res://assets/maps/alchemy_room/iso_room/iso-map.json"
+map_name = "Isometric Map Editor"
+map_type = "isometric"
+map_width_tiles = 24
+map_height_tiles = 16
+tile_size = 64
+pixel_size = Vector2(2688.0, 1472.0)
+
+[node name="1_default_layer" type="Node2D" parent="."]
+z_index = 0
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_layer_name = "default layer"
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d2057103826a4605aa27eabc_1_10_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1138.0, 575.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("2_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d2057103826a4605aa27eabc-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 10.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_10_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1066.0, 634.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("11_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 10.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_library_tileset_generated_52479_final_tile_0_10_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1002.0, 666.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("14_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "library-tileset:generated-52479-final-tile-0"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 10.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_ac14af3939e44f95908eaf97_2_10_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(939.0, 698.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("15_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 10.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_library_tileset_generated_52479_final_tile_1_10_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(874.0, 730.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("19_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "library-tileset:generated-52479-final-tile-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 10.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_library_tileset_generated_52479_final_tile_1_10_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(810.0, 762.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("19_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "library-tileset:generated-52479-final-tile-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 10.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1131.0, 666.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 11.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1067.0, 698.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 11.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1003.0, 730.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 11.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(939.0, 762.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 11.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(875.0, 794.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 11.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_12_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1322.0, 634.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("3_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 12.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1259.0, 666.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 12.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1195.0, 698.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 12.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1131.0, 730.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 12.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_2_12_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1067.0, 764.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("16_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 12.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_12_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1002.0, 794.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("20_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 12.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(939.0, 826.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 12.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_13_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1386.0, 666.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("4_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 13.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1323.0, 698.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 13.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1259.0, 730.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 13.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1195.0, 762.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 13.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1131.0, 794.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 13.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1067.0, 826.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 13.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1003.0, 858.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 13.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_5c55ec35a2014bdc9abcfeaf_1_14_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1450.0, 698.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("5_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-5c55ec35a2014bdc9abcfeaf-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 14.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1387.0, 730.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 14.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_6cd414b74f3f43c58578870a_2_15_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1515.0, 730.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("6_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 15.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1451.0, 762.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 15.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_2c3a7ed83327453b9646e26a_1_14_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1266.0, 763.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("12_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-2c3a7ed83327453b9646e26a-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 14.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_1_14_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1194.0, 826.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("17_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 14.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1131.0, 858.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 14.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1067.0, 890.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 14.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_15_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1258.0, 858.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("18_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 15.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1195.0, 890.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 15.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1131.0, 922.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 15.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_2_16_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1578.0, 762.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("7_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 16.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1515.0, 794.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 16.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1451.0, 826.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 16.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1387.0, 858.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 16.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1323.0, 890.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 16.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1259.0, 922.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 16.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1195.0, 954.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 16.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_2_17_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1642.0, 794.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("7_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 17.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_17_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1579.0, 826.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 17.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1514.0, 858.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("11_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 17.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1450.0, 890.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("11_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 17.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1386.0, 922.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("11_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 17.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1322.0, 954.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("11_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 17.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_17_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1259.0, 986.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 17.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_18_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1707.0, 826.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("8_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 18.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_18_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1643.0, 858.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 18.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_18_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1578.0, 890.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("4_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 18.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_18_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1451.0, 954.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("8_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 18.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_1_18_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1386.0, 987.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("21_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 18.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_18_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1323.0, 1018.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 18.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_6cd414b74f3f43c58578870a_1_19_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1770.0, 859.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("9_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 19.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_19_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1707.0, 890.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 19.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_19_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1642.0, 922.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("3_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 19.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_19_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1579.0, 954.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 19.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_19_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1515.0, 986.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("8_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 19.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_19_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1450.0, 1018.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("18_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 19.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_1_19_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1386.0, 1050.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("17_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 19.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_5c55ec35a2014bdc9abcfeaf_1_20_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1834.0, 890.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("5_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-5c55ec35a2014bdc9abcfeaf-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 20.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1771.0, 922.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 20.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_20_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1706.0, 954.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("3_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 20.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1643.0, 986.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 20.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1579.0, 1018.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 20.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_20_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1514.0, 1050.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("20_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 20.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_20_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1450.0, 1082.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("20_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 20.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_21_7" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1898.0, 922.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("4_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 21.0
+metadata/iso_row = 7.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_8" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1835.0, 954.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 21.0
+metadata/iso_row = 8.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_ac14af3939e44f95908eaf97_1_21_9" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1770.0, 987.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("13_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-1"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 21.0
+metadata/iso_row = 9.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_10" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1707.0, 1018.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 21.0
+metadata/iso_row = 10.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_11" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1643.0, 1050.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("10_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 21.0
+metadata/iso_row = 11.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_21_12" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1578.0, 1082.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("18_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 21.0
+metadata/iso_row = 12.0
+metadata/iso_layer_index = 0.0
+
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_21_13" type="Sprite2D" parent="1_default_layer"]
+position = Vector2(1514.0, 1114.0)
+texture_filter = 1
+centered = false
+texture = ExtResource("18_tex")
+metadata/iso_kind = "tile"
+metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
+metadata/iso_layer_id = "map-layer-1"
+metadata/iso_column = 21.0
+metadata/iso_row = 13.0
+metadata/iso_layer_index = 0.0
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://ce0demo7cu008v1"]
+[gd_scene load_steps=3 format=3 uid="uid://ce0demo7cu008v1"]
 
 ; cu-visual-evidence-harness · cu-008 demo scene (inherited from battle_jiangnan_bandit.tscn)
 ; 用途：录屏者一条命令直接进 cu-008 demo state（dual-focus + D-pad/方向键循环导航）。
@@ -6,6 +6,11 @@
 ;                          PrefersGamepadOnlyHint 提示录制者拔鼠标或方向键模拟 D-pad)
 
 [ext_resource type="PackedScene" uid="uid://ce0leeu7ltkvl" path="res://scenes/vs/battle_jiangnan_bandit.tscn" id="1_parent"]
+[ext_resource type="Script" path="res://scripts/vs/AutoEvidencePlayer.cs" id="2_auto"]
 
 [node name="JiangnanBattle" instance=ExtResource("1_parent")]
 DemoSeed = "cu-008"
+
+[node name="AutoEvidencePlayer" type="Node" parent="."]
+script = ExtResource("2_auto")
+DemoId = "cu-008"

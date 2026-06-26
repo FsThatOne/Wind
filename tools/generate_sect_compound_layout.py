@@ -97,10 +97,10 @@ MARKERS: list[dict[str, Any]] = [
         "entry_marker": "entry_from_compound",
     },
     {
-        "name": "exit_to_training_ground",
+        "name": "exit_to_alchemy_room",
         "type": "exit",
         "tile": (32, 18),
-        "target_scene": "res://scenes/training_ground/TrainingGround.tscn",
+        "target_scene": "res://scenes/alchemy_room/AlchemyRoom.tscn",
         "entry_marker": "entry_from_compound",
     },
     {
@@ -120,7 +120,7 @@ MARKERS: list[dict[str, Any]] = [
     {"name": "entry_from_main_hall", "type": "entry", "tile": (21, 8)},
     {"name": "entry_from_study", "type": "entry", "tile": (31, 11)},
     {"name": "entry_from_living_quarter", "type": "entry", "tile": (12, 18)},
-    {"name": "entry_from_training_ground", "type": "entry", "tile": (32, 19)},
+    {"name": "entry_from_alchemy_room", "type": "entry", "tile": (32, 19)},
     {"name": "entry_from_mountain_gate", "type": "entry", "tile": (21, 30)},
     {"name": "entry_from_back_mountain_path", "type": "entry", "tile": (8, 3)},
     {"name": "motto_axis_inspect", "type": "inspect", "tile": (21, 10)},

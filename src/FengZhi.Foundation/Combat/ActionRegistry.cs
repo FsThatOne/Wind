@@ -1,4 +1,5 @@
 using FengZhi.Foundation.CharacterData;
+using FengZhi.Foundation.Combat.Board;
 
 namespace FengZhi.Foundation.Combat;
 
@@ -37,6 +38,7 @@ public sealed class BattleAction
     public string? MoveId { get; init; }
     public MoveType? MoveType { get; init; }
     public int NeixiCost { get; init; }
+    public GridPosition? MoveTarget { get; init; }
 }
 
 /// <summary>

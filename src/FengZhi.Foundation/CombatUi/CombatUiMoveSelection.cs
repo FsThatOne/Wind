@@ -738,6 +738,7 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         Name = "CombatMoveSelectionPanel";
         MouseFilter = MouseFilterEnum.Pass;
         Visible = false;
+        SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
 
         _slotContainer = new VBoxContainer
         {

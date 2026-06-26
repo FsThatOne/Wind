@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FengZhi.Foundation.CharacterData;
 using FengZhi.Foundation.Combat;
 using FengZhi.Foundation.Combat.Fixtures;
 using FengZhi.Foundation.Combat.Runtime;
+using FengZhi.Foundation.Combat.Board;
+using FengZhi.Foundation.Combat.Xingqi;
 using FengZhi.Foundation.CombatUi;
 using FengZhi.Foundation.MartialArts;
 using FengZhi.Foundation.Presentation.Shared;
@@ -41,9 +44,15 @@ public partial class JiangnanBattleGame : Node2D
 	/// </summary>
 	[Export] public string DemoSeed { get; set; } = "cu-004";
 
+	/// <summary>
+	/// 行气模式开关。true 时使用 XingqiBattleLoopController（脉冲驱动逐一行动）。
+	/// </summary>
+	[Export] public bool UseXingqiMode { get; set; }
+
 	private BattleEventBus _bus = null!;
-	private VsBattleLoopController _controller = null!;
-	private CombatUiEventAdapter _adapter = null!;
+	private VsBattleLoopController? _controller;
+	private XingqiBattleLoopController? _xingqiController;
+	private CombatUiEventAdapter? _adapter;
 	private CombatMoveSelectionBinder _moveBinder = null!;
 	private DecisiveStrikeGodotAdapter _decisiveAdapter = null!;
 
@@ -57,6 +66,11 @@ public partial class JiangnanBattleGame : Node2D
 	private CanvasLayer _decisiveOverlay = null!;
 	private Sprite2D _playerSprite = null!;
 	private Sprite2D _banditSprite = null!;
+	private ProgressBar? _playerXingqiBar;
+	private ProgressBar? _banditXingqiBar;
+
+	private string _protagonistId = null!;
+	private string _banditId = null!;
 
 	private bool _isCu005Demo;
 	private bool _isCu006Demo;
@@ -76,12 +90,14 @@ public partial class JiangnanBattleGame : Node2D
 		_decisiveAdapter = GetNode<DecisiveStrikeGodotAdapter>("DecisiveStrikeAdapter");
 		_playerSprite = GetNode<Sprite2D>("IsoBoard/PlayerSprite");
 		_banditSprite = GetNode<Sprite2D>("IsoBoard/BanditSprite");
+		_playerXingqiBar = GetNodeOrNull<ProgressBar>("UiLayer/CombatPanel/PlayerStats/XingqiBar");
+		_banditXingqiBar = GetNodeOrNull<ProgressBar>("UiLayer/CombatPanel/BanditStats/XingqiBar");
 
 		PaintIsoBoard();
 
 		// === Demo seed 分发 ===
 		BattleConfig battleConfig;
-		ScriptedAI enemyAI;
+		IBattleAI enemyAI;
 		BattlePanelDisplayData panelDisplay;
 		bool isXinfaSealed;
 		int usableCombatItemCount;
@@ -91,6 +107,24 @@ public partial class JiangnanBattleGame : Node2D
 
 		switch (DemoSeed)
 		{
+			case "xingqi":
+				{
+					battleConfig = XingqiDemoFixture.CreateXingqiBattleConfig();
+					enemyAI = XingqiDemoFixture.CreateBanditAI();
+					panelDisplay = new BattlePanelDisplayData { Entries = Array.Empty<BattlePanelMoveEntry>() };
+					isXinfaSealed = false;
+					usableCombatItemCount = 0;
+					break;
+				}
+			case "movement":
+				{
+					battleConfig = MovementDemoFixture.CreateBattleConfig();
+					enemyAI = MovementDemoFixture.CreateBanditAI();
+					panelDisplay = new BattlePanelDisplayData { Entries = Array.Empty<BattlePanelMoveEntry>() };
+					isXinfaSealed = false;
+					usableCombatItemCount = 0;
+					break;
+				}
 			case "cu-005":
 				{
 					var seed = JiangnanBandit1v1Fixture.CreateDemoConfig_Cu005Showcase();
@@ -148,6 +182,13 @@ public partial class JiangnanBattleGame : Node2D
 		var facade = new BattleFacade();
 		var battle = facade.InitiateBattle(battleConfig);
 		_bus = new BattleEventBus();
+
+		if (UseXingqiMode)
+		{
+			InitXingqiMode(battleConfig, enemyAI);
+			return;
+		}
+
 		_controller = new VsBattleLoopController(battle, _bus, enemyAI);
 		_adapter = new CombatUiEventAdapter(_bus);
 		_adapter.EnterBattle();
@@ -183,7 +224,7 @@ public partial class JiangnanBattleGame : Node2D
 		RefreshHudFromCombatants();
 		_statusLabel.Text = "观气";
 
-		_controller.Start();
+		_controller!.Start();
 
 		// cu-005 demo seed: 预置决胜目标 + 覆盖 UI 内息显示（必须在 controller.Start() 后做，
 		// 因为 Start 会触发 RoundStartEvent 让 binder 清空 _decisiveStrikeTargetIds）
@@ -287,6 +328,36 @@ public partial class JiangnanBattleGame : Node2D
 	public override void _Process(double delta)
 	{
 		ApplySnapshotIfDirty();
+
+		// Headless 自动提交：无头模式下自动让玩家操作，用于查看完整循环日志
+		if (UseXingqiMode && DisplayServer.GetName() == "headless"
+			&& _xingqiController is { WaitingForPlayer: true, IsFinished: false })
+		{
+			if (_xingqiController.CurrentSubPhase == TurnSubPhase.WaitingForMovement)
+			{
+				// 自动选择原地停留
+				_xingqiController.SubmitPlayerMovement(null);
+			}
+			else if (_xingqiController.CurrentSubPhase == TurnSubPhase.WaitingForAction)
+			{
+				string actorId = DemoSeed == "movement"
+					? MovementDemoFixture.ProtagonistId
+					: XingqiDemoFixture.ProtagonistId;
+				string targetId = DemoSeed == "movement"
+					? MovementDemoFixture.BanditId
+					: XingqiDemoFixture.BanditId;
+				var autoAction = new BattleAction
+				{
+					ActorId = actorId,
+					Type = ActionType.Move,
+					TargetId = targetId,
+					MoveId = "luo_han_quan",
+					MoveType = MoveType.Gang,
+					NeixiCost = 2,
+				};
+				SubmitXingqiPlayerAction(autoAction);
+			}
+		}
 	}
 
 	public override void _Input(InputEvent @event)
@@ -304,7 +375,7 @@ public partial class JiangnanBattleGame : Node2D
 			return;
 		}
 
-		if (!_moveBinder.IsOpen || _controller.IsFinished)
+		if (!_moveBinder.IsOpen || (UseXingqiMode ? _xingqiController?.IsFinished ?? true : _controller?.IsFinished ?? true))
 			return;
 
 		// cu-008 dual-focus: 检测输入设备类型自动切 InputMode（仅在变化时通知 binder）
@@ -351,7 +422,7 @@ public partial class JiangnanBattleGame : Node2D
 
 	private bool SubmitPlayerAction(BattleAction action)
 	{
-		if (!_controller.WaitingForPlayer || _controller.IsFinished)
+		if (_controller == null || !_controller.WaitingForPlayer || _controller.IsFinished)
 			return false;
 
 		var protagonist = GetCombatant(JiangnanBandit1v1Fixture.ProtagonistId);
@@ -375,7 +446,7 @@ public partial class JiangnanBattleGame : Node2D
 		RefreshHudFromCombatants();
 		UpdateMovePanelForState();
 
-		if (!_controller.IsFinished)
+		if (_controller is { IsFinished: false })
 			_statusLabel.Text = "观气";
 		return true;
 	}
@@ -416,7 +487,7 @@ public partial class JiangnanBattleGame : Node2D
 
 	private void ApplySnapshotIfDirty()
 	{
-		if (!_adapter.RefreshIfDirty())
+		if (_adapter == null || !_adapter.RefreshIfDirty())
 			return;
 
 		var snapshot = _adapter.GetSnapshot();
@@ -443,13 +514,14 @@ public partial class JiangnanBattleGame : Node2D
 
 	private BattleCombatant? GetCombatant(string id)
 	{
+		if (_controller == null) return null;
 		return _controller.Battle.PlayerParty.Concat(_controller.Battle.EnemyGroup)
 			.FirstOrDefault(c => c.Id == id);
 	}
 
 	private void UpdateMovePanelForState()
 	{
-		if (_controller.IsFinished)
+		if (_controller == null || _controller.IsFinished)
 		{
 			_moveBinder.Close();
 			return;
@@ -501,5 +573,194 @@ public partial class JiangnanBattleGame : Node2D
 				tileMap.SetCell(new Vector2I(x, y), source, atlas);
 			}
 		}
+	}
+
+	// ========== 行气模式 ==========
+
+	private void InitXingqiMode(BattleConfig battleConfig, IBattleAI enemyAI)
+	{
+		var xingqiConfig = DemoSeed == "movement"
+			? MovementDemoFixture.CreateXingqiConfig()
+			: XingqiDemoFixture.CreateXingqiConfig();
+
+		var playerParty = battleConfig.PlayerParty.Select(c => CreateCombatantFromConfig(c)).ToList();
+		var enemyGroup = battleConfig.EnemyGroup.Select(c => CreateCombatantFromConfig(c)).ToList();
+
+		BattleGrid? grid = null;
+		if (DemoSeed == "movement")
+		{
+			grid = MovementDemoFixture.CreateDemoGrid();
+		}
+
+		_xingqiController = new XingqiBattleLoopController(
+			playerParty, enemyGroup, _bus, enemyAI, xingqiConfig, grid: grid);
+
+		// 面板
+		var panelDisplay = new BattlePanelDisplayData
+		{
+			Entries = new[]
+			{
+				new BattlePanelMoveEntry
+				{
+					MoveId = "luo_han_quan", Name = "罗汉拳 · 轻击",
+					Source = MoveSource.BaseSlot, ColorTheme = TypeColorTheme.WarmGold,
+					NeixiCost = 2, EffectiveMultiplier = 1.0f,
+					TriggerConditions = new[] { "always" }, SpecialEffects = new[] { "稳定输出" },
+				},
+				new BattlePanelMoveEntry
+				{
+					MoveId = "tie_bi_heng_lan", Name = "铁臂横拦 · 重击",
+					Source = MoveSource.BaseSlot, ColorTheme = TypeColorTheme.WarmGold,
+					NeixiCost = 4, EffectiveMultiplier = 1.4f,
+					TriggerConditions = new[] { "always" }, SpecialEffects = new[] { "破绽 +1" },
+				},
+			}
+		};
+
+		string actorId = DemoSeed == "movement"
+			? MovementDemoFixture.ProtagonistId
+			: XingqiDemoFixture.ProtagonistId;
+		string targetId = DemoSeed == "movement"
+			? MovementDemoFixture.BanditId
+			: XingqiDemoFixture.BanditId;
+
+		_protagonistId = actorId;
+		_banditId = targetId;
+
+		_moveBinder = new CombatMoveSelectionBinder(
+			_bus, _moveSelectionMount,
+			actorId: actorId,
+			defaultTargetId: targetId,
+			submitAction: SubmitXingqiPlayerAction);
+		_moveBinder.SetDisplayData(panelDisplay, isXinfaSealed: false, usableCombatItemCount: 0);
+
+		_bus.Subscribe<XingqiAdvancedEvent>(OnXingqiAdvanced);
+		_bus.Subscribe<ActorTurnStartedEvent>(OnActorTurnStarted);
+		_bus.Subscribe<BattleEndEvent>(OnBattleEnd);
+		_bus.Subscribe<MovementRangeCalculatedEvent>(OnMovementRangeCalculated);
+		_bus.Subscribe<ActorMovedEvent>(OnActorMoved);
+
+		RefreshXingqiHud(playerParty, enemyGroup);
+		_statusLabel.Text = "行气中…";
+
+		_xingqiController.Start();
+		UpdateXingqiMovePanelForState();
+
+		GD.Print($"[JiangnanBattle] Xingqi mode ready. DemoSeed='{DemoSeed}'. Grid={(grid != null ? $"{grid.Width}x{grid.Height}" : "none")}");
+	}
+
+	private static BattleCombatant CreateCombatantFromConfig(CombatantConfig config)
+	{
+		return new BattleCombatant(
+			config.Id, config.Name, config.MaxHP, config.MaxNeixi,
+			config.AttackGang, config.AttackRou, config.AttackQiao,
+			config.Defense, config.Speed, config.CritRate,
+			config.InsightStat, config.NeixiRecovery,
+			config.StaggerThreshold, agility: config.Agility,
+			initialPosition: config.InitialPosition,
+			initialFacing: config.InitialFacing,
+			moveRange: config.MoveRange);
+	}
+
+	private void OnXingqiAdvanced(XingqiAdvancedEvent evt)
+	{
+		GD.Print($"[Xingqi] Pulse #{evt.PulseNumber}:");
+		foreach (var snap in evt.Snapshots)
+		{
+			GD.Print($"  {snap.CombatantId}: {snap.CurrentXingqi}/{snap.Threshold} {(snap.IsReady ? "★ READY" : "")}");
+			if (snap.CombatantId == _protagonistId && _playerXingqiBar != null)
+			{
+				_playerXingqiBar.Value = snap.CurrentXingqi;
+			}
+			else if (snap.CombatantId == _banditId && _banditXingqiBar != null)
+			{
+				_banditXingqiBar.Value = snap.CurrentXingqi;
+			}
+		}
+	}
+
+	private void OnActorTurnStarted(ActorTurnStartedEvent evt)
+	{
+		string side = evt.IsPlayerSide ? "玩家" : "敌方";
+		GD.Print($"[Xingqi] >>> {side} 行动开始: {evt.ActorId}");
+		if (evt.IsPlayerSide)
+		{
+			_statusLabel.Text = _xingqiController?.Grid != null ? "选择移动目标" : "你的回合 — 选择招式";
+		}
+		else
+		{
+			_statusLabel.Text = $"敌方行动";
+		}
+		RefreshXingqiHudFromController();
+	}
+
+	private void OnMovementRangeCalculated(MovementRangeCalculatedEvent evt)
+	{
+		GD.Print($"[Movement] 可达范围计算: {evt.ReachableCells.Count} 格, 起点={evt.Origin}");
+	}
+
+	private void OnActorMoved(ActorMovedEvent evt)
+	{
+		GD.Print($"[Movement] {evt.ActorId} 移动: {evt.From} → {evt.To}, 朝向={evt.NewFacing}");
+	}
+
+	private bool SubmitXingqiPlayerAction(BattleAction action)
+	{
+		if (_xingqiController == null || !_xingqiController.WaitingForPlayer || _xingqiController.IsFinished)
+			return false;
+
+		GD.Print($"[Xingqi] 玩家提交: {action.Type} → {action.TargetId ?? "无目标"}");
+		var accepted = _xingqiController.SubmitPlayerIntent(action);
+		if (!accepted) return false;
+
+		RefreshXingqiHudFromController();
+		UpdateXingqiMovePanelForState();
+
+		if (!_xingqiController.IsFinished)
+			_statusLabel.Text = "行气中…";
+		return true;
+	}
+
+	private void UpdateXingqiMovePanelForState()
+	{
+		if (_xingqiController == null) return;
+
+		if (_xingqiController.IsFinished)
+		{
+			_moveBinder?.Close();
+			return;
+		}
+
+		if (_xingqiController.WaitingForPlayer)
+		{
+			var player = _xingqiController.PlayerParty.FirstOrDefault(c => c.Id == _protagonistId);
+			_moveBinder?.OpenForPlayerDecision(player?.Neixi ?? 0);
+		}
+		else
+		{
+			_moveBinder?.Close();
+		}
+	}
+
+	private void RefreshXingqiHud(IReadOnlyList<BattleCombatant> players, IReadOnlyList<BattleCombatant> enemies)
+	{
+		var player = players.FirstOrDefault(c => c.Id == _protagonistId);
+		var bandit = enemies.FirstOrDefault(c => c.Id == _banditId);
+		if (player != null)
+		{
+			_playerHpLabel.Text = $"主角 HP {player.HP} / {player.MaxHP}";
+			_playerNeixiLabel.Text = $"内息 {player.Neixi} / {player.MaxNeixi}";
+		}
+		if (bandit != null)
+		{
+			_banditHpLabel.Text = $"江湖小贼 HP {bandit.HP} / {bandit.MaxHP}";
+			_banditNeixiLabel.Text = $"内息 {bandit.Neixi} / {bandit.MaxNeixi}";
+		}
+	}
+
+	private void RefreshXingqiHudFromController()
+	{
+		if (_xingqiController == null) return;
+		RefreshXingqiHud(_xingqiController.PlayerParty, _xingqiController.EnemyGroup);
 	}
 }

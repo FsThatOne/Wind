@@ -23,10 +23,10 @@ public class IsoProjectionTests
     }
 
     [Theory]
-    [InlineData(1f, 0f, +32f, +16f)]
-    [InlineData(0f, 1f, -32f, +16f)]
-    [InlineData(1f, 1f, 0f, +32f)]
-    [InlineData(-1f, -1f, 0f, -32f)]
+    [InlineData(1f, 0f, +64f, +32f)]
+    [InlineData(0f, 1f, -64f, +32f)]
+    [InlineData(1f, 1f, 0f, +64f)]
+    [InlineData(-1f, -1f, 0f, -64f)]
     public void CartToScreen_MatchesAdrFormula(float cx, float cy, float sx, float sy)
     {
         var screen = IsoProjection.CartToScreen(new Vector2(cx, cy));
@@ -54,8 +54,10 @@ public class IsoProjectionTests
     [Fact]
     public void TileConstants_MatchAdr0022Default()
     {
-        Assert.Equal(64f, IsoProjection.TileWidth);
-        Assert.Equal(32f, IsoProjection.TileHeight);
+        // ADR-0022 rev 2 (2026-06-26): tile 默认尺寸由 64×32 升到 128×64，
+        // 跟随 vanilla cube tile 素材落地。2:1 宽高比保持不变。
+        Assert.Equal(128f, IsoProjection.TileWidth);
+        Assert.Equal(64f, IsoProjection.TileHeight);
         Assert.Equal(2f, IsoProjection.TileWidth / IsoProjection.TileHeight);
     }
 }

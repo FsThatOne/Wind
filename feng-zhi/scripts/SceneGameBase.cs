@@ -13,8 +13,10 @@ namespace FengZhi;
 
 public abstract partial class SceneGameBase : Node2D
 {
-	protected const int TileWidth = 64;
-	protected const int TileHeight = 32;
+	// 默认 iso 网格尺寸 128x64（ADR-0022 rev 2，跟 IsoProjection 常量保持一致）。
+	// 个别场景如有特殊需要可以 override，但项目方向是所有 tile 资产统一 128x64。
+	protected virtual int TileWidth => 128;
+	protected virtual int TileHeight => 64;
 
 	protected abstract string AssetRoot { get; }
 	protected abstract string DayMapPath { get; }
@@ -309,7 +311,8 @@ public abstract partial class SceneGameBase : Node2D
 	protected abstract void OnLoadVariant(string variant);
 	protected abstract void OnInteract(string markerName);
 	protected virtual HashSet<string> GetEnabledStructures() => new(StringComparer.Ordinal);
-	protected virtual float GetStructureScale(string name) => 0.25f;
+	// 默认道具缩放 0.5（按 128x64 tile 校准；原 0.25 对应已废弃的 64x32 网格）。
+	protected virtual float GetStructureScale(string name) => 0.5f;
 	protected virtual Vector2I? GetStructureTileOverride(string name) => null;
 
 	private void ConfigureTileLayerVariant(string variant)

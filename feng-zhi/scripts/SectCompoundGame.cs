@@ -17,7 +17,7 @@ public partial class SectCompoundGame : SceneGameBase
 	{
 		StatusLabel.Text = variant == "night"
 			? "风止山院・夜：旧火山口凹谷沉入雾色，岩壁庄训只剩一线暗痕。"
-			: "风止山院：清修小庄藏在凹谷中央，正堂、书房、厨仓、丹锻药圃沿水脉疏落分布。";
+			: "风止山院：清修小庄藏在凹谷中央，正堂、书房、厨仓、炼丹房沿水脉疏落分布。";
 		InventoryLabel.Text = "";
 	}
 

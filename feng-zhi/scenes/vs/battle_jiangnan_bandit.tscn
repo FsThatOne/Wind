@@ -69,6 +69,12 @@ text = "主角 HP -- / --"
 [node name="NeixiLabel" type="Label" parent="UiLayer/CombatPanel/PlayerStats"]
 text = "内息 -- / --"
 
+[node name="XingqiBar" type="ProgressBar" parent="UiLayer/CombatPanel/PlayerStats"]
+custom_minimum_size = Vector2(200, 20)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
 [node name="BanditStats" type="VBoxContainer" parent="UiLayer/CombatPanel"]
 offset_left = 470.0
 offset_top = 80.0
@@ -80,6 +86,12 @@ text = "江湖小贼 HP -- / --"
 
 [node name="NeixiLabel" type="Label" parent="UiLayer/CombatPanel/BanditStats"]
 text = "内息 -- / --"
+
+[node name="XingqiBar" type="ProgressBar" parent="UiLayer/CombatPanel/BanditStats"]
+custom_minimum_size = Vector2(200, 20)
+max_value = 100.0
+value = 0.0
+show_percentage = false
 
 [node name="Hint" type="Label" parent="UiLayer/CombatPanel"]
 offset_left = 24.0

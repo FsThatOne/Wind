@@ -1,4 +1,6 @@
+using FengZhi.Foundation.Animation;
 using FengZhi.Foundation.CharacterData;
+using FengZhi.Foundation.Combat.Board;
 
 namespace FengZhi.Foundation.Combat;
 
@@ -39,6 +41,12 @@ public sealed class CombatantConfig
     public int InsightStat { get; init; }
     public int NeixiRecovery { get; init; }
     public int StaggerThreshold { get; init; } = BattleCombatant.DefaultStaggerThreshold;
+    public int Agility { get; init; }
+
+    // --- Board ---
+    public GridPosition InitialPosition { get; init; }
+    public int MoveRange { get; init; } = 3;
+    public Iso4Direction InitialFacing { get; init; } = Iso4Direction.SE;
 
     /// <summary>装备招式 ID 列表（最多 6 个）</summary>
     public IReadOnlyList<string> EquippedMoveIds { get; init; } = Array.Empty<string>();
@@ -62,10 +70,13 @@ public sealed class BattleStats
 /// </summary>
 public interface IBattleAI
 {
-    /// <summary>
-    /// 为指定角色生成本回合行动。
-    /// </summary>
     BattleAction DecideAction(BattleCombatant actor, BattleInstance battle);
+
+    /// <summary>
+    /// 为指定角色选择移动目标格。默认返回 null（原地停留）。
+    /// </summary>
+    GridPosition? DecideMovement(BattleCombatant actor, BattleGrid grid, IReadOnlySet<GridPosition> reachable)
+        => null;
 }
 
 /// <summary>
@@ -244,6 +255,7 @@ public sealed class BattleFacade
             config.CritRate,
             config.InsightStat,
             config.NeixiRecovery,
-            config.StaggerThreshold);
+            config.StaggerThreshold,
+            agility: config.Agility);
     }
 }

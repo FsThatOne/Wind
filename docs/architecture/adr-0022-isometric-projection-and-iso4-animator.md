@@ -4,7 +4,14 @@
 Accepted (Migration Plan §1–§3 + §5 ✅；§4 partial — explore 切 iso 已挂 S8-Explore-TileMap-Adoption；Validation #1 ✅，#2/#3 partial，#4 ⏳ 留 S8)
 
 ## Date
-2026-06-22 (Migration progress 回灌 2026-06-23)
+2026-06-22 (Migration progress 回灌 2026-06-23；**rev 2 默认 tile 尺寸更新 2026-06-26**)
+
+## Revision History
+
+| Rev | Date | Change |
+|---|---|---|
+| 1 | 2026-06-22 | 初版 — 默认 tile 64×32 |
+| **2** | **2026-06-26** | 默认 tile 尺寸由 **64×32 → 128×64**，跟随 vanilla 立方体 tile 素材落地（顶面 128×64 + 立方体厚度 32px）。2:1 宽高比保持不变；`IsoProjection.TileWidth/TileHeight` 同步、`IsoProjectionTests` 已更新；`SceneGameBase.TileWidth/TileHeight` 默认值同步至 128/64；6 个旧占位 tileset PNG 已 2× nearest-neighbor 放大以匹配新网格。**所有 §4 公式与 cart↔iso 投影规则不变**——只调常量、不动算法。 |
 
 ## Supersedes
 [ADR-0021](adr-0021-character-animation-port.md) — §扩展点 1 (8 方向序列帧子接口)

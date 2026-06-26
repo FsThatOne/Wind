@@ -1,0 +1,205 @@
+{
+  "direction": "nw",
+  "screen_direction": "左上 / A",
+  "frames": 8,
+  "cell_size": [
+    96,
+    96
+  ],
+  "raw": "/Users/bytedance/my-game/assets/generated/sprites/fengzhi-white-robed-iso4-walk-8f/raw/nw-raw-fake-transparent.png",
+  "qc": [
+    {
+      "bbox": [
+        180,
+        42,
+        381,
+        372
+      ],
+      "output_size": [
+        52,
+        86
+      ],
+      "paste": [
+        22,
+        6
+      ],
+      "edge_touch": false,
+      "index": 0,
+      "source_box": [
+        0,
+        0,
+        444,
+        444
+      ]
+    },
+    {
+      "bbox": [
+        106,
+        42,
+        313,
+        374
+      ],
+      "output_size": [
+        53,
+        86
+      ],
+      "paste": [
+        21,
+        6
+      ],
+      "edge_touch": false,
+      "index": 1,
+      "source_box": [
+        444,
+        0,
+        887,
+        444
+      ]
+    },
+    {
+      "bbox": [
+        113,
+        42,
+        311,
+        379
+      ],
+      "output_size": [
+        50,
+        86
+      ],
+      "paste": [
+        23,
+        6
+      ],
+      "edge_touch": false,
+      "index": 2,
+      "source_box": [
+        887,
+        0,
+        1330,
+        444
+      ]
+    },
+    {
+      "bbox": [
+        79,
+        42,
+        283,
+        374
+      ],
+      "output_size": [
+        53,
+        86
+      ],
+      "paste": [
+        21,
+        6
+      ],
+      "edge_touch": false,
+      "index": 3,
+      "source_box": [
+        1330,
+        0,
+        1774,
+        444
+      ]
+    },
+    {
+      "bbox": [
+        179,
+        20,
+        372,
+        347
+      ],
+      "output_size": [
+        50,
+        86
+      ],
+      "paste": [
+        23,
+        6
+      ],
+      "edge_touch": false,
+      "index": 4,
+      "source_box": [
+        0,
+        444,
+        444,
+        887
+      ]
+    },
+    {
+      "bbox": [
+        121,
+        20,
+        316,
+        347
+      ],
+      "output_size": [
+        51,
+        86
+      ],
+      "paste": [
+        22,
+        6
+      ],
+      "edge_touch": false,
+      "index": 5,
+      "source_box": [
+        444,
+        444,
+        887,
+        887
+      ]
+    },
+    {
+      "bbox": [
+        102,
+        20,
+        318,
+        347
+      ],
+      "output_size": [
+        57,
+        86
+      ],
+      "paste": [
+        19,
+        6
+      ],
+      "edge_touch": false,
+      "index": 6,
+      "source_box": [
+        887,
+        444,
+        1330,
+        887
+      ]
+    },
+    {
+      "bbox": [
+        96,
+        23,
+        291,
+        344
+      ],
+      "output_size": [
+        52,
+        86
+      ],
+      "paste": [
+        22,
+        6
+      ],
+      "edge_touch": false,
+      "index": 7,
+      "source_box": [
+        1330,
+        444,
+        1774,
+        887
+      ]
+    }
+  ],
+  "edge_touch_frames": []
+}

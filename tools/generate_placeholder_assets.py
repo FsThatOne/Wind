@@ -70,7 +70,7 @@ SCENES: list[SceneSpec] = [
     SceneSpec("study", "study", props=[
         "desk", "bookshelf", "secret_compartment", "scroll_pile",
     ]),
-    SceneSpec("training_ground", "training_ground", props=[
+    SceneSpec("alchemy_room", "alchemy_room", props=[
         "wooden_sword", "training_dummy", "stone_bench", "fence_post",
     ]),
     SceneSpec("living_quarter", "living_quarter", props=[

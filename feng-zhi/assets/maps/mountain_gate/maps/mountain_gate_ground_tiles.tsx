@@ -1,2 +1,2 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tileset version="1.10" tiledversion="1.10.2" name="mountain_gate_ground_tiles" tilewidth="64" tileheight="32" tilecount="24" columns="6"><image source="../tilesets/mountain_gate_ground_tiles.png" width="384" height="128" /></tileset>
+<tileset version="1.10" tiledversion="1.10.2" name="mountain_gate_ground_tiles" tilewidth="128" tileheight="96" tilecount="24" columns="6"><image source="../tilesets/mountain_gate_ground_tiles.png" width="768" height="384" /></tileset>

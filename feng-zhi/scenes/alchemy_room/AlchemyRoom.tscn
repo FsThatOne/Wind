@@ -1,56 +1,104 @@
-[gd_scene format=3]
+[gd_scene load_steps=9 format=3]
 
-[ext_resource type="Script" path="res://scripts/TrainingGroundGame.cs" id="1_game"]
+[ext_resource type="Script" path="res://scripts/AlchemyRoomGame.cs" id="1_game"]
 [ext_resource type="Script" path="res://scripts/CavePlayer.cs" id="2_player"]
 [ext_resource type="SpriteFrames" path="res://assets/character/main_character.tres" id="3_frames"]
-[ext_resource type="PackedScene" path="res://scenes/training_ground/TrainingGroundTileLayers.tscn" id="4_tile_layers"]
+[ext_resource type="PackedScene" path="res://scenes/alchemy_room/RoomVisual.tscn" id="4_room"]
+[ext_resource type="Script" path="res://scripts/exploration/InteractionController.cs" id="5_ic"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(26, 13)
 
-[node name="TrainingGround" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(80, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pill_furnace"]
+size = Vector2(140, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oneshot"]
+size = Vector2(120, 80)
+
+[node name="AlchemyRoom" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_game")
 
 [node name="BackgroundTint" type="ColorRect" parent="."]
-offset_left = -1738.0
-offset_top = -1714.0
-offset_right = 2262.0
-offset_bottom = 2286.0
-color = Color(0.14, 0.13, 0.1, 1)
+offset_left = -2000.0
+offset_top = -2000.0
+offset_right = 4000.0
+offset_bottom = 4000.0
+color = Color(0.08, 0.07, 0.06, 1)
 
-[node name="Tiles" type="Node2D" parent="."]
-
-[node name="TileLayers" parent="Tiles" instance=ExtResource("4_tile_layers")]
-
-[node name="MapRoot" type="Node2D" parent="."]
+[node name="RoomVisual" parent="." instance=ExtResource("4_room")]
 y_sort_enabled = true
 
-[node name="Structures" type="Node2D" parent="MapRoot"]
-y_sort_enabled = true
-
-[node name="Collision" type="Node2D" parent="MapRoot"]
-
-[node name="LogicMarkers" type="Node2D" parent="MapRoot"]
-
-[node name="Player" type="CharacterBody2D" parent="MapRoot"]
-position = Vector2(1024, 640)
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(1216, 1080)
 script = ExtResource("2_player")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 position = Vector2(-2.66, -18.0)
 scale = Vector2(0.6147, 0.62)
 sprite_frames = ExtResource("3_frames")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapRoot/Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_player")
 
-[node name="Camera2D" type="Camera2D" parent="MapRoot/Player"]
+[node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -80)
-zoom = Vector2(1.15, 1.15)
+zoom = Vector2(1.0, 1.0)
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
+
+[node name="ExitArea" type="Area2D" parent="."]
+position = Vector2(1216, 1080)
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea"]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="PillFurnaceArea" type="Area2D" parent="."]
+position = Vector2(1408, 920)
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PillFurnaceArea"]
+shape = SubResource("RectangleShape2D_pill_furnace")
+
+[node name="HerbCabinetArea" type="Area2D" parent="."]
+position = Vector2(1280, 800)
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HerbCabinetArea"]
+shape = SubResource("RectangleShape2D_oneshot")
+
+[node name="RecipeShelfArea" type="Area2D" parent="."]
+position = Vector2(1080, 880)
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RecipeShelfArea"]
+shape = SubResource("RectangleShape2D_oneshot")
+
+[node name="TreasureChestArea" type="Area2D" parent="."]
+position = Vector2(1700, 950)
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TreasureChestArea"]
+shape = SubResource("RectangleShape2D_oneshot")
+
+[node name="InteractionController" type="Node" parent="."]
+script = ExtResource("5_ic")
+PlayerPath = NodePath("../Player")
+PromptLabelPath = NodePath("../UiLayer/PromptLabel")
+MessagePanelPath = NodePath("../UiLayer/MessagePanel")
+MessageLabelPath = NodePath("../UiLayer/MessagePanel/MessageLabel")
+SpriteRootPath = NodePath("../RoomVisual")
+OutlineShaderPath = "res://assets/shaders/interactable_outline.gdshader"
+ExcludedTilesetMarkers = "62fcaf44684e4323bb29b91a"
+OutlineAnchorMaxDistance = 200.0
+SpawnCooldownSeconds = 1.0
+InteractActionName = "interact"
 
 [node name="UiLayer" type="CanvasLayer" parent="."]
 
@@ -59,41 +107,35 @@ offset_left = 20.0
 offset_top = 16.0
 offset_right = 900.0
 offset_bottom = 52.0
-text = "丹锻药圃"
-
-[node name="InventoryLabel" type="Label" parent="UiLayer"]
-offset_left = 20.0
-offset_top = 52.0
-offset_right = 520.0
-offset_bottom = 84.0
+text = "炼丹房 · 门派公有 · 亲如家人"
 
 [node name="PromptLabel" type="Label" parent="UiLayer"]
 visible = false
 offset_left = 360.0
 offset_top = 560.0
-offset_right = 820.0
+offset_right = 920.0
 offset_bottom = 604.0
-text = "E / 空格 调查    N 切换日夜"
+text = "E / 空格 离开炼丹房"
 horizontal_alignment = 1
 
 [node name="HintLabel" type="Label" parent="UiLayer"]
 offset_left = 20.0
 offset_top = 600.0
-offset_right = 740.0
+offset_right = 900.0
 offset_bottom = 632.0
-text = "左键点击寻路移动；WASD / 方向键逐格移动；E / 空格调查；N 切换日常 / 夜晚"
+text = "WASD / 方向键自由移动；走近物件按 E / 空格 调查；门口附近按 E 离开"
 
 [node name="MessagePanel" type="Panel" parent="UiLayer"]
 visible = false
-offset_left = 176.0
-offset_top = 456.0
-offset_right = 976.0
-offset_bottom = 622.0
+offset_left = 120.0
+offset_top = 360.0
+offset_right = 1040.0
+offset_bottom = 660.0
 
 [node name="MessageLabel" type="Label" parent="UiLayer/MessagePanel"]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 18.0
-offset_right = 778.0
-offset_bottom = 142.0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 896.0
+offset_bottom = 280.0
 autowrap_mode = 3

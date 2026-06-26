@@ -1,64 +1,79 @@
-#!/bin/bash
-# Sprint 7 视觉证据录制 — 4 个 demo 场景快速启动脚本
+#!/usr/bin/env bash
+# 自动录制 4 个 cu-visual-evidence demo 场景的视频证据
+# 使用 Godot --write-movie 模式 + AutoEvidencePlayer 自动输入
 # 用法: ./scripts/run-evidence-demos.sh [场景编号]
-#   无参数 — 逐个运行全部 4 个场景（每个关闭后自动启动下一个）
-#   1/2/3/4 — 只运行指定场景
+
+set -euo pipefail
 
 GODOT="/Applications/Godot_mono.app/Contents/MacOS/Godot"
-PROJECT_PATH="$(cd "$(dirname "$0")/.." && pwd)/feng-zhi"
+PROJECT="/Users/bytedance/my-game/feng-zhi"
+OUTPUT_DIR="/Users/bytedance/my-game/production/qa/evidence/media"
 
-SCENES=(
+mkdir -p "$OUTPUT_DIR"
+
+declare -a SCENES=(
     "scenes/vs/demo/battle_demo_cu004.tscn"
     "scenes/vs/demo/battle_demo_cu005.tscn"
     "scenes/vs/demo/battle_demo_cu006.tscn"
     "scenes/vs/demo/battle_demo_cu008.tscn"
 )
+declare -a NAMES=("cu-004" "cu-005" "cu-006" "cu-008")
+declare -a QUIT_FRAMES=(420 480 480 300)
 
-NAMES=(
-    "cu-004: 招式面板与预览卡"
-    "cu-005: 反制与决胜提示"
-    "cu-006: 决胜一击演出"
-    "cu-008: 键盘导航与双焦点"
-)
-
-TIPS=(
-    "↓逐一切换招式看预览卡 | 移到置灰招式看原因 | 移到道具看置灰"
-    "找金色反制标签 | [ 降内息看置灰 | ] 恢复 | 看决胜行"
-    "聚焦决胜行 → Enter触发演出 → 演出中按键验证屏蔽 → 等结束"
-    "↓循环导航 | ↑反向 | 鼠标hover看蓝色+方向键看琥珀双色共存"
-)
-
-run_scene() {
+record_scene() {
     local idx=$1
+    local scene="${SCENES[$idx]}"
+    local name="${NAMES[$idx]}"
+    local frames="${QUIT_FRAMES[$idx]}"
+    local output="$OUTPUT_DIR/${name}-evidence.avi"
+
     echo ""
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "  场景 $((idx+1))/4: ${NAMES[$idx]}"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "  操作提示: ${TIPS[$idx]}"
-    echo "  关闭窗口后自动进入下一个场景"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  录制 ${name} → ${output}"
+    echo "  场景: ${scene}"
+    echo "  帧数: ${frames} (@ 30fps ≈ $((frames/30))s)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
-    "$GODOT" --path "$PROJECT_PATH" "${SCENES[$idx]}" 2>/dev/null
+
+    "$GODOT" --path "$PROJECT" \
+        --write-movie "$output" \
+        --fixed-fps 30 \
+        --quit-after "$frames" \
+        --resolution 1280x720 \
+        "$scene" 2>&1 | grep -v "IMKCFRunLoopWakeUpReliable" || true
+
+    if [ -f "$output" ]; then
+        local size
+        size=$(du -h "$output" | cut -f1)
+        echo "  ✓ 录制完成: ${output} (${size})"
+    else
+        echo "  ✗ 录制失败: 文件未生成"
+    fi
 }
 
-if [ -n "$1" ]; then
-    idx=$(($1 - 1))
+if [ "${1:-}" != "" ]; then
+    idx=$((${1} - 1))
     if [ $idx -ge 0 ] && [ $idx -lt 4 ]; then
-        run_scene $idx
+        record_scene $idx
     else
         echo "用法: $0 [1-4]"
+        echo "  1 = cu-004  2 = cu-005  3 = cu-006  4 = cu-008"
         exit 1
     fi
 else
-    echo "╔══════════════════════════════════════════════════╗"
-    echo "║  Sprint 7 视觉证据录制 — 共 4 个场景           ║"
-    echo "║  请先开启屏幕录制 (Cmd+Shift+5)               ║"
-    echo "║  每个场景关闭后自动启动下一个                   ║"
-    echo "╚══════════════════════════════════════════════════╝"
+    echo "╔══════════════════════════════════════════╗"
+    echo "║  自动录制全部 4 个 demo 场景视频证据    ║"
+    echo "║  输出: production/qa/evidence/media/    ║"
+    echo "╚══════════════════════════════════════════╝"
+
     for i in 0 1 2 3; do
-        run_scene $i
+        record_scene $i
     done
+
     echo ""
-    echo "✓ 全部 4 个场景录制完成！"
-    echo "  请将录屏文件保存到: production/qa/evidence/media/"
+    echo "════════════════════════════════════════════"
+    echo "  全部录制完成！输出目录："
+    echo "  ${OUTPUT_DIR}"
+    ls -lh "$OUTPUT_DIR"/*.avi 2>/dev/null || echo "  (无 .avi 文件)"
+    echo "════════════════════════════════════════════"
 fi

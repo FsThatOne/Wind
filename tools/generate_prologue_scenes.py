@@ -3,7 +3,7 @@
 
 Scenes generated:
   1. study            (书房)
-  2. training_ground  (丹锻药圃，占位沿用旧目录名)
+  2. alchemy_room  (炼丹房，占位沿用旧目录名)
   3. back_mountain_path (雾林小径与瀑布主潭)
   4. mountain_gate    (雾林侧门，占位沿用旧目录名)
   5. living_quarter   (厨房仓房小潭，占位沿用旧目录名)
@@ -44,7 +44,7 @@ SCENE_PATHS = {
     "mountain_gate": "res://scenes/mountain_gate/MountainGate.tscn",
     "sect_compound": "res://scenes/sect_compound/SectCompound.tscn",
     "study": "res://scenes/study/Study.tscn",
-    "training_ground": "res://scenes/training_ground/TrainingGround.tscn",
+    "alchemy_room": "res://scenes/alchemy_room/AlchemyRoom.tscn",
 }
 
 
@@ -163,9 +163,9 @@ SCENES: list[SceneConfig] = [
         player_pos=(1024, 640),
     ),
     SceneConfig(
-        id="training_ground",
-        scene_name="丹锻药圃",
-        pascal_name="TrainingGround",
+        id="alchemy_room",
+        scene_name="炼丹房",
+        pascal_name="AlchemyRoom",
         day_mood="warm_daily",
         night_mood="silent_night",
         day_chapter_state="prologue_daily",
@@ -208,7 +208,7 @@ SCENES: list[SceneConfig] = [
             Marker("entry_from_compound", "entry", 16, 19, {}),
             Marker("exit_to_courtyard", "exit", 16, 19, {
                 "target_scene": "sect_compound",
-                "entry_marker": "entry_from_training_ground",
+                "entry_marker": "entry_from_alchemy_room",
             }),
             Marker("training_dummy_interact", "interactable", 11, 8, {}),
             Marker("wooden_sword_pickup", "interactable", 16, 7, {}),
@@ -218,7 +218,7 @@ SCENES: list[SceneConfig] = [
             Marker("entry_from_compound", "entry", 16, 19, {}),
             Marker("exit_to_courtyard", "exit", 16, 19, {
                 "target_scene": "sect_compound",
-                "entry_marker": "entry_from_training_ground",
+                "entry_marker": "entry_from_alchemy_room",
             }),
             Marker("training_dummy_inspect", "inspect", 11, 8, {}),
             Marker("stone_bench_rest", "inspect", 13, 15, {}),

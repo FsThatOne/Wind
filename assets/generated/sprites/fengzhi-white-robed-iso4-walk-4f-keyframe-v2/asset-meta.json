@@ -1,0 +1,28 @@
+{
+  "name": "fengzhi-white-robed-iso4-walk-4f-keyframe-v2",
+  "source_raw": "/Users/bytedance/.codex/generated_images/019f021d-4b9a-7ea0-9162-9b019f557bae/ig_093a33ead2517d25016a3e3d38a1848191b15d06ae4cbaa441.png",
+  "runtime_path": "/Users/bytedance/my-game/feng-zhi/assets/character/main_character_iso4/walk",
+  "frame_size": [
+    96,
+    96
+  ],
+  "directions": {
+    "W": "walk_ne 右上",
+    "S": "walk_sw 左下",
+    "A": "walk_nw 左上",
+    "D": "walk_se 右下"
+  },
+  "row_order": [
+    "walk_ne",
+    "walk_se",
+    "walk_sw",
+    "walk_nw"
+  ],
+  "frames_per_direction": 4,
+  "processing": "flood-filled fake transparent checkerboard, 4x4 split, shared scale, stable feet baseline",
+  "scale": 0.3644067796610169,
+  "feet_y": 92,
+  "ne_fix": "walk_ne_00..03 are mirrored from walk_nw_00..03 to provide the missing screen right-up facing while preserving timing and feet baseline.",
+  "se_sw_gait_fix": "walk_se regenerated from 2x2 gait prompt emphasizing alternating forward/back feet; walk_sw mirrored from walk_se.",
+  "se_sw_gait_source": "/Users/bytedance/.codex/generated_images/019f021d-4b9a-7ea0-9162-9b019f557bae/ig_0de84b4960b42287016a3e428c8c90819193dedf43838222ef.png"
+}

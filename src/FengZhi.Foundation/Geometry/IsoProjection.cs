@@ -9,16 +9,17 @@ namespace FengZhi.Foundation.Geometry;
 /// 仅渲染层调用 <see cref="CartToScreen"/> 完成视觉投影；鼠标拾取等反向操作走
 /// <see cref="ScreenToCart"/>。
 ///
-/// 单 tile 几何：宽 64 / 高 32（2:1 菱形），与 ADR-0010 §层级规范 +
-/// ADR-0022 §4 TileMapLayer 默认值对齐。
+/// 单 tile 几何：宽 128 / 高 64（2:1 菱形）。与 ADR-0010 §层级规范 +
+/// ADR-0022 rev 2（2026-06-26）默认值对齐——切换到 vanilla 立方体 tile 素材后
+/// 全局网格放大 2×（原 64×32）。
 /// </summary>
 public static class IsoProjection
 {
     /// <summary>菱形 tile 宽度（像素）。对应 TileMapLayer.tile_size.x。</summary>
-    public const float TileWidth = 64f;
+    public const float TileWidth = 128f;
 
     /// <summary>菱形 tile 高度（像素）。对应 TileMapLayer.tile_size.y。</summary>
-    public const float TileHeight = 32f;
+    public const float TileHeight = 64f;
 
     /// <summary>
     /// cart 逻辑坐标 → 屏幕坐标。
