@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://diyujh1f45eah"]
 
 [ext_resource type="Script" uid="uid://bngmt4q4g817m" path="res://scripts/BackMountainCliffCaveGame.cs" id="1_game"]
-[ext_resource type="Script" uid="uid://be7ndon7kitpg" path="res://scripts/CavePlayer.cs" id="2_player"]
+[ext_resource type="Script" uid="uid://be7ndon7kitpg" path="res://scripts/PlayerCharacterController.cs" id="2_player"]
 [ext_resource type="SpriteFrames" uid="uid://b8mc2haranim8" path="res://assets/character/main_character.tres" id="3_frames"]
 [ext_resource type="PackedScene" path="res://scenes/back_mountain_cliff_cave/BackMountainCliffCaveTileLayers.tscn" id="4_tile_layers"]
 

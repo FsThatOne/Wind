@@ -6,7 +6,7 @@ namespace FengZhi.Vs;
 /// 江南河畔 explore scene 控制器（VS Sprint 7 Lite Xingqi 骨架）。
 ///
 /// Code-first placeholder 范围：
-/// - 不接入 CavePlayer 移动 + Area2D 触发链路（推迟到 Sprint 8 或更晚）
+/// - 不接入 PlayerCharacterController 移动 + Area2D 触发链路（推迟到 Sprint 8 或更晚）
 /// - 用按钮代替交互：「对话老者」/「前往战斗」
 /// - 根据 JiangnanFlowController.HasCompletedBattleOnce + LastMindsetChoice 动态切换 NPC 反应文本
 ///

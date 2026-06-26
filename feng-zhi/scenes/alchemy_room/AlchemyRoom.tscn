@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/AlchemyRoomGame.cs" id="1_game"]
-[ext_resource type="Script" path="res://scripts/CavePlayer.cs" id="2_player"]
+[ext_resource type="Script" path="res://scripts/PlayerCharacterController.cs" id="2_player"]
 [ext_resource type="SpriteFrames" path="res://assets/character/main_character.tres" id="3_frames"]
 [ext_resource type="PackedScene" path="res://scenes/alchemy_room/RoomVisual.tscn" id="4_room"]
 [ext_resource type="Script" path="res://scripts/exploration/InteractionController.cs" id="5_ic"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(26, 13)
+size = Vector2(52, 26)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(80, 40)
@@ -37,13 +37,13 @@ position = Vector2(1216, 1080)
 script = ExtResource("2_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
-position = Vector2(-2.66, -18.0)
-scale = Vector2(0.6147, 0.62)
+position = Vector2(-5.32, -36.0)
+scale = Vector2(1.2294, 1.24)
 sprite_frames = ExtResource("3_frames")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(0, 8)
+position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_player")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]

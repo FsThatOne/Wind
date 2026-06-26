@@ -38,7 +38,7 @@ public abstract partial class SceneGameBase : Node2D
 	private Node2D _structures = null!;
 	private Node2D _collision = null!;
 	private Node2D _logicMarkers = null!;
-	protected CavePlayer Player = null!;
+	protected PlayerCharacterController Player = null!;
 	private ColorRect _backgroundTint = null!;
 	protected Label StatusLabel = null!;
 	protected Label PromptLabel = null!;
@@ -64,7 +64,7 @@ public abstract partial class SceneGameBase : Node2D
 		_structures = GetNode<Node2D>("MapRoot/Structures");
 		_collision = GetNode<Node2D>("MapRoot/Collision");
 		_logicMarkers = GetNode<Node2D>("MapRoot/LogicMarkers");
-		Player = GetNode<CavePlayer>("MapRoot/Player");
+		Player = GetNode<PlayerCharacterController>("MapRoot/Player");
 		_backgroundTint = GetNode<ColorRect>("BackgroundTint");
 		StatusLabel = GetNode<Label>("UiLayer/StatusLabel");
 		PromptLabel = GetNode<Label>("UiLayer/PromptLabel");

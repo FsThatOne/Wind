@@ -335,7 +335,7 @@ public partial class InteractionController : Node
 	}
 
 	/// <summary>
-	/// 冻结/解冻玩家移动。优先调用 CavePlayer.MovementFrozen，
+	/// 冻结/解冻玩家移动。优先调用 PlayerCharacterController.MovementFrozen，
 	/// 找不到则尝试用反射设置同名 property（保持解耦）。
 	/// </summary>
 	private void FreezePlayer(bool frozen)

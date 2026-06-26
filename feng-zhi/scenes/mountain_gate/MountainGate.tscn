@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/MountainGateGame.cs" id="1_game"]
-[ext_resource type="Script" path="res://scripts/CavePlayer.cs" id="2_player"]
+[ext_resource type="Script" path="res://scripts/PlayerCharacterController.cs" id="2_player"]
 [ext_resource type="SpriteFrames" path="res://assets/character/main_character.tres" id="3_frames"]
 [ext_resource type="PackedScene" path="res://scenes/mountain_gate/MountainGateTileLayers.tscn" id="4_tile_layers"]
 

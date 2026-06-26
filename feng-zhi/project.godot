@@ -35,7 +35,7 @@ project/assembly_name="FengZhi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/scene_markup_tool/plugin.cfg")
+enabled=PackedStringArray()
 
 [input]
 
