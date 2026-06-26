@@ -1,0 +1,2344 @@
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-10.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scripts/audio/AudioDirector.cs
+  s_3b012862896eb6::t_67a21c2520947b 14,29,35-38,41-47,56
+  s_3b012862896eb6::t_c2c188a8edf3dc 1-13,15-28,30-34,39-40,48-55,57-108
+src/FengZhi.Foundation/Audio/AudioStateAttenuation.cs
+  s_3b012862896eb6::t_b4755be8a1f0e0 1-41
+src/FengZhi.Foundation/Combat/Xingqi/XingqiConfig.cs
+  s_3b012862896eb6::t_5277917e042cd4 1-16
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-14.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+production/epics/audio-system/EPIC.md
+  s_3b012862896eb6::t_88a8ff5169cf47 7-12,14-20
+  s_3b012862896eb6::t_0ef76095c3bc2b 13
+  s_3b012862896eb6::t_004d4b2f7d87ec 64-65
+src/FengZhi.Foundation/Combat/Fixtures/MovementDemoFixture.cs
+  s_3b012862896eb6::t_28c3539d40e793 74,89
+  s_3b012862896eb6::t_041f46ed3af6ef 2
+  s_3b012862896eb6::t_18a38b6f1e37be 1,3-73,75-88,90-98
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Combat/Runtime/XingqiBattleLoopController.cs
+  s_3b012862896eb6::t_4f78a212aaff3f 1-2,7-13,27,36,43,48,56-57,65,86-93,95,98-122,126,131,135-136,191-200,226-235,240-258,313
+  s_3b012862896eb6::t_ef359290e026fd 3-6,14-26,28-35,37-42,44-47,49-55,58-64,66-85,94,96-97,123-125,127-130,132-134,137-190,201-225,236-239,259-312,314-347
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scripts/AlchemyRoomGame.cs
+  s_3b012862896eb6::t_f7a2901bef7c0b 1-2,7-21,23-24,26-29,31-95,97-99,101,103-111,114,116-121 gitai:{"mixed_line_ranges":[{"Single":77}],"operations":[{"operation_id":"6a3e436b0af6755a038b3492","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,2]},{"Range":[7,21]},{"Range":[23,24]},{"Range":[26,29]},{"Range":[31,95]},{"Range":[97,99]},{"Single":101},{"Range":[103,111]},{"Single":114},{"Range":[116,121]}]}]}
+scripts/run-evidence-demos.sh
+  s_3b012862896eb6::t_31b4e7c43c5416 1-3,5-6,9-12,14,20-21,23,25-29,31-35,37-51,54-55,57,60,64-68,70,72,74-78
+production/epics/audio-system/story-006-cutscene-audio.md
+  s_3b012862896eb6::t_3a5914e1e34451 1-91
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scripts/combat/GridCursorController.cs
+  s_3b012862896eb6::t_6b4352162fcfbb 2-88
+  s_3b012862896eb6::t_cd05451ea44045 1
+src/FengZhi.Foundation/Combat/Xingqi/XingqiGauge.cs
+  s_3b012862896eb6::t_43b9087d8e31d2 1-43
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-d2057103826a4605aa27eabc-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+production/epics/audio-system/story-008-volume-settings.md
+  s_3b012862896eb6::t_d515f26fb45faf 1-94
+feng-zhi/scripts/audio/BgmManager.cs
+  s_3b012862896eb6::t_a6f81cc592758e 1-109 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e428d0af6755a038b347d","tool_type":"agent","tool_id":"Write","line_ranges":[{"Range":[1,109]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-16.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+production/epics/audio-system/story-004-ambient-layers.md
+  s_3b012862896eb6::t_fe2ff2829143e0 1-87
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-6.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scenes/vs/demo/battle_demo_movement.tscn
+  s_3b012862896eb6::t_81b6482153c8eb 1-11
+feng-zhi/scenes/vs/demo/battle_demo_xingqi.tscn
+  s_3b012862896eb6::t_0306ef0d7a484e 1-11
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-12.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Combat/Fixtures/XingqiDemoFixture.cs
+  s_3b012862896eb6::t_9b537a22958c01 1-84
+feng-zhi/scripts/combat/CombatantMover.cs
+  s_3b012862896eb6::t_ec8f2e28f152fa 2-40
+  s_3b012862896eb6::t_fb7836070df8a6 1
+production/epics/audio-system/story-005-sfx-priority-pool.md
+  s_3b012862896eb6::t_fa1ff2067503ff 1-97
+src/FengZhi.Foundation/CombatUi/CombatUiMoveSelection.cs
+  s_3b012862896eb6::t_c6e1eecbad03ed 741
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-8.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-2c3a7ed83327453b9646e26a-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Combat/Board/GridPosition.cs
+  s_3b012862896eb6::t_17fcb2f755f0dc 1-39
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-7.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-17.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Exploration/Interaction/OutlineMatcher.cs
+  s_3b012862896eb6::t_f7a2901bef7c0b 1-135 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e436b0af6755a038b3492","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,135]}]}]}
+feng-zhi/scripts/vs/AutoEvidencePlayer.cs
+  s_3b012862896eb6::t_be4b996f612e56 41,56-71
+  s_3b012862896eb6::t_c578afb49ab51b 132,139
+  s_3b012862896eb6::t_966328f7515495 1-40,42-55,72-131,133-138,140-190
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/library-tileset-generated-52479-final-tile-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scenes/vs/demo/battle_demo_cu004.tscn
+  s_3b012862896eb6::t_c2902f5a2d9cb5 1,8,12-15
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-11.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Combat/Xingqi/XingqiFormulaEngine.cs
+  s_3b012862896eb6::t_ff2c74ef2ea4a0 1-53
+src/FengZhi.Foundation/Combat/ActionRegistry.cs
+  s_3b012862896eb6::t_ef27b9a36e35d9 2
+  s_3b012862896eb6::t_23dfa3c4b27930 41
+production/epics/audio-system/story-003-adaptive-combat-music.md
+  s_3b012862896eb6::t_ca56eb72c674d6 1-96
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/b-tile-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-13.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-5.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-15.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Audio/AudioStateMachineFactory.cs
+  s_3b012862896eb6::t_8b679aa6f2da7e 1-53
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-5c55ec35a2014bdc9abcfeaf-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-3.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+production/epics/audio-system/story-002-bgm-crossfade.md
+  s_3b012862896eb6::t_6e78cd56345f79 1-8,10-94
+  s_3b012862896eb6::t_421f3772b56039 9 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e42330af6755a038b3471","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Single":9}]}]}
+feng-zhi/scripts/combat/BoardVisualizer.cs
+  s_3b012862896eb6::t_2fde0697ab4fe6 2-49
+  s_3b012862896eb6::t_2cc329e8ce0f2e 1
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/b-tile-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scripts/vs/JiangnanBattleGame.cs
+  s_3b012862896eb6::t_61771c950e4570 577-579,581,586-587,594-595,597,637-639,642-648,650-658,663-666,668-669,672-674,676-683,686-687,689-694,705-711,713-735,737-746,749-765
+  s_3b012862896eb6::t_4eef78eb675233 9
+  s_3b012862896eb6::t_75a48dc0606c21 627-629
+  s_3b012862896eb6::t_fd218a0275aea6 667,670,684-685
+  s_3b012862896eb6::t_44977404b67c33 55
+  s_3b012862896eb6::t_b9fa6aa5708aa5 712
+  s_3b012862896eb6::t_dff076070e9455 110-118
+  s_3b012862896eb6::t_7d06a10cbe74eb 599-618,626,630-631,634-636
+  s_3b012862896eb6::t_d405f880a402b7 490
+  s_3b012862896eb6::t_17394b85895c96 331,333-335,337,360
+  s_3b012862896eb6::t_190d800018fc05 2
+  s_3b012862896eb6::t_02766ec8e25cc0 688,695-704
+  s_3b012862896eb6::t_7819c38c630966 72-73
+  s_3b012862896eb6::t_9f32f2932f88f8 185-191
+  s_3b012862896eb6::t_0684d92001a187 332,336,338-359
+  s_3b012862896eb6::t_f5d16d01595827 54,69-70
+  s_3b012862896eb6::t_aa9198dc456e52 736
+  s_3b012862896eb6::t_66b08898dd1aae 659-662
+  s_3b012862896eb6::t_4c20dea76e34d1 517,524
+  s_3b012862896eb6::t_8638244298ace0 53
+  s_3b012862896eb6::t_06febb29d32841 425
+  s_3b012862896eb6::t_1146cfb9d42469 93-94
+  s_3b012862896eb6::t_251cb49864ee9a 47-51
+  s_3b012862896eb6::t_768cc293fcfe7a 119-127
+  s_3b012862896eb6::t_13ec18679d679a 8
+  s_3b012862896eb6::t_92a32017569e21 449
+  s_3b012862896eb6::t_06abd95fea18aa 100
+  s_3b012862896eb6::t_1389248bca81f2 671,675
+  s_3b012862896eb6::t_f7e383ac299c1a 747-748
+  s_3b012862896eb6::t_806cc1e2d47813 582-585,588-593,596,598,619-625,632-633,640-641,649
+  s_3b012862896eb6::t_0fb3e4b90352fa 378
+  s_3b012862896eb6::t_684e8c0f13f601 580
+  s_3b012862896eb6::t_cb7d2a8e24b59c 227
+src/FengZhi.Foundation/Audio/BgmCrossfadeEngine.cs
+  s_3b012862896eb6::t_6d29a553f40bb7 1-209 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e426c0af6755a038b347a","tool_type":"agent","tool_id":"Write","line_ranges":[{"Range":[1,209]}]}]}
+feng-zhi/scenes/alchemy_room/AlchemyRoom.tscn
+  s_3b012862896eb6::t_f7a2901bef7c0b 1,3,6-7,12-13,15-16,18-19,21,23,25-30,32-33,35-36,39,45,49,51,55-102,110,116,118,124,126,130-133,137-140 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e436b0af6755a038b3492","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Single":1},{"Single":3},{"Range":[6,7]},{"Range":[12,13]},{"Range":[15,16]},{"Range":[18,19]},{"Single":21},{"Single":23},{"Range":[25,30]},{"Range":[32,33]},{"Range":[35,36]},{"Single":39},{"Single":45},{"Single":49},{"Single":51},{"Range":[55,102]},{"Single":110},{"Single":116},{"Single":118},{"Single":124},{"Single":126},{"Range":[130,133]},{"Range":[137,140]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/preview.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Audio/BgmEntry.cs
+  s_3b012862896eb6::t_b0189528feaba7 1-6 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e42630af6755a038b3477","tool_type":"agent","tool_id":"Write","line_ranges":[{"Range":[1,6]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/library-tileset-generated-52479-final-tile-0.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+tests/unit/audio/audio_state_fsm_test.cs
+  s_3b012862896eb6::t_f7fdeb6634a6e7 1-245,301
+  s_3b012862896eb6::t_ef7fdf27e62780 246-300
+feng-zhi/scenes/vs/demo/battle_demo_cu008.tscn
+  s_3b012862896eb6::t_de2c9f6f1b0465 1,9,13-16
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-2.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+production/epics/audio-system/story-001-audio-state-fsm.md
+  s_3b012862896eb6::t_eca9a9ce826dcf 9
+  s_3b012862896eb6::t_88f6e4875ec052 4
+  s_3b012862896eb6::t_c45cd536044d81 88,96-106
+  s_3b012862896eb6::t_ad2bc7dd88e111 1-3,5-8,10-87,89-95
+src/FengZhi.Foundation/Combat/Board/BattleGrid.cs
+  s_3b012862896eb6::t_91479b2c5ad179 1-66
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scripts/exploration/InteractionController.cs
+  s_3b012862896eb6::t_f7a2901bef7c0b 1-369 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e436b0af6755a038b3492","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,369]}]}]}
+src/FengZhi.Foundation/Combat/Board/MovementEvents.cs
+  s_3b012862896eb6::t_dfc58842f0dccf 1-21
+docs/architecture/tr-registry.yaml
+  s_3b012862896eb6::t_f6adeb4a7a3fe3 28 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e41880af6755a038b3443","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Single":28}]}]}
+  s_3b012862896eb6::t_06ee486acf0f88 619-634 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e41750af6755a038b3440","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Range":[619,634]}]}]}
+feng-zhi/scenes/vs/demo/battle_demo_cu006.tscn
+  s_3b012862896eb6::t_e788761e896911 1,9,13-16
+src/FengZhi.Foundation/Audio/AudioBusLayout.cs
+  s_3b012862896eb6::t_1e6d324f0fadc6 1-25
+src/FengZhi.Foundation/Combat/BattleFacade.cs
+  s_3b012862896eb6::t_9c097c9cf3af32 46-49
+  s_3b012862896eb6::t_70ffee6f0fe931 1,3
+  s_3b012862896eb6::t_daee3ac16a54b7 44
+  s_3b012862896eb6::t_da549d07996a93 73-74,76,78-79
+  s_3b012862896eb6::t_c6e1e926e7df2a 258-259
+src/FengZhi.Foundation/Audio/AudioState.cs
+  s_3b012862896eb6::t_ab4d95f263d902 1-41
+feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn
+  s_3b012862896eb6::t_b27e324c410d8f 72-77
+  s_3b012862896eb6::t_562f65467f04bf 90-95
+production/epics/audio-system/story-007-motif-overlay.md
+  s_3b012862896eb6::t_29af06cd3d7982 1-85
+src/FengZhi.Foundation/Combat/Board/MovementService.cs
+  s_3b012862896eb6::t_7b9406558bd835 1-100
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-4.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-9.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+feng-zhi/scenes/vs/demo/battle_demo_cu005.tscn
+  s_3b012862896eb6::t_bb9e542139968d 1,9,13-16
+feng-zhi/assets/shaders/interactable_outline.gdshader
+  s_3b012862896eb6::t_f7a2901bef7c0b 1-35 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e436b0af6755a038b3492","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,35]}]}]}
+src/FengZhi.Foundation/Combat/BattleEventBus.cs
+  s_3b012862896eb6::t_4533a6397f8a67 136-151
+feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-1.png.import
+  s_3b012862896eb6::t_b1206e9d6305c9 1-40 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e437a0af6755a038b3495","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,40]}]}]}
+src/FengZhi.Foundation/Combat/Xingqi/XingqiPulseEngine.cs
+  s_3b012862896eb6::t_bca983c412d14a 1-62
+feng-zhi/scripts/IsoMapRoot.gd
+  s_3b012862896eb6::t_f7a2901bef7c0b 1-26 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e436b0af6755a038b3492","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,26]}]}]}
+tests/unit/audio/bgm_crossfade_test.cs
+  s_3b012862896eb6::t_501eda165af9e5 1-85,90,94-256,258-300,302-360 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e42a30af6755a038b3480","tool_type":"agent","tool_id":"Write","line_ranges":[{"Range":[1,85]},{"Single":90},{"Range":[94,256]},{"Range":[258,300]},{"Range":[302,360]}]}]}
+  s_3b012862896eb6::t_0e640d7011cfef 86-89,91-93 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e434a0af6755a038b3489","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Range":[86,89]},{"Range":[91,93]}]}]}
+  s_3b012862896eb6::t_b4a6d954b73852 257 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e43550af6755a038b348c","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Single":257}]}]}
+  s_3b012862896eb6::t_5b5e94e3456b9b 301 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a3e43610af6755a038b348f","tool_type":"agent","tool_id":"Edit","line_ranges":[{"Single":301}]}]}
+src/FengZhi.Foundation/Combat/AI/ChasingAI.cs
+  s_3b012862896eb6::t_d4346476b1dd84 1-52
+src/FengZhi.Foundation/Combat/BattleCombatant.cs
+  s_3b012862896eb6::t_c1245987afc3b2 160-172
+  s_3b012862896eb6::t_134857d6bea0ec 42-46
+  s_3b012862896eb6::t_4dfa9817124921 60,79
+  s_3b012862896eb6::t_c5360f5025da62 34,39-40
+  s_3b012862896eb6::t_82b67dbf4b1082 61-64,83-85
+  s_3b012862896eb6::t_af7bfb8c533e46 173-184
+  s_3b012862896eb6::t_e47b1573555804 1,3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "c4e9c196d4ecb71a0165ca5fddd3b7a7bfd51405",
+  "prompts": {},
+  "humans": {
+    "h_d42555f42eea53": {
+      "author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "sessions": {
+    "s_3b012862896eb6": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a3b5b6af86f0d831c32d429",
+        "model": "openrouter-1o__dev",
+        "display_model_name": "openrouter-1o"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {
+    "docs/architecture/tr-registry.yaml": [
+      {
+        "hash": "s_3b012862896eb6::t_f6adeb4a7a3fe3",
+        "line_ranges": [
+          {
+            "Single": 28
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e41880af6755a038b3443",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Single": 28
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_3b012862896eb6::t_06ee486acf0f88",
+        "line_ranges": [
+          {
+            "Range": [
+              619,
+              634
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e41750af6755a038b3440",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Range": [
+                  619,
+                  634
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/preview.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/b-tile-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/b-tile-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-10.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-11.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-12.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-13.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-14.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-15.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-16.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-17.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-3.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-4.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-5.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-6.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-7.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-8.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile-9.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tiles/tile.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-2c3a7ed83327453b9646e26a-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-5c55ec35a2014bdc9abcfeaf-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-d2057103826a4605aa27eabc-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/library-tileset-generated-52479-final-tile-0.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/maps/alchemy_room/iso_room/tilesets/library-tileset-generated-52479-final-tile-1.png.import": [
+      {
+        "hash": "s_3b012862896eb6::t_b1206e9d6305c9",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              40
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e437a0af6755a038b3495",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  40
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/shaders/interactable_outline.gdshader": [
+      {
+        "hash": "s_3b012862896eb6::t_f7a2901bef7c0b",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              35
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e436b0af6755a038b3492",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  35
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scenes/alchemy_room/AlchemyRoom.tscn": [
+      {
+        "hash": "s_3b012862896eb6::t_f7a2901bef7c0b",
+        "line_ranges": [
+          {
+            "Single": 1
+          },
+          {
+            "Single": 3
+          },
+          {
+            "Range": [
+              6,
+              7
+            ]
+          },
+          {
+            "Range": [
+              12,
+              13
+            ]
+          },
+          {
+            "Range": [
+              15,
+              16
+            ]
+          },
+          {
+            "Range": [
+              18,
+              19
+            ]
+          },
+          {
+            "Single": 21
+          },
+          {
+            "Single": 23
+          },
+          {
+            "Range": [
+              25,
+              30
+            ]
+          },
+          {
+            "Range": [
+              32,
+              33
+            ]
+          },
+          {
+            "Range": [
+              35,
+              36
+            ]
+          },
+          {
+            "Single": 39
+          },
+          {
+            "Single": 45
+          },
+          {
+            "Single": 49
+          },
+          {
+            "Single": 51
+          },
+          {
+            "Range": [
+              55,
+              102
+            ]
+          },
+          {
+            "Single": 110
+          },
+          {
+            "Single": 116
+          },
+          {
+            "Single": 118
+          },
+          {
+            "Single": 124
+          },
+          {
+            "Single": 126
+          },
+          {
+            "Range": [
+              130,
+              133
+            ]
+          },
+          {
+            "Range": [
+              137,
+              140
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e436b0af6755a038b3492",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Single": 1
+              },
+              {
+                "Single": 3
+              },
+              {
+                "Range": [
+                  6,
+                  7
+                ]
+              },
+              {
+                "Range": [
+                  12,
+                  13
+                ]
+              },
+              {
+                "Range": [
+                  15,
+                  16
+                ]
+              },
+              {
+                "Range": [
+                  18,
+                  19
+                ]
+              },
+              {
+                "Single": 21
+              },
+              {
+                "Single": 23
+              },
+              {
+                "Range": [
+                  25,
+                  30
+                ]
+              },
+              {
+                "Range": [
+                  32,
+                  33
+                ]
+              },
+              {
+                "Range": [
+                  35,
+                  36
+                ]
+              },
+              {
+                "Single": 39
+              },
+              {
+                "Single": 45
+              },
+              {
+                "Single": 49
+              },
+              {
+                "Single": 51
+              },
+              {
+                "Range": [
+                  55,
+                  102
+                ]
+              },
+              {
+                "Single": 110
+              },
+              {
+                "Single": 116
+              },
+              {
+                "Single": 118
+              },
+              {
+                "Single": 124
+              },
+              {
+                "Single": 126
+              },
+              {
+                "Range": [
+                  130,
+                  133
+                ]
+              },
+              {
+                "Range": [
+                  137,
+                  140
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/AlchemyRoomGame.cs": [
+      {
+        "hash": "s_3b012862896eb6::t_f7a2901bef7c0b",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              2
+            ]
+          },
+          {
+            "Range": [
+              7,
+              21
+            ]
+          },
+          {
+            "Range": [
+              23,
+              24
+            ]
+          },
+          {
+            "Range": [
+              26,
+              29
+            ]
+          },
+          {
+            "Range": [
+              31,
+              95
+            ]
+          },
+          {
+            "Range": [
+              97,
+              99
+            ]
+          },
+          {
+            "Single": 101
+          },
+          {
+            "Range": [
+              103,
+              111
+            ]
+          },
+          {
+            "Single": 114
+          },
+          {
+            "Range": [
+              116,
+              121
+            ]
+          }
+        ],
+        "mixed_line_ranges": [
+          {
+            "Single": 77
+          }
+        ],
+        "operations": [
+          {
+            "operation_id": "6a3e436b0af6755a038b3492",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "Range": [
+                  7,
+                  21
+                ]
+              },
+              {
+                "Range": [
+                  23,
+                  24
+                ]
+              },
+              {
+                "Range": [
+                  26,
+                  29
+                ]
+              },
+              {
+                "Range": [
+                  31,
+                  95
+                ]
+              },
+              {
+                "Range": [
+                  97,
+                  99
+                ]
+              },
+              {
+                "Single": 101
+              },
+              {
+                "Range": [
+                  103,
+                  111
+                ]
+              },
+              {
+                "Single": 114
+              },
+              {
+                "Range": [
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/IsoMapRoot.gd": [
+      {
+        "hash": "s_3b012862896eb6::t_f7a2901bef7c0b",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              26
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e436b0af6755a038b3492",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  26
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/audio/BgmManager.cs": [
+      {
+        "hash": "s_3b012862896eb6::t_a6f81cc592758e",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              109
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e428d0af6755a038b347d",
+            "tool_type": "agent",
+            "tool_id": "Write",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  109
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/exploration/InteractionController.cs": [
+      {
+        "hash": "s_3b012862896eb6::t_f7a2901bef7c0b",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              369
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e436b0af6755a038b3492",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  369
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "production/epics/audio-system/story-002-bgm-crossfade.md": [
+      {
+        "hash": "s_3b012862896eb6::t_421f3772b56039",
+        "line_ranges": [
+          {
+            "Single": 9
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e42330af6755a038b3471",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Single": 9
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "src/FengZhi.Foundation/Audio/BgmCrossfadeEngine.cs": [
+      {
+        "hash": "s_3b012862896eb6::t_6d29a553f40bb7",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              209
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e426c0af6755a038b347a",
+            "tool_type": "agent",
+            "tool_id": "Write",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  209
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "src/FengZhi.Foundation/Audio/BgmEntry.cs": [
+      {
+        "hash": "s_3b012862896eb6::t_b0189528feaba7",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              6
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e42630af6755a038b3477",
+            "tool_type": "agent",
+            "tool_id": "Write",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  6
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "src/FengZhi.Foundation/Exploration/Interaction/OutlineMatcher.cs": [
+      {
+        "hash": "s_3b012862896eb6::t_f7a2901bef7c0b",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              135
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e436b0af6755a038b3492",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  135
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tests/unit/audio/bgm_crossfade_test.cs": [
+      {
+        "hash": "s_3b012862896eb6::t_501eda165af9e5",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              85
+            ]
+          },
+          {
+            "Single": 90
+          },
+          {
+            "Range": [
+              94,
+              256
+            ]
+          },
+          {
+            "Range": [
+              258,
+              300
+            ]
+          },
+          {
+            "Range": [
+              302,
+              360
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e42a30af6755a038b3480",
+            "tool_type": "agent",
+            "tool_id": "Write",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  85
+                ]
+              },
+              {
+                "Single": 90
+              },
+              {
+                "Range": [
+                  94,
+                  256
+                ]
+              },
+              {
+                "Range": [
+                  258,
+                  300
+                ]
+              },
+              {
+                "Range": [
+                  302,
+                  360
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_3b012862896eb6::t_0e640d7011cfef",
+        "line_ranges": [
+          {
+            "Range": [
+              86,
+              89
+            ]
+          },
+          {
+            "Range": [
+              91,
+              93
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e434a0af6755a038b3489",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Range": [
+                  86,
+                  89
+                ]
+              },
+              {
+                "Range": [
+                  91,
+                  93
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_3b012862896eb6::t_b4a6d954b73852",
+        "line_ranges": [
+          {
+            "Single": 257
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e43550af6755a038b348c",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Single": 257
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "hash": "s_3b012862896eb6::t_5b5e94e3456b9b",
+        "line_ranges": [
+          {
+            "Single": 301
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a3e43610af6755a038b348f",
+            "tool_type": "agent",
+            "tool_id": "Edit",
+            "line_ranges": [
+              {
+                "Single": 301
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "s_3b012862896eb6": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_06ee486acf0f88": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_0e640d7011cfef": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_421f3772b56039": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_501eda165af9e5": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_5b5e94e3456b9b": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_6d29a553f40bb7": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_88e68e3dc796af": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_a6f81cc592758e": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_b0189528feaba7": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_b1206e9d6305c9": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_b4a6d954b73852": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_f6adeb4a7a3fe3": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_3b012862896eb6::t_f7a2901bef7c0b": {
+      "tool": "trae",
+      "conversation_id": "6a3b5b6af86f0d831c32d429",
+      "session_id": "6a3b5b6af86f0d831c32d429",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
