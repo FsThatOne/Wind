@@ -941,3 +941,12 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
 - Code review: Complete — 2 blocking issues fixed before closure
 - Test evidence: tests/unit/audio/motif_overlay_test.cs 11/11 passed; Foundation suite 1550/1550 passed
 - Next recommended: Run `/smoke-check sprint` or pick the next Ready audio story if one is added
+
+## Session Extract — /story-done 2026-06-27
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/audio-system/story-008-volume-settings.md — 设置音量响应 + 持久化
+- Tech debt logged: None
+- Effort: estimate 2.00 h / actual 3.25 h (variance +63%)
+- Code review: Complete — initial CHANGES REQUIRED fixed by adding `AudioVolumeController` / `IAudioBusVolumeWriter`, bus 写入断言与 SaveManager roundtrip 覆盖；复审 APPROVED
+- Test evidence: tests/integration/audio/volume_settings_test.cs 18/18 passed; Foundation suite 1568/1568 passed; feng-zhi build 0 warning / 0 error
+- Next recommended: Run `/smoke-check sprint` for audio-system regression, or use `/project-stage-detect` / `/sprint-status` to choose the next non-audio Ready story

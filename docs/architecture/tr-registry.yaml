@@ -668,6 +668,14 @@ requirements:
     created: 2026-06-27
     revised: ""
     status: active
+
+  - id: TR-audio-008
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "设置音量响应必须支持 Master/BGM/Ambient/SFX 四档独立音量；设置中调节 BGM 滑块从 80 到 30 时，BGM 音量必须通过 AudioServer bus volume 实时变化且无需重新加载；音量值 0-100 映射到 -80dB ~ 0dB 对数曲线；音量配置必须持久化并在重启后恢复；Master=0 等效全局静音但音频状态机、crossfade 计时和播放状态继续正常运转"
+    created: 2026-06-27
+    revised: ""
+    status: active
 # - id: TR-combat-001
 #   system: combat
 #   gdd: design/gdd/combat-system.md
