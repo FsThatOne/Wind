@@ -1,12 +1,12 @@
 # Story 005: SFX 优先级仲裁 + 并发池
 
 > **Epic**: 音乐 / 音效
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: Logic
 > **Estimate**: 3h
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-27
 
 ## Context
 
@@ -95,3 +95,14 @@
 
 - Depends on: Story 001 (AudioBus 初始化)
 - Unlocks: Story 006（演出 SFX 接管）
+
+---
+
+## Completion Notes
+
+**Completed**: 2026-06-27
+**Criteria**: 5/5 passing
+**Deviations**: None
+**Test Evidence**: Logic — `tests/unit/audio/sfx_pool_test.cs` (14 tests, all green)
+**Code Review**: Complete — /code-review 0 issues
+**Effort**: estimate 3.00h / actual 2.50h (variance -17%)

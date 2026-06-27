@@ -30,8 +30,8 @@ GODOT_ROOT = ROOT / "feng-zhi"
 
 MAP_WIDTH = 32
 MAP_HEIGHT = 28
-TILE_WIDTH = 64
-TILE_HEIGHT = 32
+TILE_WIDTH = 128
+TILE_HEIGHT = 64
 TILESET_COLUMNS = 6
 TILESET_ROWS = 4
 TILE_COUNT = TILESET_COLUMNS * TILESET_ROWS  # 24
@@ -533,8 +533,8 @@ def generate_tsx(scene: SceneConfig) -> str:
     return (
         f"<?xml version='1.0' encoding='UTF-8'?>\n"
         f'<tileset version="1.10" tiledversion="1.10.2" name="{sid}_ground_tiles" '
-        f'tilewidth="64" tileheight="32" tilecount="24" columns="6">'
-        f'<image source="../tilesets/{sid}_ground_tiles.png" width="384" height="128" />'
+        f'tilewidth="128" tileheight="64" tilecount="24" columns="6">'
+        f'<image source="../tilesets/{sid}_ground_tiles.png" width="768" height="256" />'
         f"</tileset>"
     )
 
@@ -558,7 +558,7 @@ def generate_tres(scene: SceneConfig) -> str:
         f'[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_{sid}"]'
     )
     lines.append('texture = ExtResource("1_atlas")')
-    lines.append("texture_region_size = Vector2i(64, 32)")
+    lines.append("texture_region_size = Vector2i(128, 64)")
     # Define all 24 tile slots
     for row in range(TILESET_ROWS):
         for col in range(TILESET_COLUMNS):
@@ -567,7 +567,7 @@ def generate_tres(scene: SceneConfig) -> str:
     lines.append("[resource]")
     lines.append("tile_shape = 1")
     lines.append("tile_layout = 5")
-    lines.append("tile_size = Vector2i(64, 32)")
+    lines.append("tile_size = Vector2i(128, 64)")
     lines.append(f'sources/0 = SubResource("TileSetAtlasSource_{sid}")')
     return "\n".join(lines) + "\n"
 
@@ -586,7 +586,7 @@ def build_structures_xml(
         px, py = tile_to_pixel(prop.tile_x, prop.tile_y)
         parts.append(
             f'<object id="{i}" name="{prop.name}" type="prop" '
-            f'x="{px}" y="{py}" width="64" height="32">'
+            f'x="{px}" y="{py}" width="128" height="64">'
             f"<properties>"
             f'<property name="image" value="{prop.image}" />'
             f'<property name="anchor" value="bottom_tile_baseline" />'
@@ -636,7 +636,7 @@ def build_markers_xml(
 
         parts.append(
             f'<object id="{i}" name="{marker.name}" type="{marker.marker_type}" '
-            f'x="{px}" y="{py}" width="64" height="32">'
+            f'x="{px}" y="{py}" width="128" height="64">'
             f"<properties>{props_xml}</properties></object>"
         )
     return parts
@@ -675,8 +675,8 @@ def generate_tmx(scene: SceneConfig, variant: str) -> str:
     parts.append("<?xml version='1.0' encoding='UTF-8'?>")
     parts.append(
         f'<map version="1.10" tiledversion="1.10.2" orientation="isometric" '
-        f'renderorder="right-down" width="{MAP_WIDTH}" height="{MAP_HEIGHT}" tilewidth="64" '
-        f'tileheight="32" infinite="0" nextlayerid="7" nextobjectid="{next_obj_id}">'
+        f'renderorder="right-down" width="{MAP_WIDTH}" height="{MAP_HEIGHT}" tilewidth="128" '
+        f'tileheight="64" infinite="0" nextlayerid="7" nextobjectid="{next_obj_id}">'
     )
     # Properties
     parts.append(
@@ -782,7 +782,7 @@ def generate_tile_layers_tscn(scene: SceneConfig) -> str:
         f'[node name="{pname}TileLayers" type="Node2D"]'
     )
     lines.append("y_sort_enabled = true")
-    lines.append("position = Vector2(544, 80)")
+    lines.append("position = Vector2(512, 64)")
     lines.append("")
 
     # Day and Night variants
@@ -857,9 +857,6 @@ def generate_main_tscn(scene: SceneConfig) -> str:
         f'path="res://scenes/{sid}/{pname}TileLayers.tscn" id="4_tile_layers"]'
     )
     lines.append("")
-    lines.append('[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]')
-    lines.append("size = Vector2(26, 13)")
-    lines.append("")
     lines.append(f'[node name="{pname}" type="Node2D"]')
     lines.append('script = ExtResource("1_game")')
     lines.append("")
@@ -899,10 +896,10 @@ def generate_main_tscn(scene: SceneConfig) -> str:
     lines.append('animation = &"idle"')
     lines.append("")
     lines.append(
-        '[node name="CollisionShape2D" type="CollisionShape2D" parent="MapRoot/Player"]'
+        '[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MapRoot/Player"]'
     )
-    lines.append("position = Vector2(0, 8)")
-    lines.append('shape = SubResource("RectangleShape2D_player")')
+    lines.append("position = Vector2(22, 5)")
+    lines.append("polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)")
     lines.append("")
     lines.append('[node name="Camera2D" type="Camera2D" parent="MapRoot/Player"]')
     lines.append("position = Vector2(0, -80)")

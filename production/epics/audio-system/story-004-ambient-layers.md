@@ -1,12 +1,12 @@
 # Story 004: 环境音三层系统
 
 > **Epic**: 音乐 / 音效
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: Logic
 > **Estimate**: 2-3h
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-27
 
 ## Context
 
@@ -77,7 +77,7 @@
 **Story Type**: Logic
 **Required evidence**: `tests/unit/audio/ambient_layers_test.cs` — must exist and pass
 
-**Status**: [ ] Not yet created
+**Status**: [x] Exists and passes (21 tests)
 
 ---
 
@@ -85,3 +85,13 @@
 
 - Depends on: Story 001 (AudioBus 初始化)
 - Unlocks: None
+
+---
+
+## Completion Notes
+**Completed**: 2026-06-27
+**Criteria**: 4/5 passing (1 deferred — combat attenuation handled by Story 001)
+**Deviations**: None
+**Test Evidence**: Logic: `tests/unit/audio/ambient_layers_test.cs` — 21 tests passing
+**Code Review**: Complete — /code-review run twice, 3 issues found and fixed
+**Effort**: estimate 2.50 h / actual 2.75 h (variance +10%)

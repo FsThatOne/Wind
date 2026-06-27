@@ -1,12 +1,12 @@
 # Story 006: 演出音频接管与跳过恢复
 
 > **Epic**: 音乐 / 音效
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: Integration
 > **Estimate**: 3h
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-27
 
 ## Context
 
@@ -29,12 +29,12 @@
 
 *From GDD `design/gdd/audio-system.md`:*
 
-- [ ] AC4: GIVEN 演出正在播放, WHEN 玩家长按跳过, THEN 所有演出音频在 200ms 内淡出，BGM 栈正确回退到演出前状态，无 2 秒以上静默间隙
-- [ ] PLAY_BGM 将演出 BGM 压入 override 栈，演出结束自动 restore
-- [ ] PLAY_SFX 使用 P0 优先级，不受 cooldown 限制
-- [ ] 演出被跳过时 fade_out_ms = 200 强制中断所有演出音频
-- [ ] 战斗中触发演出时，战斗 BGM 栈保留，演出结束 restore 到战斗段落当前位置（Edge Case E3）
-- [ ] PARALLEL 步骤中多个 SFX 不受 sfx_cooldown 限制
+- [x] AC4: GIVEN 演出正在播放, WHEN 玩家长按跳过, THEN 所有演出音频在 200ms 内淡出，BGM 栈正确回退到演出前状态，无 2 秒以上静默间隙
+- [x] PLAY_BGM 将演出 BGM 压入 override 栈，演出结束自动 restore
+- [x] PLAY_SFX 使用 P0 优先级，不受 cooldown 限制
+- [x] 演出被跳过时 fade_out_ms = 200 强制中断所有演出音频
+- [x] 战斗中触发演出时，战斗 BGM 栈保留，演出结束 restore 到战斗段落当前位置（Edge Case E3）
+- [x] PARALLEL 步骤中多个 SFX 不受 sfx_cooldown 限制
 
 ---
 
@@ -81,7 +81,7 @@
 **Story Type**: Integration
 **Required evidence**: `tests/integration/audio/cutscene_audio_test.cs` OR runtime evidence document
 
-**Status**: [ ] Not yet created
+**Status**: [x] 12 tests passing (2026-06-27)
 
 ---
 

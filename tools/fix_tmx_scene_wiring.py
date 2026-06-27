@@ -33,7 +33,7 @@ def add_entry_marker_object(next_obj_id, name, tile_x, tile_y):
     py = tile_y * 32.0
     return (
         f'<object id="{next_obj_id}" name="{name}" type="entry" '
-        f'x="{px}" y="{py}" width="64" height="32">'
+        f'x="{px}" y="{py}" width="128" height="64">'
         f'<properties>'
         f'<property name="id" value="{name}" />'
         f'<property name="type" value="entry" />'
@@ -92,7 +92,7 @@ def add_exit_object(next_obj_id, name, etype, tile_x, tile_y, target_scene, entr
     py = tile_y * 32.0
     return (
         f'<object id="{next_obj_id}" name="{name}" type="{etype}" '
-        f'x="{px}" y="{py}" width="64" height="32">'
+        f'x="{px}" y="{py}" width="128" height="64">'
         f'<properties>'
         f'<property name="id" value="{name}" />'
         f'<property name="type" value="{etype}" />'

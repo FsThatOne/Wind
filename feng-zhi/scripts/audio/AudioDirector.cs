@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Godot;
 using FengZhi.Foundation.Audio;
 using FengZhi.Foundation.StateMachine;
+using AudioBusLayout = FengZhi.Foundation.Audio.AudioBusLayout;
 
 namespace FengZhi.Scripts.Audio;
 

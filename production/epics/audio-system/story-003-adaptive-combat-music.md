@@ -1,12 +1,12 @@
 # Story 003: 自适应战斗音乐（6 段水平分层）
 
 > **Epic**: 音乐 / 音效
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: Logic
 > **Estimate**: 4-5h
 > **Manifest Version**: 2026-06-10
-> **Last Updated**: —
+> **Last Updated**: 2026-06-26
 
 ## Context
 
@@ -94,3 +94,13 @@
 
 - Depends on: Story 002 (BGM crossfade 基础设施)
 - Unlocks: None
+
+---
+
+## Completion Notes
+**Completed**: 2026-06-26
+**Criteria**: 6/6 passing
+**Deviations**: OUT OF SCOPE (合理) — BgmManager.cs + BgmCrossfadeEngine.cs 新增 CrossfadeBgm/StartCrossfadeOnly (code review bug fix)
+**Test Evidence**: Logic: tests/unit/audio/combat_music_test.cs — 31 facts, all passing
+**Code Review**: Complete — 3 issues fixed (GetActivePlayer node names, PlayBgm stack clear, F3 counterStreak)
+**Effort**: estimate 4-5h / actual ~3.5h (variance -22%)

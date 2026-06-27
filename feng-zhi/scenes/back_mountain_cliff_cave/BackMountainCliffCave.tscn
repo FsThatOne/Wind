@@ -5,8 +5,6 @@
 [ext_resource type="SpriteFrames" uid="uid://b8mc2haranim8" path="res://assets/character/main_character.tres" id="3_frames"]
 [ext_resource type="PackedScene" path="res://scenes/back_mountain_cliff_cave/BackMountainCliffCaveTileLayers.tscn" id="4_tile_layers"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(26, 13)
 
 [node name="BackMountainCliffCave" type="Node2D" unique_id=1575090783]
 script = ExtResource("1_game")
@@ -33,18 +31,18 @@ y_sort_enabled = true
 [node name="LogicMarkers" type="Node2D" parent="MapRoot" unique_id=1509212356]
 
 [node name="Player" type="CharacterBody2D" parent="MapRoot" unique_id=1590430537]
-position = Vector2(352, 232)
+position = Vector2(384, 1472)
 script = ExtResource("2_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player" unique_id=620822609]
-position = Vector2(-2.6600008, -17.999998)
-scale = Vector2(0.6146875, 0.62)
+position = Vector2(15.23, -38.94)
+scale = Vector2(1.1, 1.1)
 sprite_frames = ExtResource("3_frames")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapRoot/Player" unique_id=1696631429]
-position = Vector2(0, 8)
-shape = SubResource("RectangleShape2D_player")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MapRoot/Player" unique_id=1696631429]
+position = Vector2(22, 5)
+polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
 
 [node name="Camera2D" type="Camera2D" parent="MapRoot/Player" unique_id=277798968]
 position = Vector2(0, -80)

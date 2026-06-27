@@ -18,6 +18,8 @@ namespace FengZhi.Scripts.Exploration;
 /// </summary>
 public partial class InteractionController : Node
 {
+	private const string ManualOutlineGroupPrefix = "manual_outline:";
+
 	[Export] public NodePath PlayerPath = "";
 	[Export] public NodePath PromptLabelPath = "";
 	[Export] public NodePath MessagePanelPath = "";
@@ -200,6 +202,7 @@ public partial class InteractionController : Node
 			if (!zone.SupportsOutline && !zone.IsClaimedStub) continue;
 
 			var result = OutlineMatcher.Match(zone, allSprites, anchorCandidates, OutlineAnchorMaxDistance);
+			AttachManualOutlineVisuals(zone);
 			LogMatch(zone, result);
 		}
 
@@ -357,6 +360,34 @@ public partial class InteractionController : Node
 		{
 			if (sp.Material is ShaderMaterial mat)
 				mat.SetShaderParameter("enabled", enabled);
+		}
+
+		foreach (var visual in zone.ManualOutlineVisuals)
+		{
+			visual.Visible = enabled;
+		}
+	}
+
+	private void AttachManualOutlineVisuals(InteractZone zone)
+	{
+		zone.ManualOutlineVisuals.Clear();
+		var groupName = ManualOutlineGroupPrefix + zone.Area.Name;
+		CollectManualOutlineVisuals(GetParent(), groupName, zone.ManualOutlineVisuals);
+		foreach (var visual in zone.ManualOutlineVisuals)
+		{
+			visual.Visible = false;
+		}
+	}
+
+	private static void CollectManualOutlineVisuals(Node root, string groupName, List<CanvasItem> output)
+	{
+		foreach (var child in root.GetChildren())
+		{
+			if (child is CanvasItem item && item.IsInGroup(groupName))
+			{
+				output.Add(item);
+			}
+			CollectManualOutlineVisuals(child, groupName, output);
 		}
 	}
 

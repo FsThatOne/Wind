@@ -4,7 +4,7 @@
 
 [node name="MountainGateTileLayers" type="Node2D"]
 y_sort_enabled = true
-position = Vector2(544, 80)
+position = Vector2(512, 64)
 
 [node name="Day" type="Node2D" parent="."]
 y_sort_enabled = true

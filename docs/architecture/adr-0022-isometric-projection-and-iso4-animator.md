@@ -4,7 +4,7 @@
 Accepted (Migration Plan §1–§3 + §5 ✅；§4 partial — explore 切 iso 已挂 S8-Explore-TileMap-Adoption；Validation #1 ✅，#2/#3 partial，#4 ⏳ 留 S8)
 
 ## Date
-2026-06-22 (Migration progress 回灌 2026-06-23；**rev 2 默认 tile 尺寸更新 2026-06-26**)
+2026-06-22 (Migration progress 回灌 2026-06-23；**rev 3 全局丹房规格约束 2026-06-27**)
 
 ## Revision History
 
@@ -12,6 +12,7 @@ Accepted (Migration Plan §1–§3 + §5 ✅；§4 partial — explore 切 iso �
 |---|---|---|
 | 1 | 2026-06-22 | 初版 — 默认 tile 64×32 |
 | **2** | **2026-06-26** | 默认 tile 尺寸由 **64×32 → 128×64**，跟随 vanilla 立方体 tile 素材落地（顶面 128×64 + 立方体厚度 32px）。2:1 宽高比保持不变；`IsoProjection.TileWidth/TileHeight` 同步、`IsoProjectionTests` 已更新；`SceneGameBase.TileWidth/TileHeight` 默认值同步至 128/64；6 个旧占位 tileset PNG 已 2× nearest-neighbor 放大以匹配新网格。**所有 §4 公式与 cart↔iso 投影规则不变**——只调常量、不动算法。 |
+| **3** | **2026-06-27** | 用户明确以丹房地块为全局基准：所有地图场景 TMX `tilewidth/tileheight`、Godot TileSet `tile_size`、运行时 `SceneGameBase` 和 `IsoProjection` 均固定为完整菱形 **128×64**。丹房代码中的 `TileHalfWidth=64 / TileHalfHeight=32` 是半宽半高，不是完整 tile 尺寸。新增运行时护栏：场景 TMX 若不是 128×64 直接加载失败。 |
 
 ## Supersedes
 [ADR-0021](adr-0021-character-animation-port.md) — §扩展点 1 (8 方向序列帧子接口)
@@ -79,7 +80,7 @@ ADR-0021 §扩展点 1 为探索场景（CavePlayer）额外引入了 8 方向�
 - **R2** 引入 4 斜方向枚举 `Iso4Direction { NE, SE, SW, NW }` 与子接口 `IIso4CharacterAnimator`
 - **R3** 至少一个真实 Adapter `Iso4AnimatedSprite2DAnimator` + Fake `FakeIso4CharacterAnimator`
 - **R4** 输入：WASD 默认映射 W=NW / A=SW / S=SE / D=NE；可在 InputMap 重映射
-- **R5** TileMapLayer `tile_shape = Isometric`，单 tile 几何参数公开为常量（`TileWidth = 64 / TileHeight = 32`）
+- **R5** TileMapLayer `tile_shape = Isometric`，单 tile 几何参数公开为常量（`TileWidth = 128 / TileHeight = 64`），与丹房完整菱形地块一致
 
 ## Decision
 
@@ -100,8 +101,8 @@ ADR-0021 §扩展点 1 为探索场景（CavePlayer）额外引入了 8 方向�
 // FengZhi.Foundation.Geometry.IsoProjection
 public static class IsoProjection
 {
-    public const float TileWidth = 64f;
-    public const float TileHeight = 32f;
+    public const float TileWidth = 128f;
+    public const float TileHeight = 64f;
 
     public static Vector2 CartToScreen(Vector2 cart) => new(
         (cart.X - cart.Y) * TileWidth  * 0.5f,
@@ -163,11 +164,13 @@ ADR-0010 五层结构沿用；每层 TileMapLayer 节点的属性：
 |---|---|---|
 | `tile_shape` | `Square` | `Isometric` |
 | `tile_layout` | n/a | `DiamondDown` |
-| `tile_size` | 32×32 暂定 | `64×32`（W/H 比 2:1） |
+| `tile_size` | 32×32 暂定 | `128×64`（W/H 比 2:1，丹房完整菱形地块） |
 | `y_sort_enabled` | false | **true**（让 sprite 按 y 自动深度排序） |
 | `y_sort_origin` | 0 | tile 中心 |
 
-> **2026-06-23 校准**：经 64×32 与 128×64 可视化对比后，当前默认 isometric tile 规格改为 64×32。该尺寸用于 Sprint 7 iso foundation、后山涯洞试制 tileset 与 Tiled 分层地图，以优先验证探索可读性、碰撞、逻辑标记和角色脚底对齐。128×64 保留为后续高清/正式战棋镜头的重制候选，不作为当前默认规格。
+> **2026-06-27 全局约束**：丹房实际移动步长为 half tile `(64,32)`，因此完整 isometric diamond tile 为 `128×64`。所有地图场景（探索、战斗、过渡占位地图）均必须按 `128×64` 设计 TMX 与 Godot TileSet；不得再新增 `64×32` 地图场景。若未来需要高清/缩放版本，必须通过相机 zoom 或美术重制解决，不改变逻辑 tile 尺寸。
+
+> **碰撞约束**：与地砖表层对齐的碰撞体必须使用 `CollisionPolygon2D` 的 45 度等距菱形，默认顶点为 `(-64,0) → (0,-32) → (64,0) → (0,32)`，碰撞节点局部偏移统一为 `Vector2(22, 5)`。主角脚底碰撞、地形阻挡格、地图实体占地、交互类 `Area2D` 范围均不得回退为矩形 `RectangleShape2D`。
 
 > **2026-06-23 A 路线落地**：[battle_jiangnan_bandit.tscn](../../feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn) 复用 [cliff_cave_ground_tiles.tres](../../feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres) 铺 5×5 战棋格 + IsoBoard (Node2D, y_sort_enabled) + Player/Bandit Sprite2D 落格，验证「战斗 + 探索共享 TileSet」承诺。explore 场景的对称迁移挂 [S8-Explore-TileMap-Adoption](../../production/sprints/sprint-8-explore-tilemap-adoption.md)（7 AC / 13.0h ≈ 1.6d）。
 

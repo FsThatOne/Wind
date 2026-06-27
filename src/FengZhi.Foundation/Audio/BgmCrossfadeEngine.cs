@@ -45,7 +45,7 @@ public sealed class BgmCrossfadeEngine
         if (string.IsNullOrEmpty(trackId))
             return PlayResult.Ignored;
 
-        if (trackId == _currentTrackId && _crossfadeState == CrossfadeState.Idle)
+        if (IsSameTrack(trackId))
             return PlayResult.SameTrackContinue;
 
         StartCrossfade(trackId, fadeOutMs, fadeInMs);
@@ -64,7 +64,7 @@ public sealed class BgmCrossfadeEngine
 
         _overrideStack.Push(new BgmEntry(trackId, state));
 
-        if (trackId == _currentTrackId && _crossfadeState == CrossfadeState.Idle)
+        if (IsSameTrack(trackId))
             return PlayResult.SameTrackContinue;
 
         StartCrossfade(trackId, fadeOutMs, fadeInMs);
@@ -89,7 +89,7 @@ public sealed class BgmCrossfadeEngine
 
         var prev = _overrideStack.Peek();
 
-        if (prev.TrackId == _currentTrackId && _crossfadeState == CrossfadeState.Idle)
+        if (IsSameTrack(prev.TrackId))
             return PlayResult.SameTrackContinue;
 
         StartCrossfade(prev.TrackId, fadeOutMs, fadeInMs);
@@ -177,6 +177,21 @@ public sealed class BgmCrossfadeEngine
         _fadeOutDurationMs = fadeOutMs;
         _fadeInElapsedMs = 0f;
         _fadeInDurationMs = fadeInMs;
+    }
+
+    /// <summary>
+    /// 仅执行 crossfade 而不修改 Override 栈（战斗内段落切换用）。
+    /// </summary>
+    public void StartCrossfadeOnly(string newTrackId, float fadeOutMs, float fadeInMs)
+    {
+        StartCrossfade(newTrackId, fadeOutMs, fadeInMs);
+    }
+
+    private bool IsSameTrack(string trackId)
+    {
+        if (_crossfadeState == CrossfadeState.Idle)
+            return trackId == _currentTrackId;
+        return trackId == _pendingTrackId;
     }
 
     private enum CrossfadeState

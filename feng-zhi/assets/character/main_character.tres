@@ -1,21 +1,21 @@
-[gd_resource type="SpriteFrames" load_steps=17 format=3 uid="uid://b8mc2haranim8"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://b8mc2haranim8"]
 
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_ne_00.png" id="ne0"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_ne_01.png" id="ne1"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_ne_02.png" id="ne2"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_ne_03.png" id="ne3"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_se_00.png" id="se0"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_se_01.png" id="se1"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_se_02.png" id="se2"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_se_03.png" id="se3"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_sw_00.png" id="sw0"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_sw_01.png" id="sw1"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_sw_02.png" id="sw2"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_sw_03.png" id="sw3"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_nw_00.png" id="nw0"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_nw_01.png" id="nw1"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_nw_02.png" id="nw2"]
-[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_nw_03.png" id="nw3"]
+[ext_resource type="Texture2D" uid="uid://dv1gydc2v7vke" path="res://assets/character/main_character_iso4/walk/walk_ne_00.png" id="ne0"]
+[ext_resource type="Texture2D" uid="uid://byro7fr3mq0re" path="res://assets/character/main_character_iso4/walk/walk_ne_01.png" id="ne1"]
+[ext_resource type="Texture2D" uid="uid://clo6jkqy1c86h" path="res://assets/character/main_character_iso4/walk/walk_ne_02.png" id="ne2"]
+[ext_resource type="Texture2D" uid="uid://bvh57v6c2hjtx" path="res://assets/character/main_character_iso4/walk/walk_ne_03.png" id="ne3"]
+[ext_resource type="Texture2D" uid="uid://d0no7fmcmmf2w" path="res://assets/character/main_character_iso4/walk/walk_nw_00.png" id="nw0"]
+[ext_resource type="Texture2D" uid="uid://b8pqmvsgil7vu" path="res://assets/character/main_character_iso4/walk/walk_nw_01.png" id="nw1"]
+[ext_resource type="Texture2D" uid="uid://dnopk1unkv7qn" path="res://assets/character/main_character_iso4/walk/walk_nw_02.png" id="nw2"]
+[ext_resource type="Texture2D" uid="uid://dpvwtu0m4jcgh" path="res://assets/character/main_character_iso4/walk/walk_nw_03.png" id="nw3"]
+[ext_resource type="Texture2D" uid="uid://cdknffde5opu7" path="res://assets/character/main_character_iso4/walk/walk_sw_00.png" id="se0"]
+[ext_resource type="Texture2D" uid="uid://cu2ylh4db1eeg" path="res://assets/character/main_character_iso4/walk/walk_sw_01.png" id="se1"]
+[ext_resource type="Texture2D" uid="uid://bs2jrip31eiqb" path="res://assets/character/main_character_iso4/walk/walk_sw_02.png" id="se2"]
+[ext_resource type="Texture2D" uid="uid://dbgyidugs61il" path="res://assets/character/main_character_iso4/walk/walk_sw_03.png" id="se3"]
+[ext_resource type="Texture2D" uid="uid://cm5r7ldv2nox2" path="res://assets/character/main_character_iso4/walk/walk_se_00.png" id="sw0"]
+[ext_resource type="Texture2D" uid="uid://mjkkukmcl1yx" path="res://assets/character/main_character_iso4/walk/walk_se_01.png" id="sw1"]
+[ext_resource type="Texture2D" uid="uid://ff5sy1qbslsw" path="res://assets/character/main_character_iso4/walk/walk_se_02.png" id="sw2"]
+[ext_resource type="Texture2D" uid="uid://di1frnp1va6gf" path="res://assets/character/main_character_iso4/walk/walk_se_03.png" id="sw3"]
 
 [resource]
 animations = [{
@@ -23,100 +23,75 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("se0")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 8.0
-}
-, {
-"frames": [
-{
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("ne0")
-},
-{
+}, {
 "duration": 1.0,
 "texture": ExtResource("ne1")
-},
-{
+}, {
 "duration": 1.0,
 "texture": ExtResource("ne2")
-},
-{
+}, {
 "duration": 1.0,
 "texture": ExtResource("ne3")
-}
-],
-"loop": true,
+}],
+"loop": 1,
 "name": &"walk_ne",
 "speed": 8.8
-}
-, {
-"frames": [
-{
-"duration": 1.0,
-"texture": ExtResource("se0")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("se1")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("se2")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("se3")
-}
-],
-"loop": true,
-"name": &"walk_se",
-"speed": 8.0
-}
-, {
-"frames": [
-{
-"duration": 1.0,
-"texture": ExtResource("sw0")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("sw1")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("sw2")
-},
-{
-"duration": 1.0,
-"texture": ExtResource("sw3")
-}
-],
-"loop": true,
-"name": &"walk_sw",
-"speed": 8.0
-}
-, {
-"frames": [
-{
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("nw0")
-},
-{
+}, {
 "duration": 1.0,
 "texture": ExtResource("nw1")
-},
-{
+}, {
 "duration": 1.0,
 "texture": ExtResource("nw2")
-},
-{
+}, {
 "duration": 1.0,
 "texture": ExtResource("nw3")
-}
-],
-"loop": true,
+}],
+"loop": 1,
 "name": &"walk_nw",
 "speed": 8.8
-}
-]
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("se0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("se1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("se2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("se3")
+}],
+"loop": 1,
+"name": &"walk_se",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("sw0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("sw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("sw2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("sw3")
+}],
+"loop": 1,
+"name": &"walk_sw",
+"speed": 8.0
+}]

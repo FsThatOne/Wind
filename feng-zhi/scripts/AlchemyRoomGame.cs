@@ -18,7 +18,7 @@ namespace FengZhi;
 /// 移动机制：复用全局 PlayerCharacterController + IsoGridMovementController，
 ///   - 走"一步一格、自动 snap 到地砖中心"模式
 ///   - 可走区域由 walkable.txt 手工标注（24 cols × 16 rows，1=可走 0=障碍）
-///   - tile→screen 用 (col - row) * 64, (col + row) * 32 + IsoOrigin（跟全局 IsoProjection 同套数学）
+///   - tile→screen 用 half tile (64,32)，对应完整丹房菱形地块 128x64（跟全局 IsoProjection 同套数学）
 ///
 /// 加新交互只需 2 步：
 ///   1. .tscn 加 Area2D 节点（命名自描述，如 PillFurnaceArea）
@@ -278,7 +278,7 @@ public partial class AlchemyRoomGame : Node2D
 		_walkableOverlay = new WalkableGridDebugOverlay(cells, TileHalfWidth, TileHalfHeight)
 		{
 			Name = "WalkableDebugOverlay",
-			ZIndex = 9000,
+			ZIndex = 4096,
 			Visible = ShowWalkableDebug,
 		};
 		AddChild(_walkableOverlay);

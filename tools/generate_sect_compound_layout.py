@@ -15,8 +15,8 @@ SID = "sect_compound"
 WIDTH = 88
 HEIGHT = 68
 SCALE = 2
-TILE_WIDTH = 64
-TILE_HEIGHT = 32
+TILE_WIDTH = 128
+TILE_HEIGHT = 64
 TILESET_COLUMNS = 6
 
 
@@ -209,7 +209,7 @@ def object_xml(marker: dict[str, Any], object_id: int) -> str:
         props.append(f'<property name="entry_marker" value="{marker["entry_marker"]}" />')
     return (
         f'<object id="{object_id}" name="{marker["name"]}" type="{marker["type"]}" '
-        f'x="{px}" y="{py}" width="64" height="32"><properties>'
+        f'x="{px}" y="{py}" width="128" height="64"><properties>'
         + "".join(props)
         + "</properties></object>"
     )
@@ -223,7 +223,7 @@ def generate_tmx(variant: str) -> str:
     return "".join(
         [
             "<?xml version='1.0' encoding='UTF-8'?>",
-            f'<map version="1.10" tiledversion="1.10.2" orientation="isometric" renderorder="right-down" width="{WIDTH}" height="{HEIGHT}" tilewidth="64" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="{len(MARKERS) + 1}">',
+            f'<map version="1.10" tiledversion="1.10.2" orientation="isometric" renderorder="right-down" width="{WIDTH}" height="{HEIGHT}" tilewidth="128" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="{len(MARKERS) + 1}">',
             "<properties>",
             f'<property name="scene_id" value="{SID}_{variant}" />',
             '<property name="scene_name" value="风止山院" />',
@@ -253,7 +253,7 @@ def generate_tile_layers() -> str:
             "",
             '[node name="SectCompoundTileLayers" type="Node2D"]',
             "y_sort_enabled = true",
-            "position = Vector2(544, 80)",
+            "position = Vector2(1344, 128)",
             "",
             '[node name="Day" type="Node2D" parent="."]',
             "y_sort_enabled = true",

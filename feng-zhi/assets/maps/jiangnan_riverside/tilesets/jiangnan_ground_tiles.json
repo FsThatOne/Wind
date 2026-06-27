@@ -1,6 +1,6 @@
 {
-  "tile_width": 64,
-  "tile_height": 32,
+  "tile_width": 128,
+  "tile_height": 64,
   "columns": 4,
   "rows": 4,
   "projection": "isometric_diamond_2_to_1",
@@ -129,5 +129,7 @@
 	  "category": "islet",
 	  "walkable": true
 	}
-  ]
+  ],
+  "image_width": 512,
+  "image_height": 256
 }

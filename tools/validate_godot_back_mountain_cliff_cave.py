@@ -100,7 +100,7 @@ def validate_godot_tileset(path: Path) -> None:
         'path="res://assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.png"',
         "tile_shape = 1",
         "tile_layout = 5",
-        "tile_size = Vector2i(64, 32)",
+        "tile_size = Vector2i(128, 64)",
         'custom_data_layer_0/name = "tile_name"',
     ]:
         if snippet not in text:

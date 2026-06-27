@@ -11,8 +11,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 GODOT_ROOT = ROOT / "feng-zhi"
-TILE_WIDTH = 64
-TILE_HEIGHT = 32
+TILE_WIDTH = 128
+TILE_HEIGHT = 64
 TILESET_COLUMNS = 6
 
 
@@ -185,7 +185,7 @@ def structures_xml(scene: CoreScene) -> str:
     for i, prop in enumerate(scene.props, start=1):
         px, py = tile_to_pixel(prop.tile_x, prop.tile_y)
         parts.append(
-            f'<object id="{i}" name="{prop.name}" type="prop" x="{px}" y="{py}" width="64" height="32">'
+            f'<object id="{i}" name="{prop.name}" type="prop" x="{px}" y="{py}" width="128" height="64">'
             f'<properties><property name="image" value="{prop.image}" /><property name="anchor" value="bottom_tile_baseline" />'
             f'<property name="variant_state" value="both" /><property name="mood" value="placeholder" />'
             f'<property name="tile_x" type="int" value="{prop.tile_x}" /><property name="tile_y" type="int" value="{prop.tile_y}" />'
@@ -210,7 +210,7 @@ def marker_xml(marker: Marker, object_id: int, variant: str, chapter_state: str,
         props.append(f'<property name="target_scene" value="{marker.properties["target_scene"]}" />')
         props.append(f'<property name="entry_marker" value="{marker.properties["entry_marker"]}" />')
     return (
-        f'<object id="{object_id}" name="{marker.name}" type="{marker.marker_type}" x="{px}" y="{py}" width="64" height="32">'
+        f'<object id="{object_id}" name="{marker.name}" type="{marker.marker_type}" x="{px}" y="{py}" width="128" height="64">'
         f'<properties>{"".join(props)}</properties></object>'
     )
 
@@ -224,7 +224,7 @@ def generate_tmx(scene: CoreScene, variant: str) -> str:
     marker_parts = [marker_xml(marker, i, variant, chapter_state, mood) for i, marker in enumerate(markers, start=marker_start)]
     return "".join([
         "<?xml version='1.0' encoding='UTF-8'?>",
-        f'<map version="1.10" tiledversion="1.10.2" orientation="isometric" renderorder="right-down" width="{scene.width}" height="{scene.height}" tilewidth="64" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="{marker_start + len(markers)}">',
+        f'<map version="1.10" tiledversion="1.10.2" orientation="isometric" renderorder="right-down" width="{scene.width}" height="{scene.height}" tilewidth="128" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="{marker_start + len(markers)}">',
         "<properties>",
         f'<property name="scene_id" value="{scene.id}_{variant}" />',
         f'<property name="scene_name" value="{scene.scene_name}" />',
@@ -273,7 +273,7 @@ def generate_tile_layers(scene: CoreScene) -> str:
         "",
         f'[node name="{scene.pascal_name}TileLayers" type="Node2D"]',
         "y_sort_enabled = true",
-        "position = Vector2(544, 80)",
+        "position = Vector2(512, 64)",
         "",
         '[node name="Day" type="Node2D" parent="."]',
         "y_sort_enabled = true", "",

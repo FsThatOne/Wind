@@ -86,6 +86,8 @@
 - **FSM 回调**: 必须支持 OnEnter/OnExit 回调和 StateChanged 事件 — source: ADR-0008
 - **FSM 容错**: 无效 trigger 必须返回 false 且不改变状态 — source: ADR-0008
 - **TileMapLayer 分层**: 每场景必须使用多 TileMapLayer，固定层级 Ground(0)/Terrain(1)/Structures(2)/Overlay(3)/Collision — source: ADR-0010
+- **地图地块尺寸**: 所有地图场景必须使用丹房同规格完整等距菱形 tile `128×64`；TMX `tilewidth/tileheight`、Godot TileSet `tile_size`、`IsoProjection` 和运行时移动步长必须一致 — source: ADR-0022
+- **地块碰撞形状**: 与地砖表层对齐的物理、占地和交互 `Area2D` 碰撞必须使用 `CollisionPolygon2D` 45 度菱形 `(-64,0),(0,-32),(64,0),(0,32)`，节点局部偏移统一为 `Vector2(22, 5)`；禁止用矩形模拟地砖碰撞 — source: ADR-0022
 - **光照变体**: 必须通过 `CanvasModulate` + shader 色调偏移实现，不实例化多套 tileset — source: ADR-0010
 - **物理碰撞层**: 必须为 Layer1 地形 / Layer2 交互 / Layer3 水域 — source: ADR-0010
 - **场景模板**: 必须遵循 SceneRoot/TileMapLayer×5/CanvasModulate/SpawnPoints/NPCs/Interactables — source: ADR-0010
@@ -103,6 +105,7 @@
 - **Never** 纯按需加载无预加载 — 切换 100-500ms 延迟破坏沉浸感 — source: ADR-0006
 - **Never** 用 Godot `AnimationTree`/`StateMachine` 节点做逻辑状态 — 服务于动画状态，不支持强类型 Trigger，难以单元测试 — source: ADR-0008
 - **Never** 为每光照变体实例化独立 tileset — 4× 资产量（216 套）不可接受 — source: ADR-0010
+- **Never** 新增 `64×32`、`96×48` 或其它非 `128×64` 的地图场景地块；视觉缩放必须通过相机、美术重制或贴图细节处理，不改变逻辑 tile 尺寸 — source: ADR-0022
 
 ### Performance Guardrails
 - **EventBus**: Publish O(1) Dictionary 查找 + 线性遍历，~10 订阅者可忽略 — source: ADR-0001

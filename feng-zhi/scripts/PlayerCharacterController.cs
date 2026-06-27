@@ -35,7 +35,6 @@ public partial class PlayerCharacterController : CharacterBody2D
 	public override void _Ready()
 	{
 		var sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		AlignSpriteFeetToOrigin(sprite);
 		var adapter = new Iso4AnimatedSprite2DAnimator
 		{
 			Name = "Animator",
@@ -128,60 +127,5 @@ public partial class PlayerCharacterController : CharacterBody2D
 	private static bool IsMoveActionPressed(IsoMoveAction action)
 	{
 		return Input.IsActionPressed(IsoMoveInput.ToInputName(action));
-	}
-
-	private static void AlignSpriteFeetToOrigin(AnimatedSprite2D sprite)
-	{
-		var frames = sprite.SpriteFrames;
-		if (frames is null)
-		{
-			return;
-		}
-
-		var hasUsedRect = false;
-		var textureWidth = 0;
-		var textureHeight = 0;
-		var minX = int.MaxValue;
-		var maxX = int.MinValue;
-		var maxY = int.MinValue;
-
-		foreach (var animationName in frames.GetAnimationNames())
-		{
-			var frameCount = frames.GetFrameCount(animationName);
-			for (var frame = 0; frame < frameCount; frame++)
-			{
-				var texture = frames.GetFrameTexture(animationName, frame);
-				var image = texture?.GetImage();
-				if (image is null)
-				{
-					continue;
-				}
-
-				var used = image.GetUsedRect();
-				if (used.Size == Vector2I.Zero)
-				{
-					continue;
-				}
-
-				hasUsedRect = true;
-				textureWidth = image.GetWidth();
-				textureHeight = image.GetHeight();
-				minX = Math.Min(minX, used.Position.X);
-				maxX = Math.Max(maxX, used.Position.X + used.Size.X);
-				maxY = Math.Max(maxY, used.Position.Y + used.Size.Y);
-			}
-		}
-
-		if (!hasUsedRect || textureWidth <= 0 || textureHeight <= 0)
-		{
-			return;
-		}
-
-		var footCenterX = (minX + maxX) * 0.5f;
-		var localFootX = sprite.Centered ? footCenterX - textureWidth * 0.5f : footCenterX;
-		var localFootY = sprite.Centered ? maxY - textureHeight * 0.5f : maxY;
-		sprite.Position = new Vector2(
-			-localFootX * sprite.Scale.X,
-			-localFootY * sprite.Scale.Y);
 	}
 }

@@ -13,8 +13,8 @@ namespace FengZhi;
 
 public abstract partial class SceneGameBase : Node2D
 {
-	// 默认 iso 网格尺寸 128x64（ADR-0022 rev 2，跟 IsoProjection 常量保持一致）。
-	// 个别场景如有特殊需要可以 override，但项目方向是所有 tile 资产统一 128x64。
+	// 全局 iso 网格尺寸 128x64：与丹房地块、ADR-0022 和 IsoProjection 常量保持一致。
+	// 新地图场景不得改用其它尺寸，LoadVariant 会在读取 TMX 时做护栏校验。
 	protected virtual int TileWidth => 128;
 	protected virtual int TileHeight => 64;
 
@@ -33,6 +33,7 @@ public abstract partial class SceneGameBase : Node2D
 	private Vector2I _lastPlayerTile = new(-999, -999);
 
 	private Node2D _mapRoot = null!;
+	private Node2D _tileLayersRoot = null!;
 	private Node2D _dayTileLayers = null!;
 	private Node2D _nightTileLayers = null!;
 	private Node2D _structures = null!;
@@ -59,6 +60,7 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		GD.Print($"[{SceneName}] _Ready: begin node binding...");
 		_mapRoot = GetNode<Node2D>("MapRoot");
+		_tileLayersRoot = GetNode<Node2D>("Tiles/TileLayers");
 		_dayTileLayers = GetNode<Node2D>("Tiles/TileLayers/Day");
 		_nightTileLayers = GetNode<Node2D>("Tiles/TileLayers/Night");
 		_structures = GetNode<Node2D>("MapRoot/Structures");
@@ -74,6 +76,7 @@ public abstract partial class SceneGameBase : Node2D
 		_messageLabel = GetNode<Label>("UiLayer/MessagePanel/MessageLabel");
 		GD.Print($"[{SceneName}] _Ready: all nodes bound.");
 
+		ConfigureTileLayerAnchor();
 		ConfigureResponsiveHud();
 		_messagePanel.Visible = false;
 
@@ -263,6 +266,7 @@ public abstract partial class SceneGameBase : Node2D
 		var root = LoadTmx(mapPath);
 		_mapWidth = int.Parse(root.Attribute("width")?.Value ?? "16", CultureInfo.InvariantCulture);
 		_mapHeight = int.Parse(root.Attribute("height")?.Value ?? "16", CultureInfo.InvariantCulture);
+		ValidateTmxTileSize(root, mapPath);
 
 		ConfigureTileLayerVariant(variant);
 		ReadGroundTiles(root);
@@ -311,7 +315,7 @@ public abstract partial class SceneGameBase : Node2D
 	protected abstract void OnLoadVariant(string variant);
 	protected abstract void OnInteract(string markerName);
 	protected virtual HashSet<string> GetEnabledStructures() => new(StringComparer.Ordinal);
-	// 默认道具缩放 0.5（按 128x64 tile 校准；原 0.25 对应已废弃的 64x32 网格）。
+	// 默认道具缩放按 128x64 tile 校准，确保物件 footprint 与丹房地块一致。
 	protected virtual float GetStructureScale(string name) => 0.5f;
 	protected virtual Vector2I? GetStructureTileOverride(string name) => null;
 
@@ -320,6 +324,26 @@ public abstract partial class SceneGameBase : Node2D
 		var isNight = variant == "night";
 		_dayTileLayers.Visible = !isNight;
 		_nightTileLayers.Visible = isNight;
+	}
+
+	private void ConfigureTileLayerAnchor()
+	{
+		_tileLayersRoot.Position = new Vector2(
+			Origin.X - TileWidth / 2f,
+			Origin.Y - TileHeight / 2f);
+	}
+
+	private void ValidateTmxTileSize(XElement root, string mapPath)
+	{
+		var tmxTileWidth = int.Parse(root.Attribute("tilewidth")?.Value ?? "0", CultureInfo.InvariantCulture);
+		var tmxTileHeight = int.Parse(root.Attribute("tileheight")?.Value ?? "0", CultureInfo.InvariantCulture);
+		if (tmxTileWidth == TileWidth && tmxTileHeight == TileHeight)
+		{
+			return;
+		}
+
+		throw new InvalidOperationException(
+			$"{mapPath} 的 tile 尺寸是 {tmxTileWidth}x{tmxTileHeight}，但全局地图场景必须使用丹房同规格 {TileWidth}x{TileHeight}。");
 	}
 
 	private void ReadGroundTiles(XElement root)

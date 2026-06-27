@@ -835,3 +835,100 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
   - Sprint 7 must-have 剩 1 项：`cu-visual-evidence` (0.75d carryover, 可与 outcome DoD 一并录制)
   - Sprint 7 should-have 剩 1 项：`S7-VS-Playtest-Session` (0.5d, 依赖 cu-visual-evidence)
 - **Sprint 7 progress**：6/8 stories done (Spike + Foundation + Smoke + Combat-Loop + Iso-Pivot + **Outcome-Feedback**) + Animator-Port + ADR-0022 docs；剩余 must-have 1 项 (cu-visual-evidence)；should-have 1 项 (Playtest)；nice-to-have 1 项 (Gamepad-HW)。本 sprint 实际 actual hours 已花 ~14.5h / 总 10d capacity (含 buffer)，估算偏差累计 -55~-69% 让 sprint 跑赢 calendar；剩余 7+ 天给 cu-visual-evidence + Playtest + 总结 buffer 充裕。VS prove-or-pivot **PROVE 信号已强**——VS 全循环（explore → combat → mindset outcome → return）已 owner 实机 PASS（Combat-Loop 09:06 sign-off），剩余只是录制 + 玩家试玩 + 视觉打磨。
+
+## Session Extract — /story-done story-002-bgm-crossfade 2026-06-26
+- Verdict: COMPLETE WITH NOTES (lean review mode)
+- Story: production/epics/audio-system/story-002-bgm-crossfade.md — BGM 管理 + 等功率 Crossfade (Status → Complete)
+- AC: 6/6 通过 — 全部由 tests/unit/audio/bgm_crossfade_test.cs 29 个 fact 覆盖
+- Test evidence: `BgmCrossfadeTest` 29/29 passed
+- Code review: APPROVED after 2 issues fixed (IsSameTrack helper 统一同曲检测; interrupt 时 StopAndSwap 避免 outPlayer 音量跳变)
+- Files changed:
+  - src/FengZhi.Foundation/Audio/BgmCrossfadeEngine.cs (IsSameTrack helper)
+  - feng-zhi/scripts/audio/BgmManager.cs (StopAndSwap + interrupt 保护)
+  - feng-zhi/scripts/audio/AudioDirector.cs (using alias 解决命名空间冲突)
+- Effort: Estimate 3-4h / Actual ~3h / Variance -14%
+- Tech debt logged: None
+- Next recommended: story-003-adaptive-combat-music.md — 自适应战斗音乐（6 段水平分层），Status: Ready，依赖 Story 002 已解锁
+
+## Session Extract — /dev-story story-003-adaptive-combat-music 2026-06-26
+- Story: production/epics/audio-system/story-003-adaptive-combat-music.md — 自适应战斗音乐（6 段水平分层）
+- Status: In Progress → 实现完成待 review
+- Files created:
+  - src/FengZhi.Foundation/Audio/CombatMusicEngine.cs (Foundation 纯逻辑: CombatSegment enum + EvaluateCombatState F3 + bar boundary 调度)
+  - feng-zhi/scripts/audio/CombatMusicController.cs (Presentation 层: Godot Node 逐帧驱动)
+  - tests/unit/audio/combat_music_test.cs (29 个 Fact 全绿)
+- Files modified:
+  - docs/architecture/tr-registry.yaml (注册 TR-audio-003)
+  - production/epics/audio-system/story-003-adaptive-combat-music.md (Status → In Progress)
+- Test evidence: CombatMusicTest 29/29 passed
+- Blockers: None
+- Next: /code-review then /story-done
+
+## Session Extract — /story-done story-003-adaptive-combat-music 2026-06-26
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/audio-system/story-003-adaptive-combat-music.md — 自适应战斗音乐（6 段水平分层）(Status → Complete)
+- AC: 6/6 通过 — tests/unit/audio/combat_music_test.cs 31 facts 全绿
+- Code review: APPROVED after 3 issues fixed (GetActivePlayer→ActivePlayer, PlayBgm→CrossfadeBgm, F3+counterStreak)
+- Files created: CombatMusicEngine.cs, CombatMusicController.cs, combat_music_test.cs
+- Files modified: BgmManager.cs (ActivePlayer+CrossfadeBgm), BgmCrossfadeEngine.cs (StartCrossfadeOnly)
+- Effort: Estimate 4-5h / Actual ~3.5h / Variance -22%
+- Tech debt logged: None
+- Next recommended: 查看 audio-system epic 下一个 story 或 Sprint 7 剩余 must-have
+
+## Session Extract — /dev-story story-004-ambient-layers 2026-06-26
+- Story: production/epics/audio-system/story-004-ambient-layers.md — 环境音三层系统
+- Status: In Progress → 实现完成待 review
+- Files created:
+  - src/FengZhi.Foundation/Audio/AmbientLayerEngine.cs (Foundation 纯逻辑: AmbientLayer enum + AmbientLayerState + SceneAudioConfig + 三层 fade 引擎)
+  - feng-zhi/scripts/audio/AmbientManager.cs (Presentation 层: 3x AudioStreamPlayer 逐帧 fade)
+  - tests/unit/audio/ambient_layers_test.cs (18 个 Fact 全绿)
+- Files modified:
+  - docs/architecture/tr-registry.yaml (注册 TR-audio-004)
+  - production/epics/audio-system/story-004-ambient-layers.md (Status → In Progress)
+- Test evidence: AmbientLayersTest 18/18 passed
+- Blockers: None
+- Next: /code-review then /story-done
+
+## Session Extract — /story-done 2026-06-27
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/audio-system/story-004-ambient-layers.md — 环境音三层系统
+- Tech debt logged: None
+- Effort: estimate 2.50 h / actual 2.75 h (variance +10%)
+- Next recommended: Story 005 (SFX Priority Pool) or sprint close-out
+
+## Session Extract — /dev-story 2026-06-27
+- Story: production/epics/audio-system/story-005-sfx-priority-pool.md — SFX 优先级仲裁 + 并发池
+- Status: In Progress → 实现完成待 review
+- Files created:
+  - src/FengZhi.Foundation/Audio/SfxPoolEngine.cs (Foundation 纯逻辑: SfxPriority enum + SfxSlot + SfxPoolEngine 仲裁引擎)
+  - feng-zhi/scripts/audio/SfxManager.cs (Presentation 层: 12x AudioStreamPlayer 池 + 逐帧回收)
+  - tests/unit/audio/sfx_pool_test.cs (14 个 Fact 全绿)
+- Files modified:
+  - docs/architecture/tr-registry.yaml (注册 TR-audio-005)
+  - production/epics/audio-system/story-005-sfx-priority-pool.md (Status → In Progress)
+- Test evidence: SfxPoolTest 14/14 passed
+- Blockers: None
+- Next: /code-review then /story-done
+
+## Session Extract — /story-done 2026-06-27
+- Verdict: COMPLETE
+- Story: production/epics/audio-system/story-005-sfx-priority-pool.md — SFX 优先级仲裁 + 并发池
+- Tech debt logged: None
+- Effort: estimate 3.00h / actual 2.50h (variance -17%)
+- Next recommended: story-006-cutscene-audio.md (演出音频接管与跳过恢复)
+
+## Session Extract — /dev-story 2026-06-27
+- Story: production/epics/audio-system/story-006-cutscene-audio.md — 演出音频接管与跳过恢复
+- Status: In Progress → 实现完成待 review
+- Files created:
+  - src/FengZhi.Foundation/Audio/CutsceneAudioEngine.cs (Foundation 纯逻辑: 演出状态跟踪 + 战斗位置保存)
+  - feng-zhi/scripts/audio/CutsceneAudioController.cs (Presentation 层: 协调 BgmManager/SfxManager 完成演出接管)
+  - tests/integration/audio/cutscene_audio_test.cs (12 个 Fact 全绿)
+- Files modified:
+  - src/FengZhi.Foundation/Audio/SfxPoolEngine.cs (增加 bypassCooldown 参数 + P0/P1 豁免同源限制 + GetActiveSlotsBySource)
+  - feng-zhi/scripts/audio/SfxManager.cs (bypassCooldown 透传 + FadeOutBySource 方法)
+  - docs/architecture/tr-registry.yaml (注册 TR-audio-006)
+  - production/epics/audio-system/story-006-cutscene-audio.md (Status → In Progress)
+- Test evidence: CutsceneAudioTest 12/12 + SfxPoolTest 14/14 passed (136 total audio tests green)
+- Blockers: None
+- Next: /code-review then /story-done

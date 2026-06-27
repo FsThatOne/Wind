@@ -37,4 +37,10 @@ public sealed class InteractZone
 
 	/// <summary>OutlineMatcher 填充的目标 sprite 列表（高亮 / fade / hide / frame-swap 都作用于此组）。</summary>
 	public List<Sprite2D> OutlineTargets = new();
+
+	/// <summary>
+	/// 手工绘制的高亮轮廓节点（例如 Line2D / Polygon2D）。
+	/// 运行时只切 Visible，不应用 sprite outline shader。
+	/// </summary>
+	public List<CanvasItem> ManualOutlineVisuals = new();
 }

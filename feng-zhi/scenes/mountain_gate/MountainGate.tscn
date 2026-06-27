@@ -5,8 +5,6 @@
 [ext_resource type="SpriteFrames" path="res://assets/character/main_character.tres" id="3_frames"]
 [ext_resource type="PackedScene" path="res://scenes/mountain_gate/MountainGateTileLayers.tscn" id="4_tile_layers"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(26, 13)
 
 [node name="MountainGate" type="Node2D"]
 script = ExtResource("1_game")
@@ -33,18 +31,18 @@ y_sort_enabled = true
 [node name="LogicMarkers" type="Node2D" parent="MapRoot"]
 
 [node name="Player" type="CharacterBody2D" parent="MapRoot"]
-position = Vector2(960, 544)
+position = Vector2(960, 480)
 script = ExtResource("2_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player"]
-position = Vector2(-2.66, -18.0)
-scale = Vector2(0.6147, 0.62)
+position = Vector2(15.23, -38.94)
+scale = Vector2(1.1, 1.1)
 sprite_frames = ExtResource("3_frames")
 animation = &"idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapRoot/Player"]
-position = Vector2(0, 8)
-shape = SubResource("RectangleShape2D_player")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MapRoot/Player"]
+position = Vector2(22, 5)
+polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
 
 [node name="Camera2D" type="Camera2D" parent="MapRoot/Player"]
 position = Vector2(0, -80)

@@ -1,32 +1,154 @@
 {
-  "tile_width": 64,
-  "tile_height": 32,
+  "tile_width": 128,
+  "tile_height": 64,
   "columns": 6,
   "rows": 4,
   "tiles": [
-	{"id": 0, "name": "dry_stone_floor", "category": "ground", "walkable": true},
-	{"id": 1, "name": "wet_stone_floor", "category": "ground", "walkable": true},
-	{"id": 2, "name": "storage_flat_stone_floor", "category": "ground", "walkable": true},
-	{"id": 3, "name": "moss_marked_stone_floor", "category": "ground", "walkable": true},
-	{"id": 4, "name": "pebble_scatter_floor", "category": "terrain", "walkable": true},
-	{"id": 5, "name": "shallow_water_puddle_floor", "category": "terrain", "walkable": true},
-	{"id": 6, "name": "muddy_water_edge", "category": "terrain", "walkable": true},
-	{"id": 7, "name": "dark_corner_shadow_floor", "category": "terrain", "walkable": true},
-	{"id": 8, "name": "cave_wall_foot_ne", "category": "boundary", "walkable": false},
-	{"id": 9, "name": "cave_wall_foot_nw", "category": "boundary", "walkable": false},
-	{"id": 10, "name": "low_stone_ledge_edge", "category": "boundary", "walkable": false},
-	{"id": 11, "name": "wooden_storage_pad", "category": "terrain", "walkable": true},
-	{"id": 12, "name": "cave_wall_shadow_transition", "category": "overlay", "walkable": true},
-	{"id": 13, "name": "worn_path_stone", "category": "ground", "walkable": true},
-	{"id": 14, "name": "clean_secret_nook_stone", "category": "ground", "walkable": true},
-	{"id": 15, "name": "wine_jar_stain", "category": "terrain", "walkable": true},
-	{"id": 16, "name": "rest_mat_imprint", "category": "terrain", "walkable": true},
-	{"id": 17, "name": "warm_lamp_floor_glow", "category": "terrain", "walkable": true},
-	{"id": 18, "name": "damp_cave_crack_floor", "category": "terrain", "walkable": true},
-	{"id": 19, "name": "small_moss_corner_floor", "category": "terrain", "walkable": true},
-	{"id": 20, "name": "storage_scuff_floor", "category": "terrain", "walkable": true},
-	{"id": 21, "name": "darker_rear_cave_floor", "category": "ground", "walkable": true},
-	{"id": 22, "name": "shallow_water_highlight", "category": "terrain", "walkable": true},
-	{"id": 23, "name": "plain_fallback_dry_stone", "category": "ground", "walkable": true}
-  ]
+	{
+	  "id": 0,
+	  "name": "dry_stone_floor",
+	  "category": "ground",
+	  "walkable": true
+	},
+	{
+	  "id": 1,
+	  "name": "wet_stone_floor",
+	  "category": "ground",
+	  "walkable": true
+	},
+	{
+	  "id": 2,
+	  "name": "storage_flat_stone_floor",
+	  "category": "ground",
+	  "walkable": true
+	},
+	{
+	  "id": 3,
+	  "name": "moss_marked_stone_floor",
+	  "category": "ground",
+	  "walkable": true
+	},
+	{
+	  "id": 4,
+	  "name": "pebble_scatter_floor",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 5,
+	  "name": "shallow_water_puddle_floor",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 6,
+	  "name": "muddy_water_edge",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 7,
+	  "name": "dark_corner_shadow_floor",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 8,
+	  "name": "cave_wall_foot_ne",
+	  "category": "boundary",
+	  "walkable": false
+	},
+	{
+	  "id": 9,
+	  "name": "cave_wall_foot_nw",
+	  "category": "boundary",
+	  "walkable": false
+	},
+	{
+	  "id": 10,
+	  "name": "low_stone_ledge_edge",
+	  "category": "boundary",
+	  "walkable": false
+	},
+	{
+	  "id": 11,
+	  "name": "wooden_storage_pad",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 12,
+	  "name": "cave_wall_shadow_transition",
+	  "category": "overlay",
+	  "walkable": true
+	},
+	{
+	  "id": 13,
+	  "name": "worn_path_stone",
+	  "category": "ground",
+	  "walkable": true
+	},
+	{
+	  "id": 14,
+	  "name": "clean_secret_nook_stone",
+	  "category": "ground",
+	  "walkable": true
+	},
+	{
+	  "id": 15,
+	  "name": "wine_jar_stain",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 16,
+	  "name": "rest_mat_imprint",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 17,
+	  "name": "warm_lamp_floor_glow",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 18,
+	  "name": "damp_cave_crack_floor",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 19,
+	  "name": "small_moss_corner_floor",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 20,
+	  "name": "storage_scuff_floor",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 21,
+	  "name": "darker_rear_cave_floor",
+	  "category": "ground",
+	  "walkable": true
+	},
+	{
+	  "id": 22,
+	  "name": "shallow_water_highlight",
+	  "category": "terrain",
+	  "walkable": true
+	},
+	{
+	  "id": 23,
+	  "name": "plain_fallback_dry_stone",
+	  "category": "ground",
+	  "walkable": true
+	}
+  ],
+  "image_width": 768,
+  "image_height": 256
 }

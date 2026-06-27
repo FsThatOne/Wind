@@ -1,5 +1,6 @@
 using Godot;
 using FengZhi.Foundation.Audio;
+using AudioBusLayout = FengZhi.Foundation.Audio.AudioBusLayout;
 
 namespace FengZhi.Scripts.Audio;
 
@@ -16,6 +17,9 @@ public partial class BgmManager : Node
     private readonly BgmCrossfadeEngine _engine = new();
 
     public BgmCrossfadeEngine Engine => _engine;
+
+    public AudioStreamPlayer ActivePlayer => _playerAIsActive ? _playerA : _playerB;
+    public AudioStreamPlayer IncomingPlayer => _playerAIsActive ? _playerB : _playerA;
 
     public override void _Ready()
     {
@@ -50,9 +54,13 @@ public partial class BgmManager : Node
     /// </summary>
     public PlayResult PlayBgm(string trackId, float fadeOutMs = 1500f, float fadeInMs = 800f)
     {
+        bool wasCrossfading = _engine.IsCrossfading;
         var result = _engine.PlayBgm(trackId, fadeOutMs, fadeInMs);
-        if (result == PlayResult.Crossfading || result == PlayResult.FadeToSilence)
+        if (result is PlayResult.Crossfading or PlayResult.FadeToSilence)
+        {
+            if (wasCrossfading) StopAndSwap();
             PrepareIncomingPlayer(trackId);
+        }
         return result;
     }
 
@@ -61,9 +69,13 @@ public partial class BgmManager : Node
     /// </summary>
     public PlayResult PushBgm(string trackId, AudioState state, float fadeOutMs = 1500f, float fadeInMs = 800f)
     {
+        bool wasCrossfading = _engine.IsCrossfading;
         var result = _engine.PushBgm(trackId, state, fadeOutMs, fadeInMs);
-        if (result == PlayResult.Crossfading || result == PlayResult.FadeToSilence)
+        if (result is PlayResult.Crossfading or PlayResult.FadeToSilence)
+        {
+            if (wasCrossfading) StopAndSwap();
             PrepareIncomingPlayer(trackId);
+        }
         return result;
     }
 
@@ -72,13 +84,33 @@ public partial class BgmManager : Node
     /// </summary>
     public PlayResult PopBgm(float fadeOutMs = 1500f, float fadeInMs = 800f)
     {
+        bool wasCrossfading = _engine.IsCrossfading;
         var result = _engine.PopBgm(fadeOutMs, fadeInMs);
-        if (result == PlayResult.Crossfading || result == PlayResult.FadeToSilence)
+        if (result is PlayResult.Crossfading or PlayResult.FadeToSilence)
         {
-            string nextTrack = _engine.PendingTrackId;
-            PrepareIncomingPlayer(nextTrack);
+            if (wasCrossfading) StopAndSwap();
+            PrepareIncomingPlayer(_engine.PendingTrackId);
         }
         return result;
+    }
+
+    /// <summary>
+    /// 战斗内段落切换用。只执行 crossfade，不修改 Override 栈。
+    /// </summary>
+    public void CrossfadeBgm(string trackId, float fadeOutMs, float fadeInMs)
+    {
+        if (string.IsNullOrEmpty(trackId)) return;
+        bool wasCrossfading = _engine.IsCrossfading;
+        _engine.StartCrossfadeOnly(trackId, fadeOutMs, fadeInMs);
+        if (wasCrossfading) StopAndSwap();
+        PrepareIncomingPlayer(trackId);
+    }
+
+    private void StopAndSwap()
+    {
+        var outPlayer = _playerAIsActive ? _playerA : _playerB;
+        outPlayer.Stop();
+        _playerAIsActive = !_playerAIsActive;
     }
 
     private void PrepareIncomingPlayer(string trackId)

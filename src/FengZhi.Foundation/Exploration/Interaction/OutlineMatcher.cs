@@ -8,15 +8,16 @@ namespace FengZhi.Foundation.Exploration.Interaction;
 /// Outline 匹配算法。与场景类型无关；调用方传入 sprite 列表 + anchor 候选集（一般已过滤地板）。
 ///
 /// 匹配优先级：
-///   1. 手动标注：任意 sprite 有 metadata/outline_group == Area2D 节点名 → 用标注列表
+///   1. 手动标注：任意 sprite 加入 group "outline:{Area2D节点名}"，或有 metadata/outline_group == Area2D 节点名 → 用标注列表
 ///   2. anchor 不存在或距 Area 中心 > anchorMaxDistance → Skipped（Area 摆在空地）
 ///   3. anchor 无 iso_tileset_id → 仅 anchor
-///   4. anchor 有 iso_tileset_id → 按 base hash 扩散到 anchor 候选集中同 base 的全部 sprite
+///   4. anchor 有 iso_tileset_id → 仅 anchor。多 sprite 交互物必须使用手动标注，避免同类素材全图高亮。
 /// </summary>
 public static class OutlineMatcher
 {
 	private const string OutlineGroupMetaKey = "outline_group";
 	private const string IsoTilesetIdKey = "iso_tileset_id";
+	private const string OutlineGroupPrefix = "outline:";
 
 	// iso 地图编辑器把一个大件家具拆成 -1/-2 两个 atlas sub-tile，base hash 一致。
 	private static readonly Regex TilesetVariantSuffix =
@@ -54,10 +55,13 @@ public static class OutlineMatcher
 
 		// 1. 手动标注
 		List<Sprite2D>? manual = null;
+		var groupName = OutlineGroupPrefix + areaName;
 		foreach (var sp in allSprites)
 		{
-			if (!sp.HasMeta(OutlineGroupMetaKey)) continue;
-			if (sp.GetMeta(OutlineGroupMetaKey).AsString() != areaName) continue;
+			var groupMatched = sp.IsInGroup(groupName);
+			var metaMatched = sp.HasMeta(OutlineGroupMetaKey) &&
+				sp.GetMeta(OutlineGroupMetaKey).AsString() == areaName;
+			if (!groupMatched && !metaMatched) continue;
 			manual ??= new List<Sprite2D>();
 			manual.Add(sp);
 		}
@@ -83,26 +87,20 @@ public static class OutlineMatcher
 			return new MatchResult(MatchMode.Skipped, 0, AnchorDistance: bestDist, BaseTilesetHash: null);
 		}
 
-		// 3. anchor 无 tileset_id meta → 仅 anchor
+		// 3. 自动模式只高亮最近的 sprite 实例。
+		// 多 tile / 多 sprite 物件请用 group "outline:{AreaName}" 或 metadata/outline_group 手动圈定。
 		if (!anchor.HasMeta(IsoTilesetIdKey))
 		{
 			zone.OutlineTargets.Add(anchor);
 			return new MatchResult(MatchMode.AnchorOnly, 1, AnchorDistance: bestDist, BaseTilesetHash: null);
 		}
 
-		// 4. 按 base hash 扩散
 		var anchorTsid = anchor.GetMeta(IsoTilesetIdKey).AsString();
 		var baseTsid = TilesetVariantSuffix.Replace(anchorTsid, "");
-		foreach (var sp in anchorCandidates)
-		{
-			if (!sp.HasMeta(IsoTilesetIdKey)) continue;
-			var tsid = sp.GetMeta(IsoTilesetIdKey).AsString();
-			if (TilesetVariantSuffix.Replace(tsid, "") == baseTsid)
-				zone.OutlineTargets.Add(sp);
-		}
+		zone.OutlineTargets.Add(anchor);
 		return new MatchResult(
-			MatchMode.AutoByTilesetHash,
-			zone.OutlineTargets.Count,
+			MatchMode.AnchorOnly,
+			1,
 			AnchorDistance: bestDist,
 			BaseTilesetHash: baseTsid);
 	}

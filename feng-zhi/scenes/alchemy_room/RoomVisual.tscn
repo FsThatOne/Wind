@@ -1,28 +1,28 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene format=3 uid="uid://lxja7na03wxc"]
 
-[ext_resource type="Script" path="res://scripts/IsoMapRoot.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile.png" id="2_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-1.png" id="3_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-2.png" id="4_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-3.png" id="5_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-4.png" id="6_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-5.png" id="7_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-6.png" id="8_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-7.png" id="9_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-8.png" id="10_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-9.png" id="11_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-10.png" id="12_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-11.png" id="13_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/b-tile-1.png" id="14_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-12.png" id="15_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-13.png" id="16_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-14.png" id="17_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-15.png" id="18_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/b-tile-2.png" id="19_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-16.png" id="20_tex"]
-[ext_resource type="Texture2D" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-17.png" id="21_tex"]
+[ext_resource type="Script" uid="uid://dime4e6beahgu" path="res://scripts/IsoMapRoot.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c0ry3n63yx8sb" path="res://assets/maps/alchemy_room/iso_room/tiles/tile.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://b3i7nrwb7i3j8" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-1.png" id="3_tex"]
+[ext_resource type="Texture2D" uid="uid://bx1nmbffmusuo" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-2.png" id="4_tex"]
+[ext_resource type="Texture2D" uid="uid://daoga8s7ymxr8" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-3.png" id="5_tex"]
+[ext_resource type="Texture2D" uid="uid://cmovb5cuss00p" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-4.png" id="6_tex"]
+[ext_resource type="Texture2D" uid="uid://b7akki3v4yyl" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-5.png" id="7_tex"]
+[ext_resource type="Texture2D" uid="uid://c27s10f65irp5" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-6.png" id="8_tex"]
+[ext_resource type="Texture2D" uid="uid://dbwnyj1rm0jfh" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-7.png" id="9_tex"]
+[ext_resource type="Texture2D" uid="uid://coxay0p1kvvgv" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-8.png" id="10_tex"]
+[ext_resource type="Texture2D" uid="uid://h1kxsph3r6d4" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-9.png" id="11_tex"]
+[ext_resource type="Texture2D" uid="uid://bbcvadcndhklm" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-10.png" id="12_tex"]
+[ext_resource type="Texture2D" uid="uid://bl2l5m4x62op6" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-11.png" id="13_tex"]
+[ext_resource type="Texture2D" uid="uid://cl3nnk7jkk0je" path="res://assets/maps/alchemy_room/iso_room/tiles/b-tile-1.png" id="14_tex"]
+[ext_resource type="Texture2D" uid="uid://cjff7jxw2t0r7" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-12.png" id="15_tex"]
+[ext_resource type="Texture2D" uid="uid://yysp6tuqs0gr" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-13.png" id="16_tex"]
+[ext_resource type="Texture2D" uid="uid://bq0es0jgq2on0" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-14.png" id="17_tex"]
+[ext_resource type="Texture2D" uid="uid://cb67ttb1j80d8" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-15.png" id="18_tex"]
+[ext_resource type="Texture2D" uid="uid://bvr46mlqb4btu" path="res://assets/maps/alchemy_room/iso_room/tiles/b-tile-2.png" id="19_tex"]
+[ext_resource type="Texture2D" uid="uid://bu00jq1owlgug" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-16.png" id="20_tex"]
+[ext_resource type="Texture2D" uid="uid://clhkdbhvtnrva" path="res://assets/maps/alchemy_room/iso_room/tiles/tile-17.png" id="21_tex"]
 
-[node name="RoomVisual" type="Node2D"]
+[node name="RoomVisual" type="Node2D" unique_id=737493484]
 script = ExtResource("1_script")
 iso_map_json_path = "res://assets/maps/alchemy_room/iso_room/iso-map.json"
 map_name = "Isometric Map Editor"
@@ -30,18 +30,18 @@ map_type = "isometric"
 map_width_tiles = 24
 map_height_tiles = 16
 tile_size = 64
-pixel_size = Vector2(2688.0, 1472.0)
+pixel_size = Vector2(2688, 1472)
 
-[node name="1_default_layer" type="Node2D" parent="."]
-z_index = 0
+[node name="1_default_layer" type="Node2D" parent="." unique_id=920593807]
+position = Vector2(-5, -41)
 metadata/iso_layer_id = "map-layer-1"
 metadata/iso_layer_name = "default layer"
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d2057103826a4605aa27eabc_1_10_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1138.0, 575.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d2057103826a4605aa27eabc_1_10_7" type="Sprite2D" parent="1_default_layer" unique_id=1212525773]
 texture_filter = 1
-centered = false
+position = Vector2(644, 188)
 texture = ExtResource("2_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d2057103826a4605aa27eabc-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -49,11 +49,11 @@ metadata/iso_column = 10.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_10_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1066.0, 634.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_10_9" type="Sprite2D" parent="1_default_layer" unique_id=1415992097]
 texture_filter = 1
-centered = false
+position = Vector2(572, 247)
 texture = ExtResource("11_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -61,11 +61,11 @@ metadata/iso_column = 10.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_library_tileset_generated_52479_final_tile_0_10_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1002.0, 666.0)
+[node name="tile_library_tileset_generated_52479_final_tile_0_10_10" type="Sprite2D" parent="1_default_layer" unique_id=1668140622]
 texture_filter = 1
-centered = false
+position = Vector2(508, 279)
 texture = ExtResource("14_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "library-tileset:generated-52479-final-tile-0"
 metadata/iso_layer_id = "map-layer-1"
@@ -73,11 +73,11 @@ metadata/iso_column = 10.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_ac14af3939e44f95908eaf97_2_10_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(939.0, 698.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_ac14af3939e44f95908eaf97_2_10_11" type="Sprite2D" parent="1_default_layer" unique_id=296555150]
 texture_filter = 1
-centered = false
+position = Vector2(445, 311)
 texture = ExtResource("15_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -85,11 +85,11 @@ metadata/iso_column = 10.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_library_tileset_generated_52479_final_tile_1_10_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(874.0, 730.0)
+[node name="tile_library_tileset_generated_52479_final_tile_1_10_12" type="Sprite2D" parent="1_default_layer" unique_id=860712160]
 texture_filter = 1
-centered = false
+position = Vector2(380, 343)
 texture = ExtResource("19_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "library-tileset:generated-52479-final-tile-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -97,11 +97,11 @@ metadata/iso_column = 10.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_library_tileset_generated_52479_final_tile_1_10_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(810.0, 762.0)
+[node name="tile_library_tileset_generated_52479_final_tile_1_10_13" type="Sprite2D" parent="1_default_layer" unique_id=1125233799]
 texture_filter = 1
-centered = false
+position = Vector2(316, 375)
 texture = ExtResource("19_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "library-tileset:generated-52479-final-tile-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -109,11 +109,11 @@ metadata/iso_column = 10.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1131.0, 666.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_9" type="Sprite2D" parent="1_default_layer" unique_id=5477610]
 texture_filter = 1
-centered = false
+position = Vector2(637, 279)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -121,11 +121,11 @@ metadata/iso_column = 11.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1067.0, 698.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_10" type="Sprite2D" parent="1_default_layer" unique_id=1294158941]
 texture_filter = 1
-centered = false
+position = Vector2(573, 311)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -133,11 +133,11 @@ metadata/iso_column = 11.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1003.0, 730.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_11" type="Sprite2D" parent="1_default_layer" unique_id=1932878842]
 texture_filter = 1
-centered = false
+position = Vector2(509, 343)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -145,11 +145,11 @@ metadata/iso_column = 11.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(939.0, 762.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_12" type="Sprite2D" parent="1_default_layer" unique_id=1897820950]
 texture_filter = 1
-centered = false
+position = Vector2(445, 375)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -157,11 +157,11 @@ metadata/iso_column = 11.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(875.0, 794.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_11_13" type="Sprite2D" parent="1_default_layer" unique_id=1016059488]
 texture_filter = 1
-centered = false
+position = Vector2(381, 407)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -169,11 +169,11 @@ metadata/iso_column = 11.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_12_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1322.0, 634.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_12_7" type="Sprite2D" parent="1_default_layer" unique_id=579786562]
 texture_filter = 1
-centered = false
+position = Vector2(828, 247)
 texture = ExtResource("3_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -181,11 +181,11 @@ metadata/iso_column = 12.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1259.0, 666.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_8" type="Sprite2D" parent="1_default_layer" unique_id=908135578]
 texture_filter = 1
-centered = false
+position = Vector2(765, 279)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -193,11 +193,11 @@ metadata/iso_column = 12.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1195.0, 698.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_9" type="Sprite2D" parent="1_default_layer" unique_id=567120754]
 texture_filter = 1
-centered = false
+position = Vector2(701, 311)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -205,11 +205,11 @@ metadata/iso_column = 12.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1131.0, 730.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_10" type="Sprite2D" parent="1_default_layer" unique_id=1303698704]
 texture_filter = 1
-centered = false
+position = Vector2(637, 343)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -217,11 +217,11 @@ metadata/iso_column = 12.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_2_12_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1067.0, 764.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_2_12_11" type="Sprite2D" parent="1_default_layer" unique_id=934474456]
 texture_filter = 1
-centered = false
+position = Vector2(573, 377)
 texture = ExtResource("16_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -229,11 +229,11 @@ metadata/iso_column = 12.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_12_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1002.0, 794.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_12_12" type="Sprite2D" parent="1_default_layer" unique_id=1878300807]
 texture_filter = 1
-centered = false
+position = Vector2(508, 407)
 texture = ExtResource("20_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -241,11 +241,11 @@ metadata/iso_column = 12.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(939.0, 826.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_12_13" type="Sprite2D" parent="1_default_layer" unique_id=713002818]
 texture_filter = 1
-centered = false
+position = Vector2(445, 439)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -253,11 +253,11 @@ metadata/iso_column = 12.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_13_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1386.0, 666.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_13_7" type="Sprite2D" parent="1_default_layer" unique_id=1668282215]
 texture_filter = 1
-centered = false
+position = Vector2(892, 279)
 texture = ExtResource("4_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -265,11 +265,11 @@ metadata/iso_column = 13.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1323.0, 698.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_8" type="Sprite2D" parent="1_default_layer" unique_id=1155056733]
 texture_filter = 1
-centered = false
+position = Vector2(829, 311)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -277,11 +277,11 @@ metadata/iso_column = 13.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1259.0, 730.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_9" type="Sprite2D" parent="1_default_layer" unique_id=2004242406]
 texture_filter = 1
-centered = false
+position = Vector2(765, 343)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -289,11 +289,11 @@ metadata/iso_column = 13.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1195.0, 762.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_10" type="Sprite2D" parent="1_default_layer" unique_id=144489766]
 texture_filter = 1
-centered = false
+position = Vector2(701, 375)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -301,11 +301,11 @@ metadata/iso_column = 13.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1131.0, 794.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_11" type="Sprite2D" parent="1_default_layer" unique_id=38329535]
 texture_filter = 1
-centered = false
+position = Vector2(637, 407)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -313,11 +313,11 @@ metadata/iso_column = 13.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1067.0, 826.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_12" type="Sprite2D" parent="1_default_layer" unique_id=403393298]
 texture_filter = 1
-centered = false
+position = Vector2(573, 439)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -325,11 +325,11 @@ metadata/iso_column = 13.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1003.0, 858.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_13_13" type="Sprite2D" parent="1_default_layer" unique_id=82874482]
 texture_filter = 1
-centered = false
+position = Vector2(509, 471)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -337,11 +337,11 @@ metadata/iso_column = 13.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_5c55ec35a2014bdc9abcfeaf_1_14_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1450.0, 698.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_5c55ec35a2014bdc9abcfeaf_1_14_7" type="Sprite2D" parent="1_default_layer" unique_id=1564372973]
 texture_filter = 1
-centered = false
+position = Vector2(956, 311)
 texture = ExtResource("5_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-5c55ec35a2014bdc9abcfeaf-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -349,11 +349,11 @@ metadata/iso_column = 14.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1387.0, 730.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_8" type="Sprite2D" parent="1_default_layer" unique_id=1325803114]
 texture_filter = 1
-centered = false
+position = Vector2(893, 343)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -361,11 +361,11 @@ metadata/iso_column = 14.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_6cd414b74f3f43c58578870a_2_15_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1515.0, 730.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_6cd414b74f3f43c58578870a_2_15_7" type="Sprite2D" parent="1_default_layer" unique_id=2091510769]
 texture_filter = 1
-centered = false
+position = Vector2(1021, 343)
 texture = ExtResource("6_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -373,11 +373,11 @@ metadata/iso_column = 15.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1451.0, 762.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_8" type="Sprite2D" parent="1_default_layer" unique_id=89538081]
 texture_filter = 1
-centered = false
+position = Vector2(957, 375)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -385,11 +385,11 @@ metadata/iso_column = 15.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_2c3a7ed83327453b9646e26a_1_14_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1266.0, 763.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_2c3a7ed83327453b9646e26a_1_14_9" type="Sprite2D" parent="1_default_layer" unique_id=1271379295]
 texture_filter = 1
-centered = false
+position = Vector2(772, 376)
 texture = ExtResource("12_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-2c3a7ed83327453b9646e26a-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -397,11 +397,11 @@ metadata/iso_column = 14.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_1_14_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1194.0, 826.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_1_14_11" type="Sprite2D" parent="1_default_layer" unique_id=1923719888]
 texture_filter = 1
-centered = false
+position = Vector2(700, 439)
 texture = ExtResource("17_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -409,11 +409,11 @@ metadata/iso_column = 14.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1131.0, 858.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_12" type="Sprite2D" parent="1_default_layer" unique_id=1702409142]
 texture_filter = 1
-centered = false
+position = Vector2(637, 471)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -421,11 +421,11 @@ metadata/iso_column = 14.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1067.0, 890.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_14_13" type="Sprite2D" parent="1_default_layer" unique_id=1457814534]
 texture_filter = 1
-centered = false
+position = Vector2(573, 503)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -433,11 +433,11 @@ metadata/iso_column = 14.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_15_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1258.0, 858.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_15_11" type="Sprite2D" parent="1_default_layer" unique_id=1373254637]
 texture_filter = 1
-centered = false
+position = Vector2(764, 471)
 texture = ExtResource("18_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -445,11 +445,11 @@ metadata/iso_column = 15.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1195.0, 890.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_12" type="Sprite2D" parent="1_default_layer" unique_id=781444435]
 texture_filter = 1
-centered = false
+position = Vector2(701, 503)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -457,11 +457,11 @@ metadata/iso_column = 15.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1131.0, 922.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_15_13" type="Sprite2D" parent="1_default_layer" unique_id=644287770]
 texture_filter = 1
-centered = false
+position = Vector2(637, 535)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -469,11 +469,11 @@ metadata/iso_column = 15.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_2_16_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1578.0, 762.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_2_16_7" type="Sprite2D" parent="1_default_layer" unique_id=1100742204]
 texture_filter = 1
-centered = false
+position = Vector2(1084, 375)
 texture = ExtResource("7_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -481,11 +481,11 @@ metadata/iso_column = 16.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1515.0, 794.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_8" type="Sprite2D" parent="1_default_layer" unique_id=1035825376]
 texture_filter = 1
-centered = false
+position = Vector2(1021, 407)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -493,11 +493,11 @@ metadata/iso_column = 16.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1451.0, 826.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_9" type="Sprite2D" parent="1_default_layer" unique_id=1328733003]
 texture_filter = 1
-centered = false
+position = Vector2(957, 439)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -505,11 +505,11 @@ metadata/iso_column = 16.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1387.0, 858.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_10" type="Sprite2D" parent="1_default_layer" unique_id=683106650]
 texture_filter = 1
-centered = false
+position = Vector2(893, 471)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -517,11 +517,11 @@ metadata/iso_column = 16.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1323.0, 890.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_11" type="Sprite2D" parent="1_default_layer" unique_id=1368011569]
 texture_filter = 1
-centered = false
+position = Vector2(829, 503)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -529,11 +529,11 @@ metadata/iso_column = 16.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1259.0, 922.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_12" type="Sprite2D" parent="1_default_layer" unique_id=770818185]
 texture_filter = 1
-centered = false
+position = Vector2(765, 535)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -541,11 +541,11 @@ metadata/iso_column = 16.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1195.0, 954.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_16_13" type="Sprite2D" parent="1_default_layer" unique_id=256521145]
 texture_filter = 1
-centered = false
+position = Vector2(701, 567)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -553,11 +553,11 @@ metadata/iso_column = 16.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_2_17_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1642.0, 794.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_2_17_7" type="Sprite2D" parent="1_default_layer" unique_id=1488754615]
 texture_filter = 1
-centered = false
+position = Vector2(1148, 407)
 texture = ExtResource("7_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -565,11 +565,11 @@ metadata/iso_column = 17.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_17_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1579.0, 826.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_17_8" type="Sprite2D" parent="1_default_layer" unique_id=1719378128]
 texture_filter = 1
-centered = false
+position = Vector2(1085, 439)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -577,11 +577,11 @@ metadata/iso_column = 17.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1514.0, 858.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_9" type="Sprite2D" parent="1_default_layer" unique_id=2040251467]
 texture_filter = 1
-centered = false
+position = Vector2(1020, 471)
 texture = ExtResource("11_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -589,11 +589,11 @@ metadata/iso_column = 17.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1450.0, 890.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_10" type="Sprite2D" parent="1_default_layer" unique_id=204053369]
 texture_filter = 1
-centered = false
+position = Vector2(956, 503)
 texture = ExtResource("11_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -601,11 +601,11 @@ metadata/iso_column = 17.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1386.0, 922.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_11" type="Sprite2D" parent="1_default_layer" unique_id=1759272082]
 texture_filter = 1
-centered = false
+position = Vector2(892, 535)
 texture = ExtResource("11_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -613,11 +613,11 @@ metadata/iso_column = 17.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1322.0, 954.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_1_17_12" type="Sprite2D" parent="1_default_layer" unique_id=1537599889]
 texture_filter = 1
-centered = false
+position = Vector2(828, 567)
 texture = ExtResource("11_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -625,11 +625,11 @@ metadata/iso_column = 17.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_17_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1259.0, 986.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_17_13" type="Sprite2D" parent="1_default_layer" unique_id=1976685982]
 texture_filter = 1
-centered = false
+position = Vector2(765, 599)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -637,11 +637,11 @@ metadata/iso_column = 17.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_18_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1707.0, 826.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_18_7" type="Sprite2D" parent="1_default_layer" unique_id=169076824]
 texture_filter = 1
-centered = false
+position = Vector2(1213, 439)
 texture = ExtResource("8_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -649,11 +649,11 @@ metadata/iso_column = 18.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_18_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1643.0, 858.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_18_8" type="Sprite2D" parent="1_default_layer" unique_id=177349365]
 texture_filter = 1
-centered = false
+position = Vector2(1149, 471)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -661,11 +661,11 @@ metadata/iso_column = 18.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_18_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1578.0, 890.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_18_9" type="Sprite2D" parent="1_default_layer" unique_id=825379213]
 texture_filter = 1
-centered = false
+position = Vector2(1084, 503)
 texture = ExtResource("4_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -673,11 +673,11 @@ metadata/iso_column = 18.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_18_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1451.0, 954.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_18_11" type="Sprite2D" parent="1_default_layer" unique_id=1917497405]
 texture_filter = 1
-centered = false
+position = Vector2(957, 567)
 texture = ExtResource("8_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -685,11 +685,11 @@ metadata/iso_column = 18.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_1_18_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1386.0, 987.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_1_18_12" type="Sprite2D" parent="1_default_layer" unique_id=631738211]
 texture_filter = 1
-centered = false
+position = Vector2(892, 600)
 texture = ExtResource("21_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -697,11 +697,11 @@ metadata/iso_column = 18.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_18_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1323.0, 1018.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_18_13" type="Sprite2D" parent="1_default_layer" unique_id=1438987544]
 texture_filter = 1
-centered = false
+position = Vector2(829, 631)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -709,11 +709,11 @@ metadata/iso_column = 18.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_6cd414b74f3f43c58578870a_1_19_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1770.0, 859.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_6cd414b74f3f43c58578870a_1_19_7" type="Sprite2D" parent="1_default_layer" unique_id=590197743]
 texture_filter = 1
-centered = false
+position = Vector2(1276, 472)
 texture = ExtResource("9_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-6cd414b74f3f43c58578870a-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -721,11 +721,11 @@ metadata/iso_column = 19.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_19_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1707.0, 890.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_19_8" type="Sprite2D" parent="1_default_layer" unique_id=1034050127]
 texture_filter = 1
-centered = false
+position = Vector2(1213, 503)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -733,11 +733,11 @@ metadata/iso_column = 19.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_19_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1642.0, 922.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_19_9" type="Sprite2D" parent="1_default_layer" unique_id=188662825]
 texture_filter = 1
-centered = false
+position = Vector2(1148, 535)
 texture = ExtResource("3_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -745,11 +745,11 @@ metadata/iso_column = 19.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_19_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1579.0, 954.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_19_10" type="Sprite2D" parent="1_default_layer" unique_id=1324823381]
 texture_filter = 1
-centered = false
+position = Vector2(1085, 567)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -757,11 +757,11 @@ metadata/iso_column = 19.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_19_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1515.0, 986.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_d06d19a5ad9a4aab8befd554_2_19_11" type="Sprite2D" parent="1_default_layer" unique_id=212351911]
 texture_filter = 1
-centered = false
+position = Vector2(1021, 599)
 texture = ExtResource("8_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-d06d19a5ad9a4aab8befd554-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -769,11 +769,11 @@ metadata/iso_column = 19.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_19_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1450.0, 1018.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_19_12" type="Sprite2D" parent="1_default_layer" unique_id=2103508732]
 texture_filter = 1
-centered = false
+position = Vector2(956, 631)
 texture = ExtResource("18_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -781,11 +781,11 @@ metadata/iso_column = 19.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_1_19_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1386.0, 1050.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_1_19_13" type="Sprite2D" parent="1_default_layer" unique_id=555628906]
 texture_filter = 1
-centered = false
+position = Vector2(892, 663)
 texture = ExtResource("17_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -793,11 +793,11 @@ metadata/iso_column = 19.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_5c55ec35a2014bdc9abcfeaf_1_20_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1834.0, 890.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_5c55ec35a2014bdc9abcfeaf_1_20_7" type="Sprite2D" parent="1_default_layer" unique_id=1068028019]
 texture_filter = 1
-centered = false
+position = Vector2(1340, 503)
 texture = ExtResource("5_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-5c55ec35a2014bdc9abcfeaf-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -805,11 +805,11 @@ metadata/iso_column = 20.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1771.0, 922.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_8" type="Sprite2D" parent="1_default_layer" unique_id=794065303]
 texture_filter = 1
-centered = false
+position = Vector2(1277, 535)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -817,11 +817,11 @@ metadata/iso_column = 20.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_20_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1706.0, 954.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_59e68fbb562b430283a431fa_1_20_9" type="Sprite2D" parent="1_default_layer" unique_id=527332023]
 texture_filter = 1
-centered = false
+position = Vector2(1212, 567)
 texture = ExtResource("3_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-59e68fbb562b430283a431fa-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -829,11 +829,11 @@ metadata/iso_column = 20.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1643.0, 986.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_10" type="Sprite2D" parent="1_default_layer" unique_id=942996508]
 texture_filter = 1
-centered = false
+position = Vector2(1149, 599)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -841,11 +841,11 @@ metadata/iso_column = 20.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1579.0, 1018.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_20_11" type="Sprite2D" parent="1_default_layer" unique_id=1092796634]
 texture_filter = 1
-centered = false
+position = Vector2(1085, 631)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -853,11 +853,11 @@ metadata/iso_column = 20.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_20_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1514.0, 1050.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_20_12" type="Sprite2D" parent="1_default_layer" unique_id=1692477686]
 texture_filter = 1
-centered = false
+position = Vector2(1020, 663)
 texture = ExtResource("20_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -865,11 +865,11 @@ metadata/iso_column = 20.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_20_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1450.0, 1082.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_31e47b84341e4dee914a7604_1_20_13" type="Sprite2D" parent="1_default_layer" unique_id=1721919696]
 texture_filter = 1
-centered = false
+position = Vector2(956, 695)
 texture = ExtResource("20_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-31e47b84341e4dee914a7604-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -877,11 +877,11 @@ metadata/iso_column = 20.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_21_7" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1898.0, 922.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_f213adbe52484dacabace257_2_21_7" type="Sprite2D" parent="1_default_layer" unique_id=824725590]
 texture_filter = 1
-centered = false
+position = Vector2(1404, 535)
 texture = ExtResource("4_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-f213adbe52484dacabace257-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -889,11 +889,11 @@ metadata/iso_column = 21.0
 metadata/iso_row = 7.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_8" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1835.0, 954.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_8" type="Sprite2D" parent="1_default_layer" unique_id=1895496404]
 texture_filter = 1
-centered = false
+position = Vector2(1341, 567)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -901,11 +901,11 @@ metadata/iso_column = 21.0
 metadata/iso_row = 8.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_ac14af3939e44f95908eaf97_1_21_9" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1770.0, 987.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_ac14af3939e44f95908eaf97_1_21_9" type="Sprite2D" parent="1_default_layer" unique_id=1289716095]
 texture_filter = 1
-centered = false
+position = Vector2(1276, 600)
 texture = ExtResource("13_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-ac14af3939e44f95908eaf97-1"
 metadata/iso_layer_id = "map-layer-1"
@@ -913,11 +913,11 @@ metadata/iso_column = 21.0
 metadata/iso_row = 9.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_10" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1707.0, 1018.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_10" type="Sprite2D" parent="1_default_layer" unique_id=1938034846]
 texture_filter = 1
-centered = false
+position = Vector2(1213, 631)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -925,11 +925,11 @@ metadata/iso_column = 21.0
 metadata/iso_row = 10.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_11" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1643.0, 1050.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_62fcaf44684e4323bb29b91a_2_21_11" type="Sprite2D" parent="1_default_layer" unique_id=109949002]
 texture_filter = 1
-centered = false
+position = Vector2(1149, 663)
 texture = ExtResource("10_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-62fcaf44684e4323bb29b91a-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -937,11 +937,11 @@ metadata/iso_column = 21.0
 metadata/iso_row = 11.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_21_12" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1578.0, 1082.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_21_12" type="Sprite2D" parent="1_default_layer" unique_id=2046850300]
 texture_filter = 1
-centered = false
+position = Vector2(1084, 695)
 texture = ExtResource("18_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
 metadata/iso_layer_id = "map-layer-1"
@@ -949,15 +949,14 @@ metadata/iso_column = 21.0
 metadata/iso_row = 12.0
 metadata/iso_layer_index = 0.0
 
-[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_21_13" type="Sprite2D" parent="1_default_layer"]
-position = Vector2(1514.0, 1114.0)
+[node name="tile_isometric_gen_workflow_pixel_isometric_gen_3a690f01f69c4427bfc842fe_2_21_13" type="Sprite2D" parent="1_default_layer" unique_id=2043565766]
 texture_filter = 1
-centered = false
+position = Vector2(1020, 727)
 texture = ExtResource("18_tex")
+centered = false
 metadata/iso_kind = "tile"
 metadata/iso_tileset_id = "isometric-gen-workflow-pixel_isometric_gen-3a690f01f69c4427bfc842fe-2"
 metadata/iso_layer_id = "map-layer-1"
 metadata/iso_column = 21.0
 metadata/iso_row = 13.0
 metadata/iso_layer_index = 0.0
-

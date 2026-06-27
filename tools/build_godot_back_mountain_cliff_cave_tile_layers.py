@@ -72,7 +72,7 @@ def build_gdscript(layer_data: dict[str, dict[str, list[int]]]) -> str:
 
             var root := Node2D.new()
             root.name = "BackMountainCliffCaveTileLayers"
-            root.position = Vector2(544, 80)
+            root.position = Vector2(512, 64)
             root.y_sort_enabled = true
 
             for variant_name in ["Day", "Night"]:

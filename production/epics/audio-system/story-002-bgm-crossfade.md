@@ -1,7 +1,7 @@
 # Story 002: BGM 管理 + 等功率 Crossfade
 
 > **Epic**: 音乐 / 音效
-> **Status**: Ready
+> **Status**: Complete
 > **Layer**: Presentation
 > **Type**: Logic
 > **Estimate**: 3-4h
@@ -92,3 +92,13 @@
 
 - Depends on: Story 001 (AudioState FSM + Bus 初始化)
 - Unlocks: Story 003, 006, 007
+
+---
+
+## Completion Notes
+**Completed**: 2026-06-26
+**Criteria**: 6/6 passing
+**Deviations**: None
+**Test Evidence**: Logic: `tests/unit/audio/bgm_crossfade_test.cs` (29 tests, all pass)
+**Code Review**: Complete — 2 issues found and fixed (IsSameTrack pending-track detection + interrupt StopAndSwap)
+**Effort**: estimate 3.5h / actual ~3h (variance -14%)

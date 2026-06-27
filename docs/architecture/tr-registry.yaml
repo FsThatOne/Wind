@@ -631,9 +631,35 @@ requirements:
     created: 2026-06-26
     revised: ""
     status: active
+  - id: TR-audio-003
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "自适应战斗音乐必须实现 6 段水平分层（Prep/Clash/Advantage/Disadvantage/Desperation/Finisher），段落切换在小节线（bar boundary）对齐；每段为独立 OGG 文件，bar_length_ms 从 BPM 计算；Finisher 在 bar_boundary_tolerance_ms(100ms) 内立即切换；段落切换使用短 crossfade（fadeOut=500ms, fadeIn=300ms）；Boss 战使用独立 BGM 资源但遵循相同 6 段结构；战斗结束后 fade_out_ms=2000 淡出战斗 BGM restore 场景 BGM；F3 公式 6 条按优先级从高到低判定 CombatSegment"
+    created: 2026-06-26
+    revised: ""
+    status: active
+  - id: TR-audio-004
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "环境音必须实现三层系统（Terrain/Weather/TimeOfDay），各层使用独立 AudioStreamPlayer 循环播放连接到 Ambient 子总线；各层独立淡入淡出（默认 ambient_fade_ms=2000）；场景切换时地形基底必换，天气/时辰层若无变化则保持；某层 trackId 为 null/空时该层静默不影响其他层；战斗状态下 Ambient 衰减至 20%（由 state_attenuation 统一管理）"
+    created: 2026-06-26
+    revised: ""
+    status: active
+  - id: TR-audio-005
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "SFX 必须实现 8 路并发池 + 5 级优先级仲裁（P0 系统音效/P1 核心战斗/P2 武技/P3 环境互动/P4 氛围），P0/P1 不可被淘汰且可临时突破 8 路上限；8 路满时按优先级淘汰最低的正在播放 SFX；同一 SFX 在 sfx_cooldown_ms(50ms) 内不重复触发；同一来源 SFX 最多同时 2 路并发"
+    created: 2026-06-27
+    revised: ""
+    status: active
 
-# --- EXAMPLE ENTRIES (remove when first real entries are added) ---
-#
+  - id: TR-audio-006
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "演出音频接管：PLAY_BGM 压入 Override 栈（AudioState.Cutscene）；PLAY_SFX 使用 P0 优先级且 bypass cooldown；演出跳过时所有演出音频 200ms 淡出、BGM 栈正确回退无 >2s 静默；战斗中触发演出时保留战斗段位置，演出结束恢复（E3）；PARALLEL 步骤多 SFX 不受 cooldown 限制"
+    created: 2026-06-27
+    revised: ""
+    status: active
 # - id: TR-combat-001
 #   system: combat
 #   gdd: design/gdd/combat-system.md

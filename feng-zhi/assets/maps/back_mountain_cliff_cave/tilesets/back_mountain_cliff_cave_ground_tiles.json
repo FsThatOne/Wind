@@ -1,13 +1,13 @@
 {
   "name": "back_mountain_cliff_cave_ground_tiles",
-  "tile_width": 64,
-  "tile_height": 32,
+  "tile_width": 128,
+  "tile_height": 64,
   "columns": 6,
   "rows": 4,
   "tile_count": 24,
   "image": "back_mountain_cliff_cave_ground_tiles.png",
-  "image_width": 384,
-  "image_height": 128,
+  "image_width": 768,
+  "image_height": 256,
   "tiles": [
     {
       "id": 0,
