@@ -660,6 +660,14 @@ requirements:
     created: 2026-06-27
     revised: ""
     status: active
+
+  - id: TR-audio-007
+    system: audio-system
+    gdd: design/gdd/audio-system.md
+    requirement: "女主 Motif 必须作为临时 BGM overlay 叠加播放而不进入 Override 栈；romance_motif(character_id, \"enter\") 触发时场景 BGM 渐弱至 motif_bgm_duck_ratio(默认 30%)、对应女主 motif 淡入；romance_motif(character_id, \"exit\") 触发时 motif 淡出、场景 BGM 恢复到 duck 前有效值；已有 state_attenuation 时 duck 需基于当前有效音量叠加；同时最多 1 个 motif 活跃，新 motif 到达时先淡出旧 motif 再淡入新 motif"
+    created: 2026-06-27
+    revised: ""
+    status: active
 # - id: TR-combat-001
 #   system: combat
 #   gdd: design/gdd/combat-system.md

@@ -12,35 +12,56 @@ public partial class BgmManager : Node
 {
     private AudioStreamPlayer _playerA = null!;
     private AudioStreamPlayer _playerB = null!;
+    private AudioStreamPlayer _motifPlayer = null!;
     private bool _playerAIsActive = true;
+    private string? _loadedMotifTrackId;
 
     private readonly BgmCrossfadeEngine _engine = new();
+    private readonly MotifOverlayEngine _motifEngine = new();
 
     public BgmCrossfadeEngine Engine => _engine;
+    public MotifOverlayEngine MotifEngine => _motifEngine;
 
     public AudioStreamPlayer ActivePlayer => _playerAIsActive ? _playerA : _playerB;
     public AudioStreamPlayer IncomingPlayer => _playerAIsActive ? _playerB : _playerA;
+    public AudioStreamPlayer MotifPlayer => _motifPlayer;
 
     public override void _Ready()
     {
         _playerA = CreatePlayer(AudioBusLayout.BgmMain);
         _playerB = CreatePlayer(AudioBusLayout.BgmCrossfade);
+        _motifPlayer = CreatePlayer(AudioBusLayout.Bgm);
     }
 
     public override void _Process(double delta)
     {
-        if (!_engine.IsCrossfading) return;
-
         float deltaMs = (float)(delta * 1000.0);
+        MotifOverlayFrame? motifFrame = null;
+
+        if (_motifEngine.IsMotifActive)
+        {
+            motifFrame = _motifEngine.Update(deltaMs);
+            ApplyMotifFrame(motifFrame.Value);
+        }
+
+        float motifBgmMultiplier = _motifEngine.IsMotifActive ? _motifEngine.BgmVolume : 1f;
+
+        if (!_engine.IsCrossfading)
+        {
+            if (motifFrame.HasValue)
+                ActivePlayer.VolumeDb = BgmCrossfadeEngine.LinearToDb(motifBgmMultiplier);
+            return;
+        }
+
         var volumes = _engine.Update(deltaMs);
 
         var outPlayer = _playerAIsActive ? _playerA : _playerB;
         var inPlayer = _playerAIsActive ? _playerB : _playerA;
 
-        outPlayer.VolumeDb = BgmCrossfadeEngine.LinearToDb(volumes.FadeOutVolume);
+        outPlayer.VolumeDb = BgmCrossfadeEngine.LinearToDb(volumes.FadeOutVolume * motifBgmMultiplier);
 
         if (_engine.PendingTrackId is not ("" or BgmCrossfadeEngine.SilenceTrackId))
-            inPlayer.VolumeDb = BgmCrossfadeEngine.LinearToDb(volumes.FadeInVolume);
+            inPlayer.VolumeDb = BgmCrossfadeEngine.LinearToDb(volumes.FadeInVolume * motifBgmMultiplier);
 
         if (volumes.FadeOutComplete && outPlayer.Playing)
             outPlayer.Stop();
@@ -106,6 +127,25 @@ public partial class BgmManager : Node
         PrepareIncomingPlayer(trackId);
     }
 
+    /// <summary>
+    /// 播放女主 motif overlay。Motif 不进入 BGM Override 栈。
+    /// </summary>
+    public MotifPlayResult PlayMotif(string characterId, float fadeMs = MotifOverlayEngine.DefaultFadeMs)
+    {
+        var result = _motifEngine.PlayMotif(characterId, fadeMs);
+        if (result == MotifPlayResult.FadeInStarted)
+            PrepareMotifPlayer(_motifEngine.ActiveTrackId);
+        return result;
+    }
+
+    /// <summary>
+    /// 停止女主 motif overlay，并恢复场景 BGM 音量。
+    /// </summary>
+    public MotifPlayResult StopMotif(float fadeMs = MotifOverlayEngine.DefaultFadeMs)
+    {
+        return _motifEngine.StopMotif(fadeMs);
+    }
+
     private void StopAndSwap()
     {
         var outPlayer = _playerAIsActive ? _playerA : _playerB;
@@ -118,7 +158,7 @@ public partial class BgmManager : Node
         if (trackId is "" or BgmCrossfadeEngine.SilenceTrackId) return;
 
         var inPlayer = _playerAIsActive ? _playerB : _playerA;
-        var stream = GD.Load<AudioStream>($"res://feng-zhi/assets/audio/bgm/{trackId}.ogg");
+        var stream = GD.Load<AudioStream>($"res://assets/audio/bgm/{trackId}.ogg");
         if (stream == null)
         {
             GD.PushWarning($"[BgmManager] BGM track not found: {trackId}");
@@ -128,6 +168,42 @@ public partial class BgmManager : Node
         inPlayer.Stream = stream;
         inPlayer.VolumeDb = -80f;
         inPlayer.Play();
+    }
+
+    private void ApplyMotifFrame(MotifOverlayFrame frame)
+    {
+        if (frame.Phase == MotifOverlayPhase.Idle)
+        {
+            if (_motifPlayer.Playing)
+                _motifPlayer.Stop();
+            _loadedMotifTrackId = null;
+            return;
+        }
+
+        PrepareMotifPlayer(frame.ActiveTrackId);
+        _motifPlayer.VolumeDb = BgmCrossfadeEngine.LinearToDb(frame.MotifVolume);
+    }
+
+    private void PrepareMotifPlayer(string? trackId)
+    {
+        if (string.IsNullOrEmpty(trackId) || _loadedMotifTrackId == trackId)
+            return;
+
+        var stream = GD.Load<AudioStream>($"res://assets/audio/bgm/{trackId}.ogg");
+        if (stream == null)
+        {
+            GD.PushWarning($"[BgmManager] Motif track not found: {trackId}");
+            _loadedMotifTrackId = null;
+            if (_motifPlayer.Playing)
+                _motifPlayer.Stop();
+            _motifEngine.Reset();
+            return;
+        }
+
+        _loadedMotifTrackId = trackId;
+        _motifPlayer.Stream = stream;
+        _motifPlayer.VolumeDb = -80f;
+        _motifPlayer.Play();
     }
 
     private AudioStreamPlayer CreatePlayer(string bus)

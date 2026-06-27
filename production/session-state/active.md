@@ -932,3 +932,12 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
 - Test evidence: CutsceneAudioTest 12/12 + SfxPoolTest 14/14 passed (136 total audio tests green)
 - Blockers: None
 - Next: /code-review then /story-done
+
+## Session Extract — /story-done 2026-06-27
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/audio-system/story-007-motif-overlay.md — 女主 Motif 叠加
+- Tech debt logged: None
+- Effort: estimate 2.00 h / actual 2.75 h (variance +38%)
+- Code review: Complete — 2 blocking issues fixed before closure
+- Test evidence: tests/unit/audio/motif_overlay_test.cs 11/11 passed; Foundation suite 1550/1550 passed
+- Next recommended: Run `/smoke-check sprint` or pick the next Ready audio story if one is added
