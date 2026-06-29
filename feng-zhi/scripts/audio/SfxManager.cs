@@ -55,10 +55,10 @@ public partial class SfxManager : Node
     private void StartPlayer(int slotIndex, string sfxId)
     {
         var player = _players[slotIndex];
-        var stream = GD.Load<AudioStream>($"res://feng-zhi/assets/audio/sfx/{sfxId}.ogg");
+        var stream = AudioDirector.LoadAudioStream("sfx", sfxId);
         if (stream == null)
         {
-            GD.PushWarning($"[SfxManager] SFX not found: {sfxId}");
+            GD.PushWarning($"[SfxManager] SFX not found: {sfxId} (tried .ogg/.mp3)");
             _engine.MarkSlotFinished(slotIndex);
             return;
         }

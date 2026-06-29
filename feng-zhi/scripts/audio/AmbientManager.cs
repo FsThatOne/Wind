@@ -97,10 +97,10 @@ public partial class AmbientManager : Node
     private void PreparePlayer(AmbientLayer layer, string trackId)
     {
         var player = _players[(int)layer];
-        var stream = GD.Load<AudioStream>($"res://feng-zhi/assets/audio/ambient/{trackId}.ogg");
+        var stream = AudioDirector.LoadAudioStream("ambient", trackId);
         if (stream == null)
         {
-            GD.PushWarning($"[AmbientManager] Track not found: {trackId}");
+            GD.PushWarning($"[AmbientManager] Track not found: {trackId} (tried .ogg/.mp3)");
             return;
         }
 

@@ -8,17 +8,26 @@ namespace FengZhi.Movement;
 /// <summary>
 /// 全局等视距逐格移动控制器。
 /// 只负责移动状态机与格子目标计算，不依赖 Godot Node、输入系统或动画节点。
+/// 支持物理碰撞中断：当外部物理引擎（如 MoveAndSlide）阻挡移动时，
+/// 控制器可接受中断位置并更新当前 tile，允许玩家停在家具前方的 sub-tile 位置。
 /// </summary>
 public sealed class IsoGridMovementController
 {
 	private readonly Queue<Vector2I> _tilePath = new();
 	private Func<Vector2I, Vector2>? _tileToScreen;
 	private Func<Vector2I, bool>? _canEnterTile;
+	private Func<Vector2, Vector2I>? _screenToTile;
 	private Vector2I _currentTile;
 	private Vector2I? _targetTile;
 	private Vector2 _targetPosition;
 	private Vector2? _freeStepTargetPosition;
 	private Vector2 _freeStepMovement;
+
+	/// <summary>
+	/// 玩家在当前 tile 内的实际停留偏移（相对于 tile 中心）。
+	/// 正常走格时为零；被物理碰撞阻挡停在家具前方时非零。
+	/// </summary>
+	private Vector2 _intraTileOffset;
 
 	public float Speed { get; set; } = 220.0f;
 
@@ -27,16 +36,29 @@ public sealed class IsoGridMovementController
 	public void ConfigureTileMovement(
 		Vector2I startTile,
 		Func<Vector2I, Vector2> tileToScreen,
-		Func<Vector2I, bool> canEnterTile)
+		Func<Vector2I, bool> canEnterTile,
+		Func<Vector2, Vector2I>? screenToTile = null)
 	{
 		TileMovementEnabled = true;
 		_currentTile = startTile;
 		_tileToScreen = tileToScreen;
 		_canEnterTile = canEnterTile;
+		_screenToTile = screenToTile;
 		_tilePath.Clear();
 		_targetTile = null;
 		_freeStepTargetPosition = null;
+		_intraTileOffset = Vector2.Zero;
 	}
+
+	public Vector2 GetCurrentTileCenter() =>
+		_tileToScreen?.Invoke(_currentTile) ?? Vector2.Zero;
+
+	public Vector2 GetActualRestPosition() =>
+		GetCurrentTileCenter() + _intraTileOffset;
+
+	public Vector2I CurrentTile => _currentTile;
+
+	public bool IsMidStep => _targetTile.HasValue;
 
 	public Vector2 SnapPositionToCurrentTile(Vector2 fallbackPosition) =>
 		_tileToScreen?.Invoke(_currentTile) ?? fallbackPosition;
@@ -115,6 +137,7 @@ public sealed class IsoGridMovementController
 
 		_currentTile = targetTile;
 		_targetTile = null;
+		_intraTileOffset = Vector2.Zero;
 		nextPosition = _tileToScreen(_currentTile);
 
 		var nextConsumed = TryConsumeRequestedStep(requestedAction, out _);
@@ -173,6 +196,39 @@ public sealed class IsoGridMovementController
 
 		blockedDirection = new Vector2(direction.X, direction.Y);
 		return false;
+	}
+
+	/// <summary>
+	/// 物理碰撞中断回调：当 MoveAndSlide 因碰撞未能到达目标 tile 中心时调用。
+	/// 控制器将当前 tile 更新为玩家实际所在 tile，记录 intra-tile 偏移，
+	/// 并清除未完成的 step 状态。
+	/// </summary>
+	public void ReportPhysicsCollision(Vector2 actualPosition)
+	{
+		_targetTile = null;
+		_tilePath.Clear();
+
+		if (_screenToTile != null)
+		{
+			_currentTile = _screenToTile(actualPosition);
+		}
+
+		var center = _tileToScreen?.Invoke(_currentTile) ?? actualPosition;
+		_intraTileOffset = actualPosition - center;
+
+		if (_intraTileOffset.Length() > 64f)
+		{
+			_intraTileOffset = Vector2.Zero;
+		}
+	}
+
+	/// <summary>
+	/// 重置当前位置到 tile 中心（清除 intra-tile 偏移）。
+	/// 用于离开碰撞区域时自动对齐。
+	/// </summary>
+	public void SnapToCenter()
+	{
+		_intraTileOffset = Vector2.Zero;
 	}
 }
 

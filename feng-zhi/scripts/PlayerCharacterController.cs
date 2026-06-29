@@ -19,6 +19,7 @@ public partial class PlayerCharacterController : CharacterBody2D
 	private readonly List<IsoMoveAction> _pressedMoveActions = new();
 	private IIso4CharacterAnimator _animator = null!;
 	private bool _movementFrozen;
+	private CollisionPolygon2D _collisionPolygon = null!;
 
 	public bool TileMovementEnabled
 	{
@@ -35,6 +36,7 @@ public partial class PlayerCharacterController : CharacterBody2D
 	public override void _Ready()
 	{
 		var sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		sprite.Position = new Vector2(0f, -32f);
 		var adapter = new Iso4AnimatedSprite2DAnimator
 		{
 			Name = "Animator",
@@ -43,6 +45,31 @@ public partial class PlayerCharacterController : CharacterBody2D
 		AddChild(adapter);
 		_animator = adapter;
 		_animator.Play(CharacterAnimState.Idle);
+
+		_collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon2D");
+		ShrinkCollisionPolygon(0.5f);
+
+		var camera = GetNode<Camera2D>("Camera2D");
+		camera.Position = new Vector2(0f, -250f);
+		camera.ResetSmoothing();
+	}
+
+	private void ShrinkCollisionPolygon(float scale)
+	{
+		var original = new Vector2[]
+		{
+			new(-64f, 0f),
+			new(0f, -32f),
+			new(64f, 0f),
+			new(0f, 32f),
+		};
+		var scaled = new Vector2[original.Length];
+		for (var i = 0; i < original.Length; i++)
+		{
+			scaled[i] = original[i] * scale;
+		}
+		_collisionPolygon.Position = Vector2.Zero;
+		_collisionPolygon.Polygon = scaled;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -55,8 +82,36 @@ public partial class PlayerCharacterController : CharacterBody2D
 		}
 
 		var frame = _movement.Update(Position, ReadRequestedMoveAction(), delta);
-		Position = frame.Position;
-		Velocity = Vector2.Zero;
+		var desiredPosition = frame.Position;
+		var toDesired = desiredPosition - Position;
+		var distance = toDesired.Length();
+
+		if (distance < 0.5f)
+		{
+			Velocity = Vector2.Zero;
+			Position = desiredPosition;
+		}
+		else
+		{
+			Velocity = toDesired.Normalized() * Speed;
+			var beforePos = Position;
+			MoveAndSlide();
+			var afterPos = Position;
+			var actualMove = afterPos - beforePos;
+			var movedDistance = actualMove.Length();
+			var expectedDistance = distance;
+
+			if (movedDistance < expectedDistance * 0.4f && expectedDistance > 1.0f)
+			{
+				_movement.ReportPhysicsCollision(afterPos);
+				Velocity = Vector2.Zero;
+			}
+			else if (afterPos.DistanceSquaredTo(desiredPosition) <= 2.0f)
+			{
+				Position = desiredPosition;
+			}
+		}
+
 		_animator.SetMovementVector(frame.AnimationMovement);
 		if (frame.StopAnimationAfterFacing)
 		{
@@ -67,12 +122,17 @@ public partial class PlayerCharacterController : CharacterBody2D
 	public void ConfigureTileMovement(
 		Vector2I startTile,
 		Func<Vector2I, Vector2> tileToScreen,
-		Func<Vector2I, bool> canEnterTile)
+		Func<Vector2I, bool> canEnterTile,
+		Func<Vector2, Vector2I>? screenToTile = null)
 	{
-		_movement.ConfigureTileMovement(startTile, tileToScreen, canEnterTile);
+		_movement.ConfigureTileMovement(startTile, tileToScreen, canEnterTile, screenToTile);
 		_pressedMoveActions.Clear();
 		Position = _movement.SnapPositionToCurrentTile(Position);
 		_animator.SetMovementVector(Vector2.Zero);
+
+		var sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		var camera = GetNode<Camera2D>("Camera2D");
+		GD.Print($"[Player] After ConfigureTileMovement: Player.GlobalPos=({GlobalPosition.X:F0},{GlobalPosition.Y:F0}), Sprite local=({sprite.Position.X:F0},{sprite.Position.Y:F0}), Camera local=({camera.Position.X:F0},{camera.Position.Y:F0}), Camera.GlobalPos=({camera.GlobalPosition.X:F0},{camera.GlobalPosition.Y:F0})");
 	}
 
 	public void SetTilePath(IReadOnlyList<Vector2I> path)

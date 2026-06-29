@@ -76,7 +76,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_se",
-"speed": 4.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,

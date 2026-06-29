@@ -950,3 +950,13 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
 - Code review: Complete — initial CHANGES REQUIRED fixed by adding `AudioVolumeController` / `IAudioBusVolumeWriter`, bus 写入断言与 SaveManager roundtrip 覆盖；复审 APPROVED
 - Test evidence: tests/integration/audio/volume_settings_test.cs 18/18 passed; Foundation suite 1568/1568 passed; feng-zhi build 0 warning / 0 error
 - Next recommended: Run `/smoke-check sprint` for audio-system regression, or use `/project-stage-detect` / `/sprint-status` to choose the next non-audio Ready story
+
+## Session Extract — /story-done 2026-06-29
+- Verdict: COMPLETE
+- Story: production/epics/exploration-insight/stories/ei-007-presentation-adapter.md — ei-007 EI Presentation: ProximityDetector Godot Adapter + 水墨视觉提示
+- AC: 7/7 passing
+- Code review: Complete (2 rounds; 3 issues fixed: Tween 竞争 / 反射缓存 / ResourceLoader.Exists)
+- Test evidence: tests/integration/exploration/insight_save_scene_lock_test.cs + Foundation 1581/1581 passed
+- Tech debt logged: None
+- Effort: estimate 6.4 h / actual 6.0 h (variance -6%)
+- Next recommended: S8-EI-Presentation-Interaction (ei-008) — 玩家追查交互 + InnerMonologue 显示 + reward UI 反馈

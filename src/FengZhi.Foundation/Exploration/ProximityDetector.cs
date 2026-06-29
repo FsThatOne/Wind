@@ -29,6 +29,7 @@ public sealed partial class ProximityDetector
     private readonly Queue<string> _pendingTriggers = new();
     private readonly HashSet<string> _queuedNodeIds = new();
     private readonly Dictionary<string, float> _detectedElapsedSeconds = new();
+    private readonly HashSet<string> _hiddenPublishedThisCycle = new();
     private float _staggerRemainingSeconds;
     private bool _isPaused;
 
@@ -50,54 +51,12 @@ public sealed partial class ProximityDetector
     public bool IsPaused => _isPaused;
 
     /// <summary>
-    /// Detects active nodes in range and emits cues only when prerequisites and insight threshold pass.
+    /// Legacy detection API. Delegates to Tick(delta=0) to ensure unified linger registration.
     /// </summary>
+    [Obsolete("Use Tick() as the single detection entry point. Detect() is retained for compile compatibility during migration.")]
     public IReadOnlyList<InsightCueShownEvent> Detect(Vector2 playerPosition, int playerInsight)
     {
-        if (_isPaused)
-        {
-            return Array.Empty<InsightCueShownEvent>();
-        }
-
-        var shown = new List<InsightCueShownEvent>();
-
-        foreach (var node in _registry.GetActiveNodes())
-        {
-            if (_registry.GetState(node.Id) != DiscoveryState.Undiscovered)
-            {
-                continue;
-            }
-
-            if (!IsInRange(playerPosition, node))
-            {
-                continue;
-            }
-
-            if (!_conditionEvaluator.AreMet(node.Prerequisite))
-            {
-                continue;
-            }
-
-            if (playerInsight < node.InsightThreshold)
-            {
-                continue;
-            }
-
-            if (!_registry.TrySetState(node.Id, DiscoveryState.Detected))
-            {
-                continue;
-            }
-
-            var cue = new InsightCueShownEvent(
-                node.Id,
-                node.Position,
-                node.NarrativeContext,
-                node.DiscoveryType);
-            shown.Add(cue);
-            _eventBus?.Publish(cue);
-        }
-
-        return shown;
+        return Tick(playerPosition, playerInsight, 0f);
     }
 
     /// <summary>
@@ -110,6 +69,7 @@ public sealed partial class ProximityDetector
             return Array.Empty<InsightCueShownEvent>();
         }
 
+        _hiddenPublishedThisCycle.Clear();
         var delta = Math.Max(0f, deltaSeconds);
         ResetTransientNodesOutsideRange(playerPosition);
         AdvanceLingerTimers(delta);
@@ -292,7 +252,10 @@ public sealed partial class ProximityDetector
 
     private void PublishHidden(string nodeId)
     {
-        _eventBus?.Publish(new InsightCueHiddenEvent(nodeId));
+        if (_hiddenPublishedThisCycle.Add(nodeId))
+        {
+            _eventBus?.Publish(new InsightCueHiddenEvent(nodeId));
+        }
     }
 
     private void ClearPendingTriggers()
@@ -314,7 +277,7 @@ public sealed partial class ProximityDetector
                 continue;
             }
 
-            if (state == DiscoveryState.Detected)
+            if (state == DiscoveryState.Detected && _hiddenPublishedThisCycle.Add(node.Id))
             {
                 var hiddenEvent = new InsightCueHiddenEvent(node.Id);
                 hidden.Add(hiddenEvent);
@@ -338,9 +301,13 @@ public sealed partial class ProximityDetector
                 continue;
             }
 
-            var hiddenEvent = new InsightCueHiddenEvent(node.Id);
-            hidden.Add(hiddenEvent);
-            _eventBus?.Publish(hiddenEvent);
+            if (_hiddenPublishedThisCycle.Add(node.Id))
+            {
+                var hiddenEvent = new InsightCueHiddenEvent(node.Id);
+                hidden.Add(hiddenEvent);
+                _eventBus?.Publish(hiddenEvent);
+            }
+
             _registry.TrySetState(node.Id, DiscoveryState.Undiscovered);
         }
 

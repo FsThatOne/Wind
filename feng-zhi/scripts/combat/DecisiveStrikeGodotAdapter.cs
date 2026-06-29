@@ -25,10 +25,10 @@ namespace FengZhi.Vs.Combat;
 ///
 /// 触发链路 (从 cu-005 binder 接入)：
 ///   binder.Submit(BattleAction{ IsDecisiveStrike=true, TargetId=...})
-///   → JiangnanBattleGame.SubmitPlayerAction 检测 IsDecisiveStrike=true
+///   → 战斗场景 SubmitPlayerAction 检测 IsDecisiveStrike=true
 ///   → adapter.RequestDecisive(sourceId, targetId, damage, moveType)
 ///   → director.RequestDecisiveStrike → 7-phase sequence
-///   → adapter.SequenceCompleted 回调 → JiangnanBattleGame 发 BattleEndEvent(PlayerVictory)
+///   → adapter.SequenceCompleted 回调 → 战斗场景发 BattleEndEvent(PlayerVictory)
 ///
 /// 与 Foundation 边界：本类 = 唯一持有 Engine.TimeScale / Camera2D / InputEvent 的写入方；
 /// Foundation 内 Director 走自己的 TimeScaleController/CameraRequestBus/CombatCinematicLock 抽象,
@@ -66,7 +66,7 @@ public sealed partial class DecisiveStrikeGodotAdapter : Node
     public bool IsRunning => _initialized && _director.IsBusy;
 
     /// <summary>
-    /// 初始化。在 JiangnanBattleGame._Ready() 创建 adapter 节点并挂到 scene tree 后调用。
+    /// 初始化。在战斗场景 _Ready() 创建 adapter 节点并挂到 scene tree 后调用。
     /// </summary>
     public void Initialize(BattleEventBus eventBus, Camera2D camera, CanvasLayer overlay)
     {

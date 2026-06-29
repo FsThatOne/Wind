@@ -24,3 +24,21 @@ public sealed record InsightDiscoveredEvent(
     string NodeId,
     DiscoveryType DiscoveryType,
     string NarrativeContext) : GameEvent;
+
+/// <summary>
+/// Two-phase monologue lifecycle: emitted when an investigate request begins narrative playback.
+/// Presentation layer should prepare monologue display upon receiving this event.
+/// </summary>
+public sealed record MonologueRequestPendingEvent(string NodeId) : GameEvent;
+
+/// <summary>
+/// Two-phase monologue lifecycle: emitted when reward dispatch succeeds and monologue is confirmed.
+/// Presentation layer should commit the displayed monologue.
+/// </summary>
+public sealed record MonologueRequestCommittedEvent(string NodeId) : GameEvent;
+
+/// <summary>
+/// Two-phase monologue lifecycle: emitted when reward dispatch fails after monologue was requested.
+/// Presentation layer should dismiss/cancel any pending monologue display.
+/// </summary>
+public sealed record MonologueRequestCanceledEvent(string NodeId) : GameEvent;

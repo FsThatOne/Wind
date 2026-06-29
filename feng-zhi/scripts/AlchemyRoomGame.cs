@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FengZhi.Foundation.Exploration.Interaction;
+using FengZhi.Scripts.Audio;
 using FengZhi.Scripts.Exploration;
 using Godot;
 
@@ -36,11 +37,15 @@ public partial class AlchemyRoomGame : Node2D
 	// ============================================================
 
 	/// <summary>
-	/// iso 画布原点（iso 编辑器 tile (0,0) 中心对应的屏幕坐标）。
-	/// 通过 RoomVisual sprite 命名规则反推得到。如果重新导出 iso 房间，需重新反算。
+	/// iso 画布原点——即 iso tile (0,0) 的顶面菱形中心对应的世界坐标。
+	/// 校准方法：运行时打印 RoomVisual/1_default_layer 下 sprite 的 GlobalPosition，
+	/// 结合 stamp PNG 中顶面菱形中心在图片内的偏移（约 (85,100) for 170×204 cube stamps），
+	/// 公式为 IsoOrigin = stamp_topleft(C=0,R=0) + diamond_center_in_stamp - (ColOffset*64-RowOffset*64 的偏移)。
+	/// 当前值通过运行时 GlobalPosition 实测 + PNG 像素分析校准得到。
+	/// 如果重新导出 iso 房间，必须重新校准。
 	/// </summary>
 	[Export]
-	public Vector2 IsoOrigin { get; set; } = new(1002f, 26f);
+	public Vector2 IsoOrigin { get; set; } = new(589f, -302f);
 
 	/// <summary>
 	/// 逻辑 tile (0,0) 对应的 iso 编辑器 col 偏移。
@@ -78,6 +83,19 @@ public partial class AlchemyRoomGame : Node2D
 	[Export]
 	public bool ShowWalkableDebug { get; set; }
 
+	/// <summary>
+	/// 场景 BGM 资源 ID（不含路径和扩展名）。留空表示不切换 BGM；
+	/// 填入 "SILENCE" 表示刻意留白（无 BGM，仅有环境音）。
+	/// </summary>
+	[Export]
+	public string SceneBgmId { get; set; } = "";
+
+	/// <summary>
+	/// 地形基底环境音 ID（如 "ambient_bamboo_wind"、"ambient_rain"）。留空表示不切换。
+	/// </summary>
+	[Export]
+	public string TerrainAmbientId { get; set; } = "";
+
 	// ============================================================
 
 	private PlayerCharacterController _player = null!;
@@ -92,6 +110,8 @@ public partial class AlchemyRoomGame : Node2D
 
 		LoadWalkableGrid();
 
+		BuildCollisionBodies();
+
 		var entryMarker = SceneTransitionManager.PendingEntryMarker ?? "entry_from_compound";
 		SceneTransitionManager.ClearPendingEntry();
 
@@ -99,12 +119,22 @@ public partial class AlchemyRoomGame : Node2D
 		_player.ConfigureTileMovement(
 			entryTile,
 			tile => TileToScreen(tile.X, tile.Y),
-			IsWalkable);
+			IsWalkable,
+			ScreenToTile);
+		PositionInteractAreas();
 		GD.Print($"[炼丹房] _Ready: spawn at entry_marker='{entryMarker}' tile=({entryTile.X},{entryTile.Y}) pos={_player.Position}");
 
 		RegisterAllInteractions();
 
 		BuildWalkableOverlay();
+
+		BuildWalls();
+
+		if (!string.IsNullOrEmpty(SceneBgmId) || !string.IsNullOrEmpty(TerrainAmbientId))
+		{
+			var audioDir = GetNodeOrNull<AudioDirector>("/root/AudioDirector");
+			audioDir?.ApplySceneAudio(SceneBgmId, TerrainAmbientId);
+		}
 
 		GetNodeOrNull<SceneTransitionManager>("/root/SceneTransition")?.FadeIn();
 	}
@@ -211,6 +241,84 @@ public partial class AlchemyRoomGame : Node2D
 			(canvasCol + canvasRow) * TileHalfHeight + FootYOffset);
 	}
 
+	private Vector2I ScreenToTile(Vector2 screenPos)
+	{
+		var ox = screenPos.X - IsoOrigin.X;
+		var oy = screenPos.Y - IsoOrigin.Y - FootYOffset;
+		var oxp = ox / TileHalfWidth - (ColOffset - RowOffset);
+		var oyp = oy / TileHalfHeight - (ColOffset + RowOffset);
+		var c = Mathf.RoundToInt((oxp + oyp) * 0.5f);
+		var r = Mathf.RoundToInt((oyp - oxp) * 0.5f);
+		return new Vector2I(c, r);
+	}
+
+	// ============================================================
+	// 物理碰撞体构建
+	// - 外墙边界由代码生成（tile 级，安全兜底）
+	// - 家具（书架/丹炉/药柜/宝箱）请在 Godot 编辑器中手动摆放 StaticBody2D + CollisionPolygon2D
+	//   节点到场景根节点下即可，CollisionLayer=1, CollisionMask=0，多边形形状按精灵图轮廓调整
+	// ============================================================
+
+	private void BuildCollisionBodies()
+	{
+		var root = new Node2D { Name = "CollisionBodies" };
+		AddChild(root);
+
+		var wallPoly = new[]
+		{
+			new Vector2(-64f, 0f), new Vector2(0f, -32f),
+			new Vector2(64f, 0f), new Vector2(0f, 32f),
+		};
+
+		void AddWall(int col, int row)
+		{
+			var center = TileToScreen(col, row);
+			var body = new StaticBody2D
+			{
+				Name = $"Wall_{col}_{row}",
+				Position = center,
+				CollisionLayer = 1,
+				CollisionMask = 0,
+			};
+			body.AddChild(new CollisionPolygon2D { Polygon = wallPoly, Position = Vector2.Zero });
+			root.AddChild(body);
+		}
+
+		for (var c = 0; c < MapWidth; c++) AddWall(c, 0);
+		for (var r = 0; r < MapHeight; r++) AddWall(0, r);
+		for (var c = 9; c < MapWidth; c++) AddWall(c, 6);
+	}
+
+	// ============================================================
+	// 交互区域位置与碰撞体修正
+	// ============================================================
+
+	private void PositionInteractAreas()
+	{
+		SetAreaPosition("ExitArea", 6, 6, new Vector2(0f, 10f), 48f, 24f);
+		SetAreaPosition("PillFurnaceArea", 4, 3, new Vector2(0f, -12f), 40f, 20f);
+		SetAreaPosition("HerbCabinetArea", 8, 3, new Vector2(0f, -14f), 32f, 18f);
+		SetAreaPosition("RecipeShelfArea", 8, 5, new Vector2(0f, -14f), 32f, 18f);
+		SetAreaPosition("TreasureChestArea", 10, 3, new Vector2(0f, -4f), 28f, 16f);
+	}
+
+	private void SetAreaPosition(string areaName, int col, int row, Vector2 polyOffset, float halfW, float halfH)
+	{
+		var area = GetNodeOrNull<Area2D>(areaName);
+		if (area == null) return;
+		area.Position = TileToScreen(col, row);
+		var cp = area.GetNodeOrNull<CollisionPolygon2D>("CollisionPolygon2D");
+		if (cp == null) return;
+		cp.Position = polyOffset;
+		cp.Polygon = new[]
+		{
+			new Vector2(-halfW, 0f),
+			new Vector2(0f, -halfH),
+			new Vector2(halfW, 0f),
+			new Vector2(0f, halfH),
+		};
+	}
+
 	// ============================================================
 	// 交互注册（与之前一致）
 	// ============================================================
@@ -282,6 +390,22 @@ public partial class AlchemyRoomGame : Node2D
 			Visible = ShowWalkableDebug,
 		};
 		AddChild(_walkableOverlay);
+	}
+
+	// ============================================================
+	// 墙面构建（最小验证 spike）
+	// ============================================================
+
+	private void BuildWalls()
+	{
+		var wallsPath = "res://assets/maps/alchemy_room/iso_room/walls.txt";
+		var wallBuilder = new IsoWallBuilder
+		{
+			Name = "IsoWallBuilder",
+			TileToScreen = TileToScreen,
+		};
+		AddChild(wallBuilder);
+		wallBuilder.BuildWalls(wallsPath);
 	}
 
 	// ============================================================

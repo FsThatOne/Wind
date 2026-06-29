@@ -35,17 +35,14 @@ position = Vector2(576, 1312)
 script = ExtResource("2_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MapRoot/Player"]
-position = Vector2(15.23, -38.94)
 scale = Vector2(1.1, 1.1)
 sprite_frames = ExtResource("3_frames")
 animation = &"idle"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MapRoot/Player"]
-position = Vector2(22, 5)
 polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
 
 [node name="Camera2D" type="Camera2D" parent="MapRoot/Player"]
-position = Vector2(0, -80)
 zoom = Vector2(1.15, 1.15)
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0

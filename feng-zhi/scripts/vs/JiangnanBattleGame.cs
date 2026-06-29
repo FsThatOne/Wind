@@ -199,6 +199,10 @@ public partial class JiangnanBattleGame : Node2D
 		{
 			var enemy = battle.EnemyGroup.FirstOrDefault();
 			enemy?.AddStagger(enemyStaggerOverride.Value);
+#if DEBUG
+			AssertDemo(enemy != null && enemy.Stagger >= enemyStaggerOverride.Value,
+				$"cu-006 AddStagger 后敌方破绽必须 ≥{enemyStaggerOverride.Value} (实际 = {enemy?.Stagger})");
+#endif
 		}
 
 		// cu-006 一击决胜 Godot 适配器初始化：注入 BattleEventBus + Camera2D + Overlay 节点
@@ -285,7 +289,7 @@ public partial class JiangnanBattleGame : Node2D
 				break;
 			case "cu-006":
 				AssertDemo(enemyStaggerOverride == 5, "cu-006 需要 EnemyInitialStaggerOverride=5 实际 = " + (enemyStaggerOverride?.ToString() ?? "null"));
-				AssertDemo(enemy != null && enemy.Stagger >= 5, "cu-006 敌方破绽必须 ≥5 才能触发决胜 (实际 = " + (enemy?.Stagger.ToString() ?? "null") + ")");
+				// stagger 实际值断言已提前到 AddStagger 之后、Start() 之前，避免回合逻辑消耗后误报
 				AssertDemo(hasDecisiveTargets, "cu-006 需要 PreloadedDecisiveTargetIds 非空让 panel 顶部显示决胜行");
 				break;
 			case "cu-008":

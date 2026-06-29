@@ -11,28 +11,28 @@ y_sort_enabled = true
 script = ExtResource("1_game")
 
 [node name="BackgroundTint" type="ColorRect" parent="." unique_id=1458585655]
-offset_left = -2000.0
-offset_top = -2000.0
-offset_right = 4000.0
-offset_bottom = 4000.0
+offset_left = -1810.0
+offset_top = -1771.0
+offset_right = 4190.0
+offset_bottom = 4229.0
 color = Color(0.08, 0.07, 0.06, 1)
 
 [node name="RoomVisual" parent="." unique_id=1844107269 instance=ExtResource("4_room")]
 y_sort_enabled = true
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1089352348]
-position = Vector2(1194, 954)
+position = Vector2(1197, 956)
 script = ExtResource("2_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=523825842]
-position = Vector2(15.23, -38.94)
-scale = Vector2(1.1, 1.1)
+position = Vector2(3.9999998, -8.999999)
+scale = Vector2(0.8, 0.8)
 sprite_frames = ExtResource("3_frames")
 animation = &"idle"
+offset = Vector2(-6, -7)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player" unique_id=265055307]
-position = Vector2(22, 5)
-polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
+polygon = PackedVector2Array(-61, 3, 3, -29, 67, 3, 3, 35)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1138903365]
 position = Vector2(-235, -414)
@@ -43,35 +43,6 @@ position_smoothing_speed = 6.0
 position = Vector2(1216, 1080)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ExitArea" unique_id=1958050422]
-position = Vector2(22, 5)
-polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
-
-[node name="PillFurnaceArea" type="Area2D" parent="." unique_id=571965989]
-position = Vector2(1408, 920)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PillFurnaceArea" unique_id=1534370035]
-position = Vector2(22, 5)
-polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
-
-[node name="HerbCabinetArea" type="Area2D" parent="." unique_id=78809853]
-position = Vector2(1280, 800)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HerbCabinetArea" unique_id=1801412650]
-position = Vector2(22, 5)
-polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
-
-[node name="RecipeShelfArea" type="Area2D" parent="." unique_id=1716168706]
-position = Vector2(1080, 880)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RecipeShelfArea" unique_id=1249939400]
-position = Vector2(22, 5)
-polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
-
-[node name="TreasureChestArea" type="Area2D" parent="." unique_id=234324163]
-position = Vector2(1700, 950)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TreasureChestArea" unique_id=1940333627]
-position = Vector2(22, 5)
 polygon = PackedVector2Array(-64, 0, 0, -32, 64, 0, 0, 32)
 
 [node name="InteractionController" type="Node" parent="." unique_id=117566302]

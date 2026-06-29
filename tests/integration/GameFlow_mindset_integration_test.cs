@@ -3,18 +3,18 @@ using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Mindset;
 using Xunit;
 
-namespace FengZhi.Tests.Foundation.Vs;
+namespace FengZhi.Tests.Foundation;
 
 /// <summary>
-/// S7-VS-Outcome-Feedback Subtask 6 · 验证 outcome scene 心境位移接线层逻辑。
+/// S7-VS-Outcome-Feedback Subtask 6 · 验证战斗结算心境位移接线层逻辑。
 ///
 /// 关注点：spec §3 choice → shifts 映射 + 真实 MindsetService 状态变化 +
 /// EventBus 事件广播 + Snapshot 契约。
 ///
 /// 不依赖 Godot：测试 Foundation 层的 MindsetOutcomeShifts + MindsetService +
-/// EventBus 组合，模拟 JiangnanFlowController.ApplyOutcomeChoice 的内部逻辑。
+/// EventBus 组合，模拟 GameFlow.ApplyOutcomeChoice 的内部逻辑。
 /// </summary>
-public class JiangnanFlowMindsetIntegrationTest
+public class GameFlowMindsetIntegrationTest
 {
     private static (MindsetService service, EventBus bus, List<MindsetShiftedEvent> shifts,
         List<MindsetZoneChangedEvent> zoneChanges, List<MoralityTierChangedEvent> tierChanges)

@@ -1,5 +1,5 @@
+using FengZhi;
 using FengZhi.Foundation.CharacterData;
-using FengZhi.Vs;
 using Godot;
 
 namespace FengZhi.Ui;
@@ -75,7 +75,7 @@ public partial class AttributePanel : PanelContainer
 		Visible = !Visible;
 		if (Visible)
 		{
-			var flow = GetNodeOrNull<JiangnanFlowController>("/root/JiangnanFlow");
+			var flow = GetNodeOrNull<GameFlow>("/root/GameFlow");
 			if (flow?.PlayerInstance != null)
 				Refresh(flow.PlayerInstance);
 		}

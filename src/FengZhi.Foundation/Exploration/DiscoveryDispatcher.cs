@@ -41,6 +41,7 @@ public enum DiscoveryDispatchStatus
     UnknownNode,
     InactiveNode,
     NotDetected,
+    AlreadyPending,
     InvalidReward,
     UnsupportedDiscoveryType,
     DownstreamUnavailable,
@@ -80,6 +81,7 @@ public sealed class DiscoveryDispatcher
     private readonly IInsightNarrativePort _narrativePort;
     private readonly IInsightCodePhraseBookPort _codePhraseBookPort;
     private readonly IEventBus? _eventBus;
+    private readonly HashSet<string> _pendingInvestigations = new();
 
     public DiscoveryDispatcher(
         InsightNodeRegistry registry,
@@ -94,7 +96,14 @@ public sealed class DiscoveryDispatcher
     }
 
     /// <summary>
+    /// Returns true if a monologue request is currently pending for the given node.
+    /// </summary>
+    public bool IsInvestigationPending(string nodeId) => _pendingInvestigations.Contains(nodeId);
+
+    /// <summary>
     /// Investigates one detected insight node and dispatches its configured reward atomically at the state layer.
+    /// Emits MonologueRequestPendingEvent before reward dispatch, and either
+    /// MonologueRequestCommittedEvent (on success) or MonologueRequestCanceledEvent (on failure).
     /// </summary>
     public DiscoveryDispatchResult OnPlayerInvestigate(string nodeId)
     {
@@ -122,26 +131,43 @@ public sealed class DiscoveryDispatcher
                 "Only detected insight nodes can be investigated.");
         }
 
+        if (!_pendingInvestigations.Add(nodeId))
+        {
+            return DiscoveryDispatchResult.Failure(
+                nodeId,
+                DiscoveryDispatchStatus.AlreadyPending,
+                "Investigation already pending for this node.");
+        }
+
         var preflight = ValidatePreconditions(node);
         if (!preflight.Succeeded)
         {
+            _pendingInvestigations.Remove(nodeId);
             return preflight;
         }
+
+        _eventBus?.Publish(new MonologueRequestPendingEvent(nodeId));
 
         var dispatch = DispatchSideEffects(node);
         if (!dispatch.Succeeded)
         {
+            _pendingInvestigations.Remove(nodeId);
+            _eventBus?.Publish(new MonologueRequestCanceledEvent(nodeId));
             return dispatch;
         }
 
         if (!_registry.TrySetState(nodeId, DiscoveryState.Investigated))
         {
+            _pendingInvestigations.Remove(nodeId);
+            _eventBus?.Publish(new MonologueRequestCanceledEvent(nodeId));
             return DiscoveryDispatchResult.Failure(
                 nodeId,
                 DiscoveryDispatchStatus.StateCommitFailed,
                 "Insight node state could not be committed.");
         }
 
+        _pendingInvestigations.Remove(nodeId);
+        _eventBus?.Publish(new MonologueRequestCommittedEvent(nodeId));
         _eventBus?.Publish(new InsightDiscoveredEvent(node.Id, node.DiscoveryType, node.NarrativeContext));
         _eventBus?.Publish(new InsightCueHiddenEvent(node.Id));
         return DiscoveryDispatchResult.Success(nodeId);

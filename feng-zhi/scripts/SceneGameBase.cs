@@ -6,6 +6,8 @@ using System.Xml.Linq;
 using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Geometry;
 using FengZhi.Foundation.Mindset;
+using FengZhi.Scripts.Audio;
+using FengZhi.Scripts.Exploration;
 using FengZhi.Ui;
 using Godot;
 
@@ -56,6 +58,21 @@ public abstract partial class SceneGameBase : Node2D
 
 	protected virtual Vector2 Origin { get; set; } = new(576f, 96f);
 
+	/// <summary>
+	/// 场景 BGM 资源 ID（不含路径和扩展名）。留空表示不切换 BGM；
+	/// 填入 "SILENCE" 表示刻意留白（无 BGM，仅有环境音）。
+	/// 在 Godot 编辑器 Inspector 中设置。
+	/// </summary>
+	[Export]
+	public string SceneBgmId { get; set; } = "";
+
+	/// <summary>
+	/// 地形基底环境音 ID（如 "ambient_bamboo_wind"、"ambient_rain"）。
+	/// 留空表示不切换地形环境音。在 Inspector 中设置。
+	/// </summary>
+	[Export]
+	public string TerrainAmbientId { get; set; } = "";
+
 	public override void _Ready()
 	{
 		GD.Print($"[{SceneName}] _Ready: begin node binding...");
@@ -96,18 +113,18 @@ public abstract partial class SceneGameBase : Node2D
 		DialogueManager = new Dialogue.DialogueManager();
 		AddChild(DialogueManager);
 
-		var flow = GetNodeOrNull<Vs.JiangnanFlowController>("/root/JiangnanFlow");
+		var flow = GetNodeOrNull<GameFlow>("/root/GameFlow");
 		IEventBus eventBus;
 		MindsetService mindsetService;
 		if (flow != null)
 		{
-			GD.Print($"[{SceneName}] _Ready: JiangnanFlow autoload found, using shared EventBus/MindsetService.");
+			GD.Print($"[{SceneName}] _Ready: GameFlow autoload found, using shared EventBus/MindsetService.");
 			eventBus = flow.EventBus;
 			mindsetService = flow.MindsetService;
 		}
 		else
 		{
-			GD.Print($"[{SceneName}] _Ready: JiangnanFlow not found, creating standalone EventBus/MindsetService.");
+			GD.Print($"[{SceneName}] _Ready: GameFlow not found, creating standalone EventBus/MindsetService.");
 			eventBus = new EventBus();
 			mindsetService = new MindsetService(eventBus: eventBus);
 		}
@@ -118,8 +135,17 @@ public abstract partial class SceneGameBase : Node2D
 		DialogueManager.DialogueEnded += OnDialogueEnded;
 		GD.Print($"[{SceneName}] _Ready: dialogue system initialized.");
 
+		var insightBridge = new InsightDetectorBridge { Name = "InsightDetectorBridge" };
+		AddChild(insightBridge);
+
 		LoadVariant("day", repositionPlayer: true);
 		OnReady();
+
+		if (!string.IsNullOrEmpty(SceneBgmId) || !string.IsNullOrEmpty(TerrainAmbientId))
+		{
+			var audioDir = GetNodeOrNull<AudioDirector>("/root/AudioDirector");
+			audioDir?.ApplySceneAudio(SceneBgmId, TerrainAmbientId);
+		}
 
 		var transition = GetNodeOrNull<SceneTransitionManager>("/root/SceneTransition");
 		if (transition != null)

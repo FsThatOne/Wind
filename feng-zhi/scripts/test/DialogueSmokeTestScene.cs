@@ -1,3 +1,4 @@
+using FengZhi;
 using FengZhi.Dialogue;
 using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Mindset;
@@ -22,7 +23,7 @@ public partial class DialogueSmokeTestScene : Control
 		_dialogueManager = new DialogueManager();
 		AddChild(_dialogueManager);
 
-		var flow = GetNodeOrNull<Vs.JiangnanFlowController>("/root/JiangnanFlow");
+		var flow = GetNodeOrNull<GameFlow>("/root/GameFlow");
 		IEventBus eventBus;
 		MindsetService mindsetService;
 		if (flow != null)

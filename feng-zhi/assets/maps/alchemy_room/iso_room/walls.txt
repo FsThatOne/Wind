@@ -1,0 +1,13 @@
+# 丹房墙面最小验证配置
+# 格式: col,row,type,facing
+# 仅 3 块墙，用于验证 IsoWallBuilder 渲染、坐标、Y-sort 遮挡关系。
+# col/row 使用房间逻辑坐标系（和 walkable.txt 一致，0-indexed）。
+#
+# 验证要点（运行游戏后观察）：
+# 1. (3,5) wood_plain ew  —— 玩家从 (3,6) 向北走时，墙应遮挡玩家上半身；走到 (3,4) 时玩家应在墙前面。
+# 2. (7,5) door_cloud ew  —— 同上，但用云纹门样式，可看出门的美术是否清晰。
+# 3. (5,4) corner_iron    —— L 形内角，测试 CornerVisualOffset 是否需要调整。
+
+3,5,wood_plain,ew
+7,5,door_cloud,ew
+5,4,corner_iron,corner

@@ -115,6 +115,92 @@ dotnet test --filter Category=Foundation     # 仅 Foundation 层
 
 ---
 
+## 音频系统
+
+遵循 ADR-0009 分层架构：BGM（背景音乐）/ Ambient（环境音）/ SFX（音效）三轨独立。Autoload 入口为 `AudioDirector`。
+
+### BGM vs Ambient 区别
+
+| 维度 | BGM（背景音乐） | Ambient（环境音） |
+|---|---|---|
+| 本质 | 有旋律的音乐（古琴、笛、箫） | 无旋律的环境声（雨声、风声、蝉鸣） |
+| 功能 | 传达情绪、标识状态（探索/战斗/演出） | 构建空间沉浸感（"闭眼就知道在哪"） |
+| 并发数 | 任意时刻 1 首主播放（crossfade 短暂重叠） | 最多 3 层同时叠加（地形+天气+时辰） |
+| 切换方式 | crossfade（等功率曲线，800ms/1500ms） | 各层独立淡入淡出（2000ms），不互斥 |
+| Override 栈 | 有（最多3层：探索→战斗→演出，Pop 恢复） | 无（不进栈，独立运行） |
+| 战斗时 | 切到战斗自适应 BGM（6段水平分层） | 整体压到 20% 音量（不消失） |
+| 留白 | 可为 SILENCE（刻意无音乐） | 始终运行（即使 BGM 静音，环境音也在） |
+| 典型例子 | 江南主旋律、战斗紧张曲、灭门悲伤曲 | 竹林风声、小雨声、午时蝉鸣、夜晚虫鸣 |
+
+### 场景 BGM / 环境音配置（零代码）
+
+每个场景在 Godot 编辑器中通过 Inspector 配置即可自动切换音频：
+
+1. 选中场景根节点（TMX 场景继承 `SceneGameBase`，IsoRoom 场景如炼丹房使用各自脚本）
+2. 在 Inspector 中找到以下 Export 属性：
+   - **Scene Bgm Id**：BGM 文件名（不含路径和扩展名），对应 `res://assets/audio/bgm/{id}.ogg`
+   - **Terrain Ambient Id**：地形环境音文件名，对应 `res://assets/audio/ambient/{id}.ogg`
+3. 填写后保存场景，进入该场景时 BGM/环境音会自动 crossfade 切换
+
+**特殊值**：
+- `Scene Bgm Id = "SILENCE"`：刻意留白，当前 BGM 淡出至静音
+- `Scene Bgm Id` 留空：不切换 BGM，上一场景的 BGM 继续播放（适用于同区域子场景，如室内/室外共用同一首 BGM）
+- `Terrain Ambient Id` 留空：不切换地形环境音，上一场景的环境音继续播放
+
+**切换流程**：
+```
+SceneTransitionManager.TransitionTo() → 画面淡黑 → 切场景
+→ 新场景 _Ready() → ApplySceneAudio(bgmId, terrainId)
+→ BgmManager: 同曲续播检测 → 若不同则 1500ms 淡出旧 + 800ms 淡入新
+→ AmbientManager: 地形层 2000ms 淡入淡出；天气/时辰层保持不变
+→ 画面淡入，新 BGM 在玩家看到场景的同时淡入中
+```
+
+### 代码 API（高级场景/战斗/演出）
+
+```csharp
+var audio = GetNode<AudioDirector>("/root/AudioDirector");
+
+// 场景进入（通常不需要手动调用，Export 属性自动处理）
+audio.ApplySceneAudio("jiangnan_main", "ambient_bamboo_wind");
+
+// 战斗/演出：Push/Pop Override 栈（最多3层嵌套）
+audio.PushOverrideBgm("combat_intense", AudioState.Combat);   // 压入战斗 BGM
+audio.CrossfadeCombatSegment("combat_climax", 500, 300);     // 战斗内段落切换（小节线对齐后）
+audio.PopOverrideBgm();                                       // 弹出栈顶，恢复前一首 BGM
+
+// Motif overlay（女主主旋律叠加层，不进入 Override 栈，不替换当前 BGM）
+audio.PlayMotif("heroine");
+audio.StopMotif();
+
+// 天气/时辰环境音（由天气/时辰系统在状态变化时调用）
+audio.SetWeatherAmbient("ambient_rain");      // 传 null 停掉天气层
+audio.SetTimeOfDayAmbient("ambient_cicadas"); // 传 null 停掉时辰层
+
+// 状态触发（对话/菜单/过场自动压低 BGM 音量）
+audio.Trigger(AudioTriggers.OpenMenu);
+audio.Trigger(AudioTriggers.EndDialogue);
+```
+
+### 资源路径约定
+
+```
+feng-zhi/assets/audio/
+├── bgm/          # BGM 文件（无缝循环）：jiangnan_main.ogg/.mp3、combat_intense.ogg/.mp3 等
+├── ambient/      # 环境音文件（无缝循环）：ambient_bamboo_wind.ogg/.mp3、ambient_rain.ogg/.mp3 等
+└── sfx/          # 音效文件（短音效，无需循环）：footstep.ogg/.mp3、sword_hit.ogg/.mp3 等
+```
+
+**支持格式**：`.ogg`（OGG Vorbis）和 `.mp3` 均可，优先加载 `.ogg`（无缝循环更干净、体积更小）。
+- 开发阶段可直接使用 MP3，无需转码，放入目录即自动识别
+- 正式发布前建议将循环 BGM/环境音转成 `.ogg`，避免 MP3 帧间隙导致的循环点微小爆音
+- 同一 trackId 两种格式并存时优先使用 `.ogg`
+- SFX（音效）一般较短不循环，两种格式无明显差异
+
+音频文件需自行准备并放入对应目录，放入后即自动生效，无需额外配置。
+
+---
+
 ## AI 协作工作流
 
 项目在 Claude Code / Codex 双轨下运行，配置入口：

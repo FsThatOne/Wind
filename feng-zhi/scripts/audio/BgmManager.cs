@@ -158,10 +158,10 @@ public partial class BgmManager : Node
         if (trackId is "" or BgmCrossfadeEngine.SilenceTrackId) return;
 
         var inPlayer = _playerAIsActive ? _playerB : _playerA;
-        var stream = GD.Load<AudioStream>($"res://assets/audio/bgm/{trackId}.ogg");
+        var stream = AudioDirector.LoadAudioStream("bgm", trackId);
         if (stream == null)
         {
-            GD.PushWarning($"[BgmManager] BGM track not found: {trackId}");
+            GD.PushWarning($"[BgmManager] BGM track not found: {trackId} (tried .ogg/.mp3)");
             return;
         }
 
@@ -189,10 +189,10 @@ public partial class BgmManager : Node
         if (string.IsNullOrEmpty(trackId) || _loadedMotifTrackId == trackId)
             return;
 
-        var stream = GD.Load<AudioStream>($"res://assets/audio/bgm/{trackId}.ogg");
+        var stream = AudioDirector.LoadAudioStream("bgm", trackId);
         if (stream == null)
         {
-            GD.PushWarning($"[BgmManager] Motif track not found: {trackId}");
+            GD.PushWarning($"[BgmManager] Motif track not found: {trackId} (tried .ogg/.mp3)");
             _loadedMotifTrackId = null;
             if (_motifPlayer.Playing)
                 _motifPlayer.Stop();
