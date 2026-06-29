@@ -138,6 +138,9 @@ public abstract partial class SceneGameBase : Node2D
 		var insightBridge = new InsightDetectorBridge { Name = "InsightDetectorBridge" };
 		AddChild(insightBridge);
 
+		var monologuePresenter = new InsightMonologuePresenter { Name = "InsightMonologuePresenter" };
+		AddChild(monologuePresenter);
+
 		LoadVariant("day", repositionPlayer: true);
 		OnReady();
 

@@ -188,6 +188,7 @@ public sealed class DiscoveryDispatcher
         {
             DiscoveryType.Clue => ValidateClueReward(node),
             DiscoveryType.CodePhrase => ValidateCodePhraseReward(node),
+            DiscoveryType.EnvironmentDetail => DiscoveryDispatchResult.Success(node.Id),
             _ => DiscoveryDispatchResult.Failure(
                 node.Id,
                 DiscoveryDispatchStatus.UnsupportedDiscoveryType,
@@ -253,6 +254,7 @@ public sealed class DiscoveryDispatcher
         {
             DiscoveryType.Clue => DispatchClue(node),
             DiscoveryType.CodePhrase => DispatchCodePhrase(node),
+            DiscoveryType.EnvironmentDetail => DiscoveryDispatchResult.Success(node.Id),
             _ => DiscoveryDispatchResult.Failure(
                 node.Id,
                 DiscoveryDispatchStatus.UnsupportedDiscoveryType,

@@ -48,6 +48,27 @@ public sealed class InsightRewardDispatchTest
         Assert.Empty(narrative.QuestFlags);
     }
 
+    [Fact]
+    public void OnPlayerInvestigate_WhenEnvironmentDetailDetected_CommitsNarrativeOnlyDiscovery()
+    {
+        var registry = ActiveRegistry(CreateEnvironmentDetailNode("detail_node"));
+        Assert.True(registry.TrySetState("detail_node", DiscoveryState.Detected));
+        var narrative = new RecordingNarrativePort();
+        var codePhrases = new RecordingCodePhraseBookPort();
+        var bus = new RecordingEventBus();
+        var dispatcher = new DiscoveryDispatcher(registry, narrative, codePhrases, bus);
+
+        var result = dispatcher.OnPlayerInvestigate("detail_node");
+
+        Assert.True(result.Succeeded);
+        Assert.Equal(DiscoveryState.Investigated, registry.GetState("detail_node"));
+        Assert.Equal("exploration.inner_monologue.detail_node", Assert.Single(narrative.InnerMonologues));
+        Assert.Empty(narrative.QuestFlags);
+        Assert.Empty(codePhrases.LearnedPhrases);
+        Assert.Equal(DiscoveryType.EnvironmentDetail, Assert.Single(bus.Discovered).DiscoveryType);
+        Assert.Equal("detail_node", Assert.Single(bus.Hidden).NodeId);
+    }
+
     [Theory]
     [InlineData(DiscoveryState.Undiscovered)]
     [InlineData(DiscoveryState.Ignored)]
@@ -308,6 +329,20 @@ public sealed class InsightRewardDispatchTest
             DiscoveryType = DiscoveryType.CodePhrase,
             NarrativeContext = $"exploration.inner_monologue.{id}",
             Reward = new DiscoveryReward(PhraseId: phraseId)
+        };
+    }
+
+    private static InsightNode CreateEnvironmentDetailNode(string id)
+    {
+        return new InsightNode
+        {
+            Id = id,
+            SceneId = "scene_a",
+            Position = Vector2.Zero,
+            DetectionRadius = 2f,
+            InsightThreshold = 10,
+            DiscoveryType = DiscoveryType.EnvironmentDetail,
+            NarrativeContext = $"exploration.inner_monologue.{id}"
         };
     }
 

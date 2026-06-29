@@ -960,3 +960,26 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
 - Tech debt logged: None
 - Effort: estimate 6.4 h / actual 6.0 h (variance -6%)
 - Next recommended: S8-EI-Presentation-Interaction (ei-008) — 玩家追查交互 + InnerMonologue 显示 + reward UI 反馈
+
+## Session Extract — /dev-story 2026-06-29
+- Story: production/epics/exploration-insight/stories/ei-008-presentation-interaction.md — ei-008 EI Presentation 玩家追查交互 + InnerMonologue 显示 + reward UI 反馈
+- Files changed: feng-zhi/scripts/exploration/InsightDetectorBridge.cs, feng-zhi/scripts/exploration/InsightMonologuePresenter.cs, feng-zhi/scripts/SceneGameBase.cs, feng-zhi/scripts/dialogue/DialoguePanel.cs
+- Test written: None — Integration story, playtest record required at production/qa/evidence/ei-008-presentation-interaction-evidence.md
+- Blockers: None
+- Next: /code-review feng-zhi/scripts/exploration/InsightDetectorBridge.cs feng-zhi/scripts/exploration/InsightMonologuePresenter.cs feng-zhi/scripts/dialogue/DialoguePanel.cs then /story-done production/epics/exploration-insight/stories/ei-008-presentation-interaction.md
+
+## Session Extract — /story-done 2026-06-29
+- Verdict: COMPLETE WITH NOTES
+- Story: production/epics/exploration-insight/stories/ei-008-presentation-interaction.md — ei-008 EI Presentation 玩家追查交互 + InnerMonologue 显示 + reward UI 反馈
+- Code review: /code-review 通过（2 issues found → fixed: 孤儿 Area2D 泄漏 + PropertyInfo 缓存）
+- Test evidence: `production/qa/evidence/ei-008-presentation-interaction-evidence.md` — 7/7 AC pass
+- Effort: estimate 4.8h / actual 3.5h (variance -27%)
+- Next recommended: S8-EI-Scene-Content (ei-009) — chapter_00 cave 3-4 个 InsightNode 配置
+
+## Session Extract — /dev-story 2026-06-29
+- Story: S8-EI-Scene-Content — chapter_00 cave 3-4 个 InsightNode 配置 + narrative_context
+- Files changed: feng-zhi/scripts/BackMountainCliffCaveGame.cs, production/qa/evidence/s8-ei-scene-content-evidence.md, production/sprint-status.yaml
+- Content configured: cave_loose_brick (Clue), cave_old_letter_trace (CodePhrase), cave_wine_stain_pattern (EnvironmentDetail), cave_medicine_pot_residue (EnvironmentDetail placeholder for future Loot)
+- Test evidence: dotnet test FengZhi.slnx 1582/1582 passed; feng-zhi build 0 warning / 0 error; Godot headless import PASS
+- Blockers: None
+- Next recommended: run `/sprint-status` or start S8-Playtest-Session / S8-Build-Warnings-Zero depending on owner priority

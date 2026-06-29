@@ -14,7 +14,7 @@ goal: "Exploration-Insight Presentation 层集成 — 偿还 P1/P2 tech debt 后
 start: "2026-06-30"
 end: "2026-07-13"
 generated: "2026-06-29"
-updated: "2026-06-29"  # S8-EI-Presentation-Adapter done
+updated: "2026-06-29"  # S8-EI-Scene-Content done
 
 stories:
   - id: "S8-EI-Debt-Paydown"
@@ -47,25 +47,25 @@ stories:
     name: "EI Presentation: 玩家追查交互 + InnerMonologue 显示 + reward UI 反馈"
     file: "production/epics/exploration-insight/stories/ei-008-presentation-interaction.md"
     priority: must-have
-    status: backlog
-    owner: ""
+    status: done
+    owner: "dev"
     estimate_days: 1.5
     estimate_hours: 12.0
-    actual_hours: null
+    actual_hours: 3.5
     blocker: ""
-    completed: ""
+    completed: "2026-06-29"
     note: "Foundation DiscoveryDispatcher.OnPlayerInvestigate 已 done (ei-004)。本 story 做交互输入 → monologue 显示（复用 DialoguePanel）→ reward feedback。"
 
   - id: "S8-EI-Scene-Content"
     name: "EI 内容: chapter_00 cave 3-4 个 InsightNode 配置 + narrative_context"
-    file: "production/epics/exploration-insight/EPIC.md"
+    file: "production/epics/exploration-insight/stories/ei-009-scene-content.md"
     priority: must-have
     status: backlog
     owner: ""
     estimate_days: 1.0
     estimate_hours: 8.0
     actual_hours: null
-    blocker: "depends on S8-EI-Presentation-Interaction"
+    blocker: ""
     completed: ""
     note: "配置洞察节点让系统在实机可体验。内容: 松动砖墙 (Clue) / 旧信 (CodePhrase) / 酒痕 (EnvironmentDetail) / 药壶 (Loot placeholder)。"
 

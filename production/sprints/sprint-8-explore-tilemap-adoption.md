@@ -29,7 +29,7 @@
 
 ## Embedded ADR Guidance
 
-- ADR-0022 §4 TileMapLayer 配置 — 所有层 `tile_shape = Isometric`, `tile_layout = DiamondDown`, `tile_size = 64×32`（按真实资产值，非 ADR 中 128×64 暂定值）, `y_sort_enabled = true`
+- ADR-0022 §4 TileMapLayer 配置 — 所有层 `tile_shape = Isometric`, `tile_layout = DiamondDown`, `tile_size = 128×64`（完整菱形地块；运行时移动步长为半宽半高 64×32）, `y_sort_enabled = true`
 - ADR-0010 五层结构 — Ground / Terrain / Structures / Overlay / Collision，本 story 以 Ground + Terrain 为主先行
 - 战斗已使用 [cliff_cave_ground_tiles.tres](../../feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres) — 本 story 复用同份资源，零额外资产
 
@@ -42,7 +42,7 @@
 | **AC3** | [CavePlayer.cs](../../feng-zhi/scripts/CavePlayer.cs) 切换到 TileMapLayer 坐标系：玩家 position 改用 `IsoProjection.CartToScreen` 计算，逻辑坐标存储为 `Vector2I cellPos`；碰撞/可走判定改用 `TileMapLayer.GetCellTileData(cellPos).GetCustomData("tile_name")` 反向查 walkable | 实机：玩家行走与 .tmx 中的可走/不可走区域一致；走到 boundary tile 不可入 | 3.0h |
 | **AC4** | Props 节点（11 张道具 sprite，wine_jar / oil_lamp / rest_mat 等）保留为 Sprite2D 但 parent 加 `y_sort_enabled = true`，`y_sort_origin` 设为 sprite 脚下 | 实机：玩家走过 oil_lamp 时正确遮挡 / 被遮挡 | 1.5h |
 | **AC5** | 视觉证据：1 段 ≤ 30s 录屏（玩家走遍 cave 主要可达区域）+ 5 张关键截图（4 斜向走路 + 1 张全景对比 .tmx preview）落 `production/qa/evidence/s8-explore-tilemap-adoption/` | 录屏 + 截图齐备 | 0.5h |
-| **AC6** | 文档更新：sprint-7.md 的 S7-Iso-Pivot-Foundation note 中 AC8 N/A 注解链接到本 story；ADR-0022 §4 表加 "实际 tile_size = 64×32（按 cliff_cave_ground_tiles.png）" 注 | diff 干净 | 0.5h |
+| **AC6** | 文档更新：sprint-7.md 的 S7-Iso-Pivot-Foundation note 中 AC8 N/A 注解链接到本 story；确认本 story 与 ADR-0022 / control-manifest 的 `128×64` 完整菱形 tile 约束一致 | diff 干净 | 0.5h |
 | **AC7** | sprint-status.yaml 本 story 标 done；DoD 工时记录 | git status clean | 0.5h |
 
 **Total**: 13.0h（≈ 1.6d）

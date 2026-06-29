@@ -1,6 +1,6 @@
 # ei-008: EI Presentation — 玩家追查交互 + InnerMonologue 显示 + reward UI 反馈
 
-> **Status**: Ready
+> **Status**: Complete
 > **Last Updated**: 2026-06-29
 > **Type**: Integration
 > **Layer**: Presentation
@@ -92,3 +92,12 @@ Presentation 层已就绪：
 
 - 每个 cue 对应 1 个 Area2D 碰撞体，活跃 cue 预期 ≤3 个，不会超出 200 draw call budget
 - MonologuePresenter 仅事件驱动，不占用 _Process 帧预算
+
+## Completion Notes
+
+**Completed**: 2026-06-29
+**Criteria**: 7/7 passing
+**Deviations**: DialoguePanel.cs 增加 ShowMonologue/HideMonologue（功能必需，非 scope creep）
+**Test Evidence**: Integration — playtest record at `production/qa/evidence/ei-008-presentation-interaction-evidence.md`
+**Code Review**: Complete（2 issues found → fixed: 孤儿 Area2D 泄漏 + PropertyInfo 缓存）
+**Effort**: estimate 4.8h (校准) / actual 3.5h (variance -27%)

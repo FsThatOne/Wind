@@ -84,7 +84,7 @@
 
 | # | 系统 | 模块 | 职责 |
 |---|------|------|------|
-| 2 | 回合制战斗 | `Core/Combat/` | Burst+Read 判定、回合管理、8 动作类型 |
+| 2 | 行气战棋战斗 | `Core/Combat/` | 行气推进、行动队列、移动 + 出招、气血 / 内息 / 破绽结算 |
 | 3 | 武学组合 | `Core/MartialArts/` | 招式数据、刚/柔/巧克制、连招规则 |
 | 4 | 敌方 AI | `Core/EnemyAi/` | 意图系统、F8/F9 公式决策、多阶段 Boss |
 | 5 | 对话系统 | `Core/Dialogue/` | 节点图、条件分支、变量绑定 |
@@ -107,7 +107,7 @@
 
 | # | 系统 | 模块 | 职责 | 引擎风险 |
 |---|------|------|------|---------|
-| 7 | 战斗 UI | `Presentation/CombatUi/` | HUD、意图指示器、Burst 动画 | **HIGH** |
+| 7 | 战斗 UI | `Presentation/CombatUi/` | HUD、意图指示器、行气条、行动队列与决胜演出 | **HIGH** |
 | 14 | 朦胧化 UI | `Presentation/BlurredUi/` | 动态模糊、信息差、色调联动 | **HIGH** |
 | 20 | CG/演出 | `Presentation/Cutscene/` | 时间轴、相机、特效编排 | LOW |
 | 21 | 音乐/音效 | `Presentation/Audio/` | 动态音乐、环境音、情绪锚点 | LOW |
@@ -306,7 +306,7 @@ public interface ISaveable
 ### DF-1: 战斗回合循环
 
 ```
-玩家输入 (选招/Read)
+行气满角色输入 (移动 + 出招)
   → Core/Combat.SubmitAction()
   → Core/MartialArts.CheckCounter() + Foundation/CharacterData.CalculateDamage()
   → Core/Combat.ResolveTurn()
@@ -620,7 +620,7 @@ assets/data/
 - Foundation/CharacterData (属性模型 + F1-F3 公式)
 
 ### Sprint 2: 战斗核心
-- Core/Combat (Burst+Read 基础流程)
+- Core/Combat (行气推进 + 行动队列基础流程)
 - Core/MartialArts (招式数据 + 克制)
 - Foundation/TimeSystem (日历基础)
 

@@ -80,4 +80,21 @@ public partial class DialoguePanel : PanelContainer
 			}
 		}
 	}
+
+	/// <summary>以内心独白模式展示文本（洞察追查用）。</summary>
+	public void ShowMonologue(string text)
+	{
+		Visible = true;
+		_speakerLabel.Text = "（内心）";
+		_speakerLabel.Visible = true;
+		_textLabel.Text = text;
+		_continueHint.Visible = false;
+		_choicesBox.Visible = false;
+	}
+
+	/// <summary>关闭独白面板。</summary>
+	public void HideMonologue()
+	{
+		Visible = false;
+	}
 }

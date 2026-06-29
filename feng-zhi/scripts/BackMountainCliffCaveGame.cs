@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using FengZhi.Foundation.Exploration;
+using FengZhi.Scripts.Exploration;
 using Godot;
 
 namespace FengZhi;
@@ -50,6 +52,73 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 	protected override void OnReady()
 	{
 		UpdateInventoryLabel();
+		RegisterChapter00InsightNodes();
+	}
+
+	private void RegisterChapter00InsightNodes()
+	{
+		var bridge = GetNodeOrNull<InsightDetectorBridge>("InsightDetectorBridge");
+		if (bridge == null) return;
+
+		RegisterInsightNode(
+			bridge,
+			id: "cave_loose_brick",
+			tile: new Vector2I(25, 5),
+			threshold: 5,
+			type: DiscoveryType.Clue,
+			reward: new DiscoveryReward(FlagId: "insight_cave_loose_brick", FlagValue: "true"),
+			narrative: "储物架后的石缝比旁处新，像是有人常年用指尖抠开又小心推回。这里藏过东西。");
+
+		RegisterInsightNode(
+			bridge,
+			id: "cave_old_letter_trace",
+			tile: new Vector2I(24, 6),
+			threshold: 8,
+			type: DiscoveryType.CodePhrase,
+			reward: new DiscoveryReward(PhraseId: "cliff_cave_old_letter_mark"),
+			narrative: "一角旧纸屑黏在木架背面，只剩半个墨印。你认得那不是普通署名，像师姐教过你的暗记。");
+
+		RegisterInsightNode(
+			bridge,
+			id: "cave_wine_stain_pattern",
+			tile: new Vector2I(21, 9),
+			threshold: 5,
+			type: DiscoveryType.EnvironmentDetail,
+			reward: new DiscoveryReward(),
+			narrative: "酒坛边的旧渍绕开一小块干净石面。小时候你们在这里藏过寿酒，谁也没告诉师父。");
+
+		RegisterInsightNode(
+			bridge,
+			id: "cave_medicine_pot_residue",
+			tile: new Vector2I(17, 12),
+			threshold: 10,
+			type: DiscoveryType.EnvironmentDetail,
+			reward: new DiscoveryReward(),
+			narrative: "药壶旁还有一点苦涩药香，像是昨夜才熄。这里暂时没有可取之物，但有人来过。");
+
+		bridge.ActivateScene("back_mountain_cliff_cave");
+	}
+
+	private void RegisterInsightNode(
+		InsightDetectorBridge bridge,
+		string id,
+		Vector2I tile,
+		int threshold,
+		DiscoveryType type,
+		DiscoveryReward reward,
+		string narrative)
+	{
+		bridge.RegisterInsightNode(new InsightNode
+		{
+			Id = id,
+			SceneId = "back_mountain_cliff_cave",
+			Position = TileToScreen(tile.X, tile.Y),
+			DetectionRadius = 120f,
+			InsightThreshold = threshold,
+			DiscoveryType = type,
+			Reward = reward,
+			NarrativeContext = narrative,
+		});
 	}
 
 	protected override void OnLoadVariant(string variant)

@@ -128,8 +128,6 @@ public partial class AlchemyRoomGame : Node2D
 
 		BuildWalkableOverlay();
 
-		BuildWalls();
-
 		if (!string.IsNullOrEmpty(SceneBgmId) || !string.IsNullOrEmpty(TerrainAmbientId))
 		{
 			var audioDir = GetNodeOrNull<AudioDirector>("/root/AudioDirector");
@@ -390,22 +388,6 @@ public partial class AlchemyRoomGame : Node2D
 			Visible = ShowWalkableDebug,
 		};
 		AddChild(_walkableOverlay);
-	}
-
-	// ============================================================
-	// 墙面构建（最小验证 spike）
-	// ============================================================
-
-	private void BuildWalls()
-	{
-		var wallsPath = "res://assets/maps/alchemy_room/iso_room/walls.txt";
-		var wallBuilder = new IsoWallBuilder
-		{
-			Name = "IsoWallBuilder",
-			TileToScreen = TileToScreen,
-		};
-		AddChild(wallBuilder);
-		wallBuilder.BuildWalls(wallsPath);
 	}
 
 	// ============================================================
