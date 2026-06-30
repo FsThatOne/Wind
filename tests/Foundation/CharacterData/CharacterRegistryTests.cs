@@ -123,6 +123,32 @@ moves:
         Assert.Equal(4, enemy.Attributes.StaggerThreshold);
     }
 
+    [Fact]
+    public void GetSpeed_UsesAgilityPlusSpeedModifierWithLowerBound()
+    {
+        var player = _registry.CreatePlayer();
+
+        Assert.Equal(9, player.GetSpeed());
+
+        player.Modifiers.Add(new AttributeModifier
+        {
+            Source = "test:light_boots",
+            Layer = ModifierLayer.SemiPermanent,
+            Attribute = AttributeType.Speed,
+            Value = 3
+        });
+        Assert.Equal(12, player.GetSpeed());
+
+        player.Modifiers.Add(new AttributeModifier
+        {
+            Source = "test:heavy_wound",
+            Layer = ModifierLayer.Temporary,
+            Attribute = AttributeType.Speed,
+            Value = -30
+        });
+        Assert.Equal(1, player.GetSpeed());
+    }
+
     // ─── AC3: 创建角色时发布 CharacterCreatedEvent ──────────
 
     [Fact]

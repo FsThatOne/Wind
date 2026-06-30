@@ -82,9 +82,6 @@ public class CharacterAttributes
     /// <summary>F2: 防御力</summary>
     public int ComputedDefense => FormulaEngine.Defense(Constitution, Strength, 0);
 
-    /// <summary>F3: 速度</summary>
-    public int ComputedSpeed => FormulaEngine.Speed(Agility, Insight, 0);
-
     /// <summary>F7: 暴击率 (0.0~0.30)</summary>
     public float ComputedCritRate => FormulaEngine.CritRate(Agility, 0f);
 

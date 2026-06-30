@@ -64,24 +64,6 @@ public class FormulaEngineTests
         Assert.Equal(1, result);
     }
 
-    // ─── F3: 速度 ───────────────────────────────────────────
-
-    [Fact]
-    public void F3_GddExample_Agi12_Ins10_Mod0_Returns15()
-    {
-        // GDD: 敏捷=12, 洞察=10, mod=0 → 12 + 10×0.3 = 15
-        int result = FormulaEngine.Speed(12, 10, 0);
-        Assert.Equal(15, result);
-    }
-
-    [Fact]
-    public void F3_WithModifier()
-    {
-        int result = FormulaEngine.Speed(10, 10, 5);
-        // 10 + 10×0.3 + 5 = 18
-        Assert.Equal(18, result);
-    }
-
     // ─── F4: HP 上限 ────────────────────────────────────────
 
     [Fact]
@@ -248,13 +230,6 @@ public class FormulaEngineTests
     {
         var attrs = new CharacterAttributes { BaseAttack = 10, Strength = 20, ScalingFactor = 1.0f };
         Assert.Equal(30, attrs.GetAttackForType(MoveType.Gang));
-    }
-
-    [Fact]
-    public void CharacterAttributes_ComputedSpeed()
-    {
-        var attrs = new CharacterAttributes { Agility = 12, Insight = 10 };
-        Assert.Equal(15, attrs.ComputedSpeed);
     }
 
     [Fact]

@@ -2,7 +2,7 @@
 
 > **Status**: Designed
 > **Created**: 2026-06-02
-> **Last Updated**: 2026-06-22
+> **Last Updated**: 2026-06-30
 > **Source Concept**: design/gdd/game-concept.md
 
 ---
@@ -19,31 +19,31 @@
 
 | # | System Name | Category | Priority | Status | Design Doc | Depends On |
 |---|-------------|----------|----------|--------|------------|------------|
-| 1 | 角色属性 / 功力 | Core | MVP | Designed | [character-attributes.md](character-attributes.md) | — |
-| 2 | 行气战棋战斗 | Gameplay | MVP | Designed | [combat-system.md](combat-system.md) | 角色属性 |
-| 3 | 武学组合 | Gameplay | MVP | Designed | [martial-arts-system.md](martial-arts-system.md) | 角色属性 |
-| 4 | 敌方 AI | Gameplay | MVP | Designed | [enemy-ai.md](enemy-ai.md) | 行气战棋战斗, 角色属性, 武学组合(软) |
-| 5 | 对话系统 | Narrative | MVP | Designed | [dialogue-system.md](dialogue-system.md) | — |
-| 6 | 心境双轴 | Gameplay | MVP | Designed | [mindset-dual-axis.md](mindset-dual-axis.md) | NPC 状态管理, 对话系统 |
-| 7 | 战斗 UI | UI | MVP | Designed | [combat-ui.md](combat-ui.md) | 行气战棋战斗, 武学组合 |
-| 8 | 存档系统 | Persistence | MVP | Designed | [save-system.md](save-system.md) | — |
-| 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Designed | [main-narrative.md](main-narrative.md) | 对话系统, 地图/场景管理 |
-| 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Designed | [npc-state.md](npc-state.md) | — |
-| 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Designed | [natural-day-stamina.md](natural-day-stamina.md) | 角色属性, 地图/场景管理 |
-| 12 | 地图 / 场景管理 | Core | Vertical Slice | Designed | [map-scene-management.md](map-scene-management.md) | — |
-| 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Designed | [romance-system.md](romance-system.md) | 心境双轴, NPC 状态管理, 对话系统 |
-| 14 | 朦胧化 UI | UI | Vertical Slice | Designed | [blurred-ui.md](blurred-ui.md) | 心境双轴, 角色属性, 感情系统 |
-| 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Designed | [item-system.md](item-system.md) | 角色属性, 武学组合 |
-| 16 | 活江湖层 | Gameplay | Alpha | Designed | [living-jianghu-layer.md](living-jianghu-layer.md) | 自然日+体力, NPC 状态管理, 主线叙事 |
-| 17 | 顿悟突破 | Gameplay | Alpha | Designed | [epiphany-breakthrough.md](epiphany-breakthrough.md) | 行气战棋战斗, 角色属性, 主线叙事 |
-| 18 | 误会系统 | Narrative | Alpha | Designed | [misunderstanding-system.md](misunderstanding-system.md) | 感情系统, NPC 状态管理, 活江湖层 |
+| 1 | 角色属性 / 功力 | Core | MVP | Implemented | [character-attributes.md](character-attributes.md) | — |
+| 2 | 行气战棋战斗 | Gameplay | MVP | Implemented | [combat-system.md](combat-system.md) | 角色属性 |
+| 3 | 武学组合 | Gameplay | MVP | Implemented | [martial-arts-system.md](martial-arts-system.md) | 角色属性 |
+| 4 | 敌方 AI | Gameplay | MVP | Implemented | [enemy-ai.md](enemy-ai.md) | 行气战棋战斗, 角色属性, 武学组合(软) |
+| 5 | 对话系统 | Narrative | MVP | Implemented | [dialogue-system.md](dialogue-system.md) | — |
+| 6 | 心境双轴 | Gameplay | MVP | Implemented | [mindset-dual-axis.md](mindset-dual-axis.md) | NPC 状态管理, 对话系统 |
+| 7 | 战斗 UI | UI | MVP | Implemented | [combat-ui.md](combat-ui.md) | 行气战棋战斗, 武学组合 |
+| 8 | 存档系统 | Persistence | MVP | Implemented | [save-system.md](save-system.md) | — |
+| 9 | 主线叙事 / 章节推进 | Narrative | Vertical Slice | Implemented | [main-narrative.md](main-narrative.md) | 对话系统, 地图/场景管理 |
+| 10 | NPC 状态管理 (inferred) | Core | Vertical Slice | Implemented | [npc-state.md](npc-state.md) | — |
+| 11 | 自然日 + 体力 | Gameplay | Vertical Slice | Implemented | [natural-day-stamina.md](natural-day-stamina.md) | 角色属性, 地图/场景管理 |
+| 12 | 地图 / 场景管理 | Core | Vertical Slice | Implemented | [map-scene-management.md](map-scene-management.md) | — |
+| 13 | 感情系统（彗星模型） | Gameplay | Vertical Slice | Implemented | [romance-system.md](romance-system.md) | 心境双轴, NPC 状态管理, 对话系统 |
+| 14 | 朦胧化 UI | UI | Vertical Slice | Implemented | [blurred-ui.md](blurred-ui.md) | 心境双轴, 角色属性, 感情系统 |
+| 15 | 物品 / 道具 (inferred) | Economy | Vertical Slice | Implemented | [item-system.md](item-system.md) | 角色属性, 武学组合 |
+| 16 | 活江湖层 | Gameplay | Alpha | Implemented | [living-jianghu-layer.md](living-jianghu-layer.md) | 自然日+体力, NPC 状态管理, 主线叙事 |
+| 17 | 顿悟突破 | Gameplay | Alpha | Implemented | [epiphany-breakthrough.md](epiphany-breakthrough.md) | 行气战棋战斗, 角色属性, 主线叙事 |
+| 18 | 误会系统 | Narrative | Alpha | Implemented | [misunderstanding-system.md](misunderstanding-system.md) | 感情系统, NPC 状态管理, 活江湖层 |
 | 19 | 探索 / 洞察 (inferred) | Gameplay | Alpha | Implemented | [exploration-insight.md](exploration-insight.md) | 地图/场景管理, 主线叙事 |
 | 20 | CG / 演出 (inferred) | UI | Alpha | Designed | [cutscene-system.md](cutscene-system.md) | 主线叙事, 行气战棋战斗 |
 | 21 | 音乐 / 音效 (inferred) | Audio | Alpha | Implemented | [audio-system.md](audio-system.md) | 地图/场景管理, 行气战棋战斗 |
 | 22 | 教学 / 引导 (inferred) | Meta | Full Vision | Designed | [tutorial-onboarding.md](tutorial-onboarding.md) | 几乎全部 Core + Feature |
 | 23 | 设置 / 选项 (inferred) | Meta | Full Vision | Designed | [settings-options.md](settings-options.md) | — |
 | 24 | 成就 / Steam 集成 (inferred) | Meta | Full Vision | Designed | [achievement-steam.md](achievement-steam.md) | 心境双轴, 感情系统, 主线叙事 |
-| 25 | 队伍管理 / 同伴成长 | Gameplay | Vertical Slice | Designed | [party-management.md](party-management.md) | 角色属性, 行气战棋战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层 |
+| 25 | 队伍管理 / 同伴成长 | Gameplay | Vertical Slice | Implemented | [party-management.md](party-management.md) | 角色属性, 行气战棋战斗, 武学组合, 物品/道具, NPC 状态管理, 顿悟突破, 活江湖层 |
 
 ---
 
@@ -192,12 +192,12 @@ None found.
 |--------|-------|
 | Total systems identified | 25 |
 | Design docs written | 25 |
+| Systems implemented | 22/25 |
 | Cross-GDD reviews completed | 5 |
-| Design docs approved | 1 |
-| MVP systems designed | 8/8 |
-| Vertical Slice systems designed | 8/8 |
-| Alpha systems designed | 6/6 |
-| Full Vision systems designed | 3/3 |
+| MVP systems implemented | 8/8 |
+| Vertical Slice systems implemented | 8/8 |
+| Alpha systems implemented | 5/6 (CG/演出 remaining) |
+| Full Vision systems designed | 3/3 (未开始实现) |
 
 ---
 

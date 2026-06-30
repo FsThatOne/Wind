@@ -48,18 +48,18 @@ public sealed class CharacterInstance
         return FormulaEngine.Defense(Attributes.Constitution, Attributes.Strength, modSum);
     }
 
-    /// <summary>F3: 速度（含修改器）</summary>
-    public int GetSpeed()
-    {
-        int modSum = Modifiers.GetSum(AttributeType.Speed);
-        return FormulaEngine.Speed(Attributes.Agility, Attributes.Insight, modSum);
-    }
-
     /// <summary>F7: 暴击率（含修改器）</summary>
     public float GetCritRate()
     {
         float modSum = Modifiers.GetSum(AttributeType.CritRate) * 0.01f;
         return FormulaEngine.CritRate(Attributes.Agility, modSum);
+    }
+
+    /// <summary>速度展示值（敏捷 + 速度修正，下限 1）。</summary>
+    public int GetSpeed()
+    {
+        int modSum = Modifiers.GetSum(AttributeType.Speed);
+        return Math.Max(1, Attributes.Agility + modSum);
     }
 
     /// <summary>F4: HP 上限（含修改器）</summary>

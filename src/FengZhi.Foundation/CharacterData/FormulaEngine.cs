@@ -42,16 +42,6 @@ public static class FormulaEngine
         return (int)Math.Round(constitution * 0.6 + strength * 0.2 + modifierSum);
     }
 
-    // ─── F3. 速度 ───────────────────────────────────────────
-
-    /// <summary>
-    /// F3: speed = agility × 1.0 + insight × 0.3 + modifier_sum
-    /// </summary>
-    public static int Speed(int agility, int insight, int modifierSum)
-    {
-        return (int)Math.Round(agility * 1.0 + insight * 0.3 + modifierSum);
-    }
-
     // ─── F4. HP 上限 ────────────────────────────────────────
 
     /// <summary>
