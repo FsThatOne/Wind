@@ -1,7 +1,7 @@
 # pc-005: 灭门后回庄搜证路径
 
 > **Epic**: 序章内容生产
-> **Status**: In Progress
+> **Status**: Complete
 > **Last Updated**: 2026-06-30
 > **Type**: Config/Data
 > **Layer**: Content / Feature Integration
@@ -80,3 +80,12 @@
 
 - Depends on: pc-001, pc-004
 - Unlocks: pc-006
+
+## Completion Notes
+
+**Completed**: 2026-06-30  
+**Criteria**: 7/7 passing.  
+**Deviations**: None.  
+**Test Evidence**: `tests/unit/narrative/prologue_massacre_evidence_dialogue_test.cs`; `production/qa/evidence/pc-005-massacre-evidence-path-evidence.md`.  
+**Code Review**: Skipped in lean mode; content/config closure verified by automated tests.  
+**Effort**: estimate 6.00 h / actual approx. 0.75 h (batch implementation and closure; variance -88%).

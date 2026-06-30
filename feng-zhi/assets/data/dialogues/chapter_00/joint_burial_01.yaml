@@ -1,0 +1,40 @@
+id: joint_burial_01
+version: 1
+entry_node: burial_01
+nodes:
+  - id: burial_01
+    type: narration
+    text: "你和师兄把寿宴红绸取下来，撕成一条条布带，给每个人系好衣襟。没有人再催你快些。"
+    next: burial_02
+
+  - id: burial_02
+    type: speech
+    speaker: senior_brother
+    text: "师父说过，风止门人不争名位，也不能死得无名。我们一个一个记。"
+    next: burial_03
+
+  - id: burial_03
+    type: narration
+    text: "从练武场到正堂，你们一具一具抬过。师弟的手里还攥着半截红绳，厨房弟子的袖口沾着米粉。"
+    next: burial_04
+
+  - id: burial_04
+    type: speech
+    speaker: player
+    text: "如果我早点回来……"
+    next: burial_05
+
+  - id: burial_05
+    type: speech
+    speaker: senior_brother
+    text: "这句话以后会日日来找你。别让它替你做决定。"
+    next: burial_06
+
+  - id: burial_06
+    type: narration
+    text: "天色再暗下去时，后山多了一排新坟。你们没有再说血书，也没有猜凶名，只把每一捧土压实。"
+    events:
+      - type: quest_flag
+        key: prologue_joint_burial_completed
+        value: "true"
+    next: END

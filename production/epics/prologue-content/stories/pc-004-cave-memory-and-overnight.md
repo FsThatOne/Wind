@@ -1,7 +1,7 @@
 # pc-004: 崖洞回忆互动与夜宿
 
 > **Epic**: 序章内容生产
-> **Status**: In Progress
+> **Status**: Complete
 > **Last Updated**: 2026-06-30
 > **Type**: Config/Data
 > **Layer**: Content / Feature Integration
@@ -10,7 +10,7 @@
 > **GDD 来源**: `design/gdd/exploration-insight.md`; `design/gdd/main-narrative.md` 灭门事件
 > **TR-IDs**: TR-exploration-insight-005, TR-dialogue-system-008
 > **ADR**: ADR-0018: Exploration / Insight; ADR-0005: Dialogue Data Format
-> **Manifest Version**: 2026-06-10
+> **Manifest Version**: 2026-06-30
 > **Depends On**: pc-001, pc-003, ei-009
 
 ## Context
@@ -78,3 +78,12 @@
 
 - Depends on: pc-001, pc-003, ei-009
 - Unlocks: pc-005
+
+## Completion Notes
+
+**Completed**: 2026-06-30  
+**Criteria**: 6/6 passing.  
+**Deviations**: None.  
+**Test Evidence**: `tests/unit/narrative/prologue_cave_memory_content_test.cs`; `production/qa/evidence/pc-004-cave-memory-and-overnight-evidence.md`.  
+**Code Review**: Skipped in lean mode; content/config closure verified by automated tests.  
+**Effort**: estimate 4.00 h / actual approx. 0.75 h (batch implementation and closure; variance -81%).

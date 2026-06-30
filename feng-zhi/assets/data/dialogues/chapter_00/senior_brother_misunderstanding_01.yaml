@@ -1,0 +1,55 @@
+id: senior_brother_misunderstanding_01
+version: 1
+entry_node: tension_01
+nodes:
+  - id: tension_01
+    type: speech
+    speaker: senior_brother
+    text: "我下山采买，不过一夜。满庄的人都倒在这里，偏偏你抱着酒和血书站着。你叫我怎么信？"
+    next: clarify_choice
+
+  - id: clarify_choice
+    type: choice
+    prompt: "师兄的声音在发抖。"
+    options:
+      - text: "把取酒、夜宿崖洞和回庄搜证一件件说清楚。"
+        next: clarify_01
+
+  - id: clarify_01
+    type: speech
+    speaker: player
+    text: "昨日师姐催我去后山取三年陈。我拖到天黑才走，雨大路滑，只能在崖洞里夜宿。"
+    next: clarify_02
+
+  - id: clarify_02
+    type: speech
+    speaker: player
+    text: "天亮回来时，山门开着。我在正堂找到师父，也找到半封血书。上面只剩八个字：风起渊底，鹤归无枝。"
+    next: clarify_03
+
+  - id: clarify_03
+    type: speech
+    speaker: player
+    text: "我找了厨房、药房、练武场、正堂。师姐不在尸首里。我不知道她在哪里。"
+    next: senior_soften_01
+
+  - id: senior_soften_01
+    type: narration
+    text: "师兄攥紧车把，指节发白。风吹过红绸，像昨日没来得及挂完的喜事。"
+    next: senior_soften_02
+
+  - id: senior_soften_02
+    type: speech
+    speaker: senior_brother
+    text: "我不该这样逼你。可我推开山门时，只看见你一个人活着。"
+    next: resolved_01
+
+  - id: resolved_01
+    type: speech
+    speaker: senior_brother
+    text: "先不问了。活着的人，先把他们送好。"
+    events:
+      - type: quest_flag
+        key: senior_brother_mis_resolved
+        value: "true"
+    next: END

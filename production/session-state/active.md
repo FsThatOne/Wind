@@ -984,3 +984,14 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
 - Test evidence: dotnet build 0 error; Config/Data type — smoke check sufficient
 - Blockers: None
 - Next recommended: /story-done ei-009 → then S8-Playtest-Session / S8-Build-Warnings-Zero
+
+## Session Extract — /story-done 2026-06-30
+- Verdict: COMPLETE WITH NOTES
+- Stories: production/epics/prologue-content/stories/pc-001-chapter-00-mainline-graph.md through pc-006-senior-brother-misunderstanding-and-farewell.md
+- Scope closed: chapter_00 mainline graph, sister gathering, manor errands, cave memory/overnight, massacre evidence path, senior brother misunderstanding/burial/inheritance/letter promise
+- Tech debt logged: None
+- Code review: Skipped in lean mode; content/config closure verified by automated tests and evidence docs
+- Test evidence: prologue content filtered suite 31/31 passed; Foundation suite 1684/1684 passed
+- Notes: pc-006 remains "Complete with Dependency Notes" for later Misunderstanding FSM/UI, real combat tutorial config, and long-term letter content integration
+- Effort: estimate 30.00 h / actual approx. 4.75 h across batch implementation and closure
+- Next recommended: run a prologue vertical content pass / smoke check, then decide whether to start real combat tutorial integration or misunderstanding-system hookup

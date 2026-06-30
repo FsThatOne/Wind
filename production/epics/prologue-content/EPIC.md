@@ -41,12 +41,12 @@
 
 | ID | Title | Type | Status | Depends On |
 |----|-------|------|--------|------------|
-| pc-001 | chapter_00 主线节点骨架与状态 key | Config/Data | Ready | main-narrative complete |
-| pc-002 | 师姐采药/采矿教学内容 | Config/Data | Ready | pc-001 |
-| pc-003 | 山庄寿宴跑腿与拖延取酒 | Config/Data | Ready | pc-001 |
-| pc-004 | 崖洞回忆互动与夜宿 | Config/Data | Ready | pc-001, ei-009 |
-| pc-005 | 灭门后回庄搜证路径 | Config/Data | Ready | pc-001, pc-004 |
-| pc-006 | 师兄误会、共同埋葬与临别传承 | Integration | Ready with Dependency Notes | pc-005; misunderstanding-system stories pending |
+| pc-001 | chapter_00 主线节点骨架与状态 key | Config/Data | Complete | main-narrative complete |
+| pc-002 | 师姐采药/采矿教学内容 | Config/Data | Complete | pc-001 |
+| pc-003 | 山庄寿宴跑腿与拖延取酒 | Config/Data | Complete | pc-001 |
+| pc-004 | 崖洞回忆互动与夜宿 | Config/Data | Complete | pc-001, ei-009 |
+| pc-005 | 灭门后回庄搜证路径 | Config/Data | Complete | pc-001, pc-004 |
+| pc-006 | 师兄误会、共同埋葬与临别传承 | Integration | Complete with Dependency Notes | pc-005; misunderstanding-system stories pending |
 
 ## Definition of Done
 

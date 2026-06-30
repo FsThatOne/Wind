@@ -1,0 +1,33 @@
+id: letter_promise_01
+version: 1
+entry_node: promise_01
+nodes:
+  - id: promise_01
+    type: speech
+    speaker: senior_brother
+    text: "血书里的八字不能逢人就说。我们分头查，你从无枝鹤查起，我去找师父旧友。"
+    next: promise_02
+
+  - id: promise_02
+    type: speech
+    speaker: player
+    text: "那我怎么找你？"
+    next: promise_03
+
+  - id: promise_03
+    type: speech
+    speaker: senior_brother
+    text: "沿途驿站、镖局、药铺，都能托信。你写“山风未止”，我就知道是你。"
+    next: promise_04
+
+  - id: promise_04
+    type: narration
+    text: "他把一沓空白信笺塞进你的行囊。没有弹窗，没有仪式，只像师门还剩下一条细线，系在你们之间。"
+    events:
+      - type: unlock_letter_contact
+        key: senior_brother_letter_contact_unlocked
+        value: "true"
+      - type: tutorial_step_unlocked
+        key: tut_letter
+        value: "pending"
+    next: END

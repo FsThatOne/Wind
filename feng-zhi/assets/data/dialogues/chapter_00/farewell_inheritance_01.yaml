@@ -1,0 +1,35 @@
+id: farewell_inheritance_01
+version: 1
+entry_node: inherit_01
+nodes:
+  - id: inherit_01
+    type: narration
+    text: "埋完最后一抔土，师兄从兵器架旁取来两把木尺。夜风很冷，他却把其中一把递到你手里。"
+    next: inherit_02
+
+  - id: inherit_02
+    type: speech
+    speaker: senior_brother
+    text: "从前师父和白檀护着你，许多东西没急着教。现在不行了。你要下山，就要会自保。"
+    next: inherit_03
+
+  - id: inherit_03
+    type: speech
+    speaker: senior_brother
+    text: "风止尺法不是拿来逞狠的。先学行气与取位，再学看对方气机，最后才知道什么时候该一击止争。"
+    next: inherit_04
+
+  - id: inherit_04
+    type: narration
+    text: "他放慢动作，把每一步都拆开给你看。木尺相交时，没有胜负，只有活下去的办法。"
+    events:
+      - type: tutorial_step_unlocked
+        key: tut_combat_basic
+        value: "pending"
+      - type: tutorial_step_unlocked
+        key: tut_combat_qi_counter
+        value: "pending"
+      - type: tutorial_step_unlocked
+        key: tut_combat_decisive
+        value: "pending"
+    next: END

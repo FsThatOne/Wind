@@ -1,0 +1,29 @@
+[
+  {
+    "trigger_id": "ch0_rumor_survivor",
+    "target_npc": "bai_ling",
+    "source_type": "JianghuEvent",
+    "severity": "Moderate",
+    "match_event_id": "evt_juejiangdu_survivor_rumor",
+    "window_override": 5,
+    "description": "绝江渡传闻「停云见死不救」— 白苓注册了对此敏感的 trigger"
+  },
+  {
+    "trigger_id": "ch0_dialogue_leak_location",
+    "target_npc": "bai_ling",
+    "source_type": "DialogueChoice",
+    "severity": "Minor",
+    "match_event_id": null,
+    "window_override": null,
+    "description": "向明德堂弟子说出白苓行踪 → 对话 mis_trigger"
+  },
+  {
+    "trigger_id": "ch0_absence_waiting",
+    "target_npc": "bai_ling",
+    "source_type": "Absence",
+    "severity": "Minor",
+    "match_event_id": null,
+    "window_override": 7,
+    "description": "白苓等你三天未至 → 缺席误解"
+  }
+]

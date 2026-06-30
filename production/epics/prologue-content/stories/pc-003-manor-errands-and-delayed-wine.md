@@ -1,7 +1,7 @@
 # pc-003: 山庄寿宴跑腿与拖延取酒
 
 > **Epic**: 序章内容生产
-> **Status**: In Progress
+> **Status**: Complete
 > **Last Updated**: 2026-06-30
 > **Type**: Config/Data
 > **Layer**: Content / Core Integration
@@ -10,7 +10,7 @@
 > **GDD 来源**: `design/gdd/main-narrative.md` 序章：风止
 > **TR-IDs**: TR-main-narrative-002, TR-main-narrative-003, TR-dialogue-system-004
 > **ADR**: ADR-0005: Dialogue Data Format; ADR-0001: Event Bus Architecture
-> **Manifest Version**: 2026-06-10
+> **Manifest Version**: 2026-06-30
 > **Depends On**: pc-001, pc-002
 
 ## Context
@@ -79,3 +79,12 @@
 
 - Depends on: pc-001, pc-002
 - Unlocks: pc-004
+
+## Completion Notes
+
+**Completed**: 2026-06-30  
+**Criteria**: 6/6 passing.  
+**Deviations**: None.  
+**Test Evidence**: `tests/unit/narrative/prologue_manor_errands_dialogue_test.cs`; `production/qa/evidence/pc-003-manor-errands-and-delayed-wine-evidence.md`.  
+**Code Review**: Skipped in lean mode; content/config closure verified by automated tests.  
+**Effort**: estimate 4.00 h / actual approx. 0.75 h (batch implementation and closure; variance -81%).

@@ -1,7 +1,7 @@
 # pc-002: 师姐采药/采矿教学内容
 
 > **Epic**: 序章内容生产
-> **Status**: In Progress
+> **Status**: Complete
 > **Last Updated**: 2026-06-30
 > **Type**: Config/Data
 > **Layer**: Content / Presentation Integration
@@ -10,7 +10,7 @@
 > **GDD 来源**: `design/gdd/tutorial-onboarding.md` 序章·师门日常；`design/gdd/main-narrative.md` 序章：风止
 > **TR-IDs**: TR-dialogue-system-004, TR-dialogue-system-008, TR-dialogue-system-009
 > **ADR**: ADR-0005: Dialogue Data Format; ADR-0003: Data Configuration Format
-> **Manifest Version**: 2026-06-10
+> **Manifest Version**: 2026-06-30
 > **Depends On**: pc-001
 
 ## Context
@@ -80,3 +80,12 @@
 
 - Depends on: pc-001
 - Unlocks: pc-003
+
+## Completion Notes
+
+**Completed**: 2026-06-30  
+**Criteria**: 6/6 passing.  
+**Deviations**: None.  
+**Test Evidence**: `tests/unit/narrative/prologue_sister_gathering_dialogue_test.cs`; `production/qa/evidence/pc-002-sister-gathering-tutorial-content-evidence.md`.  
+**Code Review**: Skipped in lean mode; content/config closure verified by automated tests.  
+**Effort**: estimate 4.00 h / actual approx. 0.75 h (batch implementation and closure; variance -81%).

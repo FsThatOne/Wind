@@ -1,7 +1,7 @@
 # pc-001: chapter_00 主线节点骨架与状态 key
 
 > **Epic**: 序章内容生产
-> **Status**: In Progress
+> **Status**: Complete
 > **Last Updated**: 2026-06-30
 > **Type**: Config/Data
 > **Layer**: Content / Core Integration
@@ -10,7 +10,7 @@
 > **GDD 来源**: `design/gdd/main-narrative.md` 序章：风止；序章尾段：师兄误会与分别
 > **TR-IDs**: TR-main-narrative-001, TR-main-narrative-002, TR-main-narrative-003
 > **ADR**: ADR-0005: Dialogue Data Format; ADR-0001: Event Bus Architecture; ADR-0003: Data Configuration Format
-> **Manifest Version**: 2026-06-10
+> **Manifest Version**: 2026-06-30
 
 ## Context
 
@@ -71,3 +71,12 @@
 
 - Depends on: approved prologue design spec
 - Unlocks: pc-002, pc-003, pc-004, pc-005, pc-006
+
+## Completion Notes
+
+**Completed**: 2026-06-30  
+**Criteria**: 5/5 passing.  
+**Deviations**: None.  
+**Test Evidence**: `tests/unit/narrative/chapter_00_mainline_graph_test.cs`; `production/qa/evidence/pc-001-chapter-00-mainline-graph-evidence.md`.  
+**Code Review**: Skipped in lean mode; content/config closure verified by automated tests.  
+**Effort**: estimate 4.00 h / actual approx. 0.75 h (batch implementation and closure; variance -81%).

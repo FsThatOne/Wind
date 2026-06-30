@@ -1,7 +1,8 @@
 # pc-006: 师兄误会、共同埋葬与临别传承
 
 > **Epic**: 序章内容生产
-> **Status**: Ready with Dependency Notes
+> **Status**: Complete
+> **Last Updated**: 2026-06-30
 > **Type**: Integration
 > **Layer**: Content / Feature Integration
 > **Estimate**: 1 day
@@ -9,7 +10,7 @@
 > **GDD 来源**: `design/gdd/main-narrative.md` 序章尾段；`design/gdd/misunderstanding-system.md`; `design/gdd/tutorial-onboarding.md`
 > **TR-IDs**: TR-main-narrative-002, TR-dialogue-system-004, TR-dialogue-system-007, TR-combat-system-001
 > **ADR**: ADR-0005: Dialogue Data Format; ADR-0001: Event Bus Architecture; ADR-0012: Misunderstanding UI
-> **Manifest Version**: 2026-06-10
+> **Manifest Version**: 2026-06-30
 > **Depends On**: pc-001, pc-005; misunderstanding-system stories pending
 
 ## Context
@@ -85,3 +86,12 @@
 - Depends on: pc-001, pc-005
 - Soft blocked by: misunderstanding-system implementation for full FSM/UI semantics
 - Unlocks: chapter_00 vertical content pass, first combat tutorial content pass
+
+## Completion Notes
+
+**Completed**: 2026-06-30  
+**Criteria**: 8/8 passing, with dependency notes for later system integration.  
+**Deviations**: None within story scope; Misunderstanding FSM/UI, real combat tutorial config, and long-term letter content remain explicit follow-up integration points.  
+**Test Evidence**: `tests/unit/narrative/prologue_senior_brother_farewell_content_test.cs`; `production/qa/evidence/pc-006-senior-brother-misunderstanding-and-farewell-evidence.md`.  
+**Code Review**: Skipped in lean mode; integration content closure verified by automated tests and evidence notes.  
+**Effort**: estimate 8.00 h / actual approx. 1.00 h (batch implementation and closure; variance -88%).

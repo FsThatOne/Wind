@@ -111,15 +111,15 @@ stories:
 
   - id: "S9-008"
     name: "Sprint 9 retrospective"
-    file: "production/retrospectives/"
+    file: "production/retrospectives/retro-sprint-9-2026-06-30.md"
     priority: should-have
-    status: ready-for-dev
+    status: done
     owner: "dev"
     estimate_hours: 0.5
-    actual_hours: null
+    actual_hours: 0.25
     blocker: ""
-    completed: ""
-    note: "含 Playtest prove-or-pivot 终判 + 估时校准系数更新。"
+    completed: "2026-06-30"
+    note: "Velocity 1.6h actual / 5.5h est = -71%。校准建议: Doc/QA 0.25h fixed。"
 
   # ----------- Nice to Have -----------
 
@@ -139,10 +139,117 @@ stories:
     name: "序章 pc-001 主线节点骨架（Sprint 10 准备）"
     file: "production/epics/prologue-content/stories/"
     priority: nice-to-have
-    status: ready-for-dev
+    status: done
     owner: "dev"
     estimate_hours: 2.0
-    actual_hours: null
+    actual_hours: 4.75
     blocker: ""
-    completed: ""
-    note: "为下阶段内容生产做前置。Config/Data 类型。"
+    completed: "2026-06-30"
+    note: "扩展完成 pc-001..pc-006 序章内容骨架与证据链；31 条序章内容测试通过，Foundation 1684/1684 通过。"
+
+# ===================== Sprint 10 =====================
+
+sprint_10:
+  goal: "Misunderstanding Foundation 全量实现 + 序章集成"
+  start: "2026-07-01"
+  end: "2026-07-07"
+  calibration: "Code 0.3x / Doc+QA 0.25h fixed"
+
+  stories:
+    # ----------- Must Have -----------
+
+    - id: "S10-MS-001"
+      name: "Misunderstanding Data Model & State Machine"
+      file: "production/epics/misunderstanding-system/stories/ms-001-data-model-state-machine.md"
+      priority: must-have
+      status: done
+      owner: "dev"
+      estimate_hours: 3.6
+      actual_hours: 0.5
+      blocker: ""
+      completed: "2026-06-30"
+      note: "30 tests pass。Foundation 核心完成。"
+
+    - id: "S10-MS-002"
+      name: "Mod Calculation & Max Active Limit"
+      file: "production/epics/misunderstanding-system/stories/ms-002-mod-calculation.md"
+      priority: must-have
+      status: done
+      owner: "dev"
+      estimate_hours: 1.5
+      actual_hours: 0.25
+      blocker: ""
+      completed: "2026-06-30"
+      note: "12 tests pass。INpcStateWriter + ModCalculator + Config。"
+
+    - id: "S10-MS-003"
+      name: "Window Countdown & Permanence"
+      file: "production/epics/misunderstanding-system/stories/ms-003-window-countdown.md"
+      priority: must-have
+      status: done
+      owner: "dev"
+      estimate_hours: 2.0
+      actual_hours: 0.25
+      blocker: ""
+      completed: "2026-06-30"
+      note: "13 tests pass。WindowManager + IForceBreakHandler + CatchUpDays。"
+
+    - id: "S10-MS-004"
+      name: "Transparency Progression"
+      file: "production/epics/misunderstanding-system/stories/ms-004-transparency-progression.md"
+      priority: must-have
+      status: done
+      owner: "dev"
+      estimate_hours: 1.5
+      actual_hours: 0.25
+      blocker: ""
+      completed: "2026-06-30"
+      note: "10 tests pass。TransparencyProgressionManager + ITransparencySignalEmitter。"
+
+    - id: "S10-MS-005"
+      name: "Resolution & Bounce-back"
+      file: "production/epics/misunderstanding-system/stories/ms-005-resolution-bounceback.md"
+      priority: must-have
+      status: done
+      owner: "dev"
+      estimate_hours: 1.5
+      actual_hours: 0.25
+      blocker: ""
+      completed: "2026-06-30"
+      note: "7 tests pass。MisunderstandingResolver + IConditionEvaluator + ResolutionBonusTracker。"
+
+    - id: "S10-MS-006"
+      name: "Trigger Integration: Jianghu & Dialogue"
+      file: "production/epics/misunderstanding-system/stories/ms-006-trigger-integration.md"
+      priority: should-have
+      status: done
+      owner: "dev"
+      estimate_hours: 2.0
+      actual_hours: 0.3
+      blocker: ""
+      completed: "2026-06-30"
+      note: "7 tests pass。TriggerService + AbsenceDetector + TriggerConfig + IScenePresenceQuery。接口抽象解除 Blocked。"
+
+    - id: "S10-MS-007"
+      name: "Romance Floor Protection & Force Break"
+      file: "production/epics/misunderstanding-system/stories/ms-007-romance-floor-forcebreak.md"
+      priority: should-have
+      status: done
+      owner: "dev"
+      estimate_hours: 1.5
+      actual_hours: 0.2
+      blocker: ""
+      completed: "2026-06-30"
+      note: "8 tests pass。FloorProtectionService + ForceBreakIntegration + IRomanceService + IDialogueEffectWriter。"
+
+    - id: "S10-MS-008"
+      name: "Transparency Signal UI (Router Logic)"
+      file: "production/epics/misunderstanding-system/stories/ms-008-transparency-signal-ui.md"
+      priority: nice-to-have
+      status: done
+      owner: "dev"
+      estimate_hours: 2.5
+      actual_hours: 0.15
+      blocker: ""
+      completed: "2026-06-30"
+      note: "4 tests pass。TransparencySignalRouter + 3 channel interfaces。Presentation 层 Godot 实现待 ADR-0012 spike。"

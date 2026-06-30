@@ -1,0 +1,32 @@
+id: senior_brother_return_01
+version: 1
+entry_node: return_01
+nodes:
+  - id: return_01
+    type: narration
+    text: "山门外传来车轴压过碎石的声音。师兄推着采买车停在门前，车上还挂着寿宴用的红绸和两袋新米。"
+    next: return_02
+
+  - id: return_02
+    type: speech
+    speaker: senior_brother
+    text: "停云？你站在这里做什么……其他人呢？"
+    next: return_03
+
+  - id: return_03
+    type: narration
+    text: "他的目光落到你怀里的血书和未开的酒坛上，脸色一点点白下去。"
+    next: return_04
+
+  - id: return_04
+    type: speech
+    speaker: senior_brother
+    text: "为什么只有你活着？你手里拿的又是什么？"
+    events:
+      - type: register_misunderstanding
+        key: mis_senior_brother_survivor_suspicion
+        value: "active"
+      - type: quest_flag
+        key: prologue_senior_brother_returned
+        value: "true"
+    next: END

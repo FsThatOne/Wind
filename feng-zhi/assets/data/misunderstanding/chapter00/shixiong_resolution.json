@@ -1,0 +1,27 @@
+[
+  {
+    "instance_pattern": "ch0_rumor_survivor",
+    "resolution_conditions": [
+      "cond_explain_juejiangdu_truth",
+      "cond_show_wound_evidence"
+    ],
+    "unlock_flag": null,
+    "description": "向白苓解释绝江渡真相 + 展示伤口证据"
+  },
+  {
+    "instance_pattern": "ch0_dialogue_leak_location",
+    "resolution_conditions": [
+      "cond_apologize_to_bailing"
+    ],
+    "unlock_flag": null,
+    "description": "向白苓道歉"
+  },
+  {
+    "instance_pattern": "ch0_absence_waiting",
+    "resolution_conditions": [
+      "cond_visit_bailing_scene"
+    ],
+    "unlock_flag": null,
+    "description": "前往白苓所在场景探望"
+  }
+]
