@@ -49,6 +49,10 @@ public abstract partial class SceneGameBase : Node2D
 	private Label _hintLabel = null!;
 	private Panel _messagePanel = null!;
 	private Label _messageLabel = null!;
+        private Panel _objectivePanel = null!;
+        private Label _objectiveChapterLabel = null!;
+        private Label _objectiveTextLabel = null!;
+        private Label _objectiveReasonLabel = null!;
 	private Area2D? _focusedArea;
 	protected Dialogue.DialogueManager? DialogueManager;
 	private Dialogue.DialoguePanel? _dialoguePanel;
@@ -91,6 +95,7 @@ public abstract partial class SceneGameBase : Node2D
 		_hintLabel = GetNode<Label>("UiLayer/HintLabel");
 		_messagePanel = GetNode<Panel>("UiLayer/MessagePanel");
 		_messageLabel = GetNode<Label>("UiLayer/MessagePanel/MessageLabel");
+                CreateObjectiveHud(GetNode<CanvasLayer>("UiLayer"));
 		GD.Print($"[{SceneName}] _Ready: all nodes bound.");
 
 		ConfigureTileLayerAnchor();
@@ -162,6 +167,57 @@ public abstract partial class SceneGameBase : Node2D
 
 	protected virtual void OnReady() { }
 
+        private void CreateObjectiveHud(CanvasLayer uiLayer)
+        {
+                _objectivePanel = new Panel
+                {
+                        Name = "ObjectivePanel",
+                        Visible = false,
+                        MouseFilter = Control.MouseFilterEnum.Ignore,
+                };
+                uiLayer.AddChild(_objectivePanel);
+
+                var box = new VBoxContainer
+                {
+                        Name = "ObjectiveContent",
+                        MouseFilter = Control.MouseFilterEnum.Ignore,
+                };
+                _objectivePanel.AddChild(box);
+
+                _objectiveChapterLabel = new Label
+                {
+                        Name = "ChapterLabel",
+                        Text = "",
+                        MouseFilter = Control.MouseFilterEnum.Ignore,
+                };
+                _objectiveTextLabel = new Label
+                {
+                        Name = "ObjectiveLabel",
+                        Text = "",
+                        AutowrapMode = TextServer.AutowrapMode.WordSmart,
+                        MouseFilter = Control.MouseFilterEnum.Ignore,
+                };
+                _objectiveReasonLabel = new Label
+                {
+                        Name = "ReasonLabel",
+                        Text = "",
+                        AutowrapMode = TextServer.AutowrapMode.WordSmart,
+                        MouseFilter = Control.MouseFilterEnum.Ignore,
+                };
+
+                box.AddChild(_objectiveChapterLabel);
+                box.AddChild(_objectiveTextLabel);
+                box.AddChild(_objectiveReasonLabel);
+
+                _objectiveChapterLabel.AddThemeFontSizeOverride("font_size", 13);
+                _objectiveTextLabel.AddThemeFontSizeOverride("font_size", 18);
+                _objectiveReasonLabel.AddThemeFontSizeOverride("font_size", 13);
+
+                _objectiveChapterLabel.AddThemeColorOverride("font_color", new Color(0.78f, 0.84f, 0.84f, 0.86f));
+                _objectiveTextLabel.AddThemeColorOverride("font_color", new Color(0.96f, 0.94f, 0.86f, 1f));
+                _objectiveReasonLabel.AddThemeColorOverride("font_color", new Color(0.78f, 0.84f, 0.84f, 0.82f));
+        }
+
 	private void ConfigureResponsiveHud()
 	{
 		ConfigureTopLeftLabel(StatusLabel, top: 16f, height: 36f);
@@ -208,6 +264,30 @@ public abstract partial class SceneGameBase : Node2D
 		_messageLabel.OffsetTop = 18f;
 		_messageLabel.OffsetBottom = -18f;
 		_messageLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+
+                ConfigureObjectiveHudLayout();
+        }
+
+        private void ConfigureObjectiveHudLayout()
+        {
+                _objectivePanel.AnchorLeft = 1.0f;
+                _objectivePanel.AnchorRight = 1.0f;
+                _objectivePanel.AnchorTop = 0.0f;
+                _objectivePanel.AnchorBottom = 0.0f;
+                _objectivePanel.OffsetLeft = -420f;
+                _objectivePanel.OffsetRight = -24f;
+                _objectivePanel.OffsetTop = 22f;
+                _objectivePanel.OffsetBottom = 136f;
+
+                var box = _objectivePanel.GetNode<VBoxContainer>("ObjectiveContent");
+                box.AnchorLeft = 0.0f;
+                box.AnchorRight = 1.0f;
+                box.AnchorTop = 0.0f;
+                box.AnchorBottom = 1.0f;
+                box.OffsetLeft = 16f;
+                box.OffsetRight = -16f;
+                box.OffsetTop = 12f;
+                box.OffsetBottom = -12f;
 	}
 
 	private static void ConfigureTopLeftLabel(Label label, float top, float height)
@@ -224,9 +304,53 @@ public abstract partial class SceneGameBase : Node2D
 
 	public override void _Process(double delta)
 	{
+                RefreshObjectiveHudVisibility();
 		UpdatePlayerTileMarker();
 		CheckAutoExit();
 	}
+
+        protected void SetCurrentObjective(
+                string chapter,
+                string objective,
+                string reason = "",
+                bool flash = false)
+        {
+                _objectiveChapterLabel.Text = chapter;
+                _objectiveTextLabel.Text = $"当前目标：{objective}";
+                _objectiveReasonLabel.Text = string.IsNullOrWhiteSpace(reason) ? "" : $"原因：{reason}";
+                _objectiveReasonLabel.Visible = !string.IsNullOrWhiteSpace(reason);
+                _objectivePanel.Visible = true;
+
+                if (flash)
+                        FlashObjectiveHud();
+        }
+
+        protected void ClearCurrentObjective()
+        {
+                _objectivePanel.Visible = false;
+                _objectiveChapterLabel.Text = "";
+                _objectiveTextLabel.Text = "";
+                _objectiveReasonLabel.Text = "";
+        }
+
+        private void RefreshObjectiveHudVisibility()
+        {
+                if (string.IsNullOrWhiteSpace(_objectiveTextLabel.Text))
+                        return;
+
+                _objectivePanel.Visible =
+                        DialogueManager?.IsDialogueActive != true &&
+                        !_messagePanel.Visible;
+        }
+
+        private void FlashObjectiveHud()
+        {
+                _objectivePanel.SelfModulate = new Color(1.0f, 0.92f, 0.68f, 1.0f);
+                var tween = CreateTween();
+                tween.TweenProperty(_objectivePanel, "self_modulate", Colors.White, 0.8)
+                        .SetTrans(Tween.TransitionType.Sine)
+                        .SetEase(Tween.EaseType.Out);
+        }
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
