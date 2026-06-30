@@ -9,172 +9,140 @@
 #   done           ↔  Complete
 #   blocked        ↔  Blocked
 
-sprint: 8
-goal: "Exploration-Insight Presentation 层集成 — 偿还 P1/P2 tech debt 后将洞察系统接入 Godot 场景（水墨提示 + 追查交互 + chapter_00 内容配置）；补做 VS Playtest 闭合 Sprint 7 prove-or-pivot 终判。"
+sprint: 9
+goal: "关闭 Exploration-Insight Epic + 系统质量 Polish + Playtest 硬性执行"
 start: "2026-06-30"
-end: "2026-07-13"
-generated: "2026-06-29"
-updated: "2026-06-29"  # S8-EI-Scene-Content done
+end: "2026-07-06"
+generated: "2026-06-30"
+updated: "2026-06-30"
+calibration: "Code 0.3x / Config+Doc 0.5h / Greenfield 0.5x"
+previous_sprint: 8
 
 stories:
-  - id: "S8-EI-Debt-Paydown"
-    name: "EI P1/P2 tech debt 偿还: detect path 统一 + monologue lifecycle + hide dedup"
-    file: "production/epics/exploration-insight/stories/ei-006-debt-paydown.md"
+  # ----------- Must Have -----------
+
+  - id: "S9-001"
+    name: "EI Epic 正式关闭 — EPIC.md Status→Done + DoD 逐项验收"
+    file: "production/epics/exploration-insight/EPIC.md"
     priority: must-have
     status: done
     owner: "dev"
-    estimate_days: 2.0
-    estimate_hours: 16.0
-    actual_hours: 2.5
+    estimate_hours: 0.5
+    actual_hours: 0.25
     blocker: ""
-    completed: "2026-06-29"
-    note: "Sprint 6 EI-Debt-Triage 识别的 3 条必还项 (#3 P1 + #6 P1 + #4 P2)。0.4x 校准 → 预期 ~6h actual。"
+    completed: "2026-06-30"
+    note: "DoD 5/5 PASS。9/9 stories Complete + 6 test files + 水墨 cue 无 radar/marker。"
 
-  - id: "S8-EI-Presentation-Adapter"
-    name: "EI Presentation: ProximityDetector Godot _PhysicsProcess adapter + 水墨视觉提示"
-    file: "production/epics/exploration-insight/stories/ei-007-presentation-adapter.md"
-    priority: must-have
-    status: done
-    owner: "dev"
-    estimate_days: 2.0
-    estimate_hours: 16.0
-    actual_hours: 6.0
-    blocker: ""
-    completed: "2026-06-29"
-    note: "Foundation ProximityDetector + InsightDetectionService 已 done (ei-002/003)。本 story 仅做 Godot _PhysicsProcess → Tick() 桥接 + InsightCue visual 渲染。"
-
-  - id: "S8-EI-Presentation-Interaction"
-    name: "EI Presentation: 玩家追查交互 + InnerMonologue 显示 + reward UI 反馈"
-    file: "production/epics/exploration-insight/stories/ei-008-presentation-interaction.md"
-    priority: must-have
-    status: done
-    owner: "dev"
-    estimate_days: 1.5
-    estimate_hours: 12.0
-    actual_hours: 3.5
-    blocker: ""
-    completed: "2026-06-29"
-    note: "Foundation DiscoveryDispatcher.OnPlayerInvestigate 已 done (ei-004)。本 story 做交互输入 → monologue 显示（复用 DialoguePanel）→ reward feedback。"
-
-  - id: "S8-EI-Scene-Content"
-    name: "EI 内容: chapter_00 cave 3-4 个 InsightNode 配置 + narrative_context"
-    file: "production/epics/exploration-insight/stories/ei-009-scene-content.md"
-    priority: must-have
-    status: backlog
-    owner: ""
-    estimate_days: 1.0
-    estimate_hours: 8.0
-    actual_hours: null
-    blocker: ""
-    completed: ""
-    note: "配置洞察节点让系统在实机可体验。内容: 松动砖墙 (Clue) / 旧信 (CodePhrase) / 酒痕 (EnvironmentDetail) / 药壶 (Loot placeholder)。"
-
-  - id: "S8-Playtest-Session"
-    name: "VS 试玩 session + 反馈报告 (Sprint 7 prove-or-pivot 终判)"
-    file: "production/sprints/sprint-8.md"
+  - id: "S9-002"
+    name: "Playtest Session (硬性 deadline Day 3)"
+    file: "production/sprints/sprint-9-ei-epic-close-polish.md"
     priority: must-have
     status: ready-for-dev
     owner: "user"
-    estimate_days: 0.5
     estimate_hours: 4.0
     actual_hours: null
     blocker: ""
     completed: ""
     carryover_from_sprint: 7
-    note: "Sprint 7 S7-VS-Playtest-Session carry。Day 1-3 发起招募，Week 1 内完成。"
+    note: "连续 carry×2。内部同事备选。≥30min 试玩 + 反馈报告。Day 3 (2026-07-02) 前必须完成。"
 
-  - id: "S8-Build-Warnings-Zero"
-    name: "清理 4 build warnings + CI -warnaserror 硬门控"
-    file: "production/sprints/sprint-8.md"
+  - id: "S9-003"
+    name: "EI 系统集成走查 — 全链路冒烟 + regression 补充"
+    file: "production/sprints/sprint-9-ei-epic-close-polish.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
-    estimate_days: 0.25
-    estimate_hours: 2.0
-    actual_hours: null
-    blocker: ""
-    completed: ""
-    carryover_from_sprint: 6
-    note: "Sprint 6 retro #5 / Sprint 7 retro #3 二次带入。CS0219×2 (BossPhaseSystem) + CS8602×2。"
-
-  - id: "S8-CI-Godot-Version"
-    name: "CI tests.yml godot 4.6.3 → 4.7-stable (gate C1)"
-    file: "production/gate-checks/gate-tech-setup-to-pre-production-2026-06-22.md"
-    priority: must-have
-    status: ready-for-dev
-    owner: ""
-    estimate_days: 0.1
+    status: done
+    owner: "dev"
     estimate_hours: 1.0
-    actual_hours: null
+    actual_hours: 0.25
     blocker: ""
-    completed: ""
-    note: "一行修复。gate-check C1。"
+    completed: "2026-06-30"
+    note: "97 tests pass。链路 8/9 CONNECTED, 1 ADVISORY (LockGuard 未在 Godot 层接入 — 记录 tech debt)。"
 
-  - id: "S8-Audio-Epic-Close"
-    name: "audio-system epic 关账 (Stories 001-008 全 Complete → Epic Done)"
-    file: "production/epics/audio-system/EPIC.md"
+  - id: "S9-004"
+    name: "cu-008 正式 descope 至 Polish phase"
+    file: "production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md"
     priority: must-have
-    status: ready-for-dev
-    owner: ""
-    estimate_days: 0.1
-    estimate_hours: 1.0
-    actual_hours: null
+    status: done
+    owner: "producer"
+    estimate_hours: 0.5
+    actual_hours: 0.1
     blocker: ""
-    completed: ""
-    note: "Stories 001-008 已全部 Complete。标 EPIC.md Status: Done + systems-index 更新。"
+    completed: "2026-06-30"
+    carryover_from_sprint: 5
+    note: "正式移入 production/backlog/polish-backlog.md (PB-001)。4 sprint carry 终止。"
 
   # ----------- Should Have -----------
 
-  - id: "S8-Architecture-Md-Refresh"
-    name: "architecture.md §12 ADR Roadmap 更新 + Draft→Accepted (gate C5)"
-    file: "docs/architecture/architecture.md"
+  - id: "S9-005"
+    name: "EI 测试覆盖度审查 — GDD AC 逐项对照 test traceability"
+    file: "production/sprints/sprint-9-ei-epic-close-polish.md"
     priority: should-have
-    status: backlog
-    owner: ""
-    estimate_days: 0.5
-    estimate_hours: 4.0
+    status: done
+    owner: "dev"
+    estimate_hours: 1.0
+    actual_hours: 0.25
+    blocker: ""
+    completed: "2026-06-30"
+    note: "9/9 GDD AC 全部 COVERED。6 test files, 97 tests。无缺口。"
+
+  - id: "S9-006"
+    name: "InsightNode 瞬态恢复 stress test — 高频场景切换不泄漏"
+    file: "production/sprints/sprint-9-ei-epic-close-polish.md"
+    priority: should-have
+    status: done
+    owner: "dev"
+    estimate_hours: 1.0
+    actual_hours: 0.25
+    blocker: ""
+    completed: "2026-06-30"
+    note: "新增 RapidSceneTransitions_DoNotLeakNodesOrCues (50 cycles × 2 scenes)。Shown==Hidden 断言通过。"
+
+  - id: "S9-007"
+    name: "EI + Dialogue lockMode 交互验证 — 战斗/对话期间 cue 暂停"
+    file: "production/sprints/sprint-9-ei-epic-close-polish.md"
+    priority: should-have
+    status: done
+    owner: "dev"
+    estimate_hours: 1.0
+    actual_hours: 0.25
+    blocker: ""
+    completed: "2026-06-30"
+    note: "新增 LockGuard_WhenFullLockDuringDialogue 测试（Full lock hide + resume redetect）。已有 Partial + Nested 测试已覆盖 AC8。"
+
+  - id: "S9-008"
+    name: "Sprint 9 retrospective"
+    file: "production/retrospectives/"
+    priority: should-have
+    status: ready-for-dev
+    owner: "dev"
+    estimate_hours: 0.5
     actual_hours: null
     blocker: ""
     completed: ""
-    note: "gate-check C5。§12 需包含 ADR-0019~0024。"
+    note: "含 Playtest prove-or-pivot 终判 + 估时校准系数更新。"
 
-  - id: "S8-Control-Manifest-Refresh"
-    name: "control-manifest 加入 ADR-0019/0020 渲染方向约束 (gate C6)"
-    file: "docs/architecture/control-manifest.md"
-    priority: should-have
-    status: backlog
-    owner: ""
-    estimate_days: 0.25
+  # ----------- Nice to Have -----------
+
+  - id: "S9-009"
+    name: "EI 视觉 Polish — InsightCueVisual 动画微调 + 颜色主题"
+    file: "production/sprints/sprint-9-ei-epic-close-polish.md"
+    priority: nice-to-have
+    status: ready-for-dev
+    owner: "dev"
     estimate_hours: 2.0
     actual_hours: null
     blocker: ""
     completed: ""
-    note: "gate-check C6。纯文档更新。"
+    note: "仅当 Playtest 反馈指出视觉问题时执行。"
 
-  - id: "S8-Estimate-Calibration"
-    name: "估时 0.4x 校准规则写入 sprint-plan skill 注释 + retro 模板"
-    file: "production/sprints/sprint-8.md"
-    priority: should-have
-    status: backlog
-    owner: ""
-    estimate_days: 0.1
-    estimate_hours: 1.0
+  - id: "S9-010"
+    name: "序章 pc-001 主线节点骨架（Sprint 10 准备）"
+    file: "production/epics/prologue-content/stories/"
+    priority: nice-to-have
+    status: ready-for-dev
+    owner: "dev"
+    estimate_hours: 2.0
     actual_hours: null
     blocker: ""
     completed: ""
-    note: "Sprint 7 retro Action #1。制度化估时校准。"
-
-  # ----------- Nice to Have -----------
-
-  - id: "cu-008-Gamepad-HW-Verify"
-    name: "cu-008 手柄硬件实机走查"
-    file: "production/epics/combat-ui/stories/cu-008-dual-focus-and-gamepad-navigation.md"
-    priority: nice-to-have
-    status: blocked
-    owner: ""
-    estimate_days: 0.5
-    estimate_hours: 4.0
-    actual_hours: null
-    blocker: "Steam Deck/通用手柄购入决策未做 — 本 sprint 不完成则正式 descope 至 Polish"
-    completed: ""
-    carryover_from_sprint: 5
+    note: "为下阶段内容生产做前置。Config/Data 类型。"

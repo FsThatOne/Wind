@@ -18,24 +18,32 @@
 
 ## Tasks
 
+<!-- 估时校准规则 (Sprint 7 retro Action #1):
+  - Foundation 集成类 story: 应用 0.4x 校准系数（估时 × 0.4 = 预期实际）
+  - Scaffold / placeholder story: ≤ 4h 硬上限
+  - Doc-only story: ≤ 2h 硬上限
+  - 每条 story 估时附带 confidence 字段（high/medium/low）
+  - 参考同类 story 的历史 actual hours（reference class forecasting）
+-->
+
 ### Must Have (Critical Path)
 
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria | Status |
-|----|------|-------------|-----------|-------------|-------------------|--------|
-| S[N]-001 | | | | None | | Not Started |
-| S[N]-002 | | | | S[N]-001 | | Not Started |
+| ID | Task | Agent/Owner | Est. Days | Confidence | Dependencies | Acceptance Criteria | Status |
+|----|------|-------------|-----------|-----------|-------------|-------------------|--------|
+| S[N]-001 | | | | medium | None | | Not Started |
+| S[N]-002 | | | | medium | S[N]-001 | | Not Started |
 
 ### Should Have
 
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria | Status |
-|----|------|-------------|-----------|-------------|-------------------|--------|
-| S[N]-010 | | | | | | Not Started |
+| ID | Task | Agent/Owner | Est. Days | Confidence | Dependencies | Acceptance Criteria | Status |
+|----|------|-------------|-----------|-----------|-------------|-------------------|--------|
+| S[N]-010 | | | | medium | | | Not Started |
 
 ### Nice to Have (Cut First)
 
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria | Status |
-|----|------|-------------|-----------|-------------|-------------------|--------|
-| S[N]-020 | | | | | | Not Started |
+| ID | Task | Agent/Owner | Est. Days | Confidence | Dependencies | Acceptance Criteria | Status |
+|----|------|-------------|-----------|-----------|-------------|-------------------|--------|
+| S[N]-020 | | | | low | | | Not Started |
 
 ## Carryover from Sprint [N-1]
 

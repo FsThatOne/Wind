@@ -71,8 +71,22 @@ Trend: [Improving / Stable / Declining]
 |---|--------|-------|----------|
 
 ## Estimation Accuracy
-| Area | Avg Planned | Avg Actual | Accuracy |
-|------|------------|-----------|----------|
+| Area | Avg Planned | Avg Actual | Accuracy | Calibration Factor |
+|------|------------|-----------|----------|-------------------|
+
+<!-- 估时校准追踪 (Sprint 7 retro Action #1):
+  - 记录本 sprint 实际校准系数: actual_total / estimated_total
+  - 与上 sprint 对比趋势
+  - 当连续 2 sprint |variance| < 30% 时可将 0.4x 调回 0.6x
+  - 分类追踪: Foundation 集成 / Scaffold / Doc-only / Greenfield
+  - 任何 story 超时（正方差 > 20%）单独分析根因
+-->
+
+### Calibration History
+| Sprint | Factor Used | Actual Factor | Trend |
+|--------|-----------|---------------|-------|
+| S7 | 1.0x (未校准) | 0.38x | 首次发现 |
+| S8 | 0.4x | [填入] | [填入] |
 ```
 
 5. **Save** to `production/sprints/sprint-[N]-retro.md`

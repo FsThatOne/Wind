@@ -1,0 +1,47 @@
+id: sister_gather_herb_01
+version: 1
+entry_node: opening_01
+nodes:
+  - id: opening_01
+    type: speech
+    speaker: bai_tan
+    text: "到了。看见那几丛叶尖发白的没有？那是白芷，根能入药，叶子别乱碰。"
+    next: player_01
+
+  - id: player_01
+    type: speech
+    speaker: player
+    text: "我都这么大了，才第一次正经跟你学采药。师姐是不是太看不起我了？"
+    next: sister_reason_01
+
+  - id: sister_reason_01
+    type: speech
+    speaker: bai_tan
+    text: "不是看不起，是从前你被大家护得太好了。小时候带你上山，你不是去够崖边的花，就是把手伸进刺藤里。"
+    next: sister_reason_02
+
+  - id: sister_reason_02
+    type: speech
+    speaker: bai_tan
+    text: "我怕你摔着、割着、被蛇虫惊着，就一直没教。最近你天天缠着问，我才拗不过你。"
+    next: herb_hint_01
+
+  - id: herb_hint_01
+    type: narration
+    text: "师姐蹲下身，把药锄横在你掌心，替你把手指一根根按稳。"
+    next: herb_hint_02
+
+  - id: herb_hint_02
+    type: inner_monologue
+    text: "师姐的话像落在耳边：别急，先松土，再扶根，按住 E 慢慢采。"
+    next: herb_done
+
+  - id: herb_done
+    type: speech
+    speaker: bai_tan
+    text: "嗯，像样了。记住，采药不是拔草。药性留不留得住，全看你手稳不稳。"
+    events:
+      - type: quest_flag
+        key: prologue_herb_tutorial_seen
+        value: "true"
+    next: END

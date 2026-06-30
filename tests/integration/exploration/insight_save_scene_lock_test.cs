@@ -157,6 +157,74 @@ public sealed class InsightSaveSceneLockTest
         Assert.Equal("node_a", Assert.Single(resumed).NodeId);
     }
 
+    [Fact]
+    public void LockGuard_WhenFullLockDuringDialogue_HidesCueAndRedetectsAfterRelease()
+    {
+        var registry = ActiveRegistry(CreateNode("node_a", Vector2.Zero));
+        var bus = new RecordingEventBus();
+        var detector = CreateDetector(registry, bus, stagger: 0f);
+        var lockGuard = new ExplorationLockGuard(detector);
+        Assert.Equal("node_a", Assert.Single(detector.Tick(Vector2.Zero, 10, 0f)).NodeId);
+        Assert.Equal(DiscoveryState.Detected, registry.GetState("node_a"));
+
+        var hidden = lockGuard.OnGameStateLockAcquired(LockMode.Full);
+        var duringLock = detector.Tick(Vector2.Zero, 10, 1f);
+
+        Assert.Equal("node_a", Assert.Single(hidden).NodeId);
+        Assert.Empty(duringLock);
+        Assert.True(detector.IsPaused);
+
+        lockGuard.OnGameStateLockReleased(LockMode.Full);
+        var afterRelease = detector.Tick(Vector2.Zero, 10, 0f);
+
+        Assert.False(detector.IsPaused);
+        Assert.Equal("node_a", Assert.Single(afterRelease).NodeId);
+        Assert.Equal(DiscoveryState.Detected, registry.GetState("node_a"));
+        Assert.Equal(2, bus.Shown.Count);
+    }
+
+    [Fact]
+    public void RapidSceneTransitions_DoNotLeakNodesOrCues()
+    {
+        var nodeA = new InsightNode
+        {
+            Id = "node_a", SceneId = "scene_a", Position = Vector2.Zero,
+            DetectionRadius = 5f, InsightThreshold = 10,
+            DiscoveryType = DiscoveryType.EnvironmentDetail,
+            NarrativeContext = "test", OneTime = true
+        };
+        var nodeB = new InsightNode
+        {
+            Id = "node_b", SceneId = "scene_b", Position = Vector2.Zero,
+            DetectionRadius = 5f, InsightThreshold = 10,
+            DiscoveryType = DiscoveryType.Clue,
+            NarrativeContext = "test_b", OneTime = true,
+            Reward = new DiscoveryReward { FlagId = "flag_b" }
+        };
+        var registry = new InsightNodeRegistry(new[] { nodeA, nodeB });
+        var bus = new RecordingEventBus();
+        var detector = new ProximityDetector(
+            registry, new StubConditionEvaluator(true), bus,
+            multiNodeStaggerSeconds: 0f, cueLingerSeconds: 10f);
+
+        for (int i = 0; i < 50; i++)
+        {
+            registry.OnSceneLoaded("scene_a");
+            detector.Tick(Vector2.Zero, 10, 0f);
+            detector.OnSceneUnloaded();
+
+            registry.OnSceneLoaded("scene_b");
+            detector.Tick(Vector2.Zero, 10, 0f);
+            detector.OnSceneUnloaded();
+        }
+
+        Assert.Empty(registry.GetActiveNodes());
+        Assert.Null(registry.CurrentSceneId);
+        Assert.Equal(DiscoveryState.Undiscovered, registry.GetState("node_a"));
+        Assert.Equal(DiscoveryState.Undiscovered, registry.GetState("node_b"));
+        Assert.Equal(bus.Shown.Count, bus.Hidden.Count);
+    }
+
     private static ProximityDetector CreateDetector(
         InsightNodeRegistry registry,
         RecordingEventBus bus,

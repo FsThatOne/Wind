@@ -1,0 +1,113 @@
+id: massacre_evidence_01
+version: 1
+entry_node: threshold_01
+nodes:
+  - id: threshold_01
+    type: narration
+    text: "门内没有迎你的人。红绳落在泥里，寿宴用的灯笼半垂着，酒坛从你怀里慢慢沉下去。"
+    next: choose_evidence
+
+  - id: choose_evidence
+    type: choice
+    prompt: "你先看哪里？"
+    options:
+      - text: "看练武场的兵器架。"
+        next: no_swords_01
+      - text: "去正堂找师父。"
+        next: master_precept_01
+      - text: "看书房旧灯下的接缝。"
+        next: hidden_compartment_01
+      - text: "拾起师父掌边的半封血书。"
+        next: blood_letter_01
+      - text: "在尸首之间找师姐。"
+        next: sister_missing_01
+      - text: "把这些事记住。"
+        next: evidence_done
+
+  - id: no_swords_01
+    type: narration
+    text: "练武场的剑还在架上，木尺也摆得齐整。许多人的手离剑柄很近，却没有一个人真正拔出来。"
+    next: no_swords_02
+
+  - id: no_swords_02
+    type: inner_monologue
+    text: "他们没有防备。或者说，他们到最后也没有来得及争。"
+    events:
+      - type: quest_flag
+        key: massacre_no_swords_drawn
+        value: "true"
+    next: choose_evidence
+
+  - id: master_precept_01
+    type: narration
+    text: "正堂尽头，师父倒在庄训前。石壁上刻着“风过万里，止于此山”，血痕偏偏划过“风止”二字。"
+    next: master_precept_02
+
+  - id: master_precept_02
+    type: inner_monologue
+    text: "你想叫他，可喉咙里没有声音。昨日他说什么该争，什么该止，你那时只想着师姐催得急。"
+    events:
+      - type: quest_flag
+        key: massacre_master_before_precept_seen
+        value: "true"
+      - type: quest_flag
+        key: massacre_wind_stop_blood_mark_seen
+        value: "true"
+    next: choose_evidence
+
+  - id: hidden_compartment_01
+    type: narration
+    text: "书房旧灯下面的接缝被撬开过。暗格空了，里面只剩木屑和一点被指腹擦乱的灰。"
+    next: hidden_compartment_02
+
+  - id: hidden_compartment_02
+    type: inner_monologue
+    text: "这里曾经放着什么，你不知道。你只知道师父从没让你碰过这盏旧灯。"
+    events:
+      - type: quest_flag
+        key: massacre_hidden_compartment_empty
+        value: "true"
+    next: choose_evidence
+
+  - id: blood_letter_01
+    type: narration
+    text: "半封血书被攥得很紧，只剩八个字还能辨认：“风起渊底，鹤归无枝。”"
+    next: blood_letter_02
+
+  - id: blood_letter_02
+    type: inner_monologue
+    text: "你把它收进怀里。纸边湿冷，像一块不会醒来的雪。"
+    events:
+      - type: quest_flag
+        key: prologue_blood_letter_obtained
+        value: "true"
+    next: choose_evidence
+
+  - id: sister_missing_01
+    type: narration
+    text: "你一遍遍数过去，厨房、药房、练武场、正堂。没有白檀。尸首里没有她。"
+    next: sister_missing_02
+
+  - id: sister_missing_02
+    type: speech
+    speaker: player
+    text: "师姐？白檀师姐？"
+    next: sister_missing_03
+
+  - id: sister_missing_03
+    type: inner_monologue
+    text: "没有人回答。你不知道她去了哪里，也不知道该往哪里找。"
+    events:
+      - type: quest_flag
+        key: prologue_sister_missing_known
+        value: "true"
+    next: choose_evidence
+
+  - id: evidence_done
+    type: inner_monologue
+    text: "你站在正堂中央，抱着那坛没有开封的酒。昨日所有人都在等它，今日只剩你一个人回来。"
+    events:
+      - type: quest_flag
+        key: prologue_massacre_discovered
+        value: "true"
+    next: END

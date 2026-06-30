@@ -121,7 +121,7 @@ sai_bei:
 
         var retrieved = registry.GetTable<SceneConfig>();
         Assert.NotNull(retrieved);
-        Assert.Equal(7, retrieved!.Get("default").PreloadRetryCount);
+        Assert.Equal(7, retrieved!.Get("default")!.PreloadRetryCount);
     }
 
     // --- AC5: Format error → DataLoadException ---

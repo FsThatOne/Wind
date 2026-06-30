@@ -1,0 +1,47 @@
+id: master_study_01
+version: 1
+entry_node: study_01
+nodes:
+  - id: study_01
+    type: narration
+    text: "庄主书房的窗半开着，风吹过书页，却没有吹乱案上的棋子。墙角那只旧灯下面，木纹有一道细细的接缝。"
+    next: master_01
+
+  - id: master_01
+    type: speech
+    speaker: manor_master
+    text: "停云，把药房送来的安神香放在案边就好。今日人多，你们比我还忙。"
+    next: player_01
+
+  - id: player_01
+    type: speech
+    speaker: player
+    text: "师父寿辰，忙也是应该的。师姐还说，今晚要让您喝第一盏三年陈。"
+    next: master_02
+
+  - id: master_02
+    type: speech
+    speaker: manor_master
+    text: "酒可以慢慢开，人也可以慢慢长。只是人这一生，总要知道什么该争，什么该止。"
+    next: hidden_hint_01
+
+  - id: hidden_hint_01
+    type: narration
+    text: "你应声时，目光又落到旧灯下那道接缝。它细得像一道不愿被人看见的旧伤，只是你从未多想。"
+    next: player_02
+
+  - id: player_02
+    type: speech
+    speaker: player
+    text: "那我今日该争什么？"
+    next: master_03
+
+  - id: master_03
+    type: speech
+    speaker: manor_master
+    text: "争着别让你师姐等太久。她催你去取酒，已经托人来问过两回了。"
+    events:
+      - type: quest_flag
+        key: prologue_study_hidden_compartment_seen
+        value: "true"
+    next: END

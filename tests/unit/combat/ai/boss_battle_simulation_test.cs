@@ -85,7 +85,7 @@ public class BossBattleSimulation
         }
 
         _output.WriteLine(new string('-', 70));
-        _output.WriteLine($"最终状态: HP={bossHp:P0}, Phase={brain.BossManager.CurrentPhaseIndex}({brain.BossManager.CurrentPhase.Label}), 内息={neixi}");
+        _output.WriteLine($"最终状态: HP={bossHp:P0}, Phase={brain.BossManager!.CurrentPhaseIndex}({brain.BossManager.CurrentPhase?.Label}), 内息={neixi}");
 
         // 基本断言：管线运行完毕无异常
         Assert.True(brain.BossManager.CurrentPhaseIndex >= 2, "15回合后应至少进入 Phase 3a");

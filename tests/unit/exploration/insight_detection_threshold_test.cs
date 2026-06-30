@@ -15,7 +15,7 @@ public sealed class InsightDetectionThresholdTest
         var bus = new RecordingEventBus();
         var detector = new ProximityDetector(registry, new StubConditionEvaluator(true), bus);
 
-        var shown = detector.Detect(new Vector2(1, 0), playerInsight: 15);
+        var shown = detector.Tick(new Vector2(1, 0), playerInsight: 15, deltaSeconds: 0f);
 
         var cue = Assert.Single(shown);
         Assert.Equal("node_a", cue.NodeId);
@@ -33,7 +33,7 @@ public sealed class InsightDetectionThresholdTest
         var registry = ActiveRegistry(node);
         var detector = new ProximityDetector(registry, new StubConditionEvaluator(true));
 
-        var shown = detector.Detect(new Vector2(2, 0), playerInsight: 10);
+        var shown = detector.Tick(new Vector2(2, 0), playerInsight: 10, deltaSeconds: 0f);
 
         Assert.Single(shown);
         Assert.Equal(DiscoveryState.Detected, registry.GetState("node_a"));
@@ -48,7 +48,7 @@ public sealed class InsightDetectionThresholdTest
         var bus = new RecordingEventBus();
         var detector = new ProximityDetector(registry, evaluator, bus);
 
-        var shown = detector.Detect(new Vector2(2.01f, 0), playerInsight: 15);
+        var shown = detector.Tick(new Vector2(2.01f, 0), playerInsight: 15, deltaSeconds: 0f);
 
         Assert.Empty(shown);
         Assert.Equal(0, evaluator.CallCount);
@@ -65,7 +65,7 @@ public sealed class InsightDetectionThresholdTest
         var bus = new RecordingEventBus();
         var detector = new ProximityDetector(registry, evaluator, bus);
 
-        var shown = detector.Detect(new Vector2(1, 0), playerInsight: 15);
+        var shown = detector.Tick(new Vector2(1, 0), playerInsight: 15, deltaSeconds: 0f);
 
         Assert.Empty(shown);
         Assert.Equal(1, evaluator.CallCount);
@@ -82,7 +82,7 @@ public sealed class InsightDetectionThresholdTest
         var bus = new RecordingEventBus();
         var detector = new ProximityDetector(registry, new StubConditionEvaluator(true), bus);
 
-        var shown = detector.Detect(new Vector2(1, 0), playerInsight: 8);
+        var shown = detector.Tick(new Vector2(1, 0), playerInsight: 8, deltaSeconds: 0f);
 
         Assert.Empty(shown);
         Assert.Empty(bus.Published);
@@ -96,8 +96,8 @@ public sealed class InsightDetectionThresholdTest
         var registry = ActiveRegistry(node);
         var detector = new ProximityDetector(registry, new StubConditionEvaluator(true));
 
-        var firstVisit = detector.Detect(new Vector2(1, 0), playerInsight: 8);
-        var revisit = detector.Detect(new Vector2(1, 0), playerInsight: 10);
+        var firstVisit = detector.Tick(new Vector2(1, 0), playerInsight: 8, deltaSeconds: 0f);
+        var revisit = detector.Tick(new Vector2(1, 0), playerInsight: 10, deltaSeconds: 0f);
 
         Assert.Empty(firstVisit);
         Assert.Single(revisit);
@@ -112,9 +112,9 @@ public sealed class InsightDetectionThresholdTest
         var evaluator = new StubConditionEvaluator(false);
         var detector = new ProximityDetector(registry, evaluator);
 
-        var firstVisit = detector.Detect(new Vector2(1, 0), playerInsight: 15);
+        var firstVisit = detector.Tick(new Vector2(1, 0), playerInsight: 15, deltaSeconds: 0f);
         evaluator.Result = true;
-        var revisit = detector.Detect(new Vector2(1, 0), playerInsight: 15);
+        var revisit = detector.Tick(new Vector2(1, 0), playerInsight: 15, deltaSeconds: 0f);
 
         Assert.Empty(firstVisit);
         Assert.Single(revisit);
@@ -130,8 +130,8 @@ public sealed class InsightDetectionThresholdTest
         var bus = new RecordingEventBus();
         var detector = new ProximityDetector(registry, new StubConditionEvaluator(true), bus);
 
-        detector.Detect(new Vector2(1, 0), playerInsight: 10);
-        var duplicate = detector.Detect(new Vector2(1, 0), playerInsight: 10);
+        detector.Tick(new Vector2(1, 0), playerInsight: 10, deltaSeconds: 0f);
+        var duplicate = detector.Tick(new Vector2(1, 0), playerInsight: 10, deltaSeconds: 0f);
 
         Assert.Empty(duplicate);
         Assert.Single(bus.Published);

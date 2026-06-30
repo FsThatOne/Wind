@@ -22,6 +22,9 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Build (warnings as errors)
+        run: dotnet build FengZhi.slnx /p:TreatWarningsAsErrors=true
+
       - name: Run GdUnit4 Tests
         uses: MikeSchulze/gdUnit4-action@v1
         with:

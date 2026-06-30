@@ -1,0 +1,41 @@
+id: sister_wine_reminder_01
+version: 1
+entry_node: reminder_early
+nodes:
+  - id: reminder_early
+    type: speech
+    speaker: bai_tan
+    text: "停云，别只顾着帮别人。崖洞里的寿酒，晚些要开坛，你记得去取。"
+    next: player_early
+
+  - id: player_early
+    type: speech
+    speaker: player
+    text: "记得记得。后山那条路我闭着眼都能走到，再帮一会儿就去。"
+    next: reminder_late
+
+  - id: reminder_late
+    type: speech
+    speaker: bai_tan
+    text: "天色要低了。你路熟是路熟，可山风一凉，石阶就滑。先去取酒，回来再玩。"
+    next: player_late
+
+  - id: player_late
+    type: speech
+    speaker: player
+    text: "就差最后一点。师姐放心，我不会拿错坛，也不会摔了庄主的寿酒。"
+    next: reminder_dusk
+
+  - id: reminder_dusk
+    type: narration
+    text: "你又被正堂边的红绳、厨房里的酒盏和师弟的笑声绊住了一阵。等再抬头，天边已经压下一层暮色。"
+    next: inner_01
+
+  - id: inner_01
+    type: inner_monologue
+    text: "后山路熟得很。现在去，也来得及。你这样想着，把师姐的第三声催促暂且搁在了心后。"
+    events:
+      - type: quest_flag
+        key: prologue_wine_delayed
+        value: "true"
+    next: END

@@ -1,0 +1,79 @@
+id: manor_errands_01
+version: 1
+entry_node: opening_01
+nodes:
+  - id: opening_01
+    type: narration
+    text: "回到山庄时，前院已经热闹起来。厨房蒸汽绕着屋檐，药房门口晒着新草，练武场边挂起了寿宴用的红绳。"
+    next: choose_route
+
+  - id: choose_route
+    type: choice
+    prompt: "先去哪边帮忙？"
+    options:
+      - text: "去厨房送药草。"
+        next: kitchen_01
+      - text: "去药房分拣药包。"
+        next: pharmacy_01
+      - text: "去练武场给师弟传话。"
+        next: training_ground_01
+
+  - id: kitchen_01
+    type: speech
+    speaker: kitchen_disciple
+    text: "来得正好！这几味草药要放进醒酒汤里，庄主今日可不能被我们灌倒。"
+    next: kitchen_02
+
+  - id: kitchen_02
+    type: narration
+    text: "你把药草递过去，顺手扶住一摞酒盏。瓷盏碰在一起，叮的一声，像山庄清晨惯有的笑声。"
+    next: kitchen_03
+
+  - id: kitchen_03
+    type: speech
+    speaker: kitchen_disciple
+    text: "白檀师姐刚才还问你取酒去了没有。你若又忘了，她可要敲你脑袋。"
+    next: route_done
+
+  - id: pharmacy_01
+    type: speech
+    speaker: pharmacy_disciple
+    text: "白芷放左边，碎矿粉放右边。别混了，混了今晚汤里就有石头味。"
+    next: pharmacy_02
+
+  - id: pharmacy_02
+    type: narration
+    text: "药房里满是温暖的苦香。你把药包按颜色排好，忽然觉得自己今日真像个能帮上忙的大人。"
+    next: pharmacy_03
+
+  - id: pharmacy_03
+    type: speech
+    speaker: pharmacy_disciple
+    text: "等会儿去正堂时，替我把这包安神香带给庄主。寿宴人多，别让他累着。"
+    next: route_done
+
+  - id: training_ground_01
+    type: speech
+    speaker: junior_brother
+    text: "你终于回来了！师姐让我找红绳，我找了半天，只找见一截绑木桩的旧绳。"
+    next: training_ground_02
+
+  - id: training_ground_02
+    type: speech
+    speaker: player
+    text: "那不是红绳，是你上回玩闹时绑错的。寿宴用的在正堂边上。"
+    next: training_ground_03
+
+  - id: training_ground_03
+    type: narration
+    text: "师弟挠着头跑开。练武场今日没有肃杀气，只剩竹竿、红绳和一地被风吹乱的纸花。"
+    next: route_done
+
+  - id: route_done
+    type: inner_monologue
+    text: "山庄里人人都忙，却没有人真的急。你答应师姐等会儿去取酒，心里却想着再帮一会儿也不迟。"
+    events:
+      - type: quest_flag
+        key: prologue_manor_errands_started
+        value: "true"
+    next: END

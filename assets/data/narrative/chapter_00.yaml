@@ -1,0 +1,178 @@
+id: ch00_prologue
+version: 1
+entry_node: p00_01_wake_in_manor
+chapters:
+  - chapter: 0
+    title: 序章：风止
+    tone: warm_daily_to_silent_loss
+    unlocked_locations:
+      - wind_stop_manor
+      - back_mountain
+      - cliff_cave
+nodes:
+  - id: p00_01_wake_in_manor
+    chapter: 0
+    type: dialogue
+    title: 醒在风止山庄
+    preconditions: []
+    completion_condition: 完成师姐叫醒与山庄前院基础交互。
+    next: p00_02_sister_gather_herb
+    on_complete:
+      - type: mark_node_intent
+        key: prologue_daily_life_started
+        value: "true"
+
+  - id: p00_02_sister_gather_herb
+    chapter: 0
+    type: arrival
+    title: 师姐带你上山
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_01_wake_in_manor
+    completion_condition: 完成师姐采药引导内容。
+    next: p00_03_first_ore_and_tracks
+    on_complete:
+      - type: mark_node_intent
+        key: prologue_herb_gathering_seen
+        value: "true"
+
+  - id: p00_03_first_ore_and_tracks
+    chapter: 0
+    type: dialogue
+    title: 第一次采矿
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_02_sister_gather_herb
+    completion_condition: 完成采矿引导，并调查动物足迹坐骑伏笔。
+    next: p00_04_manor_errands
+    on_complete:
+      - type: set_flag
+        key: prologue_gathering_taught
+        value: "true"
+      - type: set_flag
+        key: prologue_mount_foreshadowed
+        value: "true"
+
+  - id: p00_04_manor_errands
+    chapter: 0
+    type: choice
+    title: 山庄寿宴跑腿
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_03_first_ore_and_tracks
+    completion_condition: 至少完成一组寿宴跑腿路线，进入庄主书房小事。
+    branches:
+      - id: kitchen_route
+        title: 先去厨房帮忙
+        next: p00_05_master_study
+      - id: pharmacy_route
+        title: 先去药房送草药
+        next: p00_05_master_study
+      - id: training_ground_route
+        title: 先去练武场传话
+        next: p00_05_master_study
+    on_complete:
+      - type: mark_node_intent
+        key: prologue_manor_errands_started
+        value: "true"
+
+  - id: p00_05_master_study
+    chapter: 0
+    type: dialogue
+    title: 书房小事
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_04_manor_errands
+    completion_condition: 完成庄主书房短谈，并让玩家见过暗格位置。
+    next: p00_06_delay_until_dusk
+    on_complete:
+      - type: mark_node_intent
+        key: prologue_study_hidden_compartment_seen
+        value: "true"
+
+  - id: p00_06_delay_until_dusk
+    chapter: 0
+    type: gate
+    title: 拖到天黑
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_05_master_study
+    completion_condition: 完成师姐多阶段催取酒，主角仍拖到入夜。
+    next: p00_07_cliff_cave_wine
+    gate:
+      required_branches: 0
+      branch_node_ids: []
+    on_complete:
+      - type: set_flag
+        key: prologue_wine_delayed
+        value: "true"
+
+  - id: p00_07_cliff_cave_wine
+    chapter: 0
+    type: arrival
+    title: 夜入崖洞取酒
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_06_delay_until_dusk
+    completion_condition: 取得三年陈药酒，并在崖洞触发夜宿。
+    next: p00_08_silent_return
+    on_complete:
+      - type: set_flag
+        key: prologue_wine_obtained
+        value: "true"
+
+  - id: p00_08_silent_return
+    chapter: 0
+    type: arrival
+    title: 异常安静，回庄
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_07_cliff_cave_wine
+    completion_condition: 完成后山路到山庄大门的异常安静过渡。
+    next: p00_09_massacre_evidence
+    on_complete:
+      - type: mark_node_intent
+        key: prologue_silent_return_seen
+        value: "true"
+
+  - id: p00_09_massacre_evidence
+    chapter: 0
+    type: dialogue
+    title: 惨案搜证
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_08_silent_return
+    completion_condition: 确认灭门关键线索、取得半封血书，并确认师姐不在尸体中。
+    next: p00_10_senior_brother_farewell
+    on_complete:
+      - type: set_flag
+        key: prologue_massacre_discovered
+        value: "true"
+      - type: set_flag
+        key: prologue_blood_letter_obtained
+        value: "true"
+      - type: set_flag
+        key: prologue_sister_missing_known
+        value: "true"
+
+  - id: p00_10_senior_brother_farewell
+    chapter: 0
+    type: dialogue
+    title: 师兄归山，误会与分别
+    preconditions:
+      - kind: NodeCompleted
+        key: p00_09_massacre_evidence
+    completion_condition: 完成师兄误会对峙、共同埋葬、临别传承和书信约定内容骨架。
+    content_dependencies:
+      - misunderstanding-system
+      - combat-tutorial
+    on_complete:
+      - type: register_misunderstanding
+        key: mis_senior_brother_survivor_suspicion
+        value: "active"
+      - type: set_flag
+        key: senior_brother_mis_resolved
+        value: "true"
+      - type: unlock_letter_contact
+        key: senior_brother_letter_contact_unlocked
+        value: "true"

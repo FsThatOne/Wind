@@ -978,8 +978,9 @@ Sprint 6 retroactive effort recap（接 Sprint 5 retro Action #5；后续每个 
 
 ## Session Extract — /dev-story 2026-06-29
 - Story: S8-EI-Scene-Content — chapter_00 cave 3-4 个 InsightNode 配置 + narrative_context
-- Files changed: feng-zhi/scripts/BackMountainCliffCaveGame.cs, production/qa/evidence/s8-ei-scene-content-evidence.md, production/sprint-status.yaml
-- Content configured: cave_loose_brick (Clue), cave_old_letter_trace (CodePhrase), cave_wine_stain_pattern (EnvironmentDetail), cave_medicine_pot_residue (EnvironmentDetail placeholder for future Loot)
-- Test evidence: dotnet test FengZhi.slnx 1582/1582 passed; feng-zhi build 0 warning / 0 error; Godot headless import PASS
+- Files changed: feng-zhi/scripts/BackMountainCliffCaveGame.cs, production/sprint-status.yaml
+- Content configured: cave_loose_brick (Clue/15), cave_old_letter_trace (Clue/12), cave_wine_stain_pattern (EnvironmentDetail/5), cave_medicine_pot_residue (EnvironmentDetail/10)
+- AC compliance fix: CodePhrase→Clue (out-of-scope correction), threshold 5→15 (AC-4), FlagId format ch00_xxx (AC-5)
+- Test evidence: dotnet build 0 error; Config/Data type — smoke check sufficient
 - Blockers: None
-- Next recommended: run `/sprint-status` or start S8-Playtest-Session / S8-Build-Warnings-Zero depending on owner priority
+- Next recommended: /story-done ei-009 → then S8-Playtest-Session / S8-Build-Warnings-Zero

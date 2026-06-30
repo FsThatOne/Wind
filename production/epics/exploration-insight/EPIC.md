@@ -3,8 +3,9 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/exploration-insight.md
 > **Architecture Module**: `Feature/Exploration/`
-> **Status**: Ready
-> **Stories**: 5 stories
+> **Status**: Done
+> **Stories**: 9/9 Complete
+> **Closed**: 2026-06-30 (S9-001 EI Epic Close)
 
 ## Overview
 
@@ -37,11 +38,15 @@
 
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
-| ei-001 | InsightNode 数据模型、注册表与场景激活 | Logic | Ready | ADR-0018 |
-| ei-002 | 洞察距离检测、门槛检定与重访发现 | Logic | Ready | ADR-0018 |
-| ei-003 | 多节点 stagger、忽略与 linger 恢复 | Logic | Ready | ADR-0018 |
-| ei-004 | 发现奖励分派：Clue 与 CodePhrase | Integration | Ready | ADR-0018 / ADR-0014 |
-| ei-005 | 存档恢复、场景卸载清理与战斗/对话锁恢复 | Integration | Ready | ADR-0018 / ADR-0004 / ADR-0006 |
+| ei-001 | InsightNode 数据模型、注册表与场景激活 | Logic | Complete | ADR-0018 |
+| ei-002 | 洞察距离检测、门槛检定与重访发现 | Logic | Complete | ADR-0018 |
+| ei-003 | 多节点 stagger、忽略与 linger 恢复 | Logic | Complete | ADR-0018 |
+| ei-004 | 发现奖励分派：Clue 与 CodePhrase | Integration | Complete | ADR-0018 / ADR-0014 |
+| ei-005 | 存档恢复、场景卸载清理与战斗/对话锁恢复 | Integration | Complete | ADR-0018 / ADR-0004 / ADR-0006 |
+| ei-006 | EI P1/P2 Tech Debt 偿还 | Logic | Complete | ADR-0018 |
+| ei-007 | Presentation Adapter (Godot 桥接 + 水墨 Cue) | Integration | Complete | ADR-0018 |
+| ei-008 | Presentation Interaction (追查 + 独白 + 奖励反馈) | Integration | Complete | ADR-0018 |
+| ei-009 | Scene Content (chapter_00 cave 4 InsightNodes) | Config/Data | Complete | ADR-0018 |
 
 ## Trace Notes
 
@@ -50,12 +55,14 @@
 ## Definition of Done
 
 This epic is complete when:
-- All stories are implemented, reviewed, and closed via `/story-done`
-- All acceptance criteria from `design/gdd/exploration-insight.md` are verified
-- Insight detection, prerequisite evaluation, reward dispatch, transient state reset and save restore have tests
-- Scene cleanup prevents stale nodes or leaked prompts across scene transitions
-- Exploration discovery does not create HUD radar/quest-marker style UI
+- ✅ All stories are implemented, reviewed, and closed via `/story-done`
+- ✅ All acceptance criteria from `design/gdd/exploration-insight.md` are verified
+- ✅ Insight detection, prerequisite evaluation, reward dispatch, transient state reset and save restore have tests
+- ✅ Scene cleanup prevents stale nodes or leaked prompts across scene transitions
+- ✅ Exploration discovery does not create HUD radar/quest-marker style UI
 
 ## Next Step
+
+Epic closed. 探索/洞察系统已完整落地，后续内容生产（prologue-content epic）可直接使用 InsightNode 配置。
 
 Run `/story-readiness production/epics/exploration-insight/stories/ei-001-insight-node-registry-and-scene-activation.md` to begin implementation readiness.

@@ -1,6 +1,6 @@
 # 《风止》Master Architecture Document
 
-> **Status**: Draft — Pending TD Sign-off
+> **Status**: Accepted
 > **Engine**: Godot 4.7-stable (C# / .NET 8+)
 > **Created**: 2026-06-08
 > **Source**: 25 GDDs × 575+ Technical Requirements
@@ -589,24 +589,38 @@ assets/data/
 
 ---
 
-## 12. ADR Roadmap (缺失决策清单)
+## 12. ADR Registry
 
-以下架构决策需在实现前通过 `/architecture-decision` 创建 ADR：
+所有架构决策记录。每条 ADR 在实现前通过 `/architecture-decision` 创建并审批。
 
-| ADR ID | 标题 | 优先级 | 涉及模块 | 风险 |
-|--------|------|--------|---------|------|
-| ADR-001 | EventBus 实现方案：Godot Signals vs C# Events vs 自定义 | **P0** | Shared/EventBus | 全局影响 |
-| ADR-002 | UI 框架选型：Godot Control vs 第三方 (dual-focus 适配) | **P0** | Presentation/* | HIGH RISK |
-| ADR-003 | 数据配置格式：YAML vs JSON vs Godot Resource | P1 | Shared/DataRegistry | 工具链影响 |
-| ADR-004 | 存档加密方案：AES-256 实现 (C# vs GDExtension) | P1 | Platform/Save | 安全性 |
-| ADR-005 | 对话系统格式：自研节点图 vs Ink vs Yarn Spinner | P1 | Core/Dialogue | 叙事工具链 |
-| ADR-006 | 场景加载策略：PackedScene vs 动态实例化 | P1 | Foundation/SceneManagement | 性能 |
-| ADR-007 | 输入系统适配：SDL3 rebinding 方案 | P1 | Platform/Settings | MEDIUM RISK |
-| ADR-008 | FSM 实现方案：泛型 FSM vs Godot StateMachine node | P2 | Shared/StateMachine | 复用性 |
-| ADR-009 | 动态音乐方案：AudioStreamInteractive vs 自研状态机 | P2 | Presentation/Audio | 复杂度 |
-| ADR-010 | TileMapLayer 使用模式：4.6 API 验证 | P2 | Foundation/SceneManagement | MEDIUM RISK |
+| ADR | 标题 | Status | 涉及模块 |
+|-----|------|--------|---------|
+| 0001 | EventBus 实现方案：Godot Signals vs C# Events vs 自定义 | Accepted | Shared/EventBus |
+| 0002 | UI 框架选型：Godot Control vs 第三方 (dual-focus 适配) | Accepted | Presentation/* |
+| 0003 | 数据配置格式：YAML vs JSON vs Godot Resource | Accepted | Shared/DataRegistry |
+| 0004 | 存档加密方案：AES-256 实现 (C# vs GDExtension) | Accepted | Platform/Save |
+| 0005 | 对话系统格式：自研节点图 vs Ink vs Yarn Spinner | Accepted | Core/Dialogue |
+| 0006 | 场景加载策略：PackedScene vs 动态实例化 | Accepted | Foundation/SceneManagement |
+| 0007 | 输入系统适配：SDL3 rebinding 方案 | Accepted | Platform/Settings |
+| 0008 | FSM 实现方案：泛型 FSM vs Godot StateMachine node | Accepted | Shared/StateMachine |
+| 0009 | 动态音乐方案：AudioStreamInteractive vs 自研状态机 | Accepted | Presentation/Audio |
+| 0010 | TileMapLayer 使用模式：4.7 API 验证 | Accepted | Foundation/SceneManagement |
+| 0011 | Combat UI Animation Pipeline | Accepted | Presentation/CombatUi |
+| 0012 | Misunderstanding UI — Transparency Signal Presentation | Accepted | Presentation/BlurredUi |
+| 0013 | Cutscene System — Playback Pipeline & Global State Locking | Accepted | Presentation/Cutscene |
+| 0014 | Living Jianghu Layer — Event Scheduler & Condition Engine | Accepted | Feature/Jianghu |
+| 0015 | Romance System — Comet Model & Milestone-Floor Architecture | Accepted | Feature/Romance |
+| 0016 | Party Management — Unified Growth & Deployment Architecture | Accepted | Feature/Party |
+| 0017 | Epiphany Breakthrough — Trigger Framework & Reward Pipeline | Accepted | Feature/Epiphany |
+| 0018 | Exploration & Insight — Scene Insight Node Architecture | Accepted | Feature/Exploration |
+| 0019 | 2D Wuxia Tactics Rendering Direction | **Superseded** → 0020 | Presentation/Rendering |
+| 0020 | Pure 2D Wuxia Rendering Direction (大侠立志传 Style) | Accepted | Presentation/Rendering |
+| 0021 | Character Animation Port (Project-Wide) | Accepted (§扩展点1 → 0022) | Shared/Animation |
+| 0022 | Isometric Diamond Projection & 4-Directional Character Animator | Accepted | Foundation/SceneManagement |
+| 0023 | Dialogue Authoring Pipeline (.dlg → YAML → Runtime) | Accepted | Core/Dialogue |
+| 0024 | iso Tileset 资产层暂撤 (jiangnan-iso-v1 弃用 + 重设计前置) | Accepted | Foundation/SceneManagement |
 
-> **执行顺序**：P0 必须在第一个 Sprint 开始前完成；P1 在对应模块实现前完成；P2 可延迟到具体开发时。
+> **24 个 ADR 全部已创建**。无遗留缺失决策。新 ADR 按序号递增追加。
 
 ---
 

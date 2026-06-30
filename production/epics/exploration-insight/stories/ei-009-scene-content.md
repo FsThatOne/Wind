@@ -1,6 +1,6 @@
 # ei-009: EI Scene Content — chapter_00 cave InsightNode 配置 + narrative_context
 
-> **Status**: Ready
+> **Status**: Complete
 > **Last Updated**: 2026-06-29
 > **Type**: Config/Data
 > **Layer**: Presentation

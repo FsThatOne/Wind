@@ -1,0 +1,41 @@
+id: sister_gather_ore_01
+version: 1
+entry_node: opening_01
+nodes:
+  - id: opening_01
+    type: narration
+    text: "浅溪边露出一小片青灰色石脉，水光从石面滑过，像给它覆了一层薄亮的釉。"
+    next: sister_ore_01
+
+  - id: sister_ore_01
+    type: speech
+    speaker: bai_tan
+    text: "采矿比采药更要听话。只敲露在外面的这一层，别贪深，也别往溪石后面探。"
+    next: player_01
+
+  - id: player_01
+    type: speech
+    speaker: player
+    text: "我知道，我知道。师姐今日说了三遍小心。"
+    next: sister_ore_02
+
+  - id: sister_ore_02
+    type: speech
+    speaker: bai_tan
+    text: "三遍不够。你小时候摔一跤，师父和我能念半个月。现在让你自己学，是因为你总归要会一点照顾自己。"
+    next: ore_hint_01
+
+  - id: ore_hint_01
+    type: inner_monologue
+    text: "师姐把小锤递来：看准石纹，轻敲三下，按住 E，别把整块石头惊裂。"
+    next: ore_done
+
+  - id: ore_done
+    type: speech
+    speaker: bai_tan
+    text: "可以了。拿回去给药房磨粉，别在袖子里乱放，磨破了又要喊疼。"
+    events:
+      - type: quest_flag
+        key: prologue_ore_tutorial_seen
+        value: "true"
+    next: END

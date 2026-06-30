@@ -1,0 +1,27 @@
+id: massacre_return_01
+version: 1
+entry_node: wake_01
+nodes:
+  - id: wake_01
+    type: inner_monologue
+    text: "你从旧毯里醒来时，洞口的雨已经停了。太静了，静得连石壁上的水声都显得突兀。"
+    next: listen_01
+
+  - id: listen_01
+    type: narration
+    text: "后山路上没有虫鸣。昨夜总贴着耳边的风声也不动，像有人把整座山庄按进了冷水里。"
+    next: gate_01
+
+  - id: gate_01
+    type: narration
+    text: "你抱着酒坛往回走。山门远远敞着，平日这时候该有晨练的喝声、厨房的锅声、师弟拖长的喊声。今天什么也没有。"
+    next: deny_01
+
+  - id: deny_01
+    type: inner_monologue
+    text: "也许只是昨夜寿宴太晚了。也许师姐正站在门里，皱着眉问你怎么现在才回来。"
+    events:
+      - type: quest_flag
+        key: prologue_silent_return_seen
+        value: "true"
+    next: END

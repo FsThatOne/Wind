@@ -1,9 +1,9 @@
 # Control Manifest
 
 > **Engine**: Godot 4.7-stable (C# / .NET 8+)
-> **Last Updated**: 2026-06-10
-> **Manifest Version**: 2026-06-10
-> **ADRs Covered**: ADR-0001 ~ ADR-0018 (全部 18 个 Accepted)
+> **Last Updated**: 2026-06-30
+> **Manifest Version**: 2026-06-30
+> **ADRs Covered**: ADR-0001 ~ ADR-0024 (22 Accepted, 1 Superseded, 1 Partial)
 > **Status**: Active — regenerate with `/create-control-manifest update` when ADRs change
 
 `Manifest Version` is the date this manifest was generated. Story files embed this date when created. `/story-readiness` compares a story's embedded version to this field to detect stories written against stale rules.
@@ -403,6 +403,53 @@
 - **Verification Required**: ShaderMaterial uniform 动态更新在 Control 节点上的每帧性能 — source: ADR-0012
 - **Verification Required**: CanvasModulate 与朦胧化 UI 色调偏移交互 — source: ADR-0012
 - **Verification Required**: `AudioStreamPlayer` 低频循环在场景切换时正确释放 — source: ADR-0012
+
+---
+
+## Rendering & Animation Direction Rules
+
+*适用范围: 场景渲染路线、光影氛围、角色资产双轨制、动画 Port、对话 Pipeline — source: ADR-0020, ADR-0021, ADR-0022, ADR-0023, ADR-0024*
+
+### Required Patterns
+- **渲染路线**: 纯 2D 武侠战棋（《大侠立志传》风格）；场景 = 手绘 tileset + 分层 2D 背景 — source: ADR-0020
+- **场景构建**: `Node2D` + 多 `TileMapLayer`（沿用 ADR-0010 五层）+ `Background` 节点（Sprite2D，z-index 低于 Ground） — source: ADR-0020
+- **色调氛围**: 仅 `CanvasModulate` 做昼夜/章节/心境整体偏色 — source: ADR-0020
+- **VFX 工具集**: sprite sheet + GPUParticles2D + screen overlay + 纯 2D shader（水墨/纸纹） — source: ADR-0020
+- **战棋可读性优先级**: 移动格>角色阵营>遮挡关系>招式 VFX>氛围，任何美术服从此顺序 — source: ADR-0020
+- **角色双轨**: 探索/战斗用 Q 版 sprite(3-4 头身)；对话/演出用立绘(6.5-7.5 头身) — source: ADR-0020
+- **双轨隔离**: 场景中不出现立绘比例角色；立绘镜头中不出现 Q 版角色 — source: ADR-0020
+- **动画 Port**: 必须使用 `ICharacterAnimator` 单一接口 + 多 Adapter 模式 — source: ADR-0021
+- **Port 位置**: `src/FengZhi.Foundation/Animation/ICharacterAnimator.cs` — source: ADR-0021
+- **AnimState 粗分类**: Idle/Walk/Run/Attack/Cast/Block/Hurt/Stagger/Die/Victory/Defeat/Custom — source: ADR-0021
+- **Facing**: `Left / Right` 2 向（探索 iso 场景由 ADR-0022 IIso4Animator 子接口扩展为 4 斜向） — source: ADR-0021
+- **Iso 投影**: 等距菱形 tile `128×64`，4 斜方向 NE/SE/SW/NW — source: ADR-0022
+- **Iso4 子接口**: `IIso4Animator : ICharacterAnimator` 新增 `SetIsoFacing(IsoDirection)` — source: ADR-0022
+- **对话 Pipeline**: `.dlg` (作者层) → `dialogue_compiler.py` → `.yaml` (存储层) → `DialogueRuntime` (运行时) — source: ADR-0023
+- **Provider 通用化**: `SceneConditionValueProvider` scene-agnostic；条件走 `mindset.*` / `flag.*` 通用域 — source: ADR-0023
+- **.dlg 幂等**: 相同 .dlg 输入产出相同 yaml（字段顺序/转义稳定），直接入 git — source: ADR-0023
+- **过渡期 tileset**: 使用 `jiangnan_riverside` 平面 tileset 占位 chapter_00 explore — source: ADR-0024
+
+### Forbidden Approaches
+- **Never** 使用伪 2.5D / HD-2D / 准 HD-2D 任何变体 — source: ADR-0020
+- **Never** 使用 PointLight2D / DirectionalLight2D 作为常规氛围手段（特例需 PR 审批） — source: ADR-0020
+- **Never** 使用多层视差背景 / ParallaxLayer 模拟空间纵深 — source: ADR-0020
+- **Never** 建立复杂后处理 compositor 管线（不做景深/bloom/体积光） — source: ADR-0020
+- **Never** 做 3D 场景建模、PBR 材质、法线贴图 — source: ADR-0020
+- **Never** 业务代码直接持有 `AnimatedSprite2D` — 必须走 `ICharacterAnimator` Port — source: ADR-0021
+- **Never** 在 Port 接口中传 `string animationName`（走 `PlayCustom` 专用入口） — source: ADR-0021
+- **Never** 使用 jiangnan-iso-v1 资产（已删除） — source: ADR-0024
+- **Never** 将过渡期平面 tileset 进 art-bible 或复用到战斗场景 — source: ADR-0024
+- **Never** 在 `S8-tileset-iso-redesign` 拍板前启动 6 个依赖 story — source: ADR-0024
+
+### Performance Guardrails
+- **背景层**: 远景 1 张静态 Sprite2D，不做运行时视差 — source: ADR-0020
+- **角色 sprite**: Q 版 sprite sheet ≤ 64 frames per direction — source: ADR-0020
+- **AnimatedSprite2DAnimator**: `Play()` O(1) 映射 + 1 signal 连接 — source: ADR-0021
+
+### Engine API Constraints
+- **Post-Cutoff**: `TileMapLayer` scene tile rotation (4.6)，`CanvasModulate` + shader 交互 — source: ADR-0020
+- **Verification Required**: `IIso4Animator` 4 方向 sprite sheet 帧切换在 60fps 无跳帧 — source: ADR-0022
+- **Verification Required**: `dialogue_compiler.py` 输出与 YamlDotNet 反序列化兼容 — source: ADR-0023
 
 ---
 

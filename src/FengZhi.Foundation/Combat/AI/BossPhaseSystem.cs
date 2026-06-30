@@ -240,21 +240,20 @@ public sealed class BossPhaseManager
         int remaining = 100 - bias;
 
         int baseOther1, baseOther2;
-        MoveType other1, other2;
 
         switch (_lockedType.Value)
         {
             case MoveType.Gang:
-                other1 = MoveType.Rou; baseOther1 = phase.WeightRou;
-                other2 = MoveType.Qiao; baseOther2 = phase.WeightQiao;
+                baseOther1 = phase.WeightRou;
+                baseOther2 = phase.WeightQiao;
                 break;
             case MoveType.Rou:
-                other1 = MoveType.Gang; baseOther1 = phase.WeightGang;
-                other2 = MoveType.Qiao; baseOther2 = phase.WeightQiao;
+                baseOther1 = phase.WeightGang;
+                baseOther2 = phase.WeightQiao;
                 break;
             default: // Qiao
-                other1 = MoveType.Gang; baseOther1 = phase.WeightGang;
-                other2 = MoveType.Rou; baseOther2 = phase.WeightRou;
+                baseOther1 = phase.WeightGang;
+                baseOther2 = phase.WeightRou;
                 break;
         }
 

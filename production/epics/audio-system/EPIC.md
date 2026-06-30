@@ -3,7 +3,7 @@
 > **Layer**: Presentation
 > **GDD**: design/gdd/audio-system.md
 > **Architecture Module**: `Presentation/Audio/`
-> **Status**: Ready
+> **Status**: Done
 > **Stories**: 8 stories created
 
 ## Stories
@@ -11,13 +11,13 @@
 | # | Story | Type | Status | ADR |
 |---|-------|------|--------|-----|
 | 001 | 音频状态 FSM + AudioBus 初始化 | Logic | Complete | ADR-0009, ADR-0008 |
-| 002 | BGM 管理 + 等功率 Crossfade | Logic | Ready | ADR-0009 |
-| 003 | 自适应战斗音乐（6 段水平分层） | Logic | Ready | ADR-0009 |
-| 004 | 环境音三层系统 | Logic | Ready | ADR-0009 |
-| 005 | SFX 优先级仲裁 + 并发池 | Logic | Ready | ADR-0009 |
-| 006 | 演出音频接管与跳过恢复 | Integration | Ready | ADR-0009, ADR-0013 |
-| 007 | 女主 Motif 叠加 | Logic | Ready | ADR-0009 |
-| 008 | 设置音量响应 + 持久化 | Integration | Ready | ADR-0009 |
+| 002 | BGM 管理 + 等功率 Crossfade | Logic | Complete | ADR-0009 |
+| 003 | 自适应战斗音乐（6 段水平分层） | Logic | Complete | ADR-0009 |
+| 004 | 环境音三层系统 | Logic | Complete | ADR-0009 |
+| 005 | SFX 优先级仲裁 + 并发池 | Logic | Complete | ADR-0009 |
+| 006 | 演出音频接管与跳过恢复 | Integration | Complete | ADR-0009, ADR-0013 |
+| 007 | 女主 Motif 叠加 | Logic | Complete | ADR-0009 |
+| 008 | 设置音量响应 + 持久化 | Integration | Complete | ADR-0009 |
 
 ## Overview
 

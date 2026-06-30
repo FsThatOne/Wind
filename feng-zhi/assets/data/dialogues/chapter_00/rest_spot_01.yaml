@@ -49,7 +49,7 @@ nodes:
 
   - id: inner_night
     type: inner_monologue
-    text: "草席还是干净的，毯子叠得整整齐齐。外头的风声远了，洞里只剩下你自己的呼吸。"
+    text: "草席还是干净的，毯子叠得整整齐齐。外头山雨压着石阶，天黑路险，洞里只剩下你自己的呼吸。"
     conditions:
       - source: flag
         key: variant
@@ -69,10 +69,13 @@ nodes:
 
   - id: sleep_path
     type: narration
-    text: "你裹上旧毯子闭上眼。风声确实远了一些。师姐说得对，这里的风，总是会停。"
+    text: "你裹上旧毯子闭上眼。等雨小些、石阶不那么滑，再抱酒回去也来得及。师姐说得对，这里的风，总是会停。"
     events:
       - type: quest_flag
         key: rest_spot_slept
+        value: "true"
+      - type: quest_flag
+        key: prologue_cave_overnight
         value: "true"
     next: END
 

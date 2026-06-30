@@ -11,7 +11,8 @@
 > **TR-ID**: TR-combat-ui-008
 > **Control Manifest Version**: 2026-06-10
 > **状态**: Complete
-> **Last Updated**: 2026-06-15
+> **Last Updated**: 2026-06-30
+> **Hardware Verification**: Descoped to Polish — 实机手柄走查待硬件购入后执行
 
 ## 目标
 

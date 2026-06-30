@@ -28,7 +28,8 @@ script = ExtResource("2_player")
 position = Vector2(3.9999998, -8.999999)
 scale = Vector2(0.8, 0.8)
 sprite_frames = ExtResource("3_frames")
-animation = &"idle"
+animation = &"walk_sw"
+frame_progress = 0.83370125
 offset = Vector2(-6, -7)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player" unique_id=265055307]
