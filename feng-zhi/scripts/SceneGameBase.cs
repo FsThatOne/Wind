@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using FengZhi.Foundation.Dialogue;
 using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Geometry;
 using FengZhi.Foundation.Mindset;
@@ -26,7 +27,15 @@ public abstract partial class SceneGameBase : Node2D
 	protected abstract string SceneName { get; }
 	protected abstract string DefaultExitMarker { get; }
 
+	private static readonly Vector2 InteractionDiamondOffset = new(22f, 5f);
+	private static readonly Color InteractionDefaultFill = new(0.08f, 0.72f, 0.24f, 0.28f);
+	private static readonly Color InteractionHighlightFill = new(0.10f, 0.95f, 0.32f, 0.58f);
+	private static readonly Color InteractionHighlightOutline = new(0.20f, 1.0f, 0.44f, 1.0f);
+	private static readonly Color BlockedTileOverlayFill = new(0.95f, 0.08f, 0.06f, 0.44f);
+	private static readonly Color BlockedTileOverlayOutline = new(1.0f, 0.18f, 0.12f, 0.95f);
+
 	private readonly Dictionary<string, Marker> _markers = new();
+	private readonly Dictionary<string, Area2D> _interactionAreas = new();
 	private readonly HashSet<Vector2I> _groundTiles = new();
 	private readonly HashSet<Vector2I> _blockedTiles = new();
 	private int _mapWidth = 16;
@@ -49,15 +58,16 @@ public abstract partial class SceneGameBase : Node2D
 	private Label _hintLabel = null!;
 	private Panel _messagePanel = null!;
 	private Label _messageLabel = null!;
-        private Panel _objectivePanel = null!;
-        private Label _objectiveChapterLabel = null!;
-        private Label _objectiveTextLabel = null!;
-        private Label _objectiveReasonLabel = null!;
+	private Panel _objectivePanel = null!;
+	private Label _objectiveChapterLabel = null!;
+	private Label[] _objectiveItemLabels = Array.Empty<Label>();
 	private Area2D? _focusedArea;
 	protected Dialogue.DialogueManager? DialogueManager;
 	private Dialogue.DialoguePanel? _dialoguePanel;
 	private AttributePanel? _attributePanel;
 	protected Dialogue.SceneConditionValueProvider? ConditionProvider;
+	private GameFlow? _flow;
+	private Action? _unsubscribeQuestFlag;
 	protected string Variant = "day";
 
 	protected virtual Vector2 Origin { get; set; } = new(576f, 96f);
@@ -118,14 +128,14 @@ public abstract partial class SceneGameBase : Node2D
 		DialogueManager = new Dialogue.DialogueManager();
 		AddChild(DialogueManager);
 
-		var flow = GetNodeOrNull<GameFlow>("/root/GameFlow");
 		IEventBus eventBus;
 		MindsetService mindsetService;
-		if (flow != null)
+		_flow = GetNodeOrNull<GameFlow>("/root/GameFlow");
+		if (_flow != null)
 		{
 			GD.Print($"[{SceneName}] _Ready: GameFlow autoload found, using shared EventBus/MindsetService.");
-			eventBus = flow.EventBus;
-			mindsetService = flow.MindsetService;
+			eventBus = _flow.EventBus;
+			mindsetService = _flow.MindsetService;
 		}
 		else
 		{
@@ -136,6 +146,8 @@ public abstract partial class SceneGameBase : Node2D
 
 		ConditionProvider = new Dialogue.SceneConditionValueProvider(mindsetService);
 		ConditionProvider.SetFlag("variant", Variant);
+		ImportQuestFlagsFromGameFlow();
+		_unsubscribeQuestFlag = eventBus.Subscribe<DialogueQuestFlagEvent>(OnDialogueQuestFlag);
 		DialogueManager.Initialize(eventBus, mindsetService, _dialoguePanel, ConditionProvider);
 		DialogueManager.DialogueEnded += OnDialogueEnded;
 		GD.Print($"[{SceneName}] _Ready: dialogue system initialized.");
@@ -165,58 +177,120 @@ public abstract partial class SceneGameBase : Node2D
 		GD.Print($"[{SceneName}] _Ready: complete.");
 	}
 
+	public override void _ExitTree()
+	{
+		_unsubscribeQuestFlag?.Invoke();
+		_unsubscribeQuestFlag = null;
+
+		if (DialogueManager != null)
+			DialogueManager.DialogueEnded -= OnDialogueEnded;
+
+		base._ExitTree();
+	}
+
 	protected virtual void OnReady() { }
 
-        private void CreateObjectiveHud(CanvasLayer uiLayer)
-        {
-                _objectivePanel = new Panel
-                {
-                        Name = "ObjectivePanel",
-                        Visible = false,
-                        MouseFilter = Control.MouseFilterEnum.Ignore,
-                };
-                uiLayer.AddChild(_objectivePanel);
+	private void ImportQuestFlagsFromGameFlow()
+	{
+		if (_flow == null || ConditionProvider == null)
+			return;
 
-                var box = new VBoxContainer
-                {
-                        Name = "ObjectiveContent",
-                        MouseFilter = Control.MouseFilterEnum.Ignore,
-                };
-                _objectivePanel.AddChild(box);
+		foreach (var (key, value) in _flow.QuestFlags)
+			ConditionProvider.SetFlag(key, value);
+	}
 
-                _objectiveChapterLabel = new Label
-                {
-                        Name = "ChapterLabel",
-                        Text = "",
-                        MouseFilter = Control.MouseFilterEnum.Ignore,
-                };
-                _objectiveTextLabel = new Label
-                {
-                        Name = "ObjectiveLabel",
-                        Text = "",
-                        AutowrapMode = TextServer.AutowrapMode.WordSmart,
-                        MouseFilter = Control.MouseFilterEnum.Ignore,
-                };
-                _objectiveReasonLabel = new Label
-                {
-                        Name = "ReasonLabel",
-                        Text = "",
-                        AutowrapMode = TextServer.AutowrapMode.WordSmart,
-                        MouseFilter = Control.MouseFilterEnum.Ignore,
-                };
+	private void OnDialogueQuestFlag(DialogueQuestFlagEvent gameEvent)
+	{
+		SetQuestFlag(gameEvent.Key, gameEvent.Value);
+	}
 
-                box.AddChild(_objectiveChapterLabel);
-                box.AddChild(_objectiveTextLabel);
-                box.AddChild(_objectiveReasonLabel);
+	protected void SetQuestFlag(string key, string? value = "true")
+	{
+		if (string.IsNullOrWhiteSpace(key))
+			return;
 
-                _objectiveChapterLabel.AddThemeFontSizeOverride("font_size", 13);
-                _objectiveTextLabel.AddThemeFontSizeOverride("font_size", 18);
-                _objectiveReasonLabel.AddThemeFontSizeOverride("font_size", 13);
+		var normalized = string.IsNullOrWhiteSpace(value) ? "true" : value;
+		ConditionProvider?.SetFlag(key, normalized);
+		_flow?.RecordQuestFlag(key, normalized);
+		OnQuestFlagChanged(key, normalized);
+	}
 
-                _objectiveChapterLabel.AddThemeColorOverride("font_color", new Color(0.78f, 0.84f, 0.84f, 0.86f));
-                _objectiveTextLabel.AddThemeColorOverride("font_color", new Color(0.96f, 0.94f, 0.86f, 1f));
-                _objectiveReasonLabel.AddThemeColorOverride("font_color", new Color(0.78f, 0.84f, 0.84f, 0.82f));
-        }
+	protected bool HasQuestFlag(string key, string expectedValue = "true")
+		=> _flow?.HasQuestFlag(key, expectedValue) == true ||
+			ConditionProviderHasFlag(key, expectedValue);
+
+	protected string? GetQuestFlag(string key)
+		=> _flow?.GetQuestFlag(key);
+
+	protected virtual void OnQuestFlagChanged(string key, string value) { }
+
+	private bool ConditionProviderHasFlag(string key, string expectedValue)
+	{
+		if (ConditionProvider == null)
+			return false;
+
+		var condition = new DialogueConditionSpec
+		{
+			Source = "flag",
+			Key = key,
+			Op = "==",
+			Value = expectedValue,
+		};
+		return ConditionProvider.TryGetValue(condition, out var value, out _) &&
+			string.Equals(value, expectedValue, StringComparison.Ordinal);
+	}
+
+	private void CreateObjectiveHud(CanvasLayer uiLayer)
+	{
+		_objectivePanel = new Panel
+		{
+			Name = "ObjectivePanel",
+			Visible = false,
+			MouseFilter = Control.MouseFilterEnum.Ignore,
+		};
+		uiLayer.AddChild(_objectivePanel);
+
+		var box = new VBoxContainer
+		{
+			Name = "ObjectiveContent",
+			MouseFilter = Control.MouseFilterEnum.Ignore,
+		};
+		_objectivePanel.AddChild(box);
+
+		_objectiveChapterLabel = new Label
+		{
+			Name = "ChapterLabel",
+			Text = "任务追踪",
+			MouseFilter = Control.MouseFilterEnum.Ignore,
+		};
+		var itemLabels = new List<Label>();
+		for (var i = 0; i < 3; i++)
+		{
+			var label = new Label
+			{
+				Name = $"ObjectiveItem{i + 1}",
+				Text = "",
+				Visible = false,
+				AutowrapMode = TextServer.AutowrapMode.WordSmart,
+				MouseFilter = Control.MouseFilterEnum.Ignore,
+			};
+			itemLabels.Add(label);
+		}
+
+		_objectiveItemLabels = itemLabels.ToArray();
+
+		box.AddChild(_objectiveChapterLabel);
+		foreach (var label in _objectiveItemLabels)
+			box.AddChild(label);
+
+		_objectiveChapterLabel.AddThemeFontSizeOverride("font_size", 13);
+		foreach (var label in _objectiveItemLabels)
+			label.AddThemeFontSizeOverride("font_size", 14);
+
+		_objectiveChapterLabel.AddThemeColorOverride("font_color", new Color(0.78f, 0.84f, 0.84f, 0.86f));
+		foreach (var label in _objectiveItemLabels)
+			label.AddThemeColorOverride("font_color", new Color(0.96f, 0.94f, 0.86f, 1f));
+	}
 
 	private void ConfigureResponsiveHud()
 	{
@@ -265,29 +339,29 @@ public abstract partial class SceneGameBase : Node2D
 		_messageLabel.OffsetBottom = -18f;
 		_messageLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
 
-                ConfigureObjectiveHudLayout();
-        }
+		ConfigureObjectiveHudLayout();
+	}
 
-        private void ConfigureObjectiveHudLayout()
-        {
-                _objectivePanel.AnchorLeft = 1.0f;
-                _objectivePanel.AnchorRight = 1.0f;
-                _objectivePanel.AnchorTop = 0.0f;
-                _objectivePanel.AnchorBottom = 0.0f;
-                _objectivePanel.OffsetLeft = -420f;
-                _objectivePanel.OffsetRight = -24f;
-                _objectivePanel.OffsetTop = 22f;
-                _objectivePanel.OffsetBottom = 136f;
+	private void ConfigureObjectiveHudLayout()
+	{
+		_objectivePanel.AnchorLeft = 0.0f;
+		_objectivePanel.AnchorRight = 0.0f;
+		_objectivePanel.AnchorTop = 0.0f;
+		_objectivePanel.AnchorBottom = 0.0f;
+		_objectivePanel.OffsetLeft = 20f;
+		_objectivePanel.OffsetRight = 420f;
+		_objectivePanel.OffsetTop = 88f;
+		_objectivePanel.OffsetBottom = 206f;
 
-                var box = _objectivePanel.GetNode<VBoxContainer>("ObjectiveContent");
-                box.AnchorLeft = 0.0f;
-                box.AnchorRight = 1.0f;
-                box.AnchorTop = 0.0f;
-                box.AnchorBottom = 1.0f;
-                box.OffsetLeft = 16f;
-                box.OffsetRight = -16f;
-                box.OffsetTop = 12f;
-                box.OffsetBottom = -12f;
+		var box = _objectivePanel.GetNode<VBoxContainer>("ObjectiveContent");
+		box.AnchorLeft = 0.0f;
+		box.AnchorRight = 1.0f;
+		box.AnchorTop = 0.0f;
+		box.AnchorBottom = 1.0f;
+		box.OffsetLeft = 16f;
+		box.OffsetRight = -16f;
+		box.OffsetTop = 12f;
+		box.OffsetBottom = -12f;
 	}
 
 	private static void ConfigureTopLeftLabel(Label label, float top, float height)
@@ -304,53 +378,84 @@ public abstract partial class SceneGameBase : Node2D
 
 	public override void _Process(double delta)
 	{
-                RefreshObjectiveHudVisibility();
+		RefreshObjectiveHudVisibility();
 		UpdatePlayerTileMarker();
 		CheckAutoExit();
 	}
 
-        protected void SetCurrentObjective(
-                string chapter,
-                string objective,
-                string reason = "",
-                bool flash = false)
-        {
-                _objectiveChapterLabel.Text = chapter;
-                _objectiveTextLabel.Text = $"当前目标：{objective}";
-                _objectiveReasonLabel.Text = string.IsNullOrWhiteSpace(reason) ? "" : $"原因：{reason}";
-                _objectiveReasonLabel.Visible = !string.IsNullOrWhiteSpace(reason);
-                _objectivePanel.Visible = true;
+	protected void SetCurrentObjective(
+		string chapter,
+		string objective,
+		string reason = "",
+		bool flash = false,
+		GameFlow.TrackedQuestKind kind = GameFlow.TrackedQuestKind.Mainline)
+	{
+		_flow?.TrackObjective(chapter, objective, reason, kind);
+		RefreshObjectiveHudItems();
 
-                if (flash)
-                        FlashObjectiveHud();
-        }
+		if (flash)
+			FlashObjectiveHud();
+	}
 
-        protected void ClearCurrentObjective()
-        {
-                _objectivePanel.Visible = false;
-                _objectiveChapterLabel.Text = "";
-                _objectiveTextLabel.Text = "";
-                _objectiveReasonLabel.Text = "";
-        }
+	protected void ClearCurrentObjective()
+	{
+		_objectivePanel.Visible = false;
+		foreach (var label in _objectiveItemLabels)
+		{
+			label.Text = "";
+			label.Visible = false;
+		}
+	}
 
-        private void RefreshObjectiveHudVisibility()
-        {
-                if (string.IsNullOrWhiteSpace(_objectiveTextLabel.Text))
-                        return;
+	private void RefreshObjectiveHudVisibility()
+	{
+		if (_objectiveItemLabels.All(label => string.IsNullOrWhiteSpace(label.Text)))
+			return;
 
-                _objectivePanel.Visible =
-                        DialogueManager?.IsDialogueActive != true &&
-                        !_messagePanel.Visible;
-        }
+		_objectivePanel.Visible =
+			DialogueManager?.IsDialogueActive != true &&
+			!_messagePanel.Visible;
+	}
 
-        private void FlashObjectiveHud()
-        {
-                _objectivePanel.SelfModulate = new Color(1.0f, 0.92f, 0.68f, 1.0f);
-                var tween = CreateTween();
-                tween.TweenProperty(_objectivePanel, "self_modulate", Colors.White, 0.8)
-                        .SetTrans(Tween.TransitionType.Sine)
-                        .SetEase(Tween.EaseType.Out);
-        }
+	private void RefreshObjectiveHudItems()
+	{
+		IReadOnlyList<GameFlow.TrackedQuestObjective> tracked =
+			_flow?.GetTrackedObjectivesForHud() ?? Array.Empty<GameFlow.TrackedQuestObjective>();
+		for (var i = 0; i < _objectiveItemLabels.Length; i++)
+		{
+			var label = _objectiveItemLabels[i];
+			if (i >= tracked.Count)
+			{
+				label.Text = "";
+				label.Visible = false;
+				continue;
+			}
+
+			var objective = tracked[i];
+			var prefix = objective.Kind switch
+			{
+				GameFlow.TrackedQuestKind.Mainline => "主线",
+				GameFlow.TrackedQuestKind.Side => "支线",
+				GameFlow.TrackedQuestKind.Tutorial => "教学",
+				_ => "目标",
+			};
+			label.Text = string.IsNullOrWhiteSpace(objective.Reason)
+				? $"{prefix}：{objective.Text}"
+				: $"{prefix}：{objective.Text}\n    {objective.Reason}";
+			label.Visible = true;
+		}
+
+		_objectivePanel.Visible = tracked.Count > 0;
+	}
+
+	private void FlashObjectiveHud()
+	{
+		_objectivePanel.SelfModulate = new Color(1.0f, 0.92f, 0.68f, 1.0f);
+		var tween = CreateTween();
+		tween.TweenProperty(_objectivePanel, "self_modulate", Colors.White, 0.8)
+			.SetTrans(Tween.TransitionType.Sine)
+			.SetEase(Tween.EaseType.Out);
+	}
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
@@ -408,6 +513,7 @@ public abstract partial class SceneGameBase : Node2D
 		Variant = variant;
 		_focusedArea = null;
 		_markers.Clear();
+		_interactionAreas.Clear();
 		_groundTiles.Clear();
 		_blockedTiles.Clear();
 		ClearChildren(_structures);
@@ -581,19 +687,35 @@ public abstract partial class SceneGameBase : Node2D
 				};
 				var polygon = new CollisionPolygon2D
 				{
-					Polygon = new Vector2[]
-					{
-						new(-TileWidth / 2f, 0f),
-						new(0f, -TileHeight / 2f),
-						new(TileWidth / 2f, 0f),
-						new(0f, TileHeight / 2f),
-					},
+					Name = "BlockedTileCollision",
+					Polygon = GetIsoDiamondPolygon(),
 				};
 				body.AddChild(polygon);
+				body.AddChild(CreateBlockedTileOverlay());
+				body.AddChild(CreateBlockedTileOutline());
 				_collision.AddChild(body);
 			}
 		}
 	}
+
+	private Polygon2D CreateBlockedTileOverlay() =>
+		new()
+		{
+			Name = "BlockedTileOverlay",
+			Polygon = GetIsoDiamondPolygon(),
+			Color = BlockedTileOverlayFill,
+			ZIndex = 20,
+		};
+
+	private Line2D CreateBlockedTileOutline() =>
+		new()
+		{
+			Name = "BlockedTileOutline",
+			Points = GetIsoDiamondOutline(),
+			DefaultColor = BlockedTileOverlayOutline,
+			Width = 2.5f,
+			ZIndex = 21,
+		};
 
 	private void BuildLogicMarkers(XElement root)
 	{
@@ -610,6 +732,9 @@ public abstract partial class SceneGameBase : Node2D
 			var marker = new Marker(name, type, ParseInt(tileXText), ParseInt(tileYText), props);
 			_markers[name] = marker;
 			GD.Print($"[{SceneName}] BuildLogicMarkers: registered '{name}' type='{type}' at tile=({marker.TileX},{marker.TileY}).");
+
+			if (IsBlockingInteractionMarker(type))
+				_blockedTiles.Add(new Vector2I(marker.TileX, marker.TileY));
 
 			if (type == "blocker" || type == "entry")
 				continue;
@@ -643,18 +768,7 @@ public abstract partial class SceneGameBase : Node2D
 				continue;
 			}
 
-			var area = new Area2D
-			{
-				Name = name,
-				Position = TileToScreen(marker.TileX, marker.TileY),
-			};
-			var shape = new CollisionShape2D
-			{
-				Shape = new CircleShape2D { Radius = 30f },
-			};
-			area.AddChild(shape);
-			area.BodyEntered += body => OnInteractionEntered(area, body);
-			area.BodyExited += body => OnInteractionExited(area, body);
+			var area = CreateInteractionArea(name, TileToScreen(marker.TileX, marker.TileY));
 			_logicMarkers.AddChild(area);
 		}
 	}
@@ -688,18 +802,101 @@ public abstract partial class SceneGameBase : Node2D
 		npcRoot.AddChild(sprite);
 		sprite.Play();
 
-		var area = new Area2D { Name = marker.Name };
-		var shape = new CollisionShape2D
-		{
-			Shape = new CircleShape2D { Radius = 30f },
-		};
-		area.AddChild(shape);
-		area.BodyEntered += body => OnInteractionEntered(area, body);
-		area.BodyExited += body => OnInteractionExited(area, body);
+		var area = CreateInteractionArea(marker.Name, Vector2.Zero);
 		npcRoot.AddChild(area);
+		npcRoot.AddChild(CreateCharacterBlockingBody(marker.Name));
 
 		_mapRoot.AddChild(npcRoot);
 		GD.Print($"[{SceneName}] SpawnStaticNpc: '{marker.Name}' ({characterId}) placed at tile=({marker.TileX},{marker.TileY}).");
+	}
+
+	private static StaticBody2D CreateCharacterBlockingBody(string markerName)
+	{
+		var body = new StaticBody2D
+		{
+			Name = $"{markerName}_body",
+			CollisionLayer = 1,
+			CollisionMask = 0,
+		};
+		var collision = new CollisionPolygon2D
+		{
+			Name = "CharacterFootprintCollision",
+		};
+		CharacterFootprint.ApplyTo(collision);
+		body.AddChild(collision);
+		return body;
+	}
+
+	private Area2D CreateInteractionArea(string name, Vector2 position)
+	{
+		var area = new Area2D
+		{
+			Name = name,
+			Position = position - InteractionDiamondOffset,
+		};
+
+		var collision = new CollisionPolygon2D
+		{
+			Name = "InteractionDiamondCollision",
+			Polygon = GetIsoDiamondPolygon(),
+			Position = InteractionDiamondOffset,
+		};
+		area.AddChild(collision);
+
+		var highlight = new Polygon2D
+		{
+			Name = "InteractionHighlight",
+			Polygon = GetIsoDiamondPolygon(),
+			Color = InteractionDefaultFill,
+			Position = InteractionDiamondOffset,
+			Visible = true,
+			ZIndex = 60,
+		};
+		area.AddChild(highlight);
+
+		var outline = new Line2D
+		{
+			Name = "InteractionHighlightOutline",
+			Points = GetIsoDiamondOutline(),
+			DefaultColor = InteractionHighlightOutline,
+			Width = 3f,
+			Position = InteractionDiamondOffset,
+			Visible = false,
+			ZIndex = 61,
+		};
+		area.AddChild(outline);
+
+		area.BodyEntered += body => OnInteractionEntered(area, body);
+		area.BodyExited += body => OnInteractionExited(area, body);
+		_interactionAreas[name] = area;
+		return area;
+	}
+
+	private static bool IsBlockingInteractionMarker(string type) =>
+		type != "blocker" &&
+		type != "entry" &&
+		type != "exit";
+
+	private Vector2[] GetIsoDiamondPolygon() =>
+		new Vector2[]
+		{
+			new(-TileWidth / 2f, 0f),
+			new(0f, -TileHeight / 2f),
+			new(TileWidth / 2f, 0f),
+			new(0f, TileHeight / 2f),
+		};
+
+	private Vector2[] GetIsoDiamondOutline()
+	{
+		var polygon = GetIsoDiamondPolygon();
+		return new Vector2[]
+		{
+			polygon[0],
+			polygon[1],
+			polygon[2],
+			polygon[3],
+			polygon[0],
+		};
 	}
 
 	private void ConfigurePlayerTileMovement(Vector2I tile)
@@ -802,9 +999,8 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		if (body != Player)
 			return;
-		_focusedArea = area;
-		GD.Print($"[{SceneName}] Player entered interaction zone: '{area.Name}'");
-		UpdatePrompt();
+
+		FocusInteractionArea(area);
 	}
 
 	private void OnInteractionExited(Area2D area, Node2D body)
@@ -812,8 +1008,25 @@ public abstract partial class SceneGameBase : Node2D
 		if (body != Player || _focusedArea != area)
 			return;
 		GD.Print($"[{SceneName}] Player exited interaction zone: '{area.Name}'");
-		_focusedArea = null;
-		UpdatePrompt();
+		if (!IsPlayerAdjacentToArea(area))
+			ClearFocusedInteraction();
+	}
+
+	private static void SetInteractionHighlight(Area2D? area, bool visible)
+	{
+		if (area is null)
+			return;
+
+		var fill = area.GetNodeOrNull<Polygon2D>("InteractionHighlight");
+		if (fill != null)
+		{
+			fill.Visible = true;
+			fill.Color = visible ? InteractionHighlightFill : InteractionDefaultFill;
+		}
+
+		var outline = area.GetNodeOrNull<Line2D>("InteractionHighlightOutline");
+		if (outline != null)
+			outline.Visible = visible;
 	}
 
 	private void UpdatePrompt()
@@ -832,6 +1045,64 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		var tile = ScreenToTile(Player.Position);
 		_markers["player_tile"] = new Marker("player_tile", "runtime", tile.X, tile.Y);
+		UpdateAdjacentInteractionFocus(tile);
+	}
+
+	private void UpdateAdjacentInteractionFocus(Vector2I playerTile)
+	{
+		foreach (var (name, marker) in _markers)
+		{
+			if (!IsBlockingInteractionMarker(marker.Type) ||
+				!IsAdjacent(playerTile, new Vector2I(marker.TileX, marker.TileY)) ||
+				!_interactionAreas.TryGetValue(name, out var area))
+			{
+				continue;
+			}
+
+			FocusInteractionArea(area);
+			return;
+		}
+
+		ClearFocusedInteraction();
+	}
+
+	private void FocusInteractionArea(Area2D area)
+	{
+		if (_focusedArea == area)
+			return;
+
+		SetInteractionHighlight(_focusedArea, false);
+		_focusedArea = area;
+		SetInteractionHighlight(area, true);
+		GD.Print($"[{SceneName}] Player focused interaction zone: '{area.Name}'");
+		UpdatePrompt();
+	}
+
+	private void ClearFocusedInteraction()
+	{
+		if (_focusedArea == null)
+			return;
+
+		SetInteractionHighlight(_focusedArea, false);
+		_focusedArea = null;
+		UpdatePrompt();
+	}
+
+	private bool IsPlayerAdjacentToArea(Area2D area)
+	{
+		var areaName = area.Name.ToString();
+		if (!_markers.TryGetValue(areaName, out var marker))
+			return false;
+
+		return IsAdjacent(
+			ScreenToTile(Player.Position),
+			new Vector2I(marker.TileX, marker.TileY));
+	}
+
+	private static bool IsAdjacent(Vector2I a, Vector2I b)
+	{
+		var delta = a - b;
+		return Math.Abs(delta.X) + Math.Abs(delta.Y) == 1;
 	}
 
 	private void CheckAutoExit()

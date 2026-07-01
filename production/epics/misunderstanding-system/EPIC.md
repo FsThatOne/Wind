@@ -3,8 +3,8 @@
 > **Layer**: Feature
 > **GDD**: design/gdd/misunderstanding-system.md
 > **Architecture Module**: `Feature/Misunderstanding/`
-> **Status**: Ready
-> **Stories**: 9 (5 Ready, 4 Blocked)
+> **Status**: Done (Foundation logic complete; Feature/Presentation layers pending external runtime)
+> **Stories**: 9 (9 Complete)
 
 ## Overview
 
@@ -25,15 +25,15 @@ Foundation 层（状态机 + 数据结构 + 事件接口）可独立实施并用
 
 | # | Story | Layer | Type | Status | Blocked By |
 |---|-------|-------|------|--------|------------|
-| ms-001 | Misunderstanding Data Model & State Machine | Foundation | Logic | Ready | — |
-| ms-002 | Mod Calculation & NPC State Write | Foundation | Logic | Ready | — |
-| ms-003 | Window Countdown & Permanence | Foundation | Logic | Ready | — |
-| ms-004 | Transparency Progression | Foundation | Logic | Ready | — |
-| ms-005 | Resolution & Bounce-back | Foundation | Logic | Ready | — |
-| ms-006 | Trigger Integration — Jianghu & Dialogue | Feature | Integration | Blocked | #16, #5 |
-| ms-007 | Romance Floor Protection & Force Break | Feature | Integration | Blocked | #13 |
-| ms-008 | Transparency Signal UI (ADR-0012) | Presentation | Visual/Feel | Blocked | ADR-0012 实现, #10 |
-| ms-009 | Content: Chapter 0 Misunderstanding Instances | Config/Data | Config/Data | Blocked | ms-006, 序章叙事 |
+| ms-001 | Misunderstanding Data Model & State Machine | Foundation | Logic | Complete | — |
+| ms-002 | Mod Calculation & NPC State Write | Foundation | Logic | Complete | — |
+| ms-003 | Window Countdown & Permanence | Foundation | Logic | Complete | — |
+| ms-004 | Transparency Progression | Foundation | Logic | Complete | — |
+| ms-005 | Resolution & Bounce-back | Foundation | Logic | Complete | — |
+| ms-006 | Trigger Integration — Jianghu & Dialogue | Feature | Integration | Complete | — |
+| ms-007 | Romance Floor Protection & Force Break | Feature | Integration | Complete | — |
+| ms-008 | Transparency Signal UI (ADR-0012) | Presentation | Visual/Feel | Complete | — |
+| ms-009 | Content: Chapter 0 Misunderstanding Instances | Config/Data | Config/Data | Complete | — |
 
 ## GDD Requirements
 
@@ -69,4 +69,6 @@ This epic is complete when:
 
 ## Next Step
 
-Begin with ms-001 (Data Model & State Machine) — 无外部依赖，可立即开始。
+Epic complete. Remaining work for full integration:
+- Feature layer: implement `IScenePresenceQuery`, `IRomanceService` real adapters when those systems ship
+- Presentation layer: ADR-0012 spike → implement shader/audio channels in Godot

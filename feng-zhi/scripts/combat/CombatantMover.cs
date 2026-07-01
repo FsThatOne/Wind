@@ -10,19 +10,34 @@ namespace FengZhi.Vs.Combat;
 /// </summary>
 public partial class CombatantMover : Node2D
 {
+    [Signal]
+    public delegate void MovementFinishedEventHandler(string actorId);
+
     private Sprite2D? _sprite;
     private bool _isMoving;
+    private string _actorId = string.Empty;
 
     public bool IsMoving => _isMoving;
 
     public void Initialize(Sprite2D sprite)
     {
         _sprite = sprite;
+        _actorId = string.Empty;
+    }
+
+    public void Initialize(string actorId, Sprite2D sprite)
+    {
+        _actorId = actorId;
+        _sprite = sprite;
     }
 
     public async void MoveAlongPath(IReadOnlyList<GridPosition> path, float stepDuration = 0.15f)
     {
-        if (_sprite == null || path.Count < 2) return;
+        if (_sprite == null || path.Count < 2)
+        {
+            EmitSignal(SignalName.MovementFinished, _actorId);
+            return;
+        }
 
         _isMoving = true;
         var tween = CreateTween();
@@ -36,5 +51,6 @@ public partial class CombatantMover : Node2D
 
         await ToSignal(tween, Tween.SignalName.Finished);
         _isMoving = false;
+        EmitSignal(SignalName.MovementFinished, _actorId);
     }
 }

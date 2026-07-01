@@ -1,0 +1,169 @@
+[gd_scene load_steps=9 format=3 uid="uid://ce0leeu7ltkvl"]
+
+[ext_resource type="Script" path="res://scripts/vs/TacticsBattleGame.cs" id="1_battle"]
+[ext_resource type="TileSet" path="res://assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres" id="2_tileset"]
+[ext_resource type="Texture2D" path="res://assets/character/main_character_iso4/walk/walk_se_00.png" id="3_player_se"]
+[ext_resource type="Script" path="res://scripts/combat/DecisiveStrikeGodotAdapter.cs" id="4_decisiveadapter"]
+[ext_resource type="PackedScene" path="res://scenes/ui/combat/DecisiveStrikeOverlay.tscn" id="5_decisiveoverlay"]
+[ext_resource type="Script" path="res://scripts/combat/BoardVisualizer.cs" id="6_boardvisualizer"]
+[ext_resource type="Script" path="res://scripts/combat/GridCursorController.cs" id="7_gridcursor"]
+[ext_resource type="Script" path="res://scripts/combat/CombatantMover.cs" id="8_combatantmover"]
+
+[node name="TacticsBattle" type="Node2D"]
+script = ExtResource("1_battle")
+DemoSeed = "tactics-slice"
+UseXingqiMode = true
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.07, 0.06, 0.10, 1)
+
+[node name="IsoBoard" type="Node2D" parent="."]
+position = Vector2(576, 220)
+y_sort_enabled = true
+
+[node name="TileMap" type="TileMapLayer" parent="IsoBoard"]
+tile_set = ExtResource("2_tileset")
+
+[node name="PlayerSprite" type="Sprite2D" parent="IsoBoard"]
+position = Vector2(-32, 32)
+texture = ExtResource("3_player_se")
+
+[node name="BanditSprite" type="Sprite2D" parent="IsoBoard"]
+position = Vector2(64, -16)
+modulate = Color(1, 0.6, 0.55, 1)
+texture = ExtResource("3_player_se")
+flip_h = true
+
+[node name="BoardVisualizer" type="Node2D" parent="IsoBoard"]
+z_index = 3
+script = ExtResource("6_boardvisualizer")
+
+[node name="GridCursorController" type="Node2D" parent="IsoBoard"]
+z_index = 4
+script = ExtResource("7_gridcursor")
+
+[node name="CombatantMover" type="Node2D" parent="IsoBoard"]
+script = ExtResource("8_combatantmover")
+
+[node name="SceneTitle" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+anchor_right = 1.0
+offset_right = -24.0
+offset_bottom = 64.0
+text = "[MVP-A] 战棋薄片 · 江湖小贼 (Lite Xingqi 战斗)"
+
+[node name="UiLayer" type="CanvasLayer" parent="."]
+
+[node name="CombatPanel" type="Panel" parent="UiLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+
+[node name="StatusLabel" type="Label" parent="UiLayer/CombatPanel"]
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 880.0
+offset_bottom = 56.0
+text = "观气"
+
+[node name="PlayerStats" type="VBoxContainer" parent="UiLayer/CombatPanel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -220.0
+offset_right = 360.0
+offset_bottom = -36.0
+theme_override_constants/separation = 6
+
+[node name="HpLabel" type="Label" parent="UiLayer/CombatPanel/PlayerStats"]
+text = "主角 HP -- / --"
+
+[node name="NeixiLabel" type="Label" parent="UiLayer/CombatPanel/PlayerStats"]
+text = "内息 -- / --"
+
+[node name="XingqiBar" type="ProgressBar" parent="UiLayer/CombatPanel/PlayerStats"]
+custom_minimum_size = Vector2(200, 20)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="StaggerLabel" type="Label" parent="UiLayer/CombatPanel/PlayerStats"]
+text = "破绽 -- / --"
+
+[node name="QiLabel" type="Label" parent="UiLayer/CombatPanel/PlayerStats"]
+text = "气机 -- / 行气 --"
+
+[node name="BanditStats" type="VBoxContainer" parent="UiLayer/CombatPanel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -220.0
+offset_right = -24.0
+offset_bottom = -36.0
+theme_override_constants/separation = 6
+
+[node name="HpLabel" type="Label" parent="UiLayer/CombatPanel/BanditStats"]
+text = "江湖小贼 HP -- / --"
+
+[node name="NeixiLabel" type="Label" parent="UiLayer/CombatPanel/BanditStats"]
+text = "内息 -- / --"
+
+[node name="XingqiBar" type="ProgressBar" parent="UiLayer/CombatPanel/BanditStats"]
+custom_minimum_size = Vector2(200, 20)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="StaggerLabel" type="Label" parent="UiLayer/CombatPanel/BanditStats"]
+text = "破绽 -- / --"
+
+[node name="QiLabel" type="Label" parent="UiLayer/CombatPanel/BanditStats"]
+text = "气机 -- / 行气 --"
+
+[node name="RelationLabel" type="Label" parent="UiLayer/CombatPanel/BanditStats"]
+text = "关系：未选招式"
+autowrap_mode = 3
+
+[node name="Hint" type="Label" parent="UiLayer/CombatPanel"]
+offset_left = 24.0
+offset_top = 68.0
+offset_right = 880.0
+offset_bottom = 120.0
+text = "取位 · 出招 · 结算"
+autowrap_mode = 3
+
+[node name="MoveSelectionMount" type="Control" parent="UiLayer/CombatPanel"]
+anchor_left = 0.28
+anchor_top = 1.0
+anchor_right = 0.72
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -190.0
+offset_right = 0.0
+offset_bottom = -36.0
+mouse_filter = 2
+
+; cu-006-vs-integration: 战斗主相机 (CameraRequestBusBridge 写入目标)
+; 默认 PositionSmoothingEnabled=true, Zoom=1; 演出期 bridge 会切到 Zoom=1.6 + Smoothing=false 锁定目标, 完成后恢复
+[node name="MainCamera" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+enabled = true
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0
+
+; cu-006-vs-integration: 一击决胜慢动作覆盖层 (instance)
+; 默认 Visible=false, 由 DecisiveStrikeGodotAdapter 在 RequestDecisive 时 toggle
+[node name="DecisiveStrikeOverlay" parent="." instance=ExtResource("5_decisiveoverlay")]
+
+; cu-006-vs-integration: 一击决胜 Godot 适配器节点 (TacticsBattleGame._Ready 调用 Initialize 注入依赖)
+[node name="DecisiveStrikeAdapter" type="Node" parent="."]
+script = ExtResource("4_decisiveadapter")

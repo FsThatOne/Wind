@@ -740,25 +740,41 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         Visible = false;
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
 
-        _slotContainer = new VBoxContainer
+        _slotContainer = new HBoxContainer
         {
             Name = "SlotContainer",
             SizeFlagsHorizontal = SizeFlags.ExpandFill,
             SizeFlagsVertical = SizeFlags.ExpandFill,
         };
-        _slotContainer.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        _slotContainer.AnchorTop = 0.48f;
+        _slotContainer.AnchorRight = 1.0f;
+        _slotContainer.AnchorBottom = 1.0f;
+        _slotContainer.OffsetLeft = 0f;
+        _slotContainer.OffsetTop = 0f;
+        _slotContainer.OffsetRight = 0f;
+        _slotContainer.OffsetBottom = 0f;
         _slotContainer.AddThemeConstantOverride("separation", 2);
         AddChild(_slotContainer);
 
         Preview = new CombatMovePreviewCardControl();
+        Preview.AnchorRight = 1.0f;
+        Preview.AnchorBottom = 0.44f;
+        Preview.OffsetLeft = 0f;
+        Preview.OffsetTop = 0f;
+        Preview.OffsetRight = 0f;
+        Preview.OffsetBottom = 0f;
         AddChild(Preview);
     }
 
-    private readonly VBoxContainer _slotContainer;
+    private readonly HBoxContainer _slotContainer;
 
     public CombatMovePreviewCardControl Preview { get; }
 
     public IReadOnlyList<CombatMoveActionSlot> Slots => _orderedSlots;
+
+    public event Action<string?>? ActionHovered;
+
+    public event Action<string>? ActionPressed;
 
     public CombatUiNavigationSnapshot NavigationSnapshot => _navigation.Snapshot;
 
@@ -890,6 +906,7 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
                 // cu-008 dual-focus: slot hover -> navigation.Hover (不抢 keyboard focus)
                 slot.SlotMouseEntered += OnSlotMouseEntered;
                 slot.SlotMouseExited += OnSlotMouseExited;
+                slot.SlotPressed += OnSlotPressed;
             }
 
             slot.Configure(entry);
@@ -908,6 +925,7 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
     {
         var navigation = _navigation.Hover(actionId);
         ApplyNavigationVisual(navigation);
+        ActionHovered?.Invoke(actionId);
     }
 
     private void OnSlotMouseExited(string actionId)
@@ -917,7 +935,15 @@ public partial class CombatMoveSelectionPanel : BaseUiPanel
         {
             var navigation = _navigation.Hover(null);
             ApplyNavigationVisual(navigation);
+            ActionHovered?.Invoke(null);
         }
+    }
+
+    private void OnSlotPressed(string actionId)
+    {
+        var navigation = _navigation.Hover(actionId);
+        ApplyNavigationVisual(navigation);
+        ActionPressed?.Invoke(actionId);
     }
 
     private void ApplyNavigationVisual(CombatUiNavigationSnapshot navigation)
@@ -1078,6 +1104,9 @@ public partial class CombatMoveActionSlot : Control
     [Signal]
     public delegate void SlotMouseExitedEventHandler(string actionId);
 
+    [Signal]
+    public delegate void SlotPressedEventHandler(string actionId);
+
     public CombatMoveActionSlot()
     {
         Name = "CombatMoveActionSlot";
@@ -1089,6 +1118,7 @@ public partial class CombatMoveActionSlot : Control
         MouseExited += OnMouseExited;
         FocusEntered += OnFocusEntered;
         FocusExited += OnFocusExited;
+        GuiInput += OnGuiInput;
     }
 
     /// <summary>当前 slot 是否被鼠标 hover（仅 UI 视觉，不影响 focus）。</summary>
@@ -1368,6 +1398,16 @@ public partial class CombatMoveActionSlot : Control
     {
         _isFocused = false;
         RefreshDualFocusVisuals();
+    }
+
+    private void OnGuiInput(InputEvent @event)
+    {
+        if (!IsEnabledForSelection || string.IsNullOrEmpty(ActionId))
+            return;
+        if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+            return;
+
+        EmitSignal(SignalName.SlotPressed, ActionId);
     }
 
     private static string ToNodeName(string actionId)

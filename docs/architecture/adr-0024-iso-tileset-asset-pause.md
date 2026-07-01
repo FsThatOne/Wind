@@ -1,7 +1,7 @@
 # ADR-0024: iso Tileset 资产层暂撤 ≠ 方向否决（jiangnan-iso-v1 弃用 + 重设计前置）
 
 ## Status
-Accepted（决策落地 2026-06-24，commit 24c34ba 已删 v1 资产；重设计 story `S8-tileset-iso-redesign` 尚未拍板）
+Accepted（决策落地 2026-06-24，commit 24c34ba 已删 v1 资产；2026-07-01 复核后，旧江南过渡占位资产也已退役；重设计 story `S8-tileset-iso-redesign` 尚未拍板）
 
 ## Date
 2026-06-24
@@ -15,7 +15,7 @@ None（不取代任何 ADR；本 ADR 记录的是**实施路径调整**，[ADR-0
 
 **本次删除仅作用于资产层；[ADR-0022](adr-0022-isometric-projection-and-iso4-animator.md) iso projection 方向继续保留**，项目仍按 isometric diamond + 4 斜向架构推进。`jiangnan-iso` tileset 将在未来的 `S8-tileset-iso-redesign` story 中重新生产，重设方法不再依赖单一 `image_gen` 路径。
 
-当前过渡期使用 `feng-zhi/assets/maps/jiangnan_riverside/tilesets/jiangnan_ground_tiles.tres`（非-iso 平面 tileset，commit `fbbc5be`）作为 chapter_00 explore 临时方案 — 它**不替代** ADR-0022 方向，只是低视觉门槛的占位。
+2026-07-01 复核确认：江南正式场景尚未设计，旧 `jiangnan_riverside` 平面 tileset 也不得继续作为当前过渡方案。正式江南场景必须等场景设计和 `S8-tileset-iso-redesign` 或等价资产决策后重新建立。
 
 ## Engine Compatibility
 
@@ -26,7 +26,7 @@ None（不取代任何 ADR；本 ADR 记录的是**实施路径调整**，[ADR-0
 | **Knowledge Risk** | **LOW** — 不引入任何新 API；删除 `.tres` / `.png` / `.import` 是 Godot 标准操作 |
 | **References Consulted** | [ADR-0022](adr-0022-isometric-projection-and-iso4-animator.md), `assets/generated/tilesets/jiangnan-iso/` (history), `production/qa/evidence/s7-iso-pivot-foundation/pond-showcase-2026-06-24.md` (history) |
 | **Post-Cutoff APIs Used** | 无 |
-| **Verification Required** | 1) git log 6734093 / 32f2cd5 仍可恢复历史资产；2) 当前过渡 tileset `jiangnan_ground_tiles.tres` 在 BackMountainCliffCave 实地装配 OK；3) ADR-0022 §扩展点 1 的 4 斜向角色动画与 tileset 选择正交，角色侧不受影响 |
+| **Verification Required** | 1) git log 6734093 / 32f2cd5 仍可恢复历史资产；2) 当前项目源文件不再保留未设计江南占位 tileset；3) ADR-0022 §扩展点 1 的 4 斜向角色动画与 tileset 选择正交，角色侧不受影响 |
 
 ## ADR Dependencies
 
@@ -65,7 +65,7 @@ ADR-0022 接受后，Sprint 7 同步落了 `S7-Iso-Pivot-Foundation` 故事的�
 - **不退回正交方格** — ADR-0022 的几何投影规则（cart ↔ iso 双向变换、y-sort、4 斜向 sector）继续生效
 - **不替换 ADR-0022** — 本 ADR 不修改 ADR-0022 任何决策；只补充实施路径
 - **保留 git 历史可追溯** — 删除资产后，`6734093` / `32f2cd5` 仍是 history 可达，未来若要回滚或参考可 `git show` 取出
-- **过渡 tileset 不污染长期方向** — `jiangnan_riverside/jiangnan_ground_tiles.tres` 仅作 chapter_00 explore 占位，不在 art-bible / GDD 提升为正式方向
+- **旧过渡 tileset 不污染长期方向** — 2026-07-01 复核后，未设计江南场景的占位 tileset 已退役；不在 art-bible / GDD 提升为正式方向
 
 ## Decision
 
@@ -80,14 +80,14 @@ ADR-0022 接受后，Sprint 7 同步落了 `S7-Iso-Pivot-Foundation` 故事的�
 | `feng-zhi/scenes/test/jiangnan_tileset_tester.tscn` + `JiangnanTilesetTester.cs` | 2 | v1 测试场景 |
 | `feng-zhi/addons/scene_markup_tool/` | 9 | 早期实验性插件，未被任何长期方向消费 |
 
-### Decision 2：过渡期使用 jiangnan_riverside 平面 tileset
+### Decision 2：旧江南过渡平面 tileset 退役
 
-`commit fbbc5be fix(tiles): tiles` 引入 `feng-zhi/assets/maps/jiangnan_riverside/tilesets/jiangnan_ground_tiles.tres`，为非-iso 的平面 tileset，仅用于 chapter_00 explore 占位。
+`commit fbbc5be fix(tiles): tiles` 曾引入 `feng-zhi/assets/maps/jiangnan_riverside/tilesets/jiangnan_ground_tiles.tres` 作为非-iso 平面占位。2026-07-01 复核后，该占位不再代表当前工程状态：江南场景尚未正式设计，因此源文件中不继续保留这批占位资产。
 
 **约束**：
-- 此 tileset **不进 art-bible**，不作为正式风格参考
-- 此 tileset **不复用到战斗场景**（battle scene 仍按 ADR-0022 iso 走）
-- 此 tileset 在 `S8-tileset-iso-redesign` 完成后**必须替换**为重设的 iso 版本
+- 不得用旧江南占位 tileset 启动正式场景开发
+- 不得复用到战斗场景（battle scene 仍按 ADR-0022 iso 走）
+- 江南正式场景必须由后续场景设计和资产重设任务重新产出
 
 ### Decision 3：重设地块的拍板标准（留 future story 选择）
 
@@ -129,13 +129,13 @@ ADR-0022 接受后，Sprint 7 同步落了 `S7-Iso-Pivot-Foundation` 故事的�
 - **不让低质量资产污染 master**：v1 资产删除后，commit 历史的设计意图清洁 — 未来 contributor 不会看到"半成品 iso tileset"误以为这是正式方向参考
 - **保留 ADR-0022 决策**：iso 方向不动，[ADR-0022 §扩展点 1](adr-0022-isometric-projection-and-iso4-animator.md) 的 4 斜向角色动画、`IsoProjection` Foundation 测试、battle scene iso 蒙皮 全部继续有效
 - **解锁灵活生产路径**：未来重设不必绑定 image_gen，可以选最适合当前阶段的路径
-- **明确占位边界**：过渡 tileset 标为 chapter_00 临时方案 — 后续不会有人误把它"扶正"作为长期方向
+- **明确占位边界**：旧江南占位资产退役 — 后续不会有人误把它"扶正"作为长期方向
 
 ### Negative
 
 - **失去 7.5h 已投入产出**：v1 tileset + showcase scene + process_tileset.py 调参约 7.5h（含 `apply_diamond_mask` 几次迭代），现在沉没到 git history
 - **Sprint 8 部分 backlog 短期 blocked**：6 个 S8-tileset-* backlog 全部 blocked on iso-redesign，Sprint 8 真正可启动的 tileset 工作 = 0
-- **过渡方案有视觉成本**：chapter_00 explore 用平面 tileset 与 ADR-0022 iso 方向有视觉错位，玩家如果在过渡期试玩会看到非-iso 风格
+- **短期缺少江南占位素材**：江南正式场景启动前，需要先完成场景设计与资产路径选择
 - **再次失败风险**：重设如果继续走 image_gen 单一路径，可能继续不满意。本 ADR 已约束「不再单一依赖 image_gen」缓解
 
 ### Risks
@@ -143,7 +143,7 @@ ADR-0022 接受后，Sprint 7 同步落了 `S7-Iso-Pivot-Foundation` 故事的�
 | Risk | Probability | Impact | Mitigation |
 |---|---|---|---|
 | 未来读到 `24c34ba` 删除 commit 误以为 ADR-0022 方向被否决 | High | High | **本 ADR 本身就是缓解** — `production/sprint-status.yaml` 头部 comment + 本 ADR 在 ADR 目录均明确写"方向 NOT 否决" |
-| 过渡 tileset 视觉被新人 / 外部 playtest 误读为"项目最终风格" | Medium | Medium | 在 chapter_00 explore scene README / dev-story 注释明确标"占位 tileset，将被 iso 重设替换"；不进 demo build / playtest 演示 |
+| 历史江南占位资产被新人误读为"项目最终风格" | Medium | Medium | 源文件删除旧占位；ADR 中明确标为历史，不作为当前开发入口 |
 | 6 个 S8-tileset-* backlog 长期 blocked 让 Sprint 8 等容量浪费 | Medium | Low | owner 在 Sprint 8 plan 时根据 redesign 拍板信号 A/B/C 决定是否优先 iso-redesign；其它 backlog（如 dialogue 内容生产、Foundation 系统深化）足以填充 Sprint 8 工时 |
 | 重设方向决策长期挂在 owner 那边卡 6 个 backlog | Medium | Medium | 在 Sprint 8 plan / Sprint 9 plan 主动 surface 此决策；不主动启动 iso-redesign 但每个 sprint plan 时检视一次 |
 
@@ -152,18 +152,18 @@ ADR-0022 接受后，Sprint 7 同步落了 `S7-Iso-Pivot-Foundation` 故事的�
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | 1 | 删除 v1 资产 + showcase + 测试场景 + scene_markup_tool 插件 | ✅ commit 24c34ba |
-| 2 | 同步过渡 tileset `jiangnan_ground_tiles.tres` 落到 chapter_00 explore | ✅ commit fbbc5be |
+| 2 | 同步过渡 tileset `jiangnan_ground_tiles.tres` 落到 chapter_00 explore | ✅ 历史 commit fbbc5be；2026-07-01 已退役 |
 | 3 | `production/sprint-status.yaml` 6 个 S8-tileset-* backlog 加 `depends-on S8-tileset-iso-redesign` blocker + 头部 comment 块说明方向 NOT 否决 | ✅ commit 75883c6 |
 | 4 | 本 ADR 接受 + 链接到 ADR-0022 / sprint-status.yaml backlog | ✅ commit （本提交） |
 | 5 | owner 信号 A/B/C 任一触发时启动 `S8-tileset-iso-redesign` brainstorm story | ⏳ 待 owner 拍板 |
-| 6 | redesign 完成后：6 个 S8-tileset-* backlog 解除 blocker + 过渡 tileset 替换 | ⏳ 留 redesign 完成后 |
+| 6 | redesign 完成后：6 个 S8-tileset-* backlog 解除 blocker + 正式 tileset 接入 | ⏳ 留 redesign 完成后 |
 
 ## Validation Criteria
 
 1. ✅ git log `6734093` / `32f2cd5` 仍可恢复 v1 资产历史（`git show 6734093:feng-zhi/assets/tilesets/jiangnan-iso/jiangnan_iso_tileset.tres` 仍可读）
 2. ✅ ADR-0022 内容**未被修改**（本 ADR 不动 ADR-0022 任何字段）
 3. ✅ Foundation `IsoProjection` + `Iso4*` 测试全部继续通过（与 tileset 资产正交）
-4. ✅ 过渡 tileset `jiangnan_ground_tiles.tres` 在 `BackMountainCliffCave.tscn` 装配 OK（commit `fbbc5be` 已验证）
+4. ✅ 当前项目源文件不再保留未设计江南占位 tileset（2026-07-01 复核）
 5. ✅ `production/sprint-status.yaml` 6 个 S8-tileset-* backlog 全部 `blocker` 字段含 `depends on S8-tileset-iso-redesign`（commit `75883c6` 已落）
 6. ⏳ owner 在 Sprint 8 plan 时主动检视 iso-redesign 是否启动（plan-time review，非 ADR 一次性验证）
 
@@ -186,5 +186,5 @@ ADR-0022 接受后，Sprint 7 同步落了 `S7-Iso-Pivot-Foundation` 故事的�
 
 - **Q1**：`S8-tileset-iso-redesign` brainstorm story 应何时开题？— 由 owner 按信号 A/B/C 决定，本 ADR 不规定
 - **Q2**：重设的生产路径选哪条（手绘 / Aseprite / 购买 / image_gen 二次手绘）？— 留 brainstorm story 评估
-- **Q3**：过渡 tileset `jiangnan_ground_tiles.tres` 是否会演化出"半-iso"中间形态？— 当前不允许（保持平面 ↔ 完整 iso 的二元清晰）
+- **Q3**：是否需要新的临时江南占位？— 当前不需要；正式江南场景启动前先做场景设计和资产路径选择
 - **Q4**：如果重设后想保留 v1 某些 tile（例如部分 water / bridge）作参考混入，是否要恢复部分文件？— 由 redesign 任务自然决定，不在本 ADR 预设

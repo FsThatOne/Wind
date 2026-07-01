@@ -45,7 +45,7 @@ ADR-0021 的主端口 `ICharacterAnimator` + `Facing` 2 向契约 **保持不变
 | Field | Value |
 |-------|-------|
 | **Depends On** | ADR-0010 (TileMapLayer 五层结构), ADR-0020 (纯 2D 路线), ADR-0021 (主端口 `ICharacterAnimator` 不变) |
-| **Enables** | Sprint 7 VS 江南 explore / 战斗场景的 iso 重建；后续所有战棋关卡 / 探索场景一致使用 iso 投影 |
+| **Enables** | Sprint 7 VS 战棋薄片 / 探索场景的 iso 重建；后续所有战棋关卡 / 探索场景一致使用 iso 投影 |
 | **Blocks** | 新增任何方格俯视场景；ADR-0021 §扩展点 1 路径的 8 方向资产生产 |
 | **Ordering Note** | 必须在 S7-VS-Combat-Loop 之前接受；否则 VS 战斗场景会按旧方格投影搭建造成返工 |
 
@@ -172,7 +172,7 @@ ADR-0010 五层结构沿用；每层 TileMapLayer 节点的属性：
 
 > **碰撞约束**：与地砖表层对齐的碰撞体必须使用 `CollisionPolygon2D` 的 45 度等距菱形，默认顶点为 `(-64,0) → (0,-32) → (64,0) → (0,32)`，碰撞节点局部偏移统一为 `Vector2(22, 5)`。主角脚底碰撞、地形阻挡格、地图实体占地、交互类 `Area2D` 范围均不得回退为矩形 `RectangleShape2D`。
 
-> **2026-06-23 A 路线落地**：[battle_jiangnan_bandit.tscn](../../feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn) 复用 [cliff_cave_ground_tiles.tres](../../feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres) 铺 5×5 战棋格 + IsoBoard (Node2D, y_sort_enabled) + Player/Bandit Sprite2D 落格，验证「战斗 + 探索共享 TileSet」承诺。explore 场景的对称迁移挂 [S8-Explore-TileMap-Adoption](../../production/sprints/sprint-8-explore-tilemap-adoption.md)（7 AC / 13.0h ≈ 1.6d）。
+> **2026-06-23 A 路线落地**：[tactics_battle.tscn](../../feng-zhi/scenes/vs/tactics_battle.tscn) 复用 [cliff_cave_ground_tiles.tres](../../feng-zhi/assets/maps/back_mountain_cliff_cave/tilesets/cliff_cave_ground_tiles.tres) 铺 5×5 战棋格 + IsoBoard (Node2D, y_sort_enabled) + Player/Bandit Sprite2D 落格，验证「战斗 + 探索共享 TileSet」承诺。explore 场景的对称迁移挂 [S8-Explore-TileMap-Adoption](../../production/sprints/sprint-8-explore-tilemap-adoption.md)（7 AC / 13.0h ≈ 1.6d）。
 
 `Background` 节点（ADR-0020 D1 追加项）保持 `Sprite2D`，但 `y_sort_origin` 应设为远低于战棋面，避免被遮挡。
 
@@ -244,7 +244,7 @@ ADR-0010 五层结构沿用；每层 TileMapLayer 节点的属性：
 
 1. ✅ Foundation 测试 1378 ± Δ：删除 11 旧测试，新增 ≥ 8 测试覆盖 `IsoProjection` 双向变换 + `Iso4Direction` 选区 + 迟滞 + 帧相位保持。**实际**：1378 → 1399（+10 IsoProjection + 14 Iso4 − 11 8dir = +13），含 `WASD_CartDiagonals_FallInSectorCenters` Theory 4 case
 2. ⚠️ partial — explore 实机：WASD 走 4 斜向，sprite 切换无残影，y-sort 正确。**当前**：headless `--import` 0 err、Foundation 测试覆盖 sector + 迟滞行为 ✅；`BackMountainCliffCave` owner 实机走查 + 录屏 pending（cu-visual-evidence + S8 视觉证据）
-3. ⚠️ partial — VS 战棋场景 spike：5×5 iso grid + 3 角色 + 1 棵树（Overlay），角色绕树走时遮挡正确。**当前**：5×5 iso grid + Player/Bandit Sprite2D ✅ ([battle_jiangnan_bandit.tscn](../../feng-zhi/scenes/vs/battle_jiangnan_bandit.tscn) commit 271b817)；多角色 + Overlay 树冠遮挡留 S8 (`S8-Explore-TileMap-Adoption` AC4 props y_sort 验证 + 后续 S8-In-Place-Combat 候选)
+3. ⚠️ partial — VS 战棋场景 spike：5×5 iso grid + 3 角色 + 1 棵树（Overlay），角色绕树走时遮挡正确。**当前**：5×5 iso grid + Player/Bandit Sprite2D ✅ ([tactics_battle.tscn](../../feng-zhi/scenes/vs/tactics_battle.tscn) commit 271b817)；多角色 + Overlay 树冠遮挡留 S8 (`S8-Explore-TileMap-Adoption` AC4 props y_sort 验证 + 后续 S8-In-Place-Combat 候选)
 4. ⏳ 鼠标 hover 落子：屏幕坐标 → cart 坐标 → tile (0..4, 0..4) 误差 ≤ 1 像素。**当前**：`IsoProjection.ScreenToCart` 已单测 ✅；UI 落子交互层未实现，留 S8 战棋落子 story
 
 ## GDD Requirements Addressed

@@ -47,29 +47,11 @@ public partial class PlayerCharacterController : CharacterBody2D
 		_animator.Play(CharacterAnimState.Idle);
 
 		_collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon2D");
-		ShrinkCollisionPolygon(0.5f);
+		CharacterFootprint.ApplyTo(_collisionPolygon);
 
 		var camera = GetNode<Camera2D>("Camera2D");
 		camera.Position = new Vector2(0f, -250f);
 		camera.ResetSmoothing();
-	}
-
-	private void ShrinkCollisionPolygon(float scale)
-	{
-		var original = new Vector2[]
-		{
-			new(-64f, 0f),
-			new(0f, -32f),
-			new(64f, 0f),
-			new(0f, 32f),
-		};
-		var scaled = new Vector2[original.Length];
-		for (var i = 0; i < original.Length; i++)
-		{
-			scaled[i] = original[i] * scale;
-		}
-		_collisionPolygon.Position = Vector2.Zero;
-		_collisionPolygon.Polygon = scaled;
 	}
 
 	public override void _PhysicsProcess(double delta)

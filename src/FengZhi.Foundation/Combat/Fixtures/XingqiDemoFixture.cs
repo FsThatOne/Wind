@@ -8,7 +8,7 @@ namespace FengZhi.Foundation.Combat.Fixtures;
 public static class XingqiDemoFixture
 {
     public const string ProtagonistId = "player_protagonist";
-    public const string BanditId = "enemy_jiangnan_bandit";
+    public const string BanditId = "enemy_demo_bandit";
 
     public static BattleConfig CreateXingqiBattleConfig() => new()
     {

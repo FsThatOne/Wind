@@ -24,6 +24,10 @@ public partial class BackMountainPathGame : SceneGameBase
 			? "雾林小径・夜：主潭瀑声被雾压低，通向邻峰崖洞的山阶隐在暗处。"
 			: "雾林小径：邻峰瀑布落入主潭，水雾遮住一段通往后山崖洞的长路。";
 		InventoryLabel.Text = "";
+		SetCurrentObjective(
+			"序章 · 雾林小径",
+			"沿山阶往返崖洞与山院",
+			variant == "night" ? "夜色压低，回山院的路要走稳" : "这条路连接崖洞和风止山院");
 	}
 
 	protected override void OnInteract(string markerName)
@@ -31,7 +35,26 @@ public partial class BackMountainPathGame : SceneGameBase
 		switch (markerName)
 		{
 			case "old_tree_inspect":
-				ShowMessage("老松扎在湿岩旁，树根绕过石阶。这里标记瀑布主潭附近的林缘。");
+				if (Variant == "night")
+				{
+					if (!HasQuestFlag("prologue_cave_overnight"))
+					{
+						ShowMessage("夜雾贴着石阶。你心里还惦着崖洞里的寿酒，暂时没有回山院的理由。");
+						return;
+					}
+
+					StartDialogue("res://assets/data/dialogues/chapter_00/massacre_return_01.yaml");
+				}
+				else
+				{
+					if (!HasQuestFlag("prologue_ore_tutorial_seen"))
+					{
+						ShowMessage("老松下的泥土还湿着。师姐在前头喊你：「先把手上的活学完，别又到处乱看。」");
+						return;
+					}
+
+					StartDialogue("res://assets/data/dialogues/chapter_00/animal_tracks_mount_foreshadow_01.yaml");
+				}
 				return;
 			case "path_rock_inspect":
 				ShowMessage("岩石上覆着青苔，水汽从瀑布方向吹来。正式素材可替换成前景水帘与湿石。");

@@ -29,6 +29,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
     private readonly CombatMoveSelectionPanel _panel;
     private readonly BattleEventBus _bus;
     private readonly Func<BattleAction, bool> _submitAction;
+    private readonly Action<BattleAction?>? _intendedActionChanged;
     private readonly string _actorId;
     private readonly string _defaultTargetId;
     private readonly Action<NeixiChangedEvent> _onNeixiChanged;
@@ -44,6 +45,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
     private int _usableCombatItemCount;
     private bool _isOpen;
     private bool _disposed;
+    private BattleAction? _pendingAction;
 
     public CombatMoveSelectionBinder(
         BattleEventBus bus,
@@ -51,11 +53,13 @@ public sealed class CombatMoveSelectionBinder : IDisposable
         string actorId,
         string defaultTargetId,
         Func<BattleAction, bool> submitAction,
+        Action<BattleAction?>? intendedActionChanged = null,
         IFocusManager? focusManager = null)
     {
         _bus = bus ?? throw new ArgumentNullException(nameof(bus));
         ArgumentNullException.ThrowIfNull(uiHost);
         _submitAction = submitAction ?? throw new ArgumentNullException(nameof(submitAction));
+        _intendedActionChanged = intendedActionChanged;
         _actorId = string.IsNullOrWhiteSpace(actorId)
             ? throw new ArgumentException("actorId required", nameof(actorId))
             : actorId;
@@ -68,6 +72,8 @@ public sealed class CombatMoveSelectionBinder : IDisposable
             Name = "CombatMoveSelectionPanel",
             Visible = false,
         };
+        _panel.ActionHovered += OnPanelActionHovered;
+        _panel.ActionPressed += OnPanelActionPressed;
         uiHost.AddChild(_panel);
 
         _onNeixiChanged = HandleNeixiChanged;
@@ -121,6 +127,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
     public void OpenForPlayerDecision(int playerNeixi)
     {
         _playerNeixi = Math.Max(0, playerNeixi);
+        ClearPendingAction();
         var snapshot = _presenter.OpenForState(CombatUiState.PlayerDecision, _displayData, BuildContext());
         _panel.ApplySnapshot(snapshot);
         _isOpen = snapshot.IsOpen;
@@ -134,6 +141,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
         if (!_isOpen)
             return;
 
+        ClearPendingAction();
         var snapshot = _presenter.Close();
         _panel.ApplySnapshot(snapshot);
         _isOpen = false;
@@ -187,7 +195,8 @@ public sealed class CombatMoveSelectionBinder : IDisposable
     {
         if (!_isOpen)
             return;
-        _panel.NavigateUp();
+        var navigation = _panel.NavigateUp();
+        FocusAction(navigation.FocusedActionId);
     }
 
     /// <summary>
@@ -197,7 +206,8 @@ public sealed class CombatMoveSelectionBinder : IDisposable
     {
         if (!_isOpen)
             return;
-        _panel.NavigateDown();
+        var navigation = _panel.NavigateDown();
+        FocusAction(navigation.FocusedActionId);
     }
 
     /// <summary>
@@ -208,6 +218,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
         if (!_isOpen)
             return;
         _panel.HoverAction(actionId);
+        FocusAction(actionId);
     }
 
     /// <summary>
@@ -220,24 +231,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
             return false;
 
         var actionId = _panel.ConfirmFocusedAction();
-        if (actionId is null)
-            return false;
-
-        _panel.HoverAction(actionId);
-        var snapshotAfterFocus = _presenter.FocusOrHover(actionId);
-        _panel.ApplySnapshot(snapshotAfterFocus);
-
-        var intent = _presenter.ConfirmSelected(_actorId, _defaultTargetId);
-        if (intent is null)
-            return false;
-
-        var battleAction = TranslateIntent(intent);
-        if (battleAction is null)
-            return false;
-
-        Close();
-        _submitAction(battleAction);
-        return true;
+        return ConfirmAction(actionId);
     }
 
     public void Dispose()
@@ -248,7 +242,73 @@ public sealed class CombatMoveSelectionBinder : IDisposable
         _bus.Unsubscribe(_onIntentRevealed);
         _bus.Unsubscribe(_onDecisiveStrikeAvailable);
         _bus.Unsubscribe(_onRoundStart);
+        _panel.ActionHovered -= OnPanelActionHovered;
+        _panel.ActionPressed -= OnPanelActionPressed;
         _disposed = true;
+    }
+
+    public void ClearPendingAction()
+    {
+        if (_pendingAction is null)
+            return;
+
+        _pendingAction = null;
+        _intendedActionChanged?.Invoke(null);
+    }
+
+    private void OnPanelActionHovered(string? actionId)
+    {
+        FocusAction(actionId);
+    }
+
+    private void OnPanelActionPressed(string actionId)
+    {
+        ConfirmAction(actionId);
+    }
+
+    private void FocusAction(string? actionId)
+    {
+        if (!_isOpen || string.IsNullOrWhiteSpace(actionId))
+            return;
+
+        var snapshotAfterFocus = _presenter.FocusOrHover(actionId);
+        _panel.ApplySnapshot(snapshotAfterFocus);
+    }
+
+    private bool ConfirmAction(string? actionId)
+    {
+        if (!_isOpen || string.IsNullOrWhiteSpace(actionId))
+            return false;
+
+        _panel.HoverAction(actionId);
+        FocusAction(actionId);
+
+        var intent = _presenter.ConfirmSelected(_actorId, _defaultTargetId);
+        if (intent is null)
+            return false;
+
+        var battleAction = TranslateIntent(intent);
+        if (battleAction is null)
+            return false;
+
+        if (_pendingAction != null && IsSamePendingAction(_pendingAction, battleAction))
+        {
+            Close();
+            _submitAction(battleAction);
+            return true;
+        }
+
+        _pendingAction = battleAction;
+        _intendedActionChanged?.Invoke(battleAction);
+        return true;
+    }
+
+    private static bool IsSamePendingAction(BattleAction left, BattleAction right)
+    {
+        return left.Type == right.Type
+            && string.Equals(left.MoveId, right.MoveId, StringComparison.Ordinal)
+            && string.Equals(left.TargetId, right.TargetId, StringComparison.Ordinal)
+            && left.NeixiCost == right.NeixiCost;
     }
 
     private CombatUiMoveSelectionContext BuildContext() => new(
@@ -351,7 +411,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
         if (moveEntry is null)
             return null;
 
-        var (resolvedMoveId, resolvedCost) = ResolveResolutionMove(intent.MoveId, moveEntry.NeixiCost);
+        var (resolvedMoveId, resolvedCost, resolvedMoveType) = ResolveResolutionMove(intent.MoveId, moveEntry);
 
         if (intent.IsCounter)
         {
@@ -361,7 +421,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
                 Type = ActionType.Counter,
                 TargetId = intent.TargetId,
                 MoveId = resolvedMoveId,
-                MoveType = MoveType.Gang,
+                MoveType = resolvedMoveType,
                 // 反制内息阈值在 presenter 定义为 CounterNeixiThreshold=3
                 NeixiCost = CombatUiMoveSelectionPresenter.CounterNeixiThreshold,
             };
@@ -373,7 +433,7 @@ public sealed class CombatMoveSelectionBinder : IDisposable
             Type = ActionType.Move,
             TargetId = intent.TargetId,
             MoveId = resolvedMoveId,
-            MoveType = MoveType.Gang,
+            MoveType = resolvedMoveType,
             NeixiCost = resolvedCost,
         };
     }
@@ -388,16 +448,27 @@ public sealed class CombatMoveSelectionBinder : IDisposable
         return null;
     }
 
-    private static (string MoveId, int NeixiCost) ResolveResolutionMove(string demoMoveId, int demoCost)
+    private static (string MoveId, int NeixiCost, MoveType MoveType) ResolveResolutionMove(string demoMoveId, BattlePanelMoveEntry moveEntry)
     {
-        if (demoMoveId == JiangnanBandit1v1Fixture.LightStrikeMoveId)
-            return (JiangnanBandit1v1Fixture.LightStrikeMoveId, 2);
-        if (demoMoveId == JiangnanBandit1v1Fixture.HeavyStrikeMoveId)
-            return (JiangnanBandit1v1Fixture.HeavyStrikeMoveId, 4);
+        var moveType = ResolveMoveType(moveEntry.ColorTheme);
+        if (demoMoveId == CombatDemoBandit1v1Fixture.LightStrikeMoveId)
+            return (CombatDemoBandit1v1Fixture.LightStrikeMoveId, 2, moveType);
+        if (demoMoveId == CombatDemoBandit1v1Fixture.HeavyStrikeMoveId)
+            return (CombatDemoBandit1v1Fixture.HeavyStrikeMoveId, 4, moveType);
 
         // demo_* 招式按 cost 路由到真招
-        return demoCost <= 3
-            ? (JiangnanBandit1v1Fixture.LightStrikeMoveId, 2)
-            : (JiangnanBandit1v1Fixture.HeavyStrikeMoveId, 4);
+        return moveEntry.NeixiCost <= 3
+            ? (CombatDemoBandit1v1Fixture.LightStrikeMoveId, 2, moveType)
+            : (CombatDemoBandit1v1Fixture.HeavyStrikeMoveId, 4, moveType);
+    }
+
+    private static MoveType ResolveMoveType(TypeColorTheme colorTheme)
+    {
+        return colorTheme switch
+        {
+            TypeColorTheme.CoolCyan => MoveType.Rou,
+            TypeColorTheme.NeutralGray => MoveType.Qiao,
+            _ => MoveType.Gang,
+        };
     }
 }

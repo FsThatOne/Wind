@@ -427,7 +427,7 @@
 - **对话 Pipeline**: `.dlg` (作者层) → `dialogue_compiler.py` → `.yaml` (存储层) → `DialogueRuntime` (运行时) — source: ADR-0023
 - **Provider 通用化**: `SceneConditionValueProvider` scene-agnostic；条件走 `mindset.*` / `flag.*` 通用域 — source: ADR-0023
 - **.dlg 幂等**: 相同 .dlg 输入产出相同 yaml（字段顺序/转义稳定），直接入 git — source: ADR-0023
-- **过渡期 tileset**: 使用 `jiangnan_riverside` 平面 tileset 占位 chapter_00 explore — source: ADR-0024
+- **江南占位资产**: 不保留未设计江南场景的旧平面占位 tileset；正式江南场景需等待场景设计和资产重设 — source: ADR-0024
 
 ### Forbidden Approaches
 - **Never** 使用伪 2.5D / HD-2D / 准 HD-2D 任何变体 — source: ADR-0020

@@ -123,9 +123,17 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 
 	protected override void OnLoadVariant(string variant)
 	{
+		if (HasQuestFlag("prologue_wine_obtained"))
+			_hasBirthdayWine = true;
+
 		StatusLabel.Text = variant == "night"
 			? "后山崖洞・夜：邻峰半山的洞口被瀑雾遮住，酒坛与旧物都沉在暗处。"
 			: "后山崖洞・日常：单线山路尽头的半山洞穴，藏酒、储物，也是你和师姐的秘密基地。";
+		UpdateInventoryLabel();
+		SetCurrentObjective(
+			"序章 · 后山崖洞",
+			_hasBirthdayWine ? "带着寿酒返回山院" : "取回师父寿宴要用的陈年药酒",
+			_hasBirthdayWine ? "寿酒已经取到，山院还在等你回去" : "明日是师父六十大寿，师姐托你来取酒");
 	}
 
 	protected override void OnInteract(string markerName)
@@ -133,6 +141,12 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 		switch (markerName)
 		{
 			case "wine_pickup":
+				if (!HasQuestFlag("prologue_wine_delayed"))
+				{
+					ShowMessage("酒坛静静靠在石壁边。你想起师姐方才只是随口提醒，还没真催你出发。");
+					return;
+				}
+
 				if (_hasBirthdayWine)
 				{
 					ShowMessage("寿酒已经取好了，回去莫要耽搁。");
@@ -140,6 +154,11 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 				}
 				_hasBirthdayWine = true;
 				UpdateInventoryLabel();
+				SetCurrentObjective(
+					"序章 · 后山崖洞",
+					"带着寿酒返回山院",
+					"寿酒已经取到，山院还在等你回去",
+					flash: true);
 				StartDialogue("res://assets/data/dialogues/chapter_00/wine_pickup_01.yaml");
 				return;
 			case "storage_shelf":
@@ -149,6 +168,12 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 				StartDialogue("res://assets/data/dialogues/chapter_00/memory_marker_01.yaml");
 				return;
 			case "rest_spot":
+				if (!HasQuestFlag("prologue_wine_obtained"))
+				{
+					ShowMessage("草席铺在避风处。酒还没取，你不好意思先想着偷懒。");
+					return;
+				}
+
 				StartDialogue("res://assets/data/dialogues/chapter_00/rest_spot_01.yaml");
 				return;
 			default:

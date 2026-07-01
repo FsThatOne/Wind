@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<map version="1.10" tiledversion="1.10.2" orientation="isometric" renderorder="right-down" width="44" height="34" tilewidth="128" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="16">
+<map version="1.10" tiledversion="1.10.2" orientation="isometric" renderorder="right-down" width="44" height="34" tilewidth="128" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="19">
   <properties>
     <property name="scene_id" value="sect_compound_day" />
     <property name="scene_name" value="风止山院" />
@@ -307,6 +307,39 @@
         <property name="enabled" type="bool" value="true" />
         <property name="tile_x" type="int" value="21" />
         <property name="tile_y" type="int" value="28" />
+      </properties>
+    </object>
+    <object id="16" name="sister_baitan_npc" type="npc" x="1216" y="704" width="128" height="64">
+      <properties>
+        <property name="id" value="sister_baitan_npc" />
+        <property name="type" value="npc" />
+        <property name="enabled" type="bool" value="true" />
+        <property name="tile_x" type="int" value="19" />
+        <property name="tile_y" type="int" value="22" />
+        <property name="character_id" value="sister_baitan" />
+        <property name="dialogue_id" value="res://assets/data/dialogues/chapter_00/sister_wine_reminder_01.yaml" />
+      </properties>
+    </object>
+    <object id="17" name="manor_master_npc" type="npc" x="1408" y="288" width="128" height="64">
+      <properties>
+        <property name="id" value="manor_master_npc" />
+        <property name="type" value="npc" />
+        <property name="enabled" type="bool" value="true" />
+        <property name="tile_x" type="int" value="22" />
+        <property name="tile_y" type="int" value="9" />
+        <property name="character_id" value="master" />
+        <property name="dialogue_id" value="res://assets/data/dialogues/chapter_00/master_study_01.yaml" />
+      </properties>
+    </object>
+    <object id="18" name="junior_brother_npc" type="npc" x="1152" y="768" width="128" height="64">
+      <properties>
+        <property name="id" value="junior_brother_npc" />
+        <property name="type" value="npc" />
+        <property name="enabled" type="bool" value="true" />
+        <property name="tile_x" type="int" value="18" />
+        <property name="tile_y" type="int" value="24" />
+        <property name="character_id" value="junior_brother" />
+        <property name="dialogue_id" value="res://assets/data/dialogues/chapter_00/manor_errands_01.yaml" />
       </properties>
     </object>
   </objectgroup>

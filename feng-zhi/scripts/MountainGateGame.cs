@@ -24,6 +24,10 @@ public partial class MountainGateGame : SceneGameBase
 			? "雾林侧门・夜：林雾压低，木门后的山院灯火被遮得若有若无。"
 			: "雾林侧门：这不是迎客正门，只是一条从雾林摸入凹谷的窄径。";
 		InventoryLabel.Text = "";
+                SetCurrentObjective(
+                        "序章 · 雾林侧门",
+                        "辨认侧门与山院边界",
+                        variant == "night" ? "夜雾遮住来路，也遮住外人可能留下的痕迹" : "这道侧门说明风止山庄从不急着被外人看见");
 	}
 
 	protected override void OnInteract(string markerName)
@@ -31,6 +35,11 @@ public partial class MountainGateGame : SceneGameBase
 		switch (markerName)
 		{
 			case "gate_plaque_inspect":
+                                SetCurrentObjective(
+                                        "序章 · 雾林侧门",
+                                        "记住风止山庄隐蔽的入口，再回山院",
+                                        "旧木匾上的风止二字几乎被藤蔓盖住",
+                                        flash: true);
 				ShowMessage("旧木匾藏在藤蔓后，刻着很小的「风止」二字。山庄似乎从不急着让外人看见自己。");
 				return;
 			case "gate_pillar_inspect":

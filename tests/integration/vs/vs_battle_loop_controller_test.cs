@@ -20,11 +20,11 @@ public class VsBattleLoopControllerTest
     private static (VsBattleLoopController controller, BattleEventBus bus, EventRecorder recorder)
         BuildController()
     {
-        var config = JiangnanBandit1v1Fixture.CreateBattleConfig();
+        var config = CombatDemoBandit1v1Fixture.CreateBattleConfig();
         var facade = new BattleFacade();
         var battle = facade.InitiateBattle(config);
         var bus = new BattleEventBus();
-        var enemyAI = JiangnanBandit1v1Fixture.CreateBanditAI();
+        var enemyAI = CombatDemoBandit1v1Fixture.CreateBanditAI();
         var controller = new VsBattleLoopController(battle, bus, enemyAI);
         var recorder = new EventRecorder(bus);
         return (controller, bus, recorder);
@@ -113,20 +113,20 @@ public class VsBattleLoopControllerTest
 
     private static BattleAction PlayerLightAttack() => new()
     {
-        ActorId = JiangnanBandit1v1Fixture.ProtagonistId,
+        ActorId = CombatDemoBandit1v1Fixture.ProtagonistId,
         Type = ActionType.Move,
-        TargetId = JiangnanBandit1v1Fixture.BanditId,
-        MoveId = JiangnanBandit1v1Fixture.LightStrikeMoveId,
+        TargetId = CombatDemoBandit1v1Fixture.BanditId,
+        MoveId = CombatDemoBandit1v1Fixture.LightStrikeMoveId,
         MoveType = MoveType.Gang,
         NeixiCost = 2,
     };
 
     private static BattleAction PlayerHeavyAttack() => new()
     {
-        ActorId = JiangnanBandit1v1Fixture.ProtagonistId,
+        ActorId = CombatDemoBandit1v1Fixture.ProtagonistId,
         Type = ActionType.Move,
-        TargetId = JiangnanBandit1v1Fixture.BanditId,
-        MoveId = JiangnanBandit1v1Fixture.HeavyStrikeMoveId,
+        TargetId = CombatDemoBandit1v1Fixture.BanditId,
+        MoveId = CombatDemoBandit1v1Fixture.HeavyStrikeMoveId,
         MoveType = MoveType.Gang,
         NeixiCost = 4,
     };

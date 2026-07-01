@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://ce0demo7cu006v1"]
 
-; cu-visual-evidence-harness · cu-006 demo scene (inherited from battle_jiangnan_bandit.tscn)
+; cu-visual-evidence-harness · cu-006 demo scene (inherited from tactics_battle.tscn)
 ; 用途：录屏者一条命令直接进 cu-006 demo state。
 ; 覆盖：DemoSeed = "cu-006" (敌方破绽预置阈值 5 + 决胜目标预置 → 玩家第一回合按 Enter 即触发 7-phase 演出
 ;                          + Engine.TimeScale 1.0→0.2→1.0 + Camera 推/锁/恢复 + 输入屏蔽)
 
-[ext_resource type="PackedScene" uid="uid://ce0leeu7ltkvl" path="res://scenes/vs/battle_jiangnan_bandit.tscn" id="1_parent"]
+[ext_resource type="PackedScene" path="res://scenes/vs/tactics_battle.tscn" id="1_parent"]
 [ext_resource type="Script" path="res://scripts/vs/AutoEvidencePlayer.cs" id="2_auto"]
 
-[node name="JiangnanBattle" instance=ExtResource("1_parent")]
+[node name="TacticsBattle" instance=ExtResource("1_parent")]
 DemoSeed = "cu-006"
 
 [node name="AutoEvidencePlayer" type="Node" parent="."]

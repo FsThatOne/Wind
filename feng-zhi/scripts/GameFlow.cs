@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using FengZhi.Foundation.CharacterData;
 using FengZhi.Foundation.Combat;
 using FengZhi.Foundation.Data;
@@ -20,6 +22,21 @@ namespace FengZhi;
 /// </summary>
 public partial class GameFlow : Node
 {
+	public enum TrackedQuestKind
+	{
+		Mainline,
+		Side,
+		Tutorial,
+	}
+
+	public sealed record TrackedQuestObjective(
+		string Id,
+		string Chapter,
+		string Text,
+		string Reason,
+		TrackedQuestKind Kind,
+		long Sequence);
+
 	/// <summary>玩家在战斗结算做出的心境选择。</summary>
 	public enum MindsetChoice
 	{
@@ -30,6 +47,10 @@ public partial class GameFlow : Node
 
 	public MindsetChoice LastMindsetChoice { get; private set; } = MindsetChoice.None;
 	public bool HasCompletedBattleOnce { get; private set; }
+
+	public bool IsInCombat { get; set; }
+	public bool IsInCinematicLock { get; set; }
+	public int TextCharsPerSecond { get; set; } = 30;
 
 	/// <summary>上一场战斗结果（仅 outcome scene 期间有意义）。</summary>
 	public BattleResult LastBattleResult { get; private set; } = BattleResult.InProgress;
@@ -58,6 +79,39 @@ public partial class GameFlow : Node
 
 	/// <summary>玩家角色运行时实例</summary>
 	public CharacterInstance PlayerInstance { get; private set; } = null!;
+
+	private readonly Dictionary<string, string> _questFlags = new(StringComparer.Ordinal);
+	private readonly List<TrackedQuestObjective> _trackedObjectives = new();
+	private long _trackedObjectiveSequence;
+
+	/// <summary>
+	/// 当前运行会话内的剧情 flag。用于 Godot 场景之间传递轻量主线进度；
+	/// 正式存档落地后应接入 SaveSystem 的 narrative payload。
+	/// </summary>
+	public IReadOnlyDictionary<string, string> QuestFlags => _questFlags;
+
+	public IReadOnlyList<TrackedQuestObjective> GetTrackedObjectivesForHud()
+	{
+		var result = new List<TrackedQuestObjective>(capacity: 3);
+		var latestMainline = _trackedObjectives
+			.Where(objective => objective.Kind == TrackedQuestKind.Mainline)
+			.OrderByDescending(objective => objective.Sequence)
+			.FirstOrDefault();
+		if (latestMainline != null)
+			result.Add(latestMainline);
+
+		foreach (var objective in _trackedObjectives
+			.Where(objective => objective.Kind != TrackedQuestKind.Mainline)
+			.OrderByDescending(objective => objective.Sequence))
+		{
+			if (result.Count >= 3)
+				break;
+
+			result.Add(objective);
+		}
+
+		return result;
+	}
 
 	/// <summary>
 	/// 上一次 outcome 选择产生的心境位移快照（含 oldState / newState / 应用的 deltas）。
@@ -133,6 +187,49 @@ public partial class GameFlow : Node
 	{
 		LastMindsetChoice = choice;
 		GD.Print($"[GameFlow] Mindset choice recorded: {choice}");
+	}
+
+	public void RecordQuestFlag(string key, string? value)
+	{
+		if (string.IsNullOrWhiteSpace(key))
+			return;
+
+		var normalized = string.IsNullOrWhiteSpace(value) ? "true" : value;
+		_questFlags[key] = normalized;
+		GD.Print($"[GameFlow] Quest flag: {key}={normalized}");
+	}
+
+	public bool HasQuestFlag(string key, string expectedValue = "true")
+		=> _questFlags.TryGetValue(key, out var value) &&
+			string.Equals(value, expectedValue, StringComparison.Ordinal);
+
+	public string? GetQuestFlag(string key)
+		=> _questFlags.TryGetValue(key, out var value) ? value : null;
+
+	public void TrackObjective(
+		string chapter,
+		string objective,
+		string reason = "",
+		TrackedQuestKind kind = TrackedQuestKind.Mainline,
+		string? id = null)
+	{
+		if (string.IsNullOrWhiteSpace(objective))
+			return;
+
+		var normalizedId = string.IsNullOrWhiteSpace(id)
+			? $"{kind}:{chapter}:{objective}"
+			: id;
+		_trackedObjectives.RemoveAll(existing => string.Equals(existing.Id, normalizedId, StringComparison.Ordinal));
+		_trackedObjectives.Add(new TrackedQuestObjective(
+			normalizedId,
+			chapter,
+			objective,
+			reason,
+			kind,
+			++_trackedObjectiveSequence));
+
+		if (_trackedObjectives.Count > 12)
+			_trackedObjectives.RemoveRange(0, _trackedObjectives.Count - 12);
 	}
 
 	/// <summary>

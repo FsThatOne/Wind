@@ -1,5 +1,6 @@
 # Tech Debt Register
 
+- **2026-06-30** (轻量任务追踪 HUD): 当前仅实现运行时轻量 `GameFlow.TrackObjective` + 左侧最多 3 条 HUD 展示，主线目标固定优先置顶；这不是正式任务系统。后续需补正式任务系统 GDD/ADR，覆盖任务数据模型、主线/支线/教学分类、阶段与完成历史、奖励、存档、任务日志、追踪切换，以及与误会系统、活江湖层、主线节点的联动 — tracked from owner decision 2026-06-30
 - **2026-06-12** (ma-001 武学 YAML 数据模型): 语义校验错误（id 重复、数值非法等）报告 `lineNumber: null`，仅 YAML parse 错误含行号；可通过自定义 node deserializer 记录每条记录 Mark 增强 — tracked from production/epics/martial-arts-system/stories/ma-001-martial-arts-yaml-schema.md
 - **2026-06-12** (ma-001 武学 YAML 数据模型): 配置数据模型使用可变 `get; set;` setter，未完全落实 ADR-0003 "运行时只读"；CharacterData 层同样如此 — 建议全局统一改为 `init` setter + `AsReadOnly()` 包装（一次性重构，跨 Foundation 层）— tracked from production/epics/martial-arts-system/stories/ma-001-martial-arts-yaml-schema.md
 - **2026-06-14** (ei-002 洞察距离检测、门槛检定与重访发现): `ProximityDetector.Detect` 每次调用分配结果列表；当前 active node <= 6 可接受，但接入 `_PhysicsProcess` 热路径前应评估复用缓冲或事件驱动输出 — tracked from production/epics/exploration-insight/stories/ei-002-insight-detection-threshold-and-revisit.md

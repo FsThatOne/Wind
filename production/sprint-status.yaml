@@ -253,3 +253,15 @@ sprint_10:
       blocker: ""
       completed: "2026-06-30"
       note: "4 tests pass。TransparencySignalRouter + 3 channel interfaces。Presentation 层 Godot 实现待 ADR-0012 spike。"
+
+    - id: "S10-MS-009"
+      name: "Content: Chapter 0 Misunderstanding Instances"
+      file: "production/epics/misunderstanding-system/stories/ms-009-chapter0-content.md"
+      priority: nice-to-have
+      status: done
+      owner: "dev"
+      estimate_hours: 1.0
+      actual_hours: 0.2
+      blocker: ""
+      completed: "2026-06-30"
+      note: "4 tests pass。shixiong triggers/resolution/address/signals JSON + ContentLoader + 集成验证。"

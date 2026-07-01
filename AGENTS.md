@@ -57,5 +57,5 @@ See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
 1. 用中文和我沟通, 用中文编写注释, 用中文编写文档.
 2. 随时随地可以跟我头脑风暴(/brainstorm), 我会根据你的建议进行调整.
 3. 问我问题时, 选项一定要有一个你推荐的选项, 我会根据你的推荐进行判断. 最好是能简单说明推荐原因.
-4. 做代码设计和实现时, 必须先查阅相关 GDD（design/gdd/）、ADR（docs/architecture/）以及 design/ 和 docs/ 目录下的其他相关文档（如 quick-specs、ux specs、engine-reference、systems-index 等）, 确保实现符合设计规约和架构约束. 不可跳过设计对照直接写代码.
+4. 每次推进任务前（包括设计、实现、修复、盘点、可行性判断和继续开发）, 必须先查阅并对照相关 GDD（design/gdd/）、ADR（docs/architecture/）以及 design/、docs/、production/ 中的相关设计/规格/证据文档（如 quick-specs、ux specs、engine-reference、systems-index、story、QA evidence、session-state 等）。必须先说明或内化这些文档给出的约束，再继续方案或代码；不可凭记忆、当前实现或临时判断跳过设计对照.
 5. 优先使用 claude-code-game-studio 提供的 skill 和 agent 来完成任务（如 /design-system, /create-architecture, /dev-story, /code-review 等）, 充分利用工作流工具链而非纯手工操作.

@@ -12,7 +12,7 @@
 ;   - CreditsScreen (v1.0 收尾)
 ;   - NewGameFlow / DifficultyScreen (等难度系统 GDD)
 ;
-; 当前 "新游戏" 直接跳 BackMountainCliffCave.tscn (序章实际起点)
+; 当前 "新游戏" 直接跳 SectCompound.tscn (序章实际起点)
 ; 当前 "设置" 弹 placeholder ConfirmationDialog "敬请期待"
 
 [ext_resource type="Script" path="res://scripts/ui/MainMenuGame.cs" id="1_mainmenu"]

@@ -1,0 +1,222 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/SettingsPanelUi.cs" id="1_script"]
+
+[node name="SettingsPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.08, 0.92)
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -240.0
+offset_right = 320.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="音频" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MasterSlider" type="HBoxContainer" parent="TabContainer/音频"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/音频/MasterSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "主音量"
+
+[node name="Slider" type="HSlider" parent="TabContainer/音频/MasterSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 80.0
+
+[node name="Value" type="Label" parent="TabContainer/音频/MasterSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+text = "80"
+horizontal_alignment = 2
+
+[node name="BgmSlider" type="HBoxContainer" parent="TabContainer/音频"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/音频/BgmSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "背景音乐"
+
+[node name="Slider" type="HSlider" parent="TabContainer/音频/BgmSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 80.0
+
+[node name="Value" type="Label" parent="TabContainer/音频/BgmSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+text = "80"
+horizontal_alignment = 2
+
+[node name="AmbientSlider" type="HBoxContainer" parent="TabContainer/音频"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/音频/AmbientSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "环境音"
+
+[node name="Slider" type="HSlider" parent="TabContainer/音频/AmbientSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 80.0
+
+[node name="Value" type="Label" parent="TabContainer/音频/AmbientSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+text = "80"
+horizontal_alignment = 2
+
+[node name="SfxSlider" type="HBoxContainer" parent="TabContainer/音频"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/音频/SfxSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "音效"
+
+[node name="Slider" type="HSlider" parent="TabContainer/音频/SfxSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 80.0
+
+[node name="Value" type="Label" parent="TabContainer/音频/SfxSlider"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+text = "80"
+horizontal_alignment = 2
+
+[node name="显示" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ResolutionRow" type="HBoxContainer" parent="TabContainer/显示"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/显示/ResolutionRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "分辨率"
+
+[node name="Dropdown" type="OptionButton" parent="TabContainer/显示/ResolutionRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WindowModeRow" type="HBoxContainer" parent="TabContainer/显示"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/显示/WindowModeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "窗口模式"
+
+[node name="Dropdown" type="OptionButton" parent="TabContainer/显示/WindowModeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FontScaleRow" type="HBoxContainer" parent="TabContainer/显示"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/显示/FontScaleRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "字体大小"
+
+[node name="Dropdown" type="OptionButton" parent="TabContainer/显示/FontScaleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="游戏" type="VBoxContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextSpeedRow" type="HBoxContainer" parent="TabContainer/游戏"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TabContainer/游戏/TextSpeedRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "文字速度"
+
+[node name="Dropdown" type="OptionButton" parent="TabContainer/游戏/TextSpeedRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "返回"
+
+[node name="CountdownLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+horizontal_alignment = 1
+text = "确认新分辨率？ (10s)"

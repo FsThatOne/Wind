@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://ce0demo7cu005v1"]
 
-; cu-visual-evidence-harness · cu-005 demo scene (inherited from battle_jiangnan_bandit.tscn)
+; cu-visual-evidence-harness · cu-005 demo scene (inherited from tactics_battle.tscn)
 ; 用途：录屏者一条命令直接进 cu-005 demo state。
 ; 覆盖：DemoSeed = "cu-005" (敌方公开柔意图 + 决胜目标预置 + Neixi=3 反制启用边界
 ;                          + hotkey [/] 调内息演反制 enable/disable 切换)
 
-[ext_resource type="PackedScene" uid="uid://ce0leeu7ltkvl" path="res://scenes/vs/battle_jiangnan_bandit.tscn" id="1_parent"]
+[ext_resource type="PackedScene" path="res://scenes/vs/tactics_battle.tscn" id="1_parent"]
 [ext_resource type="Script" path="res://scripts/vs/AutoEvidencePlayer.cs" id="2_auto"]
 
-[node name="JiangnanBattle" instance=ExtResource("1_parent")]
+[node name="TacticsBattle" instance=ExtResource("1_parent")]
 DemoSeed = "cu-005"
 
 [node name="AutoEvidencePlayer" type="Node" parent="."]

@@ -1,0 +1,33 @@
+id: prologue_opening_01
+version: 1
+entry_node: morning_01
+nodes:
+  - id: morning_01
+    type: narration
+    text: "清晨的雾还没散，风止山院已经醒了。厨房有柴火声，正堂前有人搬红绸，远处传来师弟们压低的笑。"
+    next: morning_02
+
+  - id: morning_02
+    type: speech
+    speaker: sister_bai_tan
+    text: "还站着发什么呆？今日是师父寿宴前一日，人人都有活。你先来厨房仓房小潭找我。"
+    next: morning_03
+
+  - id: morning_03
+    type: speech
+    speaker: player
+    text: "师姐今日不怕我添乱了？"
+    next: morning_04
+
+  - id: morning_04
+    type: speech
+    speaker: sister_bai_tan
+    text: "怕。所以我亲自看着你。先学认药草，再说别的。"
+    events:
+      - type: quest_flag
+        key: prologue_opening_seen
+        value: "true"
+      - type: quest_flag
+        key: prologue_daily_life_started
+        value: "true"
+    next: END

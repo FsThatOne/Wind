@@ -16,7 +16,7 @@ namespace FengZhi.Ui;
 /// 5. dual-focus 互斥: MouseEntered -> GrabFocus, 永远只有一个按钮高亮
 ///
 /// 跳转目标:
-/// - 新游戏 -> PrologueScenePath (= BackMountainCliffCave.tscn, 序章实际起点; Q3=a 不走 NewGameFlow,
+/// - 新游戏 -> PrologueScenePath (= SectCompound.tscn, 序章实际起点; Q3=a 不走 NewGameFlow,
 ///   等难度系统 GDD 落地后再扩 NavigateToNewGameFlow() 替换跳转目标)
 /// - 读档 -> 敬请期待 dialog (等 SaveManager 落地换真 LoadGameScreen)
 /// - 设置 -> 敬请期待 dialog (v1.0 收尾再换真 SettingsScreen)
@@ -31,11 +31,11 @@ namespace FengZhi.Ui;
 public partial class MainMenuGame : Control
 {
 	/// <summary>
-	/// 新游戏跳转目标 — 当前 = 序章实际起点 BackMountainCliffCave.
+	/// 新游戏跳转目标 — 当前 = 序章实际起点风止山院.
 	/// Q3=a 决策: 不走 NewGameFlow (难度选择 / 开场过场 GDD 未落地, 走 placeholder 会做白工);
 	/// 等 GDD 落地后只需修改此常量或新增 NavigateToNewGameFlow() 走子流程画面.
 	/// </summary>
-	private const string PrologueScenePath = "res://scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn";
+	private const string PrologueScenePath = "res://scenes/sect_compound/SectCompound.tscn";
 
 	/// <summary>整体入场 fade in 持续 (spec §10 Slow 400ms).</summary>
 	private const double FadeInDurationSec = 0.4;
@@ -166,9 +166,9 @@ public partial class MainMenuGame : Control
 	{
 		if (_isExiting)
 			return;
-		_placeholderDialog.Title = "设置";
-		_placeholderDialog.DialogText = "设置画面将在 v1.0 收尾时落地。\n（敬请期待）";
-		_placeholderDialog.PopupCentered();
+		var settingsScene = GD.Load<PackedScene>("res://scenes/ui/SettingsPanel.tscn");
+		var instance = settingsScene.Instantiate<Control>();
+		AddChild(instance);
 	}
 
 	private void OnQuitPressed()

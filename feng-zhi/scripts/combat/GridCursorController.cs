@@ -13,6 +13,12 @@ public partial class GridCursorController : Node2D
     [Signal]
     public delegate void CellConfirmedEventHandler(int x, int y);
 
+    [Signal]
+    public delegate void CellChangedEventHandler(int x, int y);
+
+    [Signal]
+    public delegate void SelectionCancelledEventHandler();
+
     private GridPosition _cursorPos;
     private IReadOnlySet<GridPosition>? _validCells;
     private bool _enabled;
@@ -33,6 +39,7 @@ public partial class GridCursorController : Node2D
         _enabled = true;
         Visible = true;
         UpdateVisual();
+        EmitSignal(SignalName.CellChanged, _cursorPos.X, _cursorPos.Y);
     }
 
     public void Disable()
@@ -69,6 +76,10 @@ public partial class GridCursorController : Node2D
                 EmitSignal(SignalName.CellConfirmed, _cursorPos.X, _cursorPos.Y);
             }
         }
+        else if (@event.IsActionPressed("ui_cancel"))
+        {
+            EmitSignal(SignalName.SelectionCancelled);
+        }
     }
 
     private void TryMove(GridPosition newPos)
@@ -77,6 +88,7 @@ public partial class GridCursorController : Node2D
         {
             _cursorPos = newPos;
             UpdateVisual();
+            EmitSignal(SignalName.CellChanged, _cursorPos.X, _cursorPos.Y);
         }
     }
 
