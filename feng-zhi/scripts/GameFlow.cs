@@ -52,6 +52,11 @@ public partial class GameFlow : Node
 	public bool IsInCinematicLock { get; set; }
 	public int TextCharsPerSecond { get; set; } = 30;
 
+	public TimeSpan Playtime { get; private set; }
+	public string CurrentChapterName { get; set; } = "序章";
+	public string CurrentSceneName { get; set; } = "";
+	public int CurrentGameDay { get; set; } = 1;
+
 	/// <summary>上一场战斗结果（仅 outcome scene 期间有意义）。</summary>
 	public BattleResult LastBattleResult { get; private set; } = BattleResult.InProgress;
 
@@ -141,6 +146,12 @@ public partial class GameFlow : Node
 				 $"STR={PlayerInstance.Attributes.Strength} AGI={PlayerInstance.Attributes.Agility} " +
 				 $"INP={PlayerInstance.Attributes.InnerPower} INS={PlayerInstance.Attributes.Insight} " +
 				 $"CON={PlayerInstance.Attributes.Constitution}");
+	}
+
+	public override void _Process(double delta)
+	{
+		if (!GetTree().Paused)
+			Playtime += TimeSpan.FromSeconds(delta);
 	}
 
 	private static Dictionary<string, string> LoadCharacterYamlFiles(string dirPath)

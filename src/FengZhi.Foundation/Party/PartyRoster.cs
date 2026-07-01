@@ -127,6 +127,53 @@ public sealed class PartyRoster
             member.DelegationGrowthThisChapter = 0;
         }
     }
+
+    public PartySaveData ExportSaveData()
+    {
+        var members = _members.Values.Select(m => new PartyMemberData
+        {
+            CharacterId = m.CharacterId,
+            IsProtagonist = m.IsProtagonist,
+            State = m.State,
+            CatchupUsedThisChapter = m.CatchupUsedThisChapter,
+            DelegationGrowthThisChapter = m.DelegationGrowthThisChapter,
+            CurrentDelegationId = m.CurrentDelegationId,
+            AwayReason = m.AwayReason,
+        }).ToList();
+
+        return new PartySaveData
+        {
+            Members = members,
+            DeployedOrder = _deployedOrder.ToList(),
+        };
+    }
+
+    public void LoadSaveData(PartySaveData data)
+    {
+        _members.Clear();
+        _deployedOrder.Clear();
+        _lockedDeployment.Clear();
+
+        foreach (var memberData in data.Members)
+        {
+            var member = new PartyMember(memberData.CharacterId)
+            {
+                IsProtagonist = memberData.IsProtagonist,
+                State = memberData.State,
+                CatchupUsedThisChapter = memberData.CatchupUsedThisChapter,
+                DelegationGrowthThisChapter = memberData.DelegationGrowthThisChapter,
+                CurrentDelegationId = memberData.CurrentDelegationId,
+                AwayReason = memberData.AwayReason,
+            };
+            _members[member.CharacterId] = member;
+        }
+
+        foreach (var id in data.DeployedOrder)
+        {
+            if (_members.ContainsKey(id))
+                _deployedOrder.Add(id);
+        }
+    }
 }
 
 public enum DeployResult

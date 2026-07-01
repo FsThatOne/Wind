@@ -21,6 +21,7 @@ AudioDirector="*res://scripts/audio/AudioDirector.cs"
 GameFlow="*res://scripts/GameFlow.cs"
 SceneTransition="*res://scripts/SceneTransitionManager.cs"
 SettingsManager="*res://scripts/settings/SettingsManager.cs"
+SaveSystem="*res://scripts/save/SaveSystemNode.cs"
 
 [display]
 

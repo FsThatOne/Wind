@@ -158,7 +158,7 @@ public abstract partial class SceneGameBase : Node2D
 		var monologuePresenter = new InsightMonologuePresenter { Name = "InsightMonologuePresenter" };
 		AddChild(monologuePresenter);
 
-		LoadVariant("day", repositionPlayer: true);
+		LoadVariant(GetInitialVariant(), repositionPlayer: true);
 		OnReady();
 
 		if (!string.IsNullOrEmpty(SceneBgmId) || !string.IsNullOrEmpty(TerrainAmbientId))
@@ -189,6 +189,7 @@ public abstract partial class SceneGameBase : Node2D
 	}
 
 	protected virtual void OnReady() { }
+	protected virtual string GetInitialVariant() => "day";
 
 	private void ImportQuestFlagsFromGameFlow()
 	{
@@ -388,13 +389,55 @@ public abstract partial class SceneGameBase : Node2D
 		string objective,
 		string reason = "",
 		bool flash = false,
-		GameFlow.TrackedQuestKind kind = GameFlow.TrackedQuestKind.Mainline)
+		GameFlow.TrackedQuestKind kind = GameFlow.TrackedQuestKind.Mainline,
+		string? id = null)
 	{
-		_flow?.TrackObjective(chapter, objective, reason, kind);
+		id ??= kind == GameFlow.TrackedQuestKind.Mainline ? "prologue_mainline" : null;
+		_flow?.TrackObjective(chapter, objective, reason, kind, id);
 		RefreshObjectiveHudItems();
 
 		if (flash)
 			FlashObjectiveHud();
+	}
+
+	protected void SetPrologueMainObjective(bool flash = false)
+	{
+		(string objective, string reason) = ResolvePrologueMainObjective();
+		SetCurrentObjective("序章 · 主线", objective, reason, flash);
+	}
+
+	private (string Objective, string Reason) ResolvePrologueMainObjective()
+	{
+		if (!HasQuestFlag("prologue_opening_seen"))
+			return ("听师姐安排今日的寿宴准备", "清晨的山院仍像往常一样热闹");
+		if (!HasQuestFlag("prologue_herb_tutorial_seen"))
+			return ("去厨房仓房小潭找师姐学采药", "主角小时候被护得太好，师姐今日才肯正式教");
+		if (!HasQuestFlag("prologue_ore_tutorial_seen"))
+			return ("听师姐教你识别浅表矿脉", "师姐只准你碰安全位置，不许逞强靠近崖边");
+		if (!HasQuestFlag("prologue_mount_foreshadowed"))
+			return ("去雾林小径查看溪边动物足迹", "这只是山兽留下的蹄印，不是危险的外人痕迹");
+		if (!HasQuestFlag("prologue_manor_errands_started"))
+			return ("回山院帮大家准备寿宴", "山庄里还有许多温柔小事等着你");
+		if (!HasQuestFlag("prologue_wine_delayed"))
+			return ("去雾门前听师姐催你取酒", "你答应得很快，却还想再帮山庄里的人一会儿");
+		if (!HasQuestFlag("prologue_wine_obtained"))
+			return ("沿后山小径去崖洞取寿酒", "天色已经压低，你却觉得路熟得闭着眼也能到");
+		if (!HasQuestFlag("prologue_cave_overnight"))
+			return ("在崖洞草席处歇一夜", "天黑路湿，你觉得等山路安全些再回也来得及");
+		if (!HasQuestFlag("prologue_silent_return_seen"))
+			return ("沿雾林小径返回风止山院", "虫鸣全消，连风声都像停了");
+		if (!HasQuestFlag("prologue_massacre_discovered"))
+			return ("去正堂与书房搜证", "不要急着复仇，先确认发生了什么");
+		if (!HasQuestFlag("prologue_senior_brother_returned"))
+			return ("去雾门外确认归山脚步声", "你已经知道山院出了事，远处却传来采买车轮声");
+		if (!HasQuestFlag("senior_brother_mis_resolved"))
+			return ("到小潭边向师兄说清误会", "师兄只看见你独自活着，怀里还有血书与未开的酒");
+		if (!HasQuestFlag("prologue_joint_burial_completed"))
+			return ("到庄训前与师兄安葬门人", "活着的人，先把他们送好");
+		if (!HasQuestFlag("senior_brother_letter_contact_unlocked"))
+			return ("回正堂接受师兄临别传承与书信约定", "以后没人护你了，你得会自保");
+
+		return ("带着血书下山查明真相", "风起渊底，鹤归无枝");
 	}
 
 	protected void ClearCurrentObjective()

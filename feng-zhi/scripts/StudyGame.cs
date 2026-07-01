@@ -20,6 +20,13 @@ public partial class StudyGame : SceneGameBase
 
 	protected override HashSet<string> GetEnabledStructures() => _enabledStructures;
 
+	protected override string GetInitialVariant()
+		=> HasQuestFlag("prologue_cave_overnight") ||
+			HasQuestFlag("prologue_silent_return_seen") ||
+			HasQuestFlag("prologue_massacre_discovered")
+				? "night"
+				: "day";
+
 	protected override void OnLoadVariant(string variant)
 	{
 		if (HasQuestFlag("books_organized"))
@@ -30,7 +37,7 @@ public partial class StudyGame : SceneGameBase
 			: "书房：师父的书房，古籍满架，笔墨纸砚俱全。";
 		InventoryLabel.Text = "";
 		SetCurrentObjective(
-			"序章 · 书房",
+			"序章 · 主线",
 			_booksOrganized ? "查看书架深处的松动木板" : "整理散落卷轴，看看书房是否藏着线索",
 			_booksOrganized ? "卷轴后露出了不寻常的暗格痕迹" : "师父的书房向来不只放书");
 	}
@@ -52,6 +59,7 @@ public partial class StudyGame : SceneGameBase
 			case "bookshelf_inspect":
 				ShowMessage("书架上古籍满列，从武学到医术再到棋谱诗集，无所不包。师父说「武人不可只知武」。");
 				return;
+			case "scroll_inspect":
 			case "scroll_pile_inspect":
 				if (!_booksOrganized)
 				{
@@ -66,35 +74,39 @@ public partial class StudyGame : SceneGameBase
 				}
 				else
 				{
-					ShowMessage("卷轴已经整理好了。");
+					InspectSecretCompartment();
 				}
 				return;
 			case "secret_compartment_inspect":
-				if (_booksOrganized)
-				{
-					SetCurrentObjective(
-						"序章 · 书房",
-						"记住暗格已经空了，再回正堂整理线索",
-						"这里曾经放着什么，你现在还不知道",
-						flash: true);
-					if (Variant == "night")
-					{
-						SetQuestFlag("prologue_study_compartment_empty_seen");
-						ShowMessage("推开松动的木板，暗格里空空如也，只剩木屑和被擦乱的灰。");
-					}
-					else
-					{
-						StartDialogue("res://assets/data/dialogues/chapter_00/master_study_01.yaml");
-					}
-				}
-				else
-				{
-					ShowMessage("满是灰尘的角落，看起来很久没人动过了。");
-				}
+				InspectSecretCompartment();
 				return;
 			default:
 				ShowMessage("这里暂时没有什么可调查的东西。");
 				return;
+		}
+	}
+
+	private void InspectSecretCompartment()
+	{
+		if (!_booksOrganized)
+		{
+			ShowMessage("满是灰尘的角落，看起来很久没人动过了。");
+			return;
+		}
+
+		SetCurrentObjective(
+			"序章 · 书房",
+			"记住暗格已经空了，再回正堂整理线索",
+			"这里曾经放着什么，你现在还不知道",
+			flash: true);
+		if (Variant == "night")
+		{
+			SetQuestFlag("prologue_study_compartment_empty_seen");
+			ShowMessage("推开松动的木板，暗格里空空如也，只剩木屑和被擦乱的灰。");
+		}
+		else
+		{
+			StartDialogue("res://assets/data/dialogues/chapter_00/master_study_01.yaml");
 		}
 	}
 }

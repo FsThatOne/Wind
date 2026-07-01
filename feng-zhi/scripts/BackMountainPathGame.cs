@@ -18,16 +18,28 @@ public partial class BackMountainPathGame : SceneGameBase
 
 	protected override HashSet<string> GetEnabledStructures() => _enabledStructures;
 
+	protected override string GetInitialVariant()
+		=> HasQuestFlag("prologue_wine_delayed") || HasQuestFlag("prologue_cave_overnight")
+			? "night"
+			: "day";
+
 	protected override void OnLoadVariant(string variant)
 	{
 		StatusLabel.Text = variant == "night"
 			? "雾林小径・夜：主潭瀑声被雾压低，通向邻峰崖洞的山阶隐在暗处。"
 			: "雾林小径：邻峰瀑布落入主潭，水雾遮住一段通往后山崖洞的长路。";
 		InventoryLabel.Text = "";
-		SetCurrentObjective(
-			"序章 · 雾林小径",
-			"沿山阶往返崖洞与山院",
-			variant == "night" ? "夜色压低，回山院的路要走稳" : "这条路连接崖洞和风止山院");
+		UpdatePrologueObjective();
+	}
+
+	protected override void OnQuestFlagChanged(string key, string value)
+	{
+		UpdatePrologueObjective();
+	}
+
+	private void UpdatePrologueObjective()
+	{
+		SetPrologueMainObjective();
 	}
 
 	protected override void OnInteract(string markerName)

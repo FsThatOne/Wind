@@ -18,6 +18,18 @@ public partial class SectCompoundGame : SceneGameBase
 		CallDeferred(nameof(StartPrologueOpeningIfNeeded));
 	}
 
+	protected override string GetInitialVariant()
+	{
+		return HasQuestFlag("prologue_cave_overnight") ||
+			HasQuestFlag("prologue_silent_return_seen") ||
+			HasQuestFlag("prologue_massacre_discovered") ||
+			HasQuestFlag("prologue_senior_brother_returned") ||
+			HasQuestFlag("senior_brother_mis_resolved") ||
+			HasQuestFlag("prologue_joint_burial_completed")
+				? "night"
+				: "day";
+	}
+
 	private void StartPrologueOpeningIfNeeded()
 	{
 		if (HasQuestFlag("prologue_opening_seen"))
@@ -39,20 +51,17 @@ public partial class SectCompoundGame : SceneGameBase
 			? "风止山院・夜：旧火山口凹谷沉入雾色，岩壁庄训只剩一线暗痕。"
 			: "风止山院：清修小庄藏在凹谷中央，正堂、书房、厨仓、炼丹房沿水脉疏落分布。";
 		InventoryLabel.Text = "";
-		if (HasQuestFlag("prologue_opening_seen"))
-		{
-			SetCurrentObjective(
-				"序章 · 风止山院",
-				"去厨房仓房小潭找师姐",
-				"寿宴前一日，师姐说要带你学些平日不许碰的活");
-		}
-		else
-		{
-			SetCurrentObjective(
-				"序章 · 风止山院",
-				"听师姐安排今日的寿宴准备",
-				"清晨的山院仍像往常一样热闹");
-		}
+		UpdatePrologueObjective();
+	}
+
+	protected override void OnQuestFlagChanged(string key, string value)
+	{
+		UpdatePrologueObjective();
+	}
+
+	private void UpdatePrologueObjective()
+	{
+		SetPrologueMainObjective();
 	}
 
 	protected override void OnInteract(string markerName)

@@ -18,6 +18,13 @@ public partial class MountainGateGame : SceneGameBase
 
 	protected override HashSet<string> GetEnabledStructures() => _enabledStructures;
 
+	protected override string GetInitialVariant()
+		=> HasQuestFlag("prologue_cave_overnight") ||
+			HasQuestFlag("prologue_silent_return_seen") ||
+			HasQuestFlag("prologue_massacre_discovered")
+				? "night"
+				: "day";
+
 	protected override void OnLoadVariant(string variant)
 	{
 		StatusLabel.Text = variant == "night"

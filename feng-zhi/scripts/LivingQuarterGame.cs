@@ -24,10 +24,20 @@ public partial class LivingQuarterGame : SceneGameBase
 			? "厨房仓房小潭・夜：灶火已熄，小潭映着仓檐，水声在夜里格外清。"
 			: "厨房仓房小潭：山院自给自足的生活核，米粮、药草、灶台和溪水都聚在这里。";
 		InventoryLabel.Text = "";
-		SetCurrentObjective(
-			"序章 · 厨房仓房小潭",
-			"查看山院日常用物，确认寿宴准备",
-			"这里聚着米粮、药草、灶台和水源，是山庄日常的心口");
+		UpdatePrologueObjective();
+	}
+
+	protected override string GetInitialVariant()
+		=> HasQuestFlag("prologue_cave_overnight") ? "night" : "day";
+
+	protected override void OnQuestFlagChanged(string key, string value)
+	{
+		UpdatePrologueObjective();
+	}
+
+	private void UpdatePrologueObjective()
+	{
+		SetPrologueMainObjective();
 	}
 
 	protected override void OnInteract(string markerName)
@@ -51,6 +61,7 @@ public partial class LivingQuarterGame : SceneGameBase
 					flash: true);
 				StartDialogue("res://assets/data/dialogues/chapter_00/sister_gather_ore_01.yaml");
 				return;
+			case "bed_mat_rest":
 			case "bed_mat_inspect":
 				ShowMessage("仓房角落铺着临时草席，守夜的人偶尔会在这里歇一会儿。");
 				return;

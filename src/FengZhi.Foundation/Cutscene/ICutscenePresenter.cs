@@ -38,4 +38,6 @@ public interface ICutsceneViewedStore
 {
     bool HasViewed(string scriptId);
     void MarkViewed(string scriptId);
+    HashSet<string> GetAllViewed();
+    void RestoreViewed(HashSet<string> viewedIds);
 }

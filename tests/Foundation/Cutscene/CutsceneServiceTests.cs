@@ -180,5 +180,7 @@ public class CutsceneServiceTests
         private readonly HashSet<string> _viewed = new();
         public bool HasViewed(string scriptId) => _viewed.Contains(scriptId);
         public void MarkViewed(string scriptId) => _viewed.Add(scriptId);
+        public HashSet<string> GetAllViewed() => new(_viewed);
+        public void RestoreViewed(HashSet<string> viewedIds) { _viewed.Clear(); foreach (var id in viewedIds) _viewed.Add(id); }
     }
 }

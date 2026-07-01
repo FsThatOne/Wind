@@ -277,5 +277,7 @@ public class CutsceneDirectorTests
         public HashSet<string> ViewedIds { get; } = new();
         public bool HasViewed(string scriptId) => ViewedIds.Contains(scriptId);
         public void MarkViewed(string scriptId) => ViewedIds.Add(scriptId);
+        public HashSet<string> GetAllViewed() => new(ViewedIds);
+        public void RestoreViewed(HashSet<string> viewedIds) { ViewedIds.Clear(); foreach (var id in viewedIds) ViewedIds.Add(id); }
     }
 }

@@ -17,6 +17,7 @@ nodes:
         op: eq
         value: day
     next: choice_day
+    fallback: inner_night
 
   - id: choice_day
     type: choice

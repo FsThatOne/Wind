@@ -18,16 +18,30 @@ public partial class MainHallGame : SceneGameBase
 
 	protected override HashSet<string> GetEnabledStructures() => _enabledStructures;
 
+	protected override string GetInitialVariant()
+		=> HasQuestFlag("prologue_cave_overnight") ||
+			HasQuestFlag("prologue_silent_return_seen") ||
+			HasQuestFlag("prologue_massacre_discovered")
+				? "night"
+				: "day";
+
 	protected override void OnLoadVariant(string variant)
 	{
 		StatusLabel.Text = variant == "night"
 			? "正堂・夜：天然岩壁压在堂后，庄训前的一切都静了。"
 			: "正堂・日常：正堂背靠天然岩壁，庄训刻着——风过万里，止于此山。";
 		InventoryLabel.Text = "";
-		SetCurrentObjective(
-			"序章 · 正堂",
-			"查看正堂与师父留下的痕迹",
-			variant == "night" ? "庄训前的一切都静得不合常理" : "寿宴前的正堂仍保持着山庄日常的秩序");
+		UpdatePrologueObjective();
+	}
+
+	protected override void OnQuestFlagChanged(string key, string value)
+	{
+		UpdatePrologueObjective();
+	}
+
+	private void UpdatePrologueObjective()
+	{
+		SetPrologueMainObjective();
 	}
 
 	protected override void OnInteract(string markerName)

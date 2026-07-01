@@ -58,15 +58,22 @@ public partial class PauseMenuUi : Control
 
     private void OnSavePressed()
     {
-        var gameFlow = GetNodeOrNull<Node>("/root/GameFlow");
-        gameFlow?.Call("QuickSave");
-        _settingsManager?.ClosePauseMenu();
+        OpenSaveLoadMenu(0);
     }
 
     private void OnLoadPressed()
     {
-        var gameFlow = GetNodeOrNull<Node>("/root/GameFlow");
-        gameFlow?.Call("QuickLoad");
+        OpenSaveLoadMenu(1);
+    }
+
+    private void OpenSaveLoadMenu(int mode)
+    {
+        var menuScene = GD.Load<PackedScene>("res://scenes/ui/SaveLoadMenu.tscn");
+        var instance = menuScene.Instantiate<Control>();
+        instance.Set("MenuMode", mode);
+        GetTree().Root.AddChild(instance);
+        Visible = false;
+        instance.TreeExiting += () => Visible = true;
     }
 
     private void OnSettingsPressed()

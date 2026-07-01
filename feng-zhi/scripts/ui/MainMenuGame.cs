@@ -156,10 +156,10 @@ public partial class MainMenuGame : Control
 	{
 		if (_isExiting)
 			return;
-		// 复用同一 dialog 节点, 动态切 title + text (placeholder 阶段都是 "敬请期待")
-		_placeholderDialog.Title = "读档";
-		_placeholderDialog.DialogText = "存档系统将在 SaveManager 落地后开放。\n（敬请期待）";
-		_placeholderDialog.PopupCentered();
+		var menuScene = GD.Load<PackedScene>("res://scenes/ui/SaveLoadMenu.tscn");
+		var instance = menuScene.Instantiate<Control>();
+		instance.Set("MenuMode", 1);
+		AddChild(instance);
 	}
 
 	private void OnSettingsPressed()

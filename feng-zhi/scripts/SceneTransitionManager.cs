@@ -1,4 +1,5 @@
 using Godot;
+using FengZhi.Foundation.SaveSystem;
 
 namespace FengZhi;
 
@@ -37,6 +38,7 @@ public partial class SceneTransitionManager : Node
 		{
 			GetTree().ChangeSceneToFile(scenePath);
 			_transitioning = false;
+			PublishAutosaveTrigger();
 		}));
 	}
 
@@ -50,5 +52,11 @@ public partial class SceneTransitionManager : Node
 	public static void ClearPendingEntry()
 	{
 		PendingEntryMarker = null;
+	}
+
+	private void PublishAutosaveTrigger()
+	{
+		var gameFlow = GetNodeOrNull<GameFlow>("/root/GameFlow");
+		gameFlow?.EventBus.Publish(new AutosaveTriggerEvent(AutosaveTriggerReason.SceneTransitionCompleted));
 	}
 }
