@@ -988,6 +988,8 @@ public abstract partial class SceneGameBase : Node2D
 			DialogueManager!.HandleMoveSelection(-1);
 		else if (@event.IsActionPressed("ui_down"))
 			DialogueManager!.HandleMoveSelection(1);
+		else if (@event.IsActionPressed("investigate"))
+			DialogueManager!.HandleInvestigate();
 	}
 
 	private void OnDialogueEnded()

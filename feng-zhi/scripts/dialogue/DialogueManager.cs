@@ -13,11 +13,15 @@ public partial class DialogueManager : Node
 	private DialogueUiPresenter? _presenter;
 	private DialogueEventQueue? _eventQueue;
 	private MindsetDialogueBridge? _mindsetBridge;
+	private DialogueCodePhraseBook? _codePhraseBook;
 
 	private IEventBus _eventBus = null!;
 	private MindsetService _mindsetService = null!;
 	private IDialogueConditionValueProvider _conditionProvider = null!;
 	private DialoguePanel _panel = null!;
+
+	private int _charsPerSecond = 30;
+	private double _tickAccumulator;
 
 	public bool IsDialogueActive =>
 		_runtime != null &&
@@ -35,6 +39,9 @@ public partial class DialogueManager : Node
 		_mindsetService = mindsetService;
 		_panel = panel;
 		_conditionProvider = conditionProvider;
+
+		var gameFlow = GetNodeOrNull<GameFlow>("/root/GameFlow");
+		_charsPerSecond = gameFlow?.TextCharsPerSecond ?? 30;
 	}
 
 	public void StartDialogue(string resPath)
@@ -53,14 +60,20 @@ public partial class DialogueManager : Node
 		var evaluator = new DialogueConditionEvaluator(_conditionProvider);
 		_mindsetBridge = new MindsetDialogueBridge(_eventBus, _mindsetService);
 
+		_codePhraseBook ??= new DialogueCodePhraseBook();
+		var codePhraseProvider = new DialogueCodePhraseProvider(_codePhraseBook, sequence);
+
 		_runtime = new DialogueRuntime(
 			conditionEvaluator: evaluator,
-			eventQueue: _eventQueue)
+			eventQueue: _eventQueue,
+			codePhraseBook: _codePhraseBook,
+			codePhraseProvider: codePhraseProvider)
 		{
 			CharactersPerTick = 1
 		};
 
 		_presenter = new DialogueUiPresenter(_runtime);
+		_tickAccumulator = 0;
 		_runtime.Start(sequence);
 
 		GD.Print($"[DialogueManager] Started: {resPath}");
@@ -70,7 +83,28 @@ public partial class DialogueManager : Node
 	{
 		if (_presenter == null || _runtime == null) return;
 
-		var snapshot = _presenter.Tick();
+		if (_charsPerSecond >= 1000)
+		{
+			for (int i = 0; i < 200; i++)
+				_presenter.Tick();
+		}
+		else
+		{
+			_tickAccumulator += delta;
+			var interval = 1.0 / _charsPerSecond;
+			int ticks = 0;
+			while (_tickAccumulator >= interval && ticks < 10)
+			{
+				_presenter.Tick();
+				_tickAccumulator -= interval;
+				ticks++;
+			}
+
+			if (_tickAccumulator > interval * 3)
+				_tickAccumulator = 0;
+		}
+
+		var snapshot = _presenter.GetSnapshot();
 		_panel.ApplySnapshot(snapshot);
 
 		if (_runtime.State == DialogueRuntimeState.Exiting)
@@ -117,5 +151,10 @@ public partial class DialogueManager : Node
 	public void HandleMoveSelection(int delta)
 	{
 		_presenter?.MoveSelection(delta, DialogueUiInputSource.KeyboardMouse);
+	}
+
+	public void HandleInvestigate()
+	{
+		_presenter?.InvestigateInsight(DialogueUiInputSource.KeyboardMouse);
 	}
 }
