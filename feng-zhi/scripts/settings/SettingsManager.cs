@@ -11,6 +11,7 @@ public partial class SettingsManager : Node
     private static readonly PackedScene PauseMenuScene =
         GD.Load<PackedScene>("res://scenes/ui/PauseMenu.tscn");
 
+    private CanvasLayer? _pauseMenuLayer;
     private Control? _pauseMenuInstance;
 
     public override void _Ready()
@@ -68,15 +69,24 @@ public partial class SettingsManager : Node
     private void ShowPauseMenuUi()
     {
         if (_pauseMenuInstance != null) return;
+        _pauseMenuLayer = new CanvasLayer
+        {
+            Name = "PauseMenuLayer",
+            Layer = 30,
+            ProcessMode = ProcessModeEnum.WhenPaused
+        };
         _pauseMenuInstance = PauseMenuScene.Instantiate<Control>();
-        GetTree().Root.AddChild(_pauseMenuInstance);
+        _pauseMenuInstance.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        _pauseMenuLayer.AddChild(_pauseMenuInstance);
+        GetTree().Root.AddChild(_pauseMenuLayer);
     }
 
     private void HidePauseMenuUi()
     {
         if (_pauseMenuInstance == null) return;
-        _pauseMenuInstance.QueueFree();
+        _pauseMenuLayer?.QueueFree();
         _pauseMenuInstance = null;
+        _pauseMenuLayer = null;
     }
 
     private sealed class CinematicLockQuery : ICinematicLockQuery

@@ -68,6 +68,7 @@ public abstract partial class SceneGameBase : Node2D
 	protected Dialogue.SceneConditionValueProvider? ConditionProvider;
 	private GameFlow? _flow;
 	private Action? _unsubscribeQuestFlag;
+	private Action? _unsubscribeMisunderstandingRegistered;
 	protected string Variant = "day";
 
 	protected virtual Vector2 Origin { get; set; } = new(576f, 96f);
@@ -147,7 +148,9 @@ public abstract partial class SceneGameBase : Node2D
 		ConditionProvider = new Dialogue.SceneConditionValueProvider(mindsetService);
 		ConditionProvider.SetFlag("variant", Variant);
 		ImportQuestFlagsFromGameFlow();
+		ImportMisunderstandingModsFromGameFlow();
 		_unsubscribeQuestFlag = eventBus.Subscribe<DialogueQuestFlagEvent>(OnDialogueQuestFlag);
+		_unsubscribeMisunderstandingRegistered = eventBus.Subscribe<DialogueRegisterMisunderstandingEvent>(OnDialogueRegisterMisunderstanding);
 		DialogueManager.Initialize(eventBus, mindsetService, _dialoguePanel, ConditionProvider);
 		DialogueManager.DialogueEnded += OnDialogueEnded;
 		GD.Print($"[{SceneName}] _Ready: dialogue system initialized.");
@@ -181,6 +184,8 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		_unsubscribeQuestFlag?.Invoke();
 		_unsubscribeQuestFlag = null;
+		_unsubscribeMisunderstandingRegistered?.Invoke();
+		_unsubscribeMisunderstandingRegistered = null;
 
 		if (DialogueManager != null)
 			DialogueManager.DialogueEnded -= OnDialogueEnded;
@@ -200,9 +205,28 @@ public abstract partial class SceneGameBase : Node2D
 			ConditionProvider.SetFlag(key, value);
 	}
 
+	private void ImportMisunderstandingModsFromGameFlow()
+	{
+		if (_flow == null || ConditionProvider == null)
+			return;
+
+		foreach (var (npcId, mod) in _flow.MisunderstandingMods)
+			ConditionProvider.SetMisunderstandingMod(npcId, mod);
+	}
+
 	private void OnDialogueQuestFlag(DialogueQuestFlagEvent gameEvent)
 	{
 		SetQuestFlag(gameEvent.Key, gameEvent.Value);
+		ImportMisunderstandingModsFromGameFlow();
+	}
+
+	private void OnDialogueRegisterMisunderstanding(DialogueRegisterMisunderstandingEvent gameEvent)
+	{
+		if (string.IsNullOrWhiteSpace(gameEvent.Key))
+			return;
+
+		ConditionProvider?.SetFlag(gameEvent.Key, string.IsNullOrWhiteSpace(gameEvent.Value) ? "active" : gameEvent.Value);
+		ImportMisunderstandingModsFromGameFlow();
 	}
 
 	protected void SetQuestFlag(string key, string? value = "true")

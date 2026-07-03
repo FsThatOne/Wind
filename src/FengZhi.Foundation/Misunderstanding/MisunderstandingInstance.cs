@@ -27,4 +27,27 @@ public sealed class MisunderstandingInstance
         Severity.Severe => -2,
         _ => 0,
     };
+
+    /// <summary>创建一个尚未激活的误会实例，状态转换仍由状态机负责。</summary>
+    public static MisunderstandingInstance Create(
+        string id,
+        string targetNpc,
+        SourceType sourceType,
+        Severity severity,
+        int window,
+        int createdChapter,
+        int createdDay,
+        string? unlockFlag = null)
+        => new()
+        {
+            Id = id,
+            TargetNpc = targetNpc,
+            SourceType = sourceType,
+            Severity = severity,
+            InitialWindow = window,
+            WindowRemaining = window,
+            CreatedChapter = createdChapter,
+            CreatedDay = createdDay,
+            UnlockFlag = unlockFlag,
+        };
 }

@@ -290,8 +290,10 @@ public sealed class DialogueUiPresenter
 
     private static bool ShowPortrait(string? nodeType, DialogueNode? node)
     {
-        return string.Equals(nodeType, "speech", StringComparison.Ordinal) &&
-               !string.IsNullOrWhiteSpace(node?.Speaker);
+        if (string.IsNullOrWhiteSpace(node?.Speaker))
+            return false;
+        return string.Equals(nodeType, "speech", StringComparison.Ordinal) ||
+               string.Equals(nodeType, "choice", StringComparison.Ordinal);
     }
 
     private static bool HighlightCurrentSpeaker(string? nodeType, DialogueNode? node)

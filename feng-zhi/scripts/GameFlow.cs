@@ -4,8 +4,10 @@ using System.Linq;
 using FengZhi.Foundation.CharacterData;
 using FengZhi.Foundation.Combat;
 using FengZhi.Foundation.Data;
+using FengZhi.Foundation.Dialogue;
 using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Mindset;
+using FengZhi.Foundation.Misunderstanding;
 using Godot;
 
 namespace FengZhi;
@@ -22,6 +24,9 @@ namespace FengZhi;
 /// </summary>
 public partial class GameFlow : Node
 {
+	private const string SeniorBrotherNpcId = "senior_brother";
+	private const string SeniorBrotherSurvivorMisunderstandingId = "mis_senior_brother_survivor_suspicion";
+
 	public enum TrackedQuestKind
 	{
 		Mainline,
@@ -88,12 +93,19 @@ public partial class GameFlow : Node
 	private readonly Dictionary<string, string> _questFlags = new(StringComparer.Ordinal);
 	private readonly List<TrackedQuestObjective> _trackedObjectives = new();
 	private long _trackedObjectiveSequence;
+	private readonly RuntimeNpcStateWriter _misunderstandingNpcWriter = new();
+	private MisunderstandingRegistry _misunderstandingRegistry = null!;
+	private MisunderstandingStateMachine _misunderstandingStateMachine = null!;
+	private MisunderstandingModCalculator _misunderstandingModCalculator = null!;
 
 	/// <summary>
 	/// 当前运行会话内的剧情 flag。用于 Godot 场景之间传递轻量主线进度；
 	/// 正式存档落地后应接入 SaveSystem 的 narrative payload。
 	/// </summary>
 	public IReadOnlyDictionary<string, string> QuestFlags => _questFlags;
+
+	/// <summary>当前运行会话内的误会修正值；正式存档接入后迁入 NPC State payload。</summary>
+	public IReadOnlyDictionary<string, int> MisunderstandingMods => _misunderstandingNpcWriter.MisunderstandingMods;
 
 	public IReadOnlyList<TrackedQuestObjective> GetTrackedObjectivesForHud()
 	{
@@ -129,6 +141,7 @@ public partial class GameFlow : Node
 	{
 		EventBus = new EventBus();
 		MindsetService = new MindsetService(eventBus: EventBus);
+		InitializeMisunderstandingRuntime();
 
 		DataRegistry = new DataRegistry();
 		var loader = new CharacterConfigLoader();
@@ -146,6 +159,18 @@ public partial class GameFlow : Node
 				 $"STR={PlayerInstance.Attributes.Strength} AGI={PlayerInstance.Attributes.Agility} " +
 				 $"INP={PlayerInstance.Attributes.InnerPower} INS={PlayerInstance.Attributes.Insight} " +
 				 $"CON={PlayerInstance.Attributes.Constitution}");
+	}
+
+	private void InitializeMisunderstandingRuntime()
+	{
+		_misunderstandingRegistry = new MisunderstandingRegistry();
+		_misunderstandingStateMachine = new MisunderstandingStateMachine();
+		_misunderstandingModCalculator = new MisunderstandingModCalculator(
+			_misunderstandingRegistry,
+			_misunderstandingNpcWriter);
+
+		EventBus.Subscribe<DialogueRegisterMisunderstandingEvent>(OnDialogueRegisterMisunderstanding);
+		EventBus.Subscribe<DialogueQuestFlagEvent>(OnDialogueQuestFlagForMisunderstanding);
 	}
 
 	public override void _Process(double delta)
@@ -208,6 +233,59 @@ public partial class GameFlow : Node
 		var normalized = string.IsNullOrWhiteSpace(value) ? "true" : value;
 		_questFlags[key] = normalized;
 		GD.Print($"[GameFlow] Quest flag: {key}={normalized}");
+	}
+
+	private void OnDialogueRegisterMisunderstanding(DialogueRegisterMisunderstandingEvent gameEvent)
+	{
+		if (!string.Equals(gameEvent.Key, SeniorBrotherSurvivorMisunderstandingId, StringComparison.Ordinal))
+		{
+			GD.Print($"[GameFlow] Unsupported misunderstanding key ignored: {gameEvent.Key}");
+			return;
+		}
+
+		if (_misunderstandingRegistry.TryGet(SeniorBrotherSurvivorMisunderstandingId, out var existing))
+		{
+			GD.Print($"[GameFlow] Misunderstanding already registered: {existing.Id} state={existing.State}");
+			return;
+		}
+
+		var instance = MisunderstandingInstance.Create(
+			SeniorBrotherSurvivorMisunderstandingId,
+			SeniorBrotherNpcId,
+			SourceType.DialogueChoice,
+			Severity.Minor,
+			window: 7,
+			createdChapter: 0,
+			createdDay: CurrentGameDay);
+		_misunderstandingStateMachine.Activate(instance);
+		if (!_misunderstandingRegistry.TryRegister(instance))
+		{
+			GD.PrintErr($"[GameFlow] Failed to register misunderstanding: {SeniorBrotherSurvivorMisunderstandingId}");
+			return;
+		}
+
+		var mod = _misunderstandingModCalculator.RecomputeAndWrite(SeniorBrotherNpcId);
+		RecordQuestFlag(SeniorBrotherSurvivorMisunderstandingId, gameEvent.Value ?? "active");
+		GD.Print($"[GameFlow] Misunderstanding registered: {instance.Id} npc={SeniorBrotherNpcId} mod={mod}");
+	}
+
+	private void OnDialogueQuestFlagForMisunderstanding(DialogueQuestFlagEvent gameEvent)
+	{
+		if (!string.Equals(gameEvent.Key, "senior_brother_mis_resolved", StringComparison.Ordinal) ||
+			!string.Equals(gameEvent.Value, "true", StringComparison.OrdinalIgnoreCase))
+		{
+			return;
+		}
+
+		if (!_misunderstandingRegistry.TryGet(SeniorBrotherSurvivorMisunderstandingId, out var instance) ||
+			instance.State is MisunderstandingState.Resolved or MisunderstandingState.Broken)
+		{
+			return;
+		}
+
+		_misunderstandingStateMachine.Resolve(instance);
+		var mod = _misunderstandingModCalculator.RecomputeAndWrite(SeniorBrotherNpcId);
+		GD.Print($"[GameFlow] Misunderstanding resolved: {instance.Id} npc={SeniorBrotherNpcId} mod={mod}");
 	}
 
 	public bool HasQuestFlag(string key, string expectedValue = "true")
@@ -314,6 +392,24 @@ public partial class GameFlow : Node
 			MindsetChoice.Defeat => MindsetOutcomeChoice.Defeat,
 			_ => MindsetOutcomeChoice.None,
 		};
+	}
+
+	private sealed class RuntimeNpcStateWriter : INpcStateWriter
+	{
+		private readonly Dictionary<string, int> _misunderstandingMods = new(StringComparer.Ordinal);
+		private readonly Dictionary<string, (int BonusValue, int DurationDays)> _temporaryBonuses = new(StringComparer.Ordinal);
+
+		public IReadOnlyDictionary<string, int> MisunderstandingMods => _misunderstandingMods;
+
+		public void SetMisunderstandingMod(string npcId, int value)
+		{
+			_misunderstandingMods[npcId] = value;
+		}
+
+		public void ApplyTemporaryBonus(string npcId, int bonusValue, int durationDays)
+		{
+			_temporaryBonuses[npcId] = (bonusValue, durationDays);
+		}
 	}
 }
 

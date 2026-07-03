@@ -61,6 +61,20 @@ public sealed class PrologueSeniorBrotherFarewellContentTest
     }
 
     [Fact]
+    public void MisunderstandingDialogue_UsesRuntimeModForTransparencySignal()
+    {
+        var sequence = Load("senior_brother_misunderstanding_01.yaml");
+        var signalNode = Assert.Single(sequence.Nodes, node => node.Id == "suspicion_signal");
+        var condition = Assert.Single(signalNode.Conditions);
+
+        Assert.Equal("misunderstanding_mod.senior_brother", condition.Source);
+        Assert.Equal("lte", condition.Op);
+        Assert.Equal("-1", condition.Value);
+        Assert.Equal("clarify_choice", signalNode.Fallback);
+        Assert.Contains("称呼退回陌生处", signalNode.Text);
+    }
+
+    [Fact]
     public void Confrontation_DoesNotTriggerLethalCombat()
     {
         var yaml = ReadAllYaml();

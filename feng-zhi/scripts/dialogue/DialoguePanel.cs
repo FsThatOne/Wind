@@ -1,10 +1,22 @@
+using System.Collections.Generic;
 using FengZhi.Foundation.Dialogue;
 using Godot;
 
 namespace FengZhi.Dialogue;
 
-public partial class DialoguePanel : PanelContainer
+public partial class DialoguePanel : Control
 {
+	private static readonly Dictionary<string, string> SpeakerNames = new()
+	{
+		["player"] = "停云",
+		["bai_tan"] = "白檀",
+		["senior_brother"] = "师兄",
+		["manor_master"] = "庄主",
+		["junior_brother"] = "师弟",
+		["kitchen_disciple"] = "厨房弟子",
+		["pharmacy_disciple"] = "药房弟子",
+	};
+
 	private static readonly Color ColorStandard = new(0.95f, 0.93f, 0.88f);
 	private static readonly Color ColorMindset = new(0.6f, 0.85f, 1.0f);
 	private static readonly Color ColorCodePhrase = new(1.0f, 0.9f, 0.5f);
@@ -12,6 +24,8 @@ public partial class DialoguePanel : PanelContainer
 	private static readonly Color ColorSelected = new(1f, 0.85f, 0.4f);
 	private static readonly Color ColorMonologue = new(0.75f, 0.65f, 0.9f);
 
+	private VBoxContainer _portraitColumn = null!;
+	private TextureRect _portraitTexture = null!;
 	private Label _speakerLabel = null!;
 	private RichTextLabel _textLabel = null!;
 	private Label _continueHint = null!;
@@ -23,13 +37,17 @@ public partial class DialoguePanel : PanelContainer
 	private RichTextLabel _letterTextLabel = null!;
 	private Label _letterRecipientLabel = null!;
 
+	private string? _currentPortraitSpeakerId;
+
 	public override void _Ready()
 	{
-		_speakerLabel = GetNode<Label>("MarginContainer/VBoxContainer/SpeakerLabel");
-		_textLabel = GetNode<RichTextLabel>("MarginContainer/VBoxContainer/TextLabel");
-		_continueHint = GetNode<Label>("MarginContainer/VBoxContainer/ContinueHint");
-		_choicesBox = GetNode<VBoxContainer>("MarginContainer/VBoxContainer/ChoicesBox");
-		_insightHintLabel = GetNode<Label>("MarginContainer/VBoxContainer/InsightHintLabel");
+		_portraitColumn = GetNode<VBoxContainer>("PortraitColumn");
+		_portraitTexture = GetNode<TextureRect>("PortraitColumn/PortraitTexture");
+		_speakerLabel = GetNode<Label>("PortraitColumn/SpeakerLabel");
+		_textLabel = GetNode<RichTextLabel>("TextPanel/MarginContainer/VBoxContainer/TextLabel");
+		_continueHint = GetNode<Label>("TextPanel/MarginContainer/VBoxContainer/ContinueHint");
+		_choicesBox = GetNode<VBoxContainer>("TextPanel/MarginContainer/VBoxContainer/ChoicesBox");
+		_insightHintLabel = GetNode<Label>("TextPanel/MarginContainer/VBoxContainer/InsightHintLabel");
 		_letterOverlay = GetNode<PanelContainer>("LetterOverlay");
 		_letterSenderLabel = GetNode<Label>("LetterOverlay/LetterContent/LetterSenderLabel");
 		_letterTextLabel = GetNode<RichTextLabel>("LetterOverlay/LetterContent/LetterTextLabel");
@@ -65,15 +83,7 @@ public partial class DialoguePanel : PanelContainer
 
 	private void RenderDialogueMode(DialogueUiSnapshot snapshot)
 	{
-		_speakerLabel.Text = snapshot.Mode switch
-		{
-			DialogueUiMode.InnerMonologue => "（内心）",
-			DialogueUiMode.Narration => "",
-			DialogueUiMode.Speech => snapshot.NameplateText ?? "",
-			DialogueUiMode.Choice => snapshot.NameplateText ?? "",
-			_ => ""
-		};
-		_speakerLabel.Visible = !string.IsNullOrEmpty(_speakerLabel.Text);
+		UpdatePortrait(snapshot);
 
 		if (snapshot.Mode == DialogueUiMode.InnerMonologue)
 		{
@@ -98,6 +108,7 @@ public partial class DialoguePanel : PanelContainer
 
 	private void RenderLetterMode(DialogueUiSnapshot snapshot)
 	{
+		_portraitColumn.Visible = false;
 		_letterOverlay.Visible = true;
 		_letterSenderLabel.Text = !string.IsNullOrEmpty(snapshot.LetterSender)
 			? $"寄：{snapshot.LetterSender}" : "";
@@ -105,11 +116,50 @@ public partial class DialoguePanel : PanelContainer
 			? $"启：{snapshot.LetterRecipient}" : "";
 		_letterTextLabel.Text = EscapeBbCode(snapshot.VisibleText);
 
-		_speakerLabel.Visible = false;
 		_textLabel.Text = "";
 		_continueHint.Visible = snapshot.ShowContinueIndicator;
 		_choicesBox.Visible = false;
 		_insightHintLabel.Visible = false;
+	}
+
+	private void UpdatePortrait(DialogueUiSnapshot snapshot)
+	{
+		if (!snapshot.ShowPortrait || string.IsNullOrEmpty(snapshot.SpeakerId))
+		{
+			_portraitColumn.Visible = false;
+			_speakerLabel.Text = "";
+			return;
+		}
+
+		var speakerId = snapshot.SpeakerId;
+		_speakerLabel.Text = ResolveSpeakerName(snapshot.NameplateText);
+
+		if (speakerId == _currentPortraitSpeakerId && _portraitTexture.Texture != null)
+		{
+			_portraitColumn.Visible = true;
+			return;
+		}
+
+		var texture = LoadPortraitTexture(speakerId);
+		if (texture != null)
+		{
+			_portraitTexture.Texture = texture;
+			_portraitColumn.Visible = true;
+			_currentPortraitSpeakerId = speakerId;
+		}
+		else
+		{
+			_portraitColumn.Visible = false;
+			_currentPortraitSpeakerId = null;
+		}
+	}
+
+	private static Texture2D? LoadPortraitTexture(string speakerId)
+	{
+		var path = $"res://assets/character/portraits/{speakerId}_full_neutral.png";
+		if (!ResourceLoader.Exists(path))
+			return null;
+		return GD.Load<Texture2D>(path);
 	}
 
 	private void UpdateChoices(DialogueUiSnapshot snapshot)
@@ -153,9 +203,8 @@ public partial class DialoguePanel : PanelContainer
 	public void ShowMonologue(string text)
 	{
 		Visible = true;
+		_portraitColumn.Visible = false;
 		_letterOverlay.Visible = false;
-		_speakerLabel.Text = "（内心）";
-		_speakerLabel.Visible = true;
 		_textLabel.Text = $"[i][color=#{ColorMonologue.ToHtml(false)}]{EscapeBbCode(text)}[/color][/i]";
 		_continueHint.Visible = false;
 		_choicesBox.Visible = false;
@@ -171,5 +220,11 @@ public partial class DialoguePanel : PanelContainer
 	{
 		if (string.IsNullOrEmpty(text)) return "";
 		return text.Replace("[", "[lb]");
+	}
+
+	private static string ResolveSpeakerName(string? speakerId)
+	{
+		if (string.IsNullOrEmpty(speakerId)) return "";
+		return SpeakerNames.TryGetValue(speakerId, out var name) ? name : speakerId;
 	}
 }

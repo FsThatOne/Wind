@@ -6,7 +6,17 @@ nodes:
     type: speech
     speaker: senior_brother
     text: "我下山采买，不过一夜。满庄的人都倒在这里，偏偏你抱着酒和血书站着。你叫我怎么信？"
+    next: suspicion_signal
+
+  - id: suspicion_signal
+    type: narration
+    text: "他没有再喊你的名字。那一瞬间，你听见称呼退回陌生处，像门槛上忽然多出一道看不见的霜。"
+    conditions:
+      - source: misunderstanding_mod.senior_brother
+        op: lte
+        value: -1
     next: clarify_choice
+    fallback: clarify_choice
 
   - id: clarify_choice
     type: choice

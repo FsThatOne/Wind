@@ -29,6 +29,9 @@ public sealed record DialogueCombatTriggerEvent(string CombatId) : GameEvent;
 /// <summary>对话章节推进事件。</summary>
 public sealed record DialogueChapterAdvanceEvent(string ChapterId) : GameEvent;
 
+/// <summary>对话注册误会事件。</summary>
+public sealed record DialogueRegisterMisunderstandingEvent(string Key, string? Value) : GameEvent;
+
 /// <summary>
 /// 对话事件队列：收集节点/选项事件，并在世界恢复后按编辑顺序发布。
 /// </summary>
@@ -138,6 +141,11 @@ public sealed class DialogueEventQueue
                     return new DialogueChapterAdvanceEvent(chapterId);
                 return null;
 
+            case "register_misunderstanding":
+                if (Require(spec.Key, spec.Type, "key", out var misunderstandingKey))
+                    return new DialogueRegisterMisunderstandingEvent(misunderstandingKey, spec.Value);
+                return null;
+
             default:
                 _errors.Add($"未知对话事件类型: '{spec.Type}'");
                 return null;
@@ -173,6 +181,9 @@ public sealed class DialogueEventQueue
                 eventBus.Publish(e);
                 break;
             case DialogueChapterAdvanceEvent e:
+                eventBus.Publish(e);
+                break;
+            case DialogueRegisterMisunderstandingEvent e:
                 eventBus.Publish(e);
                 break;
         }

@@ -45,6 +45,23 @@ public sealed class PrologueSceneDialogueHooksTest
     }
 
     [Fact]
+    public void PauseMenu_IsMountedOnViewportCanvasLayerInsteadOfWorldCanvas()
+    {
+        var settingsManager = ReadFile("feng-zhi/scripts/settings/SettingsManager.cs");
+        var pauseMenu = ReadFile("feng-zhi/scripts/ui/PauseMenuUi.cs");
+
+        Assert.Contains("new CanvasLayer", settingsManager);
+        Assert.Contains("Name = \"PauseMenuLayer\"", settingsManager);
+        Assert.Contains("Layer = 30", settingsManager);
+        Assert.Contains("_pauseMenuInstance.SetAnchorsPreset(Control.LayoutPreset.FullRect)", settingsManager);
+        Assert.Contains("_pauseMenuLayer.AddChild(_pauseMenuInstance)", settingsManager);
+        Assert.DoesNotContain("GetTree().Root.AddChild(_pauseMenuInstance)", settingsManager);
+
+        Assert.Contains("GetParent().AddChild(instance)", pauseMenu);
+        Assert.DoesNotContain("GetTree().Root.AddChild(instance)", pauseMenu);
+    }
+
+    [Fact]
     public void MassacreStudyHook_DoesNotLeakOldDirectCulpritPlaceholders()
     {
         var study = ReadFile("feng-zhi/scripts/StudyGame.cs");
@@ -86,6 +103,36 @@ public sealed class PrologueSceneDialogueHooksTest
         Assert.Contains("ImportQuestFlagsFromGameFlow", sceneBase);
         Assert.Contains("SetQuestFlag(gameEvent.Key, gameEvent.Value)", sceneBase);
         Assert.Contains("ConditionProvider?.SetFlag(key, normalized)", sceneBase);
+    }
+
+    [Fact]
+    public void MisunderstandingMods_AreImportedForDialogueConditions()
+    {
+        var sceneBase = ReadFile("feng-zhi/scripts/SceneGameBase.cs");
+        var provider = ReadFile("feng-zhi/scripts/dialogue/SceneConditionValueProvider.cs");
+        var dialogue = ReadFile("feng-zhi/assets/data/dialogues/chapter_00/senior_brother_misunderstanding_01.yaml");
+
+        Assert.Contains("ImportMisunderstandingModsFromGameFlow", sceneBase);
+        Assert.Contains("Subscribe<DialogueRegisterMisunderstandingEvent>", sceneBase);
+        Assert.Contains("ConditionProvider.SetMisunderstandingMod(npcId, mod)", sceneBase);
+        Assert.Contains("source.StartsWith(\"misunderstanding_mod.\"", provider);
+        Assert.Contains("misunderstanding_mod.senior_brother", dialogue);
+        Assert.Contains("称呼退回陌生处", dialogue);
+    }
+
+    [Fact]
+    public void SeniorBrotherMisunderstandingEvent_IsConnectedToRuntimeState()
+    {
+        var gameFlow = ReadFile("feng-zhi/scripts/GameFlow.cs");
+
+        Assert.Contains("DialogueRegisterMisunderstandingEvent", gameFlow);
+        Assert.Contains("Subscribe<DialogueRegisterMisunderstandingEvent>", gameFlow);
+        Assert.Contains("SeniorBrotherSurvivorMisunderstandingId", gameFlow);
+        Assert.Contains("MisunderstandingInstance.Create", gameFlow);
+        Assert.Contains("_misunderstandingStateMachine.Activate(instance)", gameFlow);
+        Assert.Contains("_misunderstandingModCalculator.RecomputeAndWrite(SeniorBrotherNpcId)", gameFlow);
+        Assert.Contains("senior_brother_mis_resolved", gameFlow);
+        Assert.Contains("public IReadOnlyDictionary<string, int> MisunderstandingMods", gameFlow);
     }
 
     [Fact]

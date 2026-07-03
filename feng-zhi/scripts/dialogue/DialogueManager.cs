@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using FengZhi.Foundation.Dialogue;
 using FengZhi.Foundation.Events;
 using FengZhi.Foundation.Mindset;
@@ -22,6 +25,7 @@ public partial class DialogueManager : Node
 
 	private int _charsPerSecond = 30;
 	private double _tickAccumulator;
+	private double _punctuationPause;
 
 	public bool IsDialogueActive =>
 		_runtime != null &&
@@ -61,7 +65,7 @@ public partial class DialogueManager : Node
 		_mindsetBridge = new MindsetDialogueBridge(_eventBus, _mindsetService);
 
 		_codePhraseBook ??= new DialogueCodePhraseBook();
-		var codePhraseProvider = new DialogueCodePhraseProvider(_codePhraseBook, sequence);
+		var codePhraseProvider = new DialogueCodePhraseProvider(_codePhraseBook, BuildCodePhraseMatches(sequence));
 
 		_runtime = new DialogueRuntime(
 			conditionEvaluator: evaluator,
@@ -90,18 +94,43 @@ public partial class DialogueManager : Node
 		}
 		else
 		{
-			_tickAccumulator += delta;
-			var interval = 1.0 / _charsPerSecond;
-			int ticks = 0;
-			while (_tickAccumulator >= interval && ticks < 10)
+			if (_punctuationPause > 0)
 			{
-				_presenter.Tick();
-				_tickAccumulator -= interval;
-				ticks++;
+				_punctuationPause -= delta;
 			}
+			else
+			{
+				_tickAccumulator += delta;
+				var interval = 1.0 / _charsPerSecond;
+				int ticks = 0;
+				while (_tickAccumulator >= interval && ticks < 10)
+				{
+					_presenter.Tick();
+					_tickAccumulator -= interval;
+					ticks++;
 
-			if (_tickAccumulator > interval * 3)
-				_tickAccumulator = 0;
+					var peek = _presenter.GetSnapshot();
+					if (peek?.VisibleText is { Length: > 0 } text)
+					{
+						char last = text[^1];
+						if (last is '。' or '！' or '？' or '…' or '\n')
+						{
+							_punctuationPause = 0.18;
+							_tickAccumulator = 0;
+							break;
+						}
+						if (last is '，' or '、' or '；' or '：' or ',' or ';')
+						{
+							_punctuationPause = 0.09;
+							_tickAccumulator = 0;
+							break;
+						}
+					}
+				}
+
+				if (_tickAccumulator > interval * 3)
+					_tickAccumulator = 0;
+			}
 		}
 
 		var snapshot = _presenter.GetSnapshot();
@@ -156,5 +185,36 @@ public partial class DialogueManager : Node
 	public void HandleInvestigate()
 	{
 		_presenter?.InvestigateInsight(DialogueUiInputSource.KeyboardMouse);
+	}
+
+	private static IReadOnlyList<DialogueCodePhraseMatch> BuildCodePhraseMatches(DialogueSequence sequence)
+	{
+		var nodesById = sequence.Nodes.ToDictionary(node => node.Id, StringComparer.Ordinal);
+		var matches = new List<DialogueCodePhraseMatch>();
+
+		foreach (var choiceNode in sequence.Nodes.Where(node => string.Equals(node.Type, "choice", StringComparison.Ordinal)))
+		{
+			foreach (var nextNodeId in choiceNode.CodePhraseNexts)
+			{
+				if (!nodesById.TryGetValue(nextNodeId, out var phraseNode) ||
+					!string.Equals(phraseNode.Type, "code_phrase", StringComparison.Ordinal) ||
+					string.IsNullOrWhiteSpace(phraseNode.CorrectPhrase))
+				{
+					continue;
+				}
+
+				var contextKey = $"{sequence.Id}:{choiceNode.Id}:{phraseNode.Id}";
+				matches.Add(new DialogueCodePhraseMatch(
+					phraseNode.CorrectPhrase,
+					contextKey,
+					phraseNode.CorrectPhrase,
+					phraseNode.Id,
+					phraseNode.Conditions,
+					phraseNode.ConditionsAnyOf,
+					phraseNode.Events));
+			}
+		}
+
+		return matches;
 	}
 }

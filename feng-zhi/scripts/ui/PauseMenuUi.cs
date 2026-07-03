@@ -71,7 +71,7 @@ public partial class PauseMenuUi : Control
         var menuScene = GD.Load<PackedScene>("res://scenes/ui/SaveLoadMenu.tscn");
         var instance = menuScene.Instantiate<Control>();
         instance.Set("MenuMode", mode);
-        GetTree().Root.AddChild(instance);
+        GetParent().AddChild(instance);
         Visible = false;
         instance.TreeExiting += () => Visible = true;
     }
