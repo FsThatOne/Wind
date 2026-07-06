@@ -1,0 +1,1127 @@
+tests/unit/narrative/prologue_cave_memory_content_test.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 11-12,30-35,70-73 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[11,12]},{"Range":[30,35]},{"Range":[70,73]}]}]}
+  s_a5242cb18728c2::t_285e7f43582308 74-75
+feng-zhi/assets/data/dialogues/chapter_00/rest_spot_01.yaml
+  s_a5242cb18728c2::t_01a9cb14e8862f 65,67,85 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Single":65},{"Single":67},{"Single":85}]}]}
+feng-zhi/assets/data/dialogues/chapter_00/massacre_evidence_01.yaml
+  s_a5242cb18728c2::t_01a9cb14e8862f 16-20,23-27,30-34,37-41,44-48,134-155,161-165 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[16,20]},{"Range":[23,27]},{"Range":[30,34]},{"Range":[37,41]},{"Range":[44,48]},{"Range":[134,155]},{"Range":[161,165]}]}]}
+feng-zhi/assets/data/dialogues/chapter_00/manor_errands_01.yaml
+  s_a5242cb18728c2::t_01a9cb14e8862f 12,15,17,19,21,24-25,27,30-31,33,36-37,39,41 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Single":12},{"Single":15},{"Single":17},{"Single":19},{"Single":21},{"Range":[24,25]},{"Single":27},{"Range":[30,31]},{"Single":33},{"Range":[36,37]},{"Single":39},{"Single":41}]}]}
+feng-zhi/scenes/ui/DialoguePanel.tscn
+  s_a5242cb18728c2::t_01a9cb14e8862f 45,48,53,62,92,110,116,122,128-140 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Single":45},{"Single":48},{"Single":53},{"Single":62},{"Single":92},{"Single":110},{"Single":116},{"Single":122},{"Range":[128,140]}]}]}
+feng-zhi/scripts/LivingQuarterGame.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 35-37,51-64,74-87,107-123 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[35,37]},{"Range":[51,64]},{"Range":[74,87]},{"Range":[107,123]}]}]}
+  s_a5242cb18728c2::t_aeef6f376779fb 124
+feng-zhi/scripts/BackMountainPathGame.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 22-23 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[22,23]}]}]}
+feng-zhi/scripts/BackMountainCliffCaveGame.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 47-50,64-71,115,155,157-165,171-201,213-221,266-277,286-330 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[47,50]},{"Range":[64,71]},{"Single":115},{"Single":155},{"Range":[157,165]},{"Range":[171,201]},{"Range":[213,221]},{"Range":[266,277]},{"Range":[286,330]}]}]}
+  s_a5242cb18728c2::t_ac0e46f1105cd6 331
+design/quick-specs/objective-hud-and-quest-page-2026-07-04.md
+  s_a5242cb18728c2::t_01a9cb14e8862f 1-55 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,55]}]}]}
+feng-zhi/scripts/SectCompoundGame.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 59-61,109-117,134,136,150-186 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[59,61]},{"Range":[109,117]},{"Single":134},{"Single":136},{"Range":[150,186]}]}]}
+design/quick-specs/prologue-playtest-flow-fixes-2026-07-04.md
+  s_a5242cb18728c2::t_01a9cb14e8862f 1-64 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,64]}]}]}
+feng-zhi/assets/data/dialogues/chapter_00/cave_rest_mat_memory_cg_01.yaml
+  s_a5242cb18728c2::t_01a9cb14e8862f 1-22 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,22]}]}]}
+tests/unit/narrative/prologue_manor_errands_dialogue_test.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 95-113 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[95,113]}]}]}
+production/backlog/polish-backlog.md
+  s_a5242cb18728c2::t_01a9cb14e8862f 27,34-39 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Single":27},{"Range":[34,39]}]}]}
+feng-zhi/scripts/dialogue/DialoguePanel.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 56-57,130,137,141,149,154-155 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[56,57]},{"Single":130},{"Single":137},{"Single":141},{"Single":149},{"Range":[154,155]}]}]}
+tests/unit/narrative/prologue_massacre_evidence_dialogue_test.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 65-79 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[65,79]}]}]}
+  s_a5242cb18728c2::t_c8aed119a5b7b1 64
+feng-zhi/assets/data/dialogues/chapter_00/cave_wall_memory_cg_01.yaml
+  s_a5242cb18728c2::t_01a9cb14e8862f 1-22 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[1,22]}]}]}
+feng-zhi/scripts/SceneGameBase.cs
+  s_a5242cb18728c2::t_01a9cb14e8862f 445-446,469-477,520,644-646,651-661,821-823,1052-1054,1130,1138-1139 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a4b027993280b53c4754f3e","tool_type":"agent","tool_id":"Shell","line_ranges":[{"Range":[445,446]},{"Range":[469,477]},{"Single":520},{"Range":[644,646]},{"Range":[651,661]},{"Range":[821,823]},{"Range":[1052,1054]},{"Single":1130},{"Range":[1138,1139]}]}]}
+feng-zhi/assets/data/dialogues/chapter_00/senior_brother_misunderstanding_01.yaml
+  s_bfd19fefd4aa12::t_d410332c1cf2e8 61-65
+production/qa/evidence/s9-002-playtest-session-evidence.md
+  s_bfd19fefd4aa12::t_507eaae9faf44b 1-58
+tests/unit/narrative/prologue_senior_brother_farewell_content_test.cs
+  s_bfd19fefd4aa12::t_ec4b3c49f42808 77-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "76d1e9c76b9a13b67a078711a888be77c47f9270",
+  "prompts": {},
+  "humans": {
+    "h_d42555f42eea53": {
+      "author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "sessions": {
+    "s_a5242cb18728c2": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a3d225c0af6755a038b26f7",
+        "model": "openrouter-1o__dev",
+        "display_model_name": "openrouter-1o"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    },
+    "s_bfd19fefd4aa12": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f2325-c77b-7b10-b6c3-f87390b5adb3",
+        "model": "unknown"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {
+    "design/quick-specs/objective-hud-and-quest-page-2026-07-04.md": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              55
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  55
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "design/quick-specs/prologue-playtest-flow-fixes-2026-07-04.md": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              64
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  64
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/data/dialogues/chapter_00/cave_rest_mat_memory_cg_01.yaml": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              22
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  22
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/data/dialogues/chapter_00/cave_wall_memory_cg_01.yaml": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              1,
+              22
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  1,
+                  22
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/data/dialogues/chapter_00/manor_errands_01.yaml": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Single": 12
+          },
+          {
+            "Single": 15
+          },
+          {
+            "Single": 17
+          },
+          {
+            "Single": 19
+          },
+          {
+            "Single": 21
+          },
+          {
+            "Range": [
+              24,
+              25
+            ]
+          },
+          {
+            "Single": 27
+          },
+          {
+            "Range": [
+              30,
+              31
+            ]
+          },
+          {
+            "Single": 33
+          },
+          {
+            "Range": [
+              36,
+              37
+            ]
+          },
+          {
+            "Single": 39
+          },
+          {
+            "Single": 41
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Single": 12
+              },
+              {
+                "Single": 15
+              },
+              {
+                "Single": 17
+              },
+              {
+                "Single": 19
+              },
+              {
+                "Single": 21
+              },
+              {
+                "Range": [
+                  24,
+                  25
+                ]
+              },
+              {
+                "Single": 27
+              },
+              {
+                "Range": [
+                  30,
+                  31
+                ]
+              },
+              {
+                "Single": 33
+              },
+              {
+                "Range": [
+                  36,
+                  37
+                ]
+              },
+              {
+                "Single": 39
+              },
+              {
+                "Single": 41
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/data/dialogues/chapter_00/massacre_evidence_01.yaml": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              16,
+              20
+            ]
+          },
+          {
+            "Range": [
+              23,
+              27
+            ]
+          },
+          {
+            "Range": [
+              30,
+              34
+            ]
+          },
+          {
+            "Range": [
+              37,
+              41
+            ]
+          },
+          {
+            "Range": [
+              44,
+              48
+            ]
+          },
+          {
+            "Range": [
+              134,
+              155
+            ]
+          },
+          {
+            "Range": [
+              161,
+              165
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  16,
+                  20
+                ]
+              },
+              {
+                "Range": [
+                  23,
+                  27
+                ]
+              },
+              {
+                "Range": [
+                  30,
+                  34
+                ]
+              },
+              {
+                "Range": [
+                  37,
+                  41
+                ]
+              },
+              {
+                "Range": [
+                  44,
+                  48
+                ]
+              },
+              {
+                "Range": [
+                  134,
+                  155
+                ]
+              },
+              {
+                "Range": [
+                  161,
+                  165
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/assets/data/dialogues/chapter_00/rest_spot_01.yaml": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Single": 65
+          },
+          {
+            "Single": 67
+          },
+          {
+            "Single": 85
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Single": 65
+              },
+              {
+                "Single": 67
+              },
+              {
+                "Single": 85
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scenes/ui/DialoguePanel.tscn": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Single": 45
+          },
+          {
+            "Single": 48
+          },
+          {
+            "Single": 53
+          },
+          {
+            "Single": 62
+          },
+          {
+            "Single": 92
+          },
+          {
+            "Single": 110
+          },
+          {
+            "Single": 116
+          },
+          {
+            "Single": 122
+          },
+          {
+            "Range": [
+              128,
+              140
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Single": 45
+              },
+              {
+                "Single": 48
+              },
+              {
+                "Single": 53
+              },
+              {
+                "Single": 62
+              },
+              {
+                "Single": 92
+              },
+              {
+                "Single": 110
+              },
+              {
+                "Single": 116
+              },
+              {
+                "Single": 122
+              },
+              {
+                "Range": [
+                  128,
+                  140
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/BackMountainCliffCaveGame.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              47,
+              50
+            ]
+          },
+          {
+            "Range": [
+              64,
+              71
+            ]
+          },
+          {
+            "Single": 115
+          },
+          {
+            "Single": 155
+          },
+          {
+            "Range": [
+              157,
+              165
+            ]
+          },
+          {
+            "Range": [
+              171,
+              201
+            ]
+          },
+          {
+            "Range": [
+              213,
+              221
+            ]
+          },
+          {
+            "Range": [
+              266,
+              277
+            ]
+          },
+          {
+            "Range": [
+              286,
+              330
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  47,
+                  50
+                ]
+              },
+              {
+                "Range": [
+                  64,
+                  71
+                ]
+              },
+              {
+                "Single": 115
+              },
+              {
+                "Single": 155
+              },
+              {
+                "Range": [
+                  157,
+                  165
+                ]
+              },
+              {
+                "Range": [
+                  171,
+                  201
+                ]
+              },
+              {
+                "Range": [
+                  213,
+                  221
+                ]
+              },
+              {
+                "Range": [
+                  266,
+                  277
+                ]
+              },
+              {
+                "Range": [
+                  286,
+                  330
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/BackMountainPathGame.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              22,
+              23
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  22,
+                  23
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/LivingQuarterGame.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              35,
+              37
+            ]
+          },
+          {
+            "Range": [
+              51,
+              64
+            ]
+          },
+          {
+            "Range": [
+              74,
+              87
+            ]
+          },
+          {
+            "Range": [
+              107,
+              123
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  35,
+                  37
+                ]
+              },
+              {
+                "Range": [
+                  51,
+                  64
+                ]
+              },
+              {
+                "Range": [
+                  74,
+                  87
+                ]
+              },
+              {
+                "Range": [
+                  107,
+                  123
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/SceneGameBase.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              445,
+              446
+            ]
+          },
+          {
+            "Range": [
+              469,
+              477
+            ]
+          },
+          {
+            "Single": 520
+          },
+          {
+            "Range": [
+              644,
+              646
+            ]
+          },
+          {
+            "Range": [
+              651,
+              661
+            ]
+          },
+          {
+            "Range": [
+              821,
+              823
+            ]
+          },
+          {
+            "Range": [
+              1052,
+              1054
+            ]
+          },
+          {
+            "Single": 1130
+          },
+          {
+            "Range": [
+              1138,
+              1139
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  445,
+                  446
+                ]
+              },
+              {
+                "Range": [
+                  469,
+                  477
+                ]
+              },
+              {
+                "Single": 520
+              },
+              {
+                "Range": [
+                  644,
+                  646
+                ]
+              },
+              {
+                "Range": [
+                  651,
+                  661
+                ]
+              },
+              {
+                "Range": [
+                  821,
+                  823
+                ]
+              },
+              {
+                "Range": [
+                  1052,
+                  1054
+                ]
+              },
+              {
+                "Single": 1130
+              },
+              {
+                "Range": [
+                  1138,
+                  1139
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/SectCompoundGame.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              59,
+              61
+            ]
+          },
+          {
+            "Range": [
+              109,
+              117
+            ]
+          },
+          {
+            "Single": 134
+          },
+          {
+            "Single": 136
+          },
+          {
+            "Range": [
+              150,
+              186
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  59,
+                  61
+                ]
+              },
+              {
+                "Range": [
+                  109,
+                  117
+                ]
+              },
+              {
+                "Single": 134
+              },
+              {
+                "Single": 136
+              },
+              {
+                "Range": [
+                  150,
+                  186
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "feng-zhi/scripts/dialogue/DialoguePanel.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              56,
+              57
+            ]
+          },
+          {
+            "Single": 130
+          },
+          {
+            "Single": 137
+          },
+          {
+            "Single": 141
+          },
+          {
+            "Single": 149
+          },
+          {
+            "Range": [
+              154,
+              155
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  56,
+                  57
+                ]
+              },
+              {
+                "Single": 130
+              },
+              {
+                "Single": 137
+              },
+              {
+                "Single": 141
+              },
+              {
+                "Single": 149
+              },
+              {
+                "Range": [
+                  154,
+                  155
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "production/backlog/polish-backlog.md": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Single": 27
+          },
+          {
+            "Range": [
+              34,
+              39
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Single": 27
+              },
+              {
+                "Range": [
+                  34,
+                  39
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tests/unit/narrative/prologue_cave_memory_content_test.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              11,
+              12
+            ]
+          },
+          {
+            "Range": [
+              30,
+              35
+            ]
+          },
+          {
+            "Range": [
+              70,
+              73
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  11,
+                  12
+                ]
+              },
+              {
+                "Range": [
+                  30,
+                  35
+                ]
+              },
+              {
+                "Range": [
+                  70,
+                  73
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tests/unit/narrative/prologue_manor_errands_dialogue_test.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              95,
+              113
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  95,
+                  113
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tests/unit/narrative/prologue_massacre_evidence_dialogue_test.cs": [
+      {
+        "hash": "s_a5242cb18728c2::t_01a9cb14e8862f",
+        "line_ranges": [
+          {
+            "Range": [
+              65,
+              79
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a4b027993280b53c4754f3e",
+            "tool_type": "agent",
+            "tool_id": "Shell",
+            "line_ranges": [
+              {
+                "Range": [
+                  65,
+                  79
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "s_a5242cb18728c2": {
+      "tool": "trae",
+      "conversation_id": "6a3d225c0af6755a038b26f7",
+      "session_id": "6a3d225c0af6755a038b26f7",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    },
+    "s_a5242cb18728c2::t_01a9cb14e8862f": {
+      "tool": "trae",
+      "conversation_id": "6a3d225c0af6755a038b26f7",
+      "session_id": "6a3d225c0af6755a038b26f7",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
