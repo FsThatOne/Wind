@@ -1,0 +1,52 @@
+design/quick-specs/dialogue-hud-and-npc-uniqueness-2026-07-06.md
+  s_bfd19fefd4aa12::t_a7d11026c77beb 1-19
+feng-zhi/scenes/alchemy_room/AlchemyRoom.tscn
+  s_bfd19fefd4aa12::t_f0de009f2ebaae 72,76,81
+feng-zhi/scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn
+  s_bfd19fefd4aa12::t_c9f292f795c031 72,76,81
+feng-zhi/scenes/back_mountain_path/BackMountainPath.tscn
+  s_bfd19fefd4aa12::t_82e84d4bac1456 71,75,80
+feng-zhi/scenes/living_quarter/LivingQuarter.tscn
+  s_bfd19fefd4aa12::t_a90eff56471cf6 71,75,80
+feng-zhi/scenes/main_hall/MainHall.tscn
+  s_bfd19fefd4aa12::t_5c0bb33966f861 71,75,80
+feng-zhi/scenes/mountain_gate/MountainGate.tscn
+  s_bfd19fefd4aa12::t_370b0b6550d37b 71,75,80
+feng-zhi/scenes/sect_compound/SectCompound.tscn
+  s_bfd19fefd4aa12::t_038e46eab5d18d 71,75,80
+feng-zhi/scenes/study/Study.tscn
+  s_bfd19fefd4aa12::t_cbb95bc5684550 71,75,80
+feng-zhi/scripts/AlchemyRoomGame.cs
+  s_bfd19fefd4aa12::t_f0b0108f9fdc53 108-114
+feng-zhi/scripts/SceneGameBase.cs
+  s_bfd19fefd4aa12::t_a33cc9e43ffe80 115-117,496,542,646-647,824-826,901-925
+feng-zhi/scripts/dialogue/DialogueManager.cs
+  s_bfd19fefd4aa12::t_98f1808fff8624 42-43
+feng-zhi/scripts/settings/SettingsManager.cs
+  s_bfd19fefd4aa12::t_087fdb66a6a567 40-45,58-68
+tests/unit/narrative/prologue_scene_dialogue_hooks_test.cs
+  s_bfd19fefd4aa12::t_3a517917e74f0a 52-53,61-66,168-169,177-215,350-367
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "e9519ddbc69b3d441aa84e3581de85bdd4714637",
+  "prompts": {},
+  "humans": {
+    "h_d42555f42eea53": {
+      "author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "sessions": {
+    "s_bfd19fefd4aa12": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f2325-c77b-7b10-b6c3-f87390b5adb3",
+        "model": "unknown"
+      },
+      "human_author": "WangZhengyi <wangzhengyi.211@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
