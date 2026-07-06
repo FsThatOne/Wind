@@ -9,69 +9,36 @@ nodes:
 
   - id: choose_route
     type: choice
-    prompt: "先去哪边帮忙？"
+    prompt: "先答应哪边的催促？"
     options:
       - text: "去厨房送药草。"
-        next: kitchen_01
+        next: kitchen_hint
       - text: "去药房分拣药包。"
-        next: pharmacy_01
+        next: pharmacy_hint
       - text: "去练武场给师弟传话。"
-        next: training_ground_01
+        next: training_ground_hint
 
-  - id: kitchen_01
+  - id: kitchen_hint
     type: speech
     speaker: kitchen_disciple
-    text: "来得正好！这几味草药要放进醒酒汤里，庄主今日可不能被我们灌倒。"
-    next: kitchen_02
+    text: "来得正好！醒酒汤要用的草药还在厨房仓房小潭的晾架上，等你亲自送来。"
+    next: task_accept
 
-  - id: kitchen_02
-    type: narration
-    text: "你把药草递过去，顺手扶住一摞酒盏。瓷盏碰在一起，叮的一声，像山庄清晨惯有的笑声。"
-    next: kitchen_03
-
-  - id: kitchen_03
-    type: speech
-    speaker: kitchen_disciple
-    text: "白檀师姐刚才还问你取酒去了没有。你若又忘了，她可要敲你脑袋。"
-    next: route_done
-
-  - id: pharmacy_01
+  - id: pharmacy_hint
     type: speech
     speaker: pharmacy_disciple
-    text: "白芷放左边，碎矿粉放右边。别混了，混了今晚汤里就有石头味。"
-    next: pharmacy_02
+    text: "药包还没分好。白芷放左边，碎矿粉放右边，你去药锅旁边那摞帮我理一理。"
+    next: task_accept
 
-  - id: pharmacy_02
-    type: narration
-    text: "药房里满是温暖的苦香。你把药包按颜色排好，忽然觉得自己今日真像个能帮上忙的大人。"
-    next: pharmacy_03
-
-  - id: pharmacy_03
-    type: speech
-    speaker: pharmacy_disciple
-    text: "等会儿去正堂时，替我把这包安神香带给庄主。寿宴人多，别让他累着。"
-    next: route_done
-
-  - id: training_ground_01
+  - id: training_ground_hint
     type: speech
     speaker: junior_brother
-    text: "你终于回来了！师姐让我找红绳，我找了半天，只找见一截绑木桩的旧绳。"
-    next: training_ground_02
+    text: "你终于回来了！师姐让我找寿宴红绳，我只找见一截绑木桩的旧绳。你等会儿过来告诉我正经红绳在哪儿。"
+    next: task_accept
 
-  - id: training_ground_02
-    type: speech
-    speaker: player
-    text: "那不是红绳，是你上回玩闹时绑错的。寿宴用的在正堂边上。"
-    next: training_ground_03
-
-  - id: training_ground_03
-    type: narration
-    text: "师弟挠着头跑开。练武场今日没有肃杀气，只剩竹竿、红绳和一地被风吹乱的纸花。"
-    next: route_done
-
-  - id: route_done
+  - id: task_accept
     type: inner_monologue
-    text: "山庄里人人都忙，却没有人真的急。你答应师姐等会儿去取酒，心里却想着再帮一会儿也不迟。"
+    text: "你应得很快：厨房要药草，药房要分包，师弟还等着红绳的位置。三件事都不难，只是得亲自跑一趟。"
     events:
       - type: quest_flag
         key: prologue_manor_errands_started

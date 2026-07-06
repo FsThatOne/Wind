@@ -442,6 +442,8 @@ public abstract partial class SceneGameBase : Node2D
 			return ("去雾林小径查看溪边动物足迹", "这只是山兽留下的蹄印，不是危险的外人痕迹");
 		if (!HasQuestFlag("prologue_manor_errands_started"))
 			return ("回山院帮大家准备寿宴", "山庄里还有许多温柔小事等着你");
+		if (!HasQuestFlag("prologue_manor_errands_completed"))
+			return (BuildManorErrandObjectiveText(), "选了先帮哪边都只是接下差事，得亲自跑到对应位置做完");
 		if (!HasQuestFlag("prologue_wine_delayed"))
 			return ("去雾门前听师姐催你取酒", "你答应得很快，却还想再帮山庄里的人一会儿");
 		if (!HasQuestFlag("prologue_wine_obtained"))
@@ -462,6 +464,15 @@ public abstract partial class SceneGameBase : Node2D
 			return ("回正堂接受师兄临别传承与书信约定", "以后没人护你了，你得会自保");
 
 		return ("带着血书下山查明真相", "风起渊底，鹤归无枝");
+	}
+
+	private string BuildManorErrandObjectiveText()
+	{
+		static string Mark(bool done) => done ? "[x]" : "[ ]";
+		return "完成寿宴准备：\n" +
+			$"{Mark(HasQuestFlag("manor_errand_kitchen_done"))} 厨房送药草\n" +
+			$"{Mark(HasQuestFlag("manor_errand_pharmacy_done"))} 药房分拣药包\n" +
+			$"{Mark(HasQuestFlag("manor_errand_junior_done"))} 给师弟传话";
 	}
 
 	protected void ClearCurrentObjective()
@@ -506,9 +517,7 @@ public abstract partial class SceneGameBase : Node2D
 				GameFlow.TrackedQuestKind.Tutorial => "教学",
 				_ => "目标",
 			};
-			label.Text = string.IsNullOrWhiteSpace(objective.Reason)
-				? $"{prefix}：{objective.Text}"
-				: $"{prefix}：{objective.Text}\n    {objective.Reason}";
+			label.Text = $"{prefix}：{objective.Text}";
 			label.Visible = true;
 		}
 
@@ -549,14 +558,6 @@ public abstract partial class SceneGameBase : Node2D
 			}
 
 			InteractWithFocusedArea();
-		}
-
-		if (@event is InputEventKey key &&
-			key.Pressed &&
-			!key.Echo &&
-			key.PhysicalKeycode == Key.N)
-		{
-			LoadVariant(Variant == "day" ? "night" : "day", repositionPlayer: false);
 		}
 
 		if (@event is InputEventMouseButton mouse &&
@@ -640,10 +641,24 @@ public abstract partial class SceneGameBase : Node2D
 
 	protected abstract void OnLoadVariant(string variant);
 	protected abstract void OnInteract(string markerName);
+	protected virtual bool ShouldCreateInteractionForMarker(Marker marker) => true;
+	protected virtual bool TryHandleInteractionBeforeDefault(string markerName, Marker marker) => false;
+	protected virtual void OnPlayerTileChanged(Vector2I tile) { }
 	protected virtual HashSet<string> GetEnabledStructures() => new(StringComparer.Ordinal);
 	// 默认道具缩放按 128x64 tile 校准，确保物件 footprint 与丹房地块一致。
 	protected virtual float GetStructureScale(string name) => 0.5f;
 	protected virtual Vector2I? GetStructureTileOverride(string name) => null;
+	protected bool TryGetMarkerTile(string markerName, out Vector2I tile)
+	{
+		if (_markers.TryGetValue(markerName, out var marker))
+		{
+			tile = new Vector2I(marker.TileX, marker.TileY);
+			return true;
+		}
+
+		tile = default;
+		return false;
+	}
 
 	private void ConfigureTileLayerVariant(string variant)
 	{
@@ -802,6 +817,9 @@ public abstract partial class SceneGameBase : Node2D
 
 			if (IsBlockingInteractionMarker(type))
 				_blockedTiles.Add(new Vector2I(marker.TileX, marker.TileY));
+
+			if (!ShouldCreateInteractionForMarker(marker))
+				continue;
 
 			if (type == "blocker" || type == "entry")
 				continue;
@@ -1031,6 +1049,9 @@ public abstract partial class SceneGameBase : Node2D
 
 		if (_markers.TryGetValue(markerName, out var marker))
 		{
+			if (TryHandleInteractionBeforeDefault(markerName, marker))
+				return;
+
 			if (marker.Type == "npc")
 			{
 				var dialogueId = marker.Props?.GetValueOrDefault("dialogue_id");
@@ -1106,7 +1127,7 @@ public abstract partial class SceneGameBase : Node2D
 			return;
 		}
 
-		PromptLabel.Text = "E / 空格 调查    N 切换日夜";
+		PromptLabel.Text = "E / 空格 调查";
 		PromptLabel.Visible = true;
 	}
 
@@ -1114,6 +1135,8 @@ public abstract partial class SceneGameBase : Node2D
 	{
 		var tile = ScreenToTile(Player.Position);
 		_markers["player_tile"] = new Marker("player_tile", "runtime", tile.X, tile.Y);
+		if (tile != _lastPlayerTile)
+			OnPlayerTileChanged(tile);
 		UpdateAdjacentInteractionFocus(tile);
 	}
 

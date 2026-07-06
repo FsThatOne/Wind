@@ -75,6 +75,21 @@ public sealed class PrologueSeniorBrotherFarewellContentTest
     }
 
     [Fact]
+    public void MisunderstandingDialogue_ShowsResolutionReliefBeforeSettingResolvedFlag()
+    {
+        var sequence = Load("senior_brother_misunderstanding_01.yaml");
+        var resolved = Assert.Single(sequence.Nodes, node => node.Id == "resolved_01");
+        var relief = Assert.Single(sequence.Nodes, node => node.Id == "resolved_signal");
+
+        Assert.Equal("resolved_signal", resolved.Next);
+        Assert.Contains("停云", relief.Text);
+        Assert.Contains("霜", relief.Text);
+        Assert.Contains(relief.Events, e => e.Type == "quest_flag"
+                                            && e.Key == "senior_brother_mis_resolved"
+                                            && e.Value == "true");
+    }
+
+    [Fact]
     public void Confrontation_DoesNotTriggerLethalCombat()
     {
         var yaml = ReadAllYaml();

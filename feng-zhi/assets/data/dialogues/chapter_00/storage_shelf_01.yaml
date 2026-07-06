@@ -18,16 +18,8 @@ nodes:
     options:
       - text: "随手翻翻，看看师姐又藏了什么。"
         next: search_path
-        events:
-          - type: mindset_shift
-            axis: resolve
-            delta: -1
       - text: "算了，这是她的东西。"
         next: glance_path
-        events:
-          - type: mindset_shift
-            axis: resolve
-            delta: 1
 
   - id: search_path
     type: narration

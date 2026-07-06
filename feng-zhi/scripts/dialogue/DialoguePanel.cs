@@ -53,8 +53,8 @@ public partial class DialoguePanel : Control
 		_letterTextLabel = GetNode<RichTextLabel>("LetterOverlay/LetterContent/LetterTextLabel");
 		_letterRecipientLabel = GetNode<Label>("LetterOverlay/LetterContent/LetterRecipientLabel");
 
-		_optionButtons = new Button[4];
-		for (int i = 0; i < 4; i++)
+		_optionButtons = new Button[6];
+		for (int i = 0; i < _optionButtons.Length; i++)
 		{
 			_optionButtons[i] = _choicesBox.GetNode<Button>($"Option{i}");
 		}
@@ -127,16 +127,18 @@ public partial class DialoguePanel : Control
 		if (!snapshot.ShowPortrait || string.IsNullOrEmpty(snapshot.SpeakerId))
 		{
 			_portraitColumn.Visible = false;
+			_portraitTexture.Visible = false;
 			_speakerLabel.Text = "";
 			return;
 		}
 
 		var speakerId = snapshot.SpeakerId;
 		_speakerLabel.Text = ResolveSpeakerName(snapshot.NameplateText);
+		_portraitColumn.Visible = true;
 
 		if (speakerId == _currentPortraitSpeakerId && _portraitTexture.Texture != null)
 		{
-			_portraitColumn.Visible = true;
+			_portraitTexture.Visible = true;
 			return;
 		}
 
@@ -144,12 +146,13 @@ public partial class DialoguePanel : Control
 		if (texture != null)
 		{
 			_portraitTexture.Texture = texture;
-			_portraitColumn.Visible = true;
+			_portraitTexture.Visible = true;
 			_currentPortraitSpeakerId = speakerId;
 		}
 		else
 		{
-			_portraitColumn.Visible = false;
+			_portraitTexture.Texture = null;
+			_portraitTexture.Visible = false;
 			_currentPortraitSpeakerId = null;
 		}
 	}

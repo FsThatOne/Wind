@@ -56,6 +56,9 @@ public partial class SectCompoundGame : SceneGameBase
 
 	protected override void OnQuestFlagChanged(string key, string value)
 	{
+		if (key.StartsWith("manor_errand_", System.StringComparison.Ordinal))
+			UpdateManorErrandCompletion();
+
 		UpdatePrologueObjective();
 	}
 
@@ -103,6 +106,15 @@ public partial class SectCompoundGame : SceneGameBase
 						return;
 					}
 
+					if (HasQuestFlag("prologue_manor_errands_started"))
+					{
+						if (HasQuestFlag("prologue_manor_errands_completed"))
+							ShowMessage("寿宴前的小事都帮完了。师姐大概正在雾门那边等你取酒。");
+						else
+							ShowMessage("寿宴准备已经接下了：厨房送药草、药房分拣药包、给师弟传话。先把三件事跑完。");
+						return;
+					}
+
 					StartDialogue("res://assets/data/dialogues/chapter_00/manor_errands_01.yaml");
 				}
 				return;
@@ -119,9 +131,9 @@ public partial class SectCompoundGame : SceneGameBase
 				}
 				else
 				{
-					if (!HasQuestFlag("prologue_manor_errands_started"))
+					if (!HasQuestFlag("prologue_manor_errands_completed"))
 					{
-						ShowMessage("雾门后的山路你熟得很，但师姐说过：寿宴前先把院里的事做完。");
+						ShowMessage("雾门后的山路你熟得很，但师姐说过：寿宴前先把院里的三件事做完。");
 						return;
 					}
 
@@ -135,4 +147,41 @@ public partial class SectCompoundGame : SceneGameBase
 	}
 
 	protected override HashSet<string> GetEnabledStructures() => new(System.StringComparer.Ordinal);
+
+	protected override bool TryHandleInteractionBeforeDefault(string markerName, Marker marker)
+	{
+		if (markerName != "junior_brother_npc" || Variant != "day")
+			return false;
+
+		if (!HasQuestFlag("prologue_manor_errands_started"))
+			return false;
+
+		if (HasQuestFlag("manor_errand_junior_done"))
+		{
+			ShowMessage("师弟已经抱着红绳跑去正堂边了，边跑边喊这次一定不会绑错。");
+			return true;
+		}
+
+		SetQuestFlag("manor_errand_junior_done");
+		ShowMessage("你把寿宴红绳的位置告诉师弟。他一拍脑门，拖着旧绳跑走，临走还不忘说要替你留一块最甜的糕。");
+		return true;
+	}
+
+	private void UpdateManorErrandCompletion()
+	{
+		if (HasQuestFlag("prologue_manor_errands_completed"))
+			return;
+
+		if (!HasQuestFlag("manor_errand_kitchen_done") ||
+			!HasQuestFlag("manor_errand_pharmacy_done") ||
+			!HasQuestFlag("manor_errand_junior_done"))
+			return;
+
+		SetQuestFlag("prologue_manor_errands_completed");
+		SetCurrentObjective(
+			"序章 · 主线",
+			"去雾门前听师姐催你取酒",
+			"寿宴准备已经帮完，师姐该催你去崖洞取寿酒了",
+			flash: true);
+	}
 }

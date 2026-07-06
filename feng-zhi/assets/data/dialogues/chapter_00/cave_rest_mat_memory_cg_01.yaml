@@ -1,0 +1,22 @@
+id: cave_rest_mat_memory_cg_01
+version: 1
+entry_node: cg_placeholder_01
+nodes:
+  - id: cg_placeholder_01
+    type: narration
+    text: "【回忆CG占位】你碰到草席边缘时，旧毯子上残留的草木气忽然漫上来。"
+    next: cg_placeholder_02
+
+  - id: cg_placeholder_02
+    type: narration
+    text: "很多年前，你淋雨发热，师姐把你按在这里，守着药壶一夜没睡。她嘴上嫌你麻烦，却把毯角掖得很紧。"
+    next: cg_placeholder_03
+
+  - id: cg_placeholder_03
+    type: inner_monologue
+    text: "雨声又回到耳边。草席仍在原处，只是今晚再没有人替你守夜。"
+    events:
+      - type: quest_flag
+        key: prologue_cave_rest_memory_seen
+        value: "true"
+    next: END

@@ -8,6 +8,8 @@ public sealed class PrologueCaveMemoryContentTest
     private static readonly string[] DialogueFiles =
     {
         "wine_pickup_01.yaml",
+        "cave_wall_memory_cg_01.yaml",
+        "cave_rest_mat_memory_cg_01.yaml",
         "rest_spot_01.yaml",
         "memory_marker_01.yaml",
         "storage_shelf_01.yaml"
@@ -24,6 +26,12 @@ public sealed class PrologueCaveMemoryContentTest
 
         Assert.Contains(events, e => e.Type == "quest_flag"
                                      && e.Key == "prologue_wine_obtained"
+                                     && e.Value == "true");
+        Assert.Contains(events, e => e.Type == "quest_flag"
+                                     && e.Key == "prologue_cave_wall_memory_seen"
+                                     && e.Value == "true");
+        Assert.Contains(events, e => e.Type == "quest_flag"
+                                     && e.Key == "prologue_cave_rest_memory_seen"
                                      && e.Value == "true");
         Assert.Contains(events, e => e.Type == "quest_flag"
                                      && e.Key == "prologue_cave_overnight"
@@ -57,6 +65,12 @@ public sealed class PrologueCaveMemoryContentTest
         Assert.Contains("小木凳", text);
         Assert.Contains("药壶", text);
         Assert.Contains("师姐", text);
+    }
+
+    [Fact]
+    public void CaveMemoryContent_DoesNotShiftMindsetInPrologue()
+    {
+        Assert.DoesNotContain("mindset_shift", ReadAllYaml());
     }
 
     [Fact]

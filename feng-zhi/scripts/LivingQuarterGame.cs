@@ -32,6 +32,9 @@ public partial class LivingQuarterGame : SceneGameBase
 
 	protected override void OnQuestFlagChanged(string key, string value)
 	{
+		if (key.StartsWith("manor_errand_", System.StringComparison.Ordinal))
+			UpdateManorErrandCompletion();
+
 		UpdatePrologueObjective();
 	}
 
@@ -45,12 +48,40 @@ public partial class LivingQuarterGame : SceneGameBase
 		switch (markerName)
 		{
 			case "herb_rack_inspect":
+				if (HasQuestFlag("prologue_herb_tutorial_seen") &&
+					HasQuestFlag("prologue_manor_errands_started"))
+				{
+					if (HasQuestFlag("manor_errand_kitchen_done"))
+					{
+						ShowMessage("厨房要用的药草已经送过去了，晾架上只剩明日要晒的几束。");
+						return;
+					}
+
+					SetQuestFlag("manor_errand_kitchen_done");
+					ShowMessage("你从晾架上取下醒酒汤要用的药草，送到灶边。厨房弟子笑着说，庄主今晚可别真被大家灌倒。");
+					return;
+				}
+
 				StartDialogue("res://assets/data/dialogues/chapter_00/sister_gather_herb_01.yaml");
 				return;
 			case "medicine_pot_inspect":
 				if (!HasQuestFlag("prologue_herb_tutorial_seen"))
 				{
 					ShowMessage("师姐先指了指晾架上的药草：「先认草，再碰工具。你急起来最容易伤手。」");
+					return;
+				}
+
+				if (HasQuestFlag("prologue_ore_tutorial_seen") &&
+					HasQuestFlag("prologue_manor_errands_started"))
+				{
+					if (HasQuestFlag("manor_errand_pharmacy_done"))
+					{
+						ShowMessage("药包已经按颜色分好，药房那边不会再把白芷和碎矿粉混在一起了。");
+						return;
+					}
+
+					SetQuestFlag("manor_errand_pharmacy_done");
+					ShowMessage("你按药房弟子的嘱咐把药包分成两摞：白芷归左，碎矿粉归右。苦香散开，倒真像寿宴快开席了。");
 					return;
 				}
 
@@ -72,5 +103,23 @@ public partial class LivingQuarterGame : SceneGameBase
 				ShowMessage("这里暂时没有什么可调查的东西。");
 				return;
 		}
+	}
+
+	private void UpdateManorErrandCompletion()
+	{
+		if (HasQuestFlag("prologue_manor_errands_completed"))
+			return;
+
+		if (!HasQuestFlag("manor_errand_kitchen_done") ||
+			!HasQuestFlag("manor_errand_pharmacy_done") ||
+			!HasQuestFlag("manor_errand_junior_done"))
+			return;
+
+		SetQuestFlag("prologue_manor_errands_completed");
+		SetCurrentObjective(
+			"序章 · 主线",
+			"去雾门前听师姐催你取酒",
+			"寿宴准备已经帮完，师姐该催你去崖洞取寿酒了",
+			flash: true);
 	}
 }

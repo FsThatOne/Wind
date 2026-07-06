@@ -92,6 +92,25 @@ public sealed class PrologueManorErrandsDialogueTest
         Assert.DoesNotContain("练功", yaml);
     }
 
+    [Fact]
+    public void ManorErrandDialogue_OnlyAcceptsTaskAndDoesNotCompleteSubtasksInPlace()
+    {
+        var sequence = Load("manor_errands_01.yaml");
+        var choice = Assert.Single(sequence.Nodes, node => node.Id == "choose_route");
+
+        Assert.Equal(3, choice.Options.Count);
+        Assert.All(
+            new[] { "kitchen_hint", "pharmacy_hint", "training_ground_hint" },
+            nodeId => Assert.Equal("task_accept", Assert.Single(sequence.Nodes, node => node.Id == nodeId).Next));
+
+        var yaml = ReadYaml("manor_errands_01.yaml");
+        Assert.Contains("prologue_manor_errands_started", yaml);
+        Assert.DoesNotContain("manor_errand_kitchen_done", yaml);
+        Assert.DoesNotContain("manor_errand_pharmacy_done", yaml);
+        Assert.DoesNotContain("manor_errand_junior_done", yaml);
+        Assert.DoesNotContain("prologue_manor_errands_completed", yaml);
+    }
+
     private static DialogueSequence[] LoadAll()
     {
         return DialogueFiles.Select(Load).ToArray();

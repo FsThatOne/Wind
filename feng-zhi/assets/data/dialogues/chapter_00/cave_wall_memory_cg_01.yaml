@@ -1,0 +1,22 @@
+id: cave_wall_memory_cg_01
+version: 1
+entry_node: cg_placeholder_01
+nodes:
+  - id: cg_placeholder_01
+    type: narration
+    text: "【回忆CG占位】你抱起寿酒时，余光忽然扫过石壁。旧壁画被雨前的暗光照亮，像有人把三年前的午后重新铺开。"
+    next: cg_placeholder_02
+
+  - id: cg_placeholder_02
+    type: narration
+    text: "师姐拿树枝在壁上比划，嫌你的起手式软得像没睡醒。你辩解说山风太吵，她笑着说：风止山的风，吵过一阵，总会停。"
+    next: cg_placeholder_03
+
+  - id: cg_placeholder_03
+    type: inner_monologue
+    text: "画面一闪而过。等你回神，洞外天色已经沉下去，雨声压在山阶上。"
+    events:
+      - type: quest_flag
+        key: prologue_cave_wall_memory_seen
+        value: "true"
+    next: END

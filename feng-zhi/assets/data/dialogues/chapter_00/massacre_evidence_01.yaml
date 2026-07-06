@@ -13,14 +13,39 @@ nodes:
     options:
       - text: "看练武场的兵器架。"
         next: no_swords_01
+        conditions:
+          - source: flag
+            key: massacre_no_swords_drawn
+            op: neq
+            value: "true"
       - text: "去正堂找师父。"
         next: master_precept_01
+        conditions:
+          - source: flag
+            key: massacre_master_before_precept_seen
+            op: neq
+            value: "true"
       - text: "看书房旧灯下的接缝。"
         next: hidden_compartment_01
+        conditions:
+          - source: flag
+            key: massacre_hidden_compartment_empty
+            op: neq
+            value: "true"
       - text: "拾起师父掌边的半封血书。"
         next: blood_letter_01
+        conditions:
+          - source: flag
+            key: prologue_blood_letter_obtained
+            op: neq
+            value: "true"
       - text: "在尸首之间找师姐。"
         next: sister_missing_01
+        conditions:
+          - source: flag
+            key: prologue_sister_missing_known
+            op: neq
+            value: "true"
       - text: "把这些事记住。"
         next: evidence_done
 
@@ -106,8 +131,35 @@ nodes:
   - id: evidence_done
     type: inner_monologue
     text: "你站在正堂中央，抱着那坛没有开封的酒。昨日所有人都在等它，今日只剩你一个人回来。"
+    conditions:
+      - source: flag
+        key: massacre_no_swords_drawn
+        op: eq
+        value: "true"
+      - source: flag
+        key: massacre_master_before_precept_seen
+        op: eq
+        value: "true"
+      - source: flag
+        key: massacre_hidden_compartment_empty
+        op: eq
+        value: "true"
+      - source: flag
+        key: prologue_blood_letter_obtained
+        op: eq
+        value: "true"
+      - source: flag
+        key: prologue_sister_missing_known
+        op: eq
+        value: "true"
+    fallback: evidence_not_done
     events:
       - type: quest_flag
         key: prologue_massacre_discovered
         value: "true"
     next: END
+
+  - id: evidence_not_done
+    type: inner_monologue
+    text: "还不够。你强迫自己站稳，把眼前每一处异常都看清楚。"
+    next: choose_evidence

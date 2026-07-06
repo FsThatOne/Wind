@@ -19,7 +19,8 @@ public partial class BackMountainPathGame : SceneGameBase
 	protected override HashSet<string> GetEnabledStructures() => _enabledStructures;
 
 	protected override string GetInitialVariant()
-		=> HasQuestFlag("prologue_wine_delayed") || HasQuestFlag("prologue_cave_overnight")
+		=> HasQuestFlag("prologue_cave_overnight") ||
+			HasQuestFlag("prologue_silent_return_seen")
 			? "night"
 			: "day";
 

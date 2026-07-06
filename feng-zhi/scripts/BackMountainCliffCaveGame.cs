@@ -44,7 +44,10 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 	protected override HashSet<string> GetEnabledStructures() => _enabledStructures;
 
 	protected override string GetInitialVariant()
-		=> HasQuestFlag("prologue_wine_delayed") || HasQuestFlag("prologue_cave_overnight")
+		=> HasQuestFlag("prologue_wine_obtained") ||
+			HasQuestFlag("prologue_cave_wall_memory_seen") ||
+			HasQuestFlag("prologue_cave_rain_trapped") ||
+			HasQuestFlag("prologue_cave_overnight")
 			? "night"
 			: "day";
 
@@ -58,6 +61,14 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 	{
 		UpdateInventoryLabel();
 		RegisterChapter00InsightNodes();
+		if (HasQuestFlag("prologue_wine_obtained") &&
+			!HasQuestFlag("prologue_cave_wall_memory_seen"))
+			GetTree().CreateTimer(0.05).Timeout += StartCaveWallMemoryIfNeeded;
+
+		if (HasQuestFlag("prologue_cave_wall_memory_seen") &&
+			!HasQuestFlag("prologue_cave_rain_trapped") &&
+			!HasQuestFlag("prologue_cave_overnight"))
+			GetTree().CreateTimer(0.05).Timeout += SwitchToNightAfterWallMemoryIfNeeded;
 	}
 
 	private void RegisterChapter00InsightNodes()
@@ -101,7 +112,7 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 			reward: new DiscoveryReward(),
 			narrative: "药壶里只剩一点淡淡苦香。你记得有年淋雨发热，师姐守着这只壶，嫌你喝药像赴刑。");
 
-		bridge.ActivateScene("back_mountain_cliff_cave");
+		ActivateCaveInsightsIfReady();
 	}
 
 	private void RegisterInsightNode(
@@ -141,10 +152,51 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 	protected override void OnQuestFlagChanged(string key, string value)
 	{
 		if (key == "prologue_wine_obtained")
+		{
 			_hasBirthdayWine = true;
+			GetTree().CreateTimer(0.05).Timeout += StartCaveWallMemoryIfNeeded;
+		}
+
+		if (key == "prologue_cave_wall_memory_seen")
+			GetTree().CreateTimer(0.05).Timeout += SwitchToNightAfterWallMemoryIfNeeded;
+
+		if (key == "prologue_cave_rain_trapped" ||
+			key == "prologue_cave_overnight")
+			ActivateCaveInsightsIfReady();
 
 		UpdateInventoryLabel();
 		UpdatePrologueObjective();
+	}
+
+	protected override bool ShouldCreateInteractionForMarker(Marker marker)
+	{
+		if (marker.Type is "entry" or "blocker")
+			return true;
+
+		if (HasQuestFlag("prologue_cave_rain_trapped") ||
+			HasQuestFlag("prologue_cave_overnight"))
+			return true;
+
+		return marker.Name == "wine_pickup";
+	}
+
+	protected override void OnPlayerTileChanged(Vector2I tile)
+	{
+		if (!HasQuestFlag("prologue_cave_wall_memory_seen") ||
+			HasQuestFlag("prologue_cave_rain_trapped") ||
+			HasQuestFlag("prologue_cave_overnight"))
+			return;
+
+		if (!TryGetMarkerTile("exit_to_back_mountain", out var exitTile))
+			return;
+
+		var delta = tile - exitTile;
+		if (Mathf.Abs(delta.X) + Mathf.Abs(delta.Y) > 3)
+			return;
+
+		SetQuestFlag("prologue_cave_rain_trapped");
+		LoadVariant("night", repositionPlayer: false);
+		ShowMessage("洞口雨声忽然砸下来，山路被水冲得发亮。你抱着寿酒站了片刻，只能承认：今夜不得不在这里过了。");
 	}
 
 	private void UpdatePrologueObjective()
@@ -158,7 +210,15 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 			(_hasBirthdayWine || HasQuestFlag("prologue_wine_obtained")) &&
 			!HasQuestFlag("prologue_cave_overnight"))
 		{
-			ShowMessage("洞外山雨未歇，石阶滑得厉害。你抱着寿酒想了想，还是该在草席上暂歇一夜。");
+			if (!HasQuestFlag("prologue_cave_rain_trapped"))
+			{
+				SetQuestFlag("prologue_cave_rain_trapped");
+				LoadVariant("night", repositionPlayer: false);
+				ShowMessage("洞外雨势骤急，雾和水把山阶吞成一片白。你犹豫片刻，还是决定先在洞里等雨小些。");
+				return;
+			}
+
+			ShowMessage("暴雨如注，洞外石阶湿滑得站不稳。还是在这里凑合一晚，等天亮雨停再走。");
 			return;
 		}
 
@@ -203,12 +263,70 @@ public partial class BackMountainCliffCaveGame : SceneGameBase
 					return;
 				}
 
+				if (!HasQuestFlag("prologue_cave_rain_trapped"))
+				{
+					ShowMessage("草席安静地铺在角落。洞口雨声渐近，你还是先看看外面的路。");
+					return;
+				}
+
+				if (!HasQuestFlag("prologue_cave_rest_memory_seen"))
+				{
+					StartDialogue("res://assets/data/dialogues/chapter_00/cave_rest_mat_memory_cg_01.yaml");
+					return;
+				}
+
 				StartDialogue("res://assets/data/dialogues/chapter_00/rest_spot_01.yaml");
 				return;
 			default:
 				ShowMessage("这里暂时没有可调查的东西。");
 				return;
 		}
+	}
+
+	private void StartCaveWallMemoryIfNeeded()
+	{
+		if (!HasQuestFlag("prologue_wine_obtained") ||
+			HasQuestFlag("prologue_cave_wall_memory_seen"))
+			return;
+
+		if (DialogueManager?.IsDialogueActive == true)
+		{
+			GetTree().CreateTimer(0.05).Timeout += StartCaveWallMemoryIfNeeded;
+			return;
+		}
+
+		StartDialogue("res://assets/data/dialogues/chapter_00/cave_wall_memory_cg_01.yaml");
+	}
+
+	private void SwitchToNightAfterWallMemoryIfNeeded()
+	{
+		if (!HasQuestFlag("prologue_cave_wall_memory_seen"))
+			return;
+
+		if (DialogueManager?.IsDialogueActive == true)
+		{
+			GetTree().CreateTimer(0.05).Timeout += SwitchToNightAfterWallMemoryIfNeeded;
+			return;
+		}
+
+		if (Variant != "night")
+			LoadVariant("night", repositionPlayer: false);
+
+		SetCurrentObjective(
+			"序章 · 主线",
+			"去洞口看看山雨是否能停",
+			"壁画里的旧影刚散，洞外天色已经沉下来了",
+			flash: true);
+	}
+
+	private void ActivateCaveInsightsIfReady()
+	{
+		if (!HasQuestFlag("prologue_cave_rain_trapped") &&
+			!HasQuestFlag("prologue_cave_overnight"))
+			return;
+
+		var bridge = GetNodeOrNull<InsightDetectorBridge>("InsightDetectorBridge");
+		bridge?.ActivateScene("back_mountain_cliff_cave");
 	}
 
 	private void UpdateInventoryLabel()

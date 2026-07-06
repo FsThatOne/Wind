@@ -62,6 +62,22 @@ public sealed class PrologueMassacreEvidenceDialogueTest
     }
 
     [Fact]
+    public void MassacreEvidenceDialogue_HidesInvestigatedOptionsAndGatesSummary()
+    {
+        var sequence = Load("massacre_evidence_01.yaml");
+        var choice = Assert.Single(sequence.Nodes, node => node.Id == "choose_evidence");
+        var summary = Assert.Single(choice.Options, option => option.Next == "evidence_done");
+        var evidenceDone = Assert.Single(sequence.Nodes, node => node.Id == "evidence_done");
+
+        Assert.All(
+            choice.Options.Where(option => option.Next != "evidence_done"),
+            option => Assert.Contains(option.Conditions, condition => condition.Op == "neq"));
+        Assert.Empty(summary.Conditions);
+        Assert.True(evidenceDone.Conditions.Count >= 5);
+        Assert.Equal("evidence_not_done", evidenceDone.Fallback);
+    }
+
+    [Fact]
     public void MassacreEvidenceDialogue_ContainsExactBloodLetterAndKeepsSisterMystery()
     {
         var text = ReadDialogueText("massacre_evidence_01.yaml");

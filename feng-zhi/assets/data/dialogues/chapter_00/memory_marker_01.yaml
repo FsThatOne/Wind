@@ -18,16 +18,8 @@ nodes:
     options:
       - text: "伸手轻触刻痕，指尖描摹她的笔路。"
         next: resolve_path
-        events:
-          - type: mindset_shift
-            axis: resolve
-            delta: -2
       - text: "收回目光，转身继续做该做的事。"
         next: release_path
-        events:
-          - type: mindset_shift
-            axis: resolve
-            delta: 2
 
   - id: resolve_path
     type: inner_monologue

@@ -62,9 +62,9 @@ nodes:
     type: choice
     prompt: "夜深了——"
     options:
-      - text: "在这里歇一夜吧。"
+      - text: "睡觉到天亮。"
         next: sleep_path
-      - text: "起身回去，不能再耽搁了。"
+      - text: "夜还长，再四处转转。"
         next: return_path
     next: END
 
@@ -82,5 +82,5 @@ nodes:
 
   - id: return_path
     type: inner_monologue
-    text: "明天是庄主的大日子，不能在这里贪睡。你站起身，拍了拍衣袍上的灰。"
+    text: "你站起身，拍了拍衣袍上的灰。雨还没有停，夜色也还长。"
     next: END

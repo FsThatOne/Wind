@@ -58,6 +58,11 @@ nodes:
     type: speech
     speaker: senior_brother
     text: "先不问了。活着的人，先把他们送好。"
+    next: resolved_signal
+
+  - id: resolved_signal
+    type: narration
+    text: "他说到“活着的人”时，终于又看向你。那声没出口的“停云”回到喉间，先前横在你们之间的霜，像被风慢慢吹薄。"
     events:
       - type: quest_flag
         key: senior_brother_mis_resolved
