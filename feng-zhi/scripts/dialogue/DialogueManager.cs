@@ -39,6 +39,8 @@ public partial class DialogueManager : Node
 
 	public void Initialize(IEventBus eventBus, MindsetService mindsetService, DialoguePanel panel, IDialogueConditionValueProvider conditionProvider)
 	{
+		AddToGroup("dialogue_managers");
+
 		_eventBus = eventBus;
 		_mindsetService = mindsetService;
 		_panel = panel;

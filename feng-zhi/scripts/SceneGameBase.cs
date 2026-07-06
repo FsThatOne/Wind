@@ -112,6 +112,9 @@ public abstract partial class SceneGameBase : Node2D
 		ConfigureTileLayerAnchor();
 		ConfigureResponsiveHud();
 		_messagePanel.Visible = false;
+		PromptLabel.Visible = false;
+		_hintLabel.Text = "";
+		_hintLabel.Visible = false;
 
 		GD.Print($"[{SceneName}] _Ready: loading DialoguePanel.tscn...");
 		var panelScene = GD.Load<PackedScene>("res://scenes/ui/DialoguePanel.tscn");
@@ -490,9 +493,7 @@ public abstract partial class SceneGameBase : Node2D
 		if (_objectiveItemLabels.All(label => string.IsNullOrWhiteSpace(label.Text)))
 			return;
 
-		_objectivePanel.Visible =
-			DialogueManager?.IsDialogueActive != true &&
-			!_messagePanel.Visible;
+		_objectivePanel.Visible = !_messagePanel.Visible;
 	}
 
 	private void RefreshObjectiveHudItems()
@@ -538,6 +539,7 @@ public abstract partial class SceneGameBase : Node2D
 		if (DialogueManager?.IsDialogueActive == true)
 		{
 			HandleDialogueInput(@event);
+			GetViewport().SetInputAsHandled();
 			return;
 		}
 
@@ -641,7 +643,8 @@ public abstract partial class SceneGameBase : Node2D
 
 	protected abstract void OnLoadVariant(string variant);
 	protected abstract void OnInteract(string markerName);
-	protected virtual bool ShouldCreateInteractionForMarker(Marker marker) => true;
+	protected virtual bool ShouldCreateInteractionForMarker(Marker marker)
+		=> marker.Type != "npc" || IsNpcScheduledForCurrentScene(marker);
 	protected virtual bool TryHandleInteractionBeforeDefault(string markerName, Marker marker) => false;
 	protected virtual void OnPlayerTileChanged(Vector2I tile) { }
 	protected virtual HashSet<string> GetEnabledStructures() => new(StringComparer.Ordinal);
@@ -815,11 +818,11 @@ public abstract partial class SceneGameBase : Node2D
 			_markers[name] = marker;
 			GD.Print($"[{SceneName}] BuildLogicMarkers: registered '{name}' type='{type}' at tile=({marker.TileX},{marker.TileY}).");
 
-			if (IsBlockingInteractionMarker(type))
-				_blockedTiles.Add(new Vector2I(marker.TileX, marker.TileY));
-
 			if (!ShouldCreateInteractionForMarker(marker))
 				continue;
+
+			if (IsBlockingInteractionMarker(type))
+				_blockedTiles.Add(new Vector2I(marker.TileX, marker.TileY));
 
 			if (type == "blocker" || type == "entry")
 				continue;
@@ -893,6 +896,31 @@ public abstract partial class SceneGameBase : Node2D
 
 		_mapRoot.AddChild(npcRoot);
 		GD.Print($"[{SceneName}] SpawnStaticNpc: '{marker.Name}' ({characterId}) placed at tile=({marker.TileX},{marker.TileY}).");
+	}
+
+	private bool IsNpcScheduledForCurrentScene(Marker marker)
+	{
+		var characterId = marker.Props?.GetValueOrDefault("character_id") ?? "";
+		if (!string.Equals(characterId, "sister_baitan", StringComparison.Ordinal))
+			return true;
+
+		if (Variant == "night" || HasQuestFlag("prologue_cave_overnight"))
+			return false;
+
+		return SceneName switch
+		{
+			"风止山院" =>
+				!HasQuestFlag("prologue_opening_seen") ||
+				(HasQuestFlag("prologue_manor_errands_completed") &&
+					!HasQuestFlag("prologue_wine_delayed")),
+			"厨房仓房小潭" =>
+				HasQuestFlag("prologue_opening_seen") &&
+				!HasQuestFlag("prologue_ore_tutorial_seen"),
+			"雾林小径" =>
+				HasQuestFlag("prologue_ore_tutorial_seen") &&
+				!HasQuestFlag("prologue_mount_foreshadowed"),
+			_ => false,
+		};
 	}
 
 	private static StaticBody2D CreateCharacterBlockingBody(string markerName)

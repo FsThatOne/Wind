@@ -37,6 +37,12 @@ public partial class SettingsManager : Node
     {
         if (@event.IsActionPressed("pause"))
         {
+            if (IsDialogueActive())
+            {
+                GetViewport().SetInputAsHandled();
+                return;
+            }
+
             if (PauseMenu.IsPaused)
             {
                 ClosePauseMenu();
@@ -47,6 +53,17 @@ public partial class SettingsManager : Node
             }
             GetViewport().SetInputAsHandled();
         }
+    }
+
+    private bool IsDialogueActive()
+    {
+        foreach (var node in GetTree().GetNodesInGroup("dialogue_managers"))
+        {
+            if (node is FengZhi.Dialogue.DialogueManager { IsDialogueActive: true })
+                return true;
+        }
+
+        return false;
     }
 
     public void ClosePauseMenu()

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": "node \".cursor/hooks/ttadk_core/cursor-track/scripts/ttadk-track-cursor.js\"",
+        "timeout": 3
+      }
+    ]
+  }
+}

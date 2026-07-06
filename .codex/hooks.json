@@ -109,6 +109,17 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \".codex/hooks/ttadk_core/codex-track/scripts/ttadk-track-codex.js\"",
+            "timeout": 3
+          }
+        ]
+      }
     ]
   }
 }

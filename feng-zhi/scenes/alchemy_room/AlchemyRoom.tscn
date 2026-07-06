@@ -69,15 +69,16 @@ offset_left = 360.0
 offset_top = 560.0
 offset_right = 920.0
 offset_bottom = 604.0
-text = "E / 空格 离开炼丹房"
+text = ""
 horizontal_alignment = 1
 
 [node name="HintLabel" type="Label" parent="UiLayer" unique_id=1405175088]
+visible = false
 offset_left = 20.0
 offset_top = 600.0
 offset_right = 900.0
 offset_bottom = 632.0
-text = "WASD / 方向键逐格移动；走近物件按 E / 空格 调查；门口附近按 E 离开"
+text = ""
 
 [node name="MessagePanel" type="Panel" parent="UiLayer" unique_id=454390303]
 visible = false

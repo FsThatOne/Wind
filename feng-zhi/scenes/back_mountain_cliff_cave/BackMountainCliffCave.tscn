@@ -69,15 +69,16 @@ offset_left = 360.0
 offset_top = 560.0
 offset_right = 820.0
 offset_bottom = 604.0
-text = "左键移动    E / 空格 调查    N 切换日夜"
+text = ""
 horizontal_alignment = 1
 
 [node name="HintLabel" type="Label" parent="UiLayer" unique_id=1393888167]
+visible = false
 offset_left = 20.0
 offset_top = 600.0
 offset_right = 740.0
 offset_bottom = 632.0
-text = "左键点击寻路移动；WASD / 方向键逐格移动；E / 空格调查；N 切换日常 / 夜晚"
+text = ""
 
 [node name="MessagePanel" type="Panel" parent="UiLayer" unique_id=894274472]
 visible = false

@@ -154,3 +154,5 @@ $RECYCLE.BIN/
 # Generated editor/import caches stay ignored by the general .godot/ rule above.
 feng-zhi/.godot/
 feng-zhi/android/
+.ttadk/
+specs/doc_export/

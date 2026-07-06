@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "notes": [
+    "This file defines SDT skill profiles. End users should NOT need to know any skill name.",
+    "SDT resolves a domain from spec/repo signals, picks a profile, then maps logical capabilities to concrete skill folders.",
+    "Resolution must follow the adk-sdt-ff SKILL.md 'Skills (host compatibility)' section and use the current host's skill mechanism.",
+    "Fallback rule: if a domain/profile-mapped skill is missing on the current host, fall back to defaultProfile for the same logical key.",
+    "TEXT_CASE_GENERATE controls the prd2case-style skill used to generate text test cases for each platform."
+  ],
+  "defaultProfile": "default",
+  "domains": {
+    "unknown": { "profile": "default" },
+    "default": { "profile": "default" },
+    "PI": { "profile": "PI" }
+  },
+  "profiles": {
+    "default": {
+      "backend": {
+        "TEXT_CASE_GENERATE": "prd2case-api",
+        "TEST_KNOWLEDGE": "testing-knowledge",
+        "API_TEST": "api-mind"
+      },
+      "frontend": {
+        "TEXT_CASE_GENERATE": "prd2case-web",
+        "WEBE2E_META": "webe2e",
+        "WEBE2E_RUN": "webe2e",
+        "DEPLOY": "goofy-deploy-workflow"
+      }
+    },
+    "PI": {
+      "client": {
+        "TEXT_CASE_GENERATE": "fcp-case-generate",
+        "EXEC_CASE_EXECUTE": "fcp-test-workflow",
+        "REPORT_GENERATE": "default-report-generate"
+      }
+    }
+  }
+}
+

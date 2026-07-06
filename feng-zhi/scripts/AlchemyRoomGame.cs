@@ -105,6 +105,13 @@ public partial class AlchemyRoomGame : Node2D
 
 	public override void _Ready()
 	{
+		var hintLabel = GetNodeOrNull<Label>("UiLayer/HintLabel");
+		if (hintLabel != null)
+		{
+			hintLabel.Text = "";
+			hintLabel.Visible = false;
+		}
+
 		_player = GetNode<PlayerCharacterController>("Player");
 		_ic = GetNode<InteractionController>("InteractionController");
 

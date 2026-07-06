@@ -49,6 +49,8 @@ public sealed class PrologueSceneDialogueHooksTest
     {
         var settingsManager = ReadFile("feng-zhi/scripts/settings/SettingsManager.cs");
         var pauseMenu = ReadFile("feng-zhi/scripts/ui/PauseMenuUi.cs");
+        var dialogueManager = ReadFile("feng-zhi/scripts/dialogue/DialogueManager.cs");
+        var sceneBase = ReadFile("feng-zhi/scripts/SceneGameBase.cs");
 
         Assert.Contains("new CanvasLayer", settingsManager);
         Assert.Contains("Name = \"PauseMenuLayer\"", settingsManager);
@@ -56,6 +58,12 @@ public sealed class PrologueSceneDialogueHooksTest
         Assert.Contains("_pauseMenuInstance.SetAnchorsPreset(Control.LayoutPreset.FullRect)", settingsManager);
         Assert.Contains("_pauseMenuLayer.AddChild(_pauseMenuInstance)", settingsManager);
         Assert.DoesNotContain("GetTree().Root.AddChild(_pauseMenuInstance)", settingsManager);
+        Assert.Contains("IsDialogueActive()", settingsManager);
+        Assert.Contains("GetNodesInGroup(\"dialogue_managers\")", settingsManager);
+        Assert.Contains("GetViewport().SetInputAsHandled();", settingsManager);
+        Assert.Contains("AddToGroup(\"dialogue_managers\")", dialogueManager);
+        Assert.Contains("DialogueManager?.IsDialogueActive == true", sceneBase);
+        Assert.Contains("HandleDialogueInput(@event);", sceneBase);
 
         Assert.Contains("GetParent().AddChild(instance)", pauseMenu);
         Assert.DoesNotContain("GetTree().Root.AddChild(instance)", pauseMenu);
@@ -157,11 +165,52 @@ public sealed class PrologueSceneDialogueHooksTest
         Assert.Contains("GameFlow.TrackedQuestKind.Tutorial => \"教学\"", sceneBase);
         Assert.Contains("_objectivePanel.OffsetLeft = 20f", sceneBase);
         Assert.Contains("_objectivePanel.OffsetRight = 420f", sceneBase);
+        Assert.Contains("_objectivePanel.Visible = !_messagePanel.Visible;", sceneBase);
+        Assert.DoesNotContain("DialogueManager?.IsDialogueActive != true &&", sceneBase);
         Assert.DoesNotContain("ObjectiveLabel", sceneBase);
         Assert.DoesNotContain("ReasonLabel", sceneBase);
 
         Assert.Contains("正式任务系统", debtRegister);
         Assert.Contains("轻量任务追踪 HUD", debtRegister);
+    }
+
+    [Fact]
+    public void StaticMovementHints_AreRemovedFromSceneHud()
+    {
+        var sceneBase = ReadFile("feng-zhi/scripts/SceneGameBase.cs");
+        var alchemyRoom = ReadFile("feng-zhi/scripts/AlchemyRoomGame.cs");
+        var sceneText = ReadSceneFiles();
+
+        Assert.Contains("PromptLabel.Visible = false;", sceneBase);
+        Assert.Contains("_hintLabel.Text = \"\";", sceneBase);
+        Assert.Contains("_hintLabel.Visible = false;", sceneBase);
+        Assert.Contains("GetNodeOrNull<Label>(\"UiLayer/HintLabel\")", alchemyRoom);
+        Assert.Contains("hintLabel.Text = \"\";", alchemyRoom);
+        Assert.Contains("hintLabel.Visible = false;", alchemyRoom);
+
+        Assert.DoesNotContain("WASD", sceneText);
+        Assert.DoesNotContain("N 切换日夜", sceneText);
+        Assert.DoesNotContain("N 切换日常", sceneText);
+    }
+
+    [Fact]
+    public void PrologueNpcSpawns_AreGatedByGlobalCharacterSchedule()
+    {
+        var sceneBase = ReadFile("feng-zhi/scripts/SceneGameBase.cs");
+
+        Assert.Contains("IsNpcScheduledForCurrentScene(marker)", sceneBase);
+        Assert.Contains("characterId", sceneBase);
+        Assert.Contains("\"sister_baitan\"", sceneBase);
+        Assert.Contains("Variant == \"night\"", sceneBase);
+        Assert.Contains("HasQuestFlag(\"prologue_cave_overnight\")", sceneBase);
+        Assert.Contains("\"风止山院\"", sceneBase);
+        Assert.Contains("\"厨房仓房小潭\"", sceneBase);
+        Assert.Contains("\"雾林小径\"", sceneBase);
+        Assert.Contains("HasQuestFlag(\"prologue_opening_seen\")", sceneBase);
+        Assert.Contains("HasQuestFlag(\"prologue_manor_errands_completed\")", sceneBase);
+        Assert.Contains("!HasQuestFlag(\"prologue_wine_delayed\")", sceneBase);
+        Assert.Contains("!HasQuestFlag(\"prologue_ore_tutorial_seen\")", sceneBase);
+        Assert.Contains("!HasQuestFlag(\"prologue_mount_foreshadowed\")", sceneBase);
     }
 
     [Fact]
@@ -293,6 +342,24 @@ public sealed class PrologueSceneDialogueHooksTest
             "feng-zhi/scripts/MainHallGame.cs",
             "feng-zhi/scripts/StudyGame.cs",
             "feng-zhi/scripts/BackMountainCliffCaveGame.cs"
+        };
+
+        return string.Join("\n", files.Select(file => File.ReadAllText(Path.Combine(root, file))));
+    }
+
+    private static string ReadSceneFiles()
+    {
+        var root = FindRepositoryRoot();
+        var files = new[]
+        {
+            "feng-zhi/scenes/living_quarter/LivingQuarter.tscn",
+            "feng-zhi/scenes/back_mountain_cliff_cave/BackMountainCliffCave.tscn",
+            "feng-zhi/scenes/mountain_gate/MountainGate.tscn",
+            "feng-zhi/scenes/main_hall/MainHall.tscn",
+            "feng-zhi/scenes/sect_compound/SectCompound.tscn",
+            "feng-zhi/scenes/study/Study.tscn",
+            "feng-zhi/scenes/back_mountain_path/BackMountainPath.tscn",
+            "feng-zhi/scenes/alchemy_room/AlchemyRoom.tscn"
         };
 
         return string.Join("\n", files.Select(file => File.ReadAllText(Path.Combine(root, file))));
